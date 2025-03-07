@@ -1,26 +1,66 @@
 @extends('layouts.index')
 
 @section('content')
+{{-- !herosection --}}
+<section>
+	<div class="herosection flex items-center justify-center text-black text-center px-6 relative">
 
-
-
-<section class="dark:bg-gray-100 dark:text-gray-800">
-	<div class="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between">
-		<div class="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left">
-			<h1 class="text-5xl font-bold leading-none sm:text-6xl">Ac mattis
-				<span class="dark:text-violet-600">senectus</span>erat pharetra
+		<!-- Contenu du Hero -->
+		<div class="z-10 max-w-2xl text-center mx-auto py-20 sm:pt-0">
+			<h1 class="text-3xl md:text-6xl pt-20  font-bold leading-tight drop-shadow-lg">
+				Votre Propriété, Notre Priorité.
 			</h1>
-			<p class="mt-6 mb-8 text-lg sm:mb-12">Dictum aliquam porta in condimentum ac integer
-				<br class="hidden md:inline lg:hidden">turpis pulvinar, est scelerisque ligula sem
-			</p>
-			<div class="flex flex-col space-y-4 sm:items-center sm:justify-center sm:flex-row sm:space-y-0 sm:space-x-4 lg:justify-start">
-				<a rel="noopener noreferrer" href="#" class="px-8 py-3 text-lg font-semibold rounded dark:bg-violet-600 dark:text-gray-50">Suspendisse</a>
-				<a rel="noopener noreferrer" href="#" class="px-8 py-3 text-lg font-semibold border rounded dark:border-gray-800">Malesuada</a>
+			<h3 class="mt-4 text-md md:text-xl font-light drop-shadow-md">
+				Confiez-nous votre bien, nous en prendrons soin comme si c'était le nôtre.
+			</h3>
+
+			<!-- Filtre centré -->
+			<div
+				class="z-10 max-w-5xl w-fit  flex flex-wrap md:flex-nowrap justify-center items-center gap-3 mt-5  bg-white p-3 rounded-lg shadow-md">
+				<!-- Barre de recherche -->
+				<input type="text" placeholder="Rechercher un bien..."
+					class="w-full md:w-auto px-4 py-2 border text-black border-[#25D366] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+				<!-- Sélection du Type -->
+				<select
+					class="w-full md:w-auto px-4 py-2 border text-black border-[#25D366] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<option value="">Type</option>
+					<option value="appartement">Appartement</option>
+					<option value="maison">Maison</option>
+					<option value="terrain">Terrain</option>
+				</select>
+
+				<!-- Sélection du Quartier -->
+				<select
+					class="w-full md:w-auto px-4 py-2 border text-black border-[#25D366] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<option value="">Quartier</option>
+					<option value="centre">Centre-ville</option>
+					<option value="residence">Résidentiel</option>
+					<option value="bord">Bord de mer</option>
+				</select>
+
+				<!-- Sélection de la Ville -->
+				<select
+					class="w-full md:w-auto px-4 py-2 border text-black border-[#25D366] rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+					<option value="">Ville</option>
+					<option value="casablanca">Casablanca</option>
+					<option value="rabat">Rabat</option>
+					<option value="marrakech">Marrakech</option>
+				</select>
+
+				<!-- Bouton Filtrer -->
+				<button class="px-4 py-2 bg-[#E7C873] text-black rounded-lg">
+					Filtrer
+				</button>
 			</div>
 		</div>
-		<div class="flex items-center justify-center p-6 mt-8 lg:mt-0 h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
-			<img src="{{ asset('images/slider5.png.png')}}" alt="" class="object-contain h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128">
-		</div>
-	</div>
+
+	</div> 
+
 </section>
+{{-- !endherosection --}}
+
+
+
+
 @endsection
