@@ -1,6 +1,3 @@
-@extends('layouts.index')
-
-@section('content')
 {{-- !herosection --}}
 <section>
 	<div class="herosection flex items-center justify-center text-black text-center px-6 relative">
@@ -55,12 +52,8 @@
 			</div>
 		</div>
 
-	</div> 
+	</div>
 
 </section>
 {{-- !endherosection --}}
-
-
-
-
-@endsection
+ 
