@@ -8,4 +8,5 @@
         @include('home.components.pubsection')
         @include('home.components.aboutdection')
         @include('home.components.citysection')
+        @include('home.components.reviewsection')
     @endsection
