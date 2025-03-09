@@ -6,5 +6,6 @@
         @include('home.components.typesection')
         @include('home.components.cardsection')
         @include('home.components.pubsection')
-
+        @include('home.components.aboutdection')
+        @include('home.components.citysection')
     @endsection
