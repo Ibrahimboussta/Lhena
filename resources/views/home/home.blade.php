@@ -9,4 +9,7 @@
         @include('home.components.aboutdection')
         @include('home.components.citysection')
         @include('home.components.reviewsection')
+        @include('home.components.blogsection')
+        @include('home.components.connectsection')
+
     @endsection

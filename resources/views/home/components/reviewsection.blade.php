@@ -1,4 +1,4 @@
-<div class="pt-10 md:pt-10 px-10 container mx-auto flex flex-col md:flex-row  overflow-hidden" x-data="{ testimonialActive: 2 }"
+<div class="pt-10 md:pt-10 px-6 sm:px-16 container mx-auto flex flex-col md:flex-row  overflow-hidden" x-data="{ testimonialActive: 2 }"
         x-cloak>
         <div
             class="relative w-full rounded-l-xl py-2 md:py-24 bg-[#25D366] md:w-1/2 flex flex-col item-center justify-center ">

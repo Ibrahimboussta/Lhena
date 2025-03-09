@@ -77,7 +77,7 @@
     <footer class="w-full  ">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
             <div
-                class="flex items-center justify-center lg:justify-between flex-col lg:flex-row py-12 gap-7 lg:gap-0 border-b border-gray-200">
+                class="flex items-center justify-center lg:justify-between flex-col lg:flex-row py-12 gap-7 px-5  lg:gap-0 border-b border-gray-200">
                 <a href="https://pagedone.io/" class="flex justify-center lg:justify-start">
                     <!--logo -->
                 </a>
