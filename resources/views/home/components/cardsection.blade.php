@@ -78,7 +78,7 @@
 
     <div class="flex justify-center pt-6">
         <button class="bg-[#E7C873] py-2 px-8 rounded-md fborder-0">
-            <a href="" class="text-black font-medium text-md ">Voir plus</a>
+            <a href="{{ route('proprites') }}" class="text-black font-medium text-md ">Voir plus</a>
         </button>
     </div>
 </section>
