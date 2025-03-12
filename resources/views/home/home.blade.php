@@ -1,6 +1,4 @@
-    @extends('layouts.index')
 
-    @section('content')
 
         @include('home.components.herosection')
         @include('home.components.typesection')
@@ -11,5 +9,3 @@
         @include('home.components.reviewsection')
         @include('home.components.blogsection')
         @include('home.components.connectsection')
-
-    @endsection

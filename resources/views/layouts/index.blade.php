@@ -15,7 +15,7 @@
     <nav class="bg-white border-gray-200 py-3 px-2 sm:px-6 shadow fixed top-0 left-0 w-full z-50">
         <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
             <!-- Logo -->
-            <a href="#" class="flex items-center">
+            <a href="/" class="flex items-center">
                 <img class="h-12 w-auto" src="{{ asset('images/logo.png') }}" alt="Logo">
             </a>
 
@@ -29,7 +29,7 @@
                 </svg>
 
                 <!-- Bouton Publier -->
-                <a href="#"
+                <a href="{{ route('publish') }}"
                     class="text-black border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">
                     Publier une annonce
                 </a>
@@ -51,11 +51,11 @@
             <div id="mobile-menu"
                 class="hidden lg:flex flex-col lg:flex-row items-center w-full lg:w-auto mt-4 lg:mt-0">
                 <ul class="flex flex-col lg:flex-row lg:space-x-8 font-medium w-full lg:w-auto">
-                    <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">Accueil</a></li>
+                    <li><a href="/" class="block py-2 px-4 text-black hover:text-[#25D366]">Accueil</a></li>
                     <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">Propriétés</a></li>
                     <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">À propos</a></li>
                     <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">Blog</a></li>
-                    <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">Contact</a></li>
+                    <li><a href="{{ route('contact') }}" class="block py-2 px-4 text-black hover:text-[#25D366]">Contact</a></li>
                 </ul>
             </div>
         </div>
