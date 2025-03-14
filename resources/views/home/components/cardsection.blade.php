@@ -20,7 +20,7 @@
 
     <div class="flex justify-between pt-6 w-full">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6 w-full">
-            <a href="" class="w-full">
+            <a href="{{route('proprites.details')}}" class="w-full">
                 <div class="w-full rounded-2xl border border-[#e0dede] p-2 hover:shadow duration-400 relative">
                     <!-- Image Section with Positioned Labels -->
                     <div class="relative">
@@ -78,7 +78,7 @@
 
     <div class="flex justify-center pt-6">
         <button class="bg-[#E7C873] py-2 px-8 rounded-md fborder-0">
-            <a href="" class="text-black font-medium text-md ">Voir plus</a>
+            <a href="{{route('proprites')}}" class="text-black font-medium text-md ">Voir plus</a>
         </button>
     </div>
 </section>
