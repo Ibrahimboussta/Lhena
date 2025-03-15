@@ -6,7 +6,7 @@
         </div>
         <div class="flex justify-start pt-6">
             <button class="bg-[#E7C873] py-2 px-6 rounded-md border-0">
-                <a href="" class="text-black font-medium text-md flex items-center gap-x-2">
+                <a href="{{route('publish') }}" class="text-black font-medium text-md flex items-center gap-x-2">
                     publier une annonce
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor" class="size-6 mt-1">

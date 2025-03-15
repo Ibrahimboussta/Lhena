@@ -19,7 +19,7 @@
                         <div>
                             <label class="sr-only" for="name">Name</label>
                             <input class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm" placeholder="Name"
-                                type="text" id="name" />
+                                type="text" id="name" name='prenom' />
                         </div>
 
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">

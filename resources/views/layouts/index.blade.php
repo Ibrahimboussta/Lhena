@@ -53,7 +53,7 @@
                 <ul class="flex flex-col lg:flex-row lg:space-x-8 font-medium w-full lg:w-auto">
                     <li><a href="/" class="block py-2 px-4 text-black hover:text-[#25D366]">Accueil</a></li>
                     <li><a href="{{ route('proprites') }}" class="block py-2 px-4 text-black hover:text-[#25D366]">Propriétés</a></li>
-                    <li><a href="{{route('about')}}" class="block py-2 px-4 text-black hover:text-[#25D366]">À propos</a></li>
+                    <li><a href="{{route('a-propos')}}" class="block py-2 px-4 text-black hover:text-[#25D366]">À propos</a></li>
                     <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">Blog</a></li>
                     <li><a href="{{ route('contact') }}" class="block py-2 px-4 text-black hover:text-[#25D366]">Contact</a></li>
                 </ul>
