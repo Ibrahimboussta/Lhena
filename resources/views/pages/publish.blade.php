@@ -10,46 +10,115 @@
                 <div class="bg-white shadow rounded-lg p-6">
                     <h1 class="text-xl font-semibold mb-4 text-gray-900 ">Personal Information</h1>
                     <p class="text-gray-600  mb-6">Use a permanent address where you can receive mail.</p>
-                    <form>
+                    <form action="{{ route('proprites.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                    
+                        <div class="flex items-center space-x-4">
+                            <label for="À-vendre" class="flex items-center space-x-2">
+                                <input type="checkbox" id="À-vendre" name="listing_type[]" value="À-vendre">
+                                <span>À vendre</span>
+                            </label>
+                            <label for="À-louer" class="flex items-center space-x-2">
+                                <input type="checkbox" id="À-louer" name="listing_type[]" value="À-louer">
+                                <span>À louer</span>
+                            </label>
+                        </div>
+                        
+                        <!-- Titre et Type de propriété -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <input type="text" placeholder="First name" class="border p-2 rounded w-full">
-                            <input type="text" placeholder="Last name" class="border p-2 rounded w-full">
-                        </div>
-                        <div class="mb-4">
-                            <input type="email" placeholder="Email address" class="border p-2 rounded w-full">
-                        </div>
-                        <div class="mb-4">
-                            <select class="border p-2 rounded w-full">
-                                <option>United States</option>
-                                <!-- Add more countries as needed -->
+                           
+                            <input type="text" name="title" placeholder="Titre de l'annonce (ex: Appartement 2 pièces à Casablanca)" class="border p-2 rounded w-full" required>
+                            
+                            <select name="property_type" class="border p-2 rounded w-full" required>
+                                <option value="">Type de propriété</option>
+                                <option value="appartement">Appartement</option>
+                                <option value="maison">Maison</option>
+                                <option value="terrain">Terrain</option>
+                                <option value="villa">Villa</option>
                             </select>
                         </div>
+                    
+                        <!-- Ville et Quartier -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="text" name="city" placeholder="Ville (ex: Casablanca)" class="border p-2 rounded w-full" required>
+                    
+                            <input type="text" name="neighborhood" placeholder="Quartier (ex: Maarif)" class="border p-2 rounded w-full">
+                        </div>
+                    
+                        <!-- Adresse et Superficie -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="text" name="address" placeholder="Adresse complète (facultatif)" class="border p-2 rounded w-full">
+                    
+                            <input type="number" name="surface" placeholder="Superficie (m²)" class="border p-2 rounded w-full" required>
+                        </div>
+                    
+                        <!-- Nombre de chambres et de salles de bain -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="number" name="bedrooms" placeholder="Nombre de chambres" class="border p-2 rounded w-full" required>
+                    
+                            <input type="number" name="bathrooms" placeholder="Nombre de salles de bain" class="border p-2 rounded w-full" required>
+                        </div>
+                    
+                        <!-- Prix et Téléphone -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="number" name="price" placeholder="Prix (MAD)" class="border p-2 rounded w-full" required>
+                    
+                            <input type="tel" name="contact_phone" placeholder="Numéro de téléphone" class="border p-2 rounded w-full" required>
+                        </div>
+                    
+                        <!-- Description -->
                         <div class="mb-4">
-                            <input type="text" placeholder="Street address" class="border p-2 rounded w-full">
+                            <textarea name="description" placeholder="Description détaillée de la propriété" class="border p-2 rounded w-full" rows="4" required></textarea>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                            <input type="text" placeholder="City" class="border p-2 rounded w-full">
-                            <input type="text" placeholder="State / Province" class="border p-2 rounded w-full">
-                            <input type="text" placeholder="ZIP / Postal code" class="border p-2 rounded w-full">
+                    
+                        <!-- Photos -->
+                        <div class="mb-4">
+                            <label class="block mb-2 font-medium text-sm">Ajouter des photos (Max: 10)</label>
+                            <input 
+                                multiple
+                                type="file" 
+                                name="photos[]" 
+                                id="photos" 
+                                multiple 
+                                accept="image/*" 
+                                class="border p-2 rounded w-full"
+                                onchange="checkFiles(this)"
+                            >
+                            <p id="file-error" class="text-red-500 text-sm mt-1 hidden">Vous pouvez télécharger jusqu'à 10 images maximum.</p>
                         </div>
-                        <div class="flex justify-end">
-                            @auth
-                                <button class="bg-black text-white px-4 py-2 rounded ">Submit</button>
-                                
-                            @endauth
-                        
-                            @guest
-                                <a href="{{ route('register') }}" class="bg-[#E7C873] text-black px-4 py-2 rounded inline-block">
-                                    Submit
+                    
+                        <!-- Bouton de soumission -->
+                        <div class="flex justify-end mt-6">
+                            {{-- @auth --}}
+                                <button type="submit" class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800">Soumettre l'annonce</button>
+                            {{-- @endauth --}}
+                    
+                            {{-- @guest
+                                <a href="{{ route('register') }}" class="bg-[#E7C873] text-black px-6 py-2 rounded inline-block">
+                                    Créez un compte pour publier
                                 </a>
-                            @endguest
+                            @endguest --}}
                         </div>
-                        
                     </form>
+                    
                 </div>
             </div>
         </div>
 
 
+
+        <script>
+            function checkFiles(input) {
+                const maxFiles = 10;
+                const errorText = document.getElementById('file-error');
+                
+                if (input.files.length > maxFiles) {
+                    errorText.classList.remove('hidden');
+                    input.value = ""; // reset file input
+                } else {
+                    errorText.classList.add('hidden');
+                }
+            }
+        </script>
     </section>
 @endsection

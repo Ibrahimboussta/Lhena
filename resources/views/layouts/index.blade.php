@@ -54,11 +54,19 @@
                 @endguest
 
                 <!-- Bouton Publier -->
-                <a href="{{ route('publish') }}"
-                    class="text-black border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">
-                    Publier une annonce
-                </a>
+                @auth
+                    <a href="{{ route('publish') }}"
+                        class="text-black border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">
+                        Publier une annonce
+                    </a>
+                @endauth
 
+                @guest
+                    <a href="{{ route('register') }}"
+                        class="text-black border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">
+                        Publier une annonce
+                    </a>
+                @endguest
                 <!-- Bouton Menu Mobile -->
                 <button id="menu-toggle"
                     class="lg:hidden p-2 text-black rounded-lg hover:text-black hover:bg-[#25D366] duration-500 focus:ring-1 focus:ring-[#25D366]">

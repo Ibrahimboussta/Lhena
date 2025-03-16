@@ -8,66 +8,60 @@
 
                 <!-- Section gauche : Carrousel -->
                 <div class="w-full md:w-2/3 p-4">
-
                     <!-- Titre de l'annonce -->
-                    <h1 class="text-2xl font-semibold text-gray-800 mb-2 text-center md:text-left">Maison familiale de luxe
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-2 text-center md:text-left">{{ $property->title }}
                     </h1>
 
                     <!-- Carrousel -->
-                    <div x-data="{
-                        currentSlide: 0,
-                        slides: [
-                            '/images/appart1.jpg',
-                            '/images/appart2.jpg',
-                            '/images/appart3.jpg',
-                            '/images/appart4.jpg'
-                        ]
-                    }" class="relative w-full bg-white rounded-lg shadow-lg overflow-hidden">
-
-                        <div class="relative w-full h-80">
-                            <template x-for="(slide, index) in slides" :key="index">
-                                <img :src="slide" x-show="currentSlide === index"
-                                    class="absolute w-full h-full object-cover transition-opacity duration-600 rounded-lg"
-                                    x-transition:enter="opacity-0 scale-90" x-transition:enter-start="opacity-0 scale-90"
-                                    x-transition:enter-end="opacity-100 scale-100"
-                                    x-transition:leave="opacity-100 scale-100"
-                                    x-transition:leave-start="opacity-100 scale-100"
-                                    x-transition:leave-end="opacity-0 scale-90">
-                            </template>
+                    <div class="relative w-full bg-white rounded-lg shadow-lg overflow-hidden">
+                        <!-- Slides Container -->
+                        <div class="relative w-full h-80" id="carousel-container">
+                            <!-- Carousel Images -->
+                            @foreach ($photos as $index => $photo)
+                                <img src="{{ asset('storage/' . $photo) }}"
+                                    class="absolute w-full h-full object-cover transition-opacity duration-600 rounded-lg {{ $index !== 0 ? 'opacity-0' : '' }}" />
+                            @endforeach
                         </div>
 
-                        <!-- Boutons de navigation -->
-                        <button @click="currentSlide = (currentSlide - 1 + slides.length) % slides.length"
+                        <!-- Navigation Buttons -->
+                        <button id="prev"
                             class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-2 rounded-full hover:bg-opacity-70">
                             &#10094;
                         </button>
 
-                        <button @click="currentSlide = (currentSlide + 1) % slides.length"
+                        <button id="next"
                             class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-2 rounded-full hover:bg-opacity-70">
                             &#10095;
                         </button>
 
-                        <!-- Indicateurs -->
+                        <!-- Indicators -->
                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                            <template x-for="(slide, index) in slides" :key="index">
-                                <button @click="currentSlide = index"
-                                    :class="currentSlide === index ? 'bg-white' : 'bg-gray-400'"
-                                    class="w-3 h-3 rounded-full transition-colors duration-300"></button>
-                            </template>
+                            @foreach ($photos as $index => $photo)
+                                <button
+                                    class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-gray-400' }}"></button>
+                            @endforeach
                         </div>
                     </div>
 
+                    <div class="flex items-center space-x-0.5 pt-1">
+                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
+                        <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank">
+                            <p>{{ $property->address }}</p>
+                        </a>
+                    </div>
 
-                    <!-- Adresse sous le carrousel -->
-                    <p class="text-sm text-gray-600 text-center md:text-left mt-2 flex items-center gap-1">
-                        <img src="{{ asset('images/local.svg') }}" class="w-4 h-4" alt="Location">
-                        Quartier guelize, Marrakech
-                    </p>
+
                 </div>
+
 
                 <!-- Sidebar (droite) -->
                 <div class="w-full md:w-1/3 flex flex-col items-center justify-center p-6 border-l border-gray-200">
                     <div class="flex flex-col gap-4 w-full max-w-xs text-center">
+                        <div class="flex items-center justify-between px-4 gap-x-4">
+                            <p class="text-gray-600 text-3xl">Prix</p>
+                            <h2 class="text-xl font-semibold text-[#25D366]">${{ $property->price }}</h2>
+
+                        </div>
                         <button
                             class="bg-[#E7C873] text-black py-2 rounded-md hover:bg-amber-400 transition-colors duration-300">
                             A vendre
@@ -91,38 +85,29 @@
                 <div class="w-full md:w-2/3 flex flex-col justify-between p-6 border-r border-gray-200">
                     <h2 class="text-xl font-semibold text-gray-800">Description du bien</h2>
                     <p class="text-gray-600 text-sm ">
-                        Magnifique maison située dans un quartier résidentiel calme. Avec ses 4 chambres spacieuses, son
-                        grand
-                        salon lumineux et une cuisine moderne, cette maison offre tout le confort dont vous avez besoin.
+                        {{ $property->description }}
                     </p>
                     <ul class="mt-4 space-y-2 text-gray-700 text-sm">
                         <li class="flex items-center gap-2">
-                            <img src="{{ asset('images/beds.svg') }}" class="w-4 h-4" alt="Chambres"> 4 chambres
+                            <img src="{{ asset('images/beds.svg') }}" class="w-4 h-4" alt="Chambres">
+                            {{ $property->bedrooms }}
+                            chambres
                         </li>
                         <li class="flex items-center gap-2">
-                            <img src="{{ asset('images/dosh.svg') }}" class="w-4 h-4" alt="Salle de bain"> 1 salle de
-                            bain
+                            <img src="{{ asset('images/dosh.svg') }}" class="w-4 h-4" alt="Salle de bain">
+                            {{ $property->bathrooms }} salles de bain
                         </li>
                         <li class="flex  items-center gap-2">
-                            <img src="{{ asset('images/space.svg') }}" class="w-4 h-4" alt="Superficie"> 400 m² de
-                            surface
+                            <img src="{{ asset('images/space.svg') }}" class="w-4 h-4" alt="Superficie">
+                            {{ $property->surface }}
+                            surface m²
                         </li>
-                        <li class="flex items-center gap-2">
-                            <img src="{{ asset('images/beds.svg') }}" class="w-4 h-4" alt="Jardin"> Jardin spacieux
-                        </li>
+
                     </ul>
                 </div>
 
                 <!-- Section droite : Google Maps -->
-                <div class="w-full md:w-1/3 p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 text-center">Localisation</h2>
-                    <div class="w-full h-64 mt-4 rounded-lg overflow-hidden shadow-lg">
-                        <iframe class="w-full h-full"
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509469!2d144.95592831566408!3d-37.81720974201426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d5df0df5a9f%3A0x5045675218ce7e33!2sMelbourne%2C%20Australie!5e0!3m2!1sfr!2s!4v1640207712345!5m2!1sfr!2s"
-                            allowfullscreen="" loading="lazy">
-                        </iframe>
-                    </div>
-                </div>
+
 
             </div>
 
@@ -211,8 +196,7 @@
                                                 <div class="font-display text-base text-slate-900">Peter Renolds</div>
                                             </div>
                                             <div class="overflow-hidden rounded-full bg-slate-50">
-                                                <img alt="" class="h-14 w-14 object-cover"
-                                                    style="color:transparent"
+                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent"
                                                     src="https://randomuser.me/api/portraits/men/10.jpg">
                                             </div>
                                         </figcaption>
@@ -225,6 +209,47 @@
             </section>
 
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+
+        <script>
+            // Simple JavaScript for handling image transition and navigation
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('#carousel-container img');
+            const indicators = document.querySelectorAll('.absolute.bottom-4 button');
+
+            // Function to show the current slide
+            function showSlide(index) {
+                slides.forEach((slide, idx) => {
+                    slide.classList.add('opacity-0');
+                    indicators[idx].classList.add('bg-gray-400');
+                    indicators[idx].classList.remove('bg-white');
+                });
+                slides[index].classList.remove('opacity-0');
+                indicators[index].classList.remove('bg-gray-400');
+                indicators[index].classList.add('bg-white');
+            }
+
+            // Show the initial slide
+            showSlide(currentSlide);
+
+            // Previous button click
+            document.getElementById('prev').addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            });
+
+            // Next button click
+            document.getElementById('next').addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            });
+
+            // Indicators click
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    currentSlide = index;
+                    showSlide(currentSlide);
+                });
+            });
+        </script>
     </section>
 @endsection

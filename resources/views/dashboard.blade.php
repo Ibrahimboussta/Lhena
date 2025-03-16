@@ -18,38 +18,39 @@
                             </tr>
                         </thead>
                         <tbody>
+
+                            @foreach ($properties as $property)
+                            @if (Auth::user()->id == $property->user_id)
+                                
                             <tr class="border-t">
                                 <td class="p-3 border">
-                                    <img src="{{ asset('images/appart2.jpg') }}" alt="Maison"
-                                        class="w-12 h-12 rounded-md object-cover">
+                                    @if($property->photos)
+                                        <img src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt="Property Image" class="w-16 h-16 object-cover">
+                                    @else
+                                        No Image
+                                    @endif
                                 </td>
-                                <td class="p-3 border">Villa Moderne</td>
-                                <td class="p-3 border">123 Rue de Paris, France</td>
-                                <td class="p-3 border">200m²</td>
-                                <td class="p-3 border">+33 6 12 34 56 78</td>
-                                <td class="p-3 border font-semibold text-green-600">500,000€</td>
+                                <td class="p-3 border">{{ $property->title }}</td>
+                                <td class="p-3 border">{{ $property->address }}</td>
+                                <td class="p-3 border">{{ $property->surface }} m²</td>
+                                <td class="p-3 border">{{ $property->contact_phone }}</td>
+                                <td class="p-3 border text-[#25D366]">{{ number_format($property->price, 2) }} DH</td>
                                 <td class="p-3 text-center border">
-                                    <button class="text-red-500 hover:text-red-700 transition">
-                                        🗑
-                                    </button>
+                                    <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE') <!-- This makes the POST request act as a DELETE -->
+                                        
+                                        <button class="text-red-500 hover:text-red-700 transition" type="submit">
+                                            🗑
+                                        </button>
+                                    </form>
+                                    
                                 </td>
                             </tr>
-                            <tr class="border-t">
-                                <td class="p-3 border">
-                                    <img src="{{ asset('images/appart1.jpg') }}" alt="Maison"
-                                        class="w-12 h-12 rounded-md object-cover">
-                                </td>
-                                <td class="p-3 border">Appartement Luxe</td>
-                                <td class="p-3 border">45 Avenue Champs-Élysées, Paris</td>
-                                <td class="p-3 border">150m²</td>
-                                <td class="p-3 border">+33 6 87 65 43 21</td>
-                                <td class="p-3 border font-semibold text-green-600">750,000€</td>
-                                <td class="p-3 text-center border">
-                                    <button class="text-red-500 hover:text-red-700 transition">
-                                        🗑
-                                    </button>
-                                </td>
-                            </tr>
+                            @endif
+                                
+                            @endforeach
+                            
                         </tbody>
                     </table>
                 </div>

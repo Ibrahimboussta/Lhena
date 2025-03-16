@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Propritie;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -10,8 +11,10 @@ class HomeController extends Controller
     //
     public function index()
     {
-        return view('home');
+        $properties = Propritie::latest()->get(); // Get all properties
+        return view('welcome', compact('properties')); // Pass properties to the view
     }
+    
     public function about()
     {
         return view('pages.about');
@@ -25,7 +28,8 @@ class HomeController extends Controller
     }
 
     public function proprites(){
-        return view('Admin.proprites');
+        $properties = Propritie::latest()->get();
+        return view('Admin.proprites', compact('properties'));
     }
 }
 
