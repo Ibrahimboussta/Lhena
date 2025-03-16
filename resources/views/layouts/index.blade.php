@@ -22,11 +22,36 @@
             <!-- Section droite (boutons + menu burger) -->
             <div class="flex items-center lg:order-2 gap-4">
                 <!-- Icône Profil -->
-                <svg class="h-8 w-8 text-500 border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full p-1"
-                    viewBox="0 0 24 24" fill="black">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                </svg>
+                @auth
+                    @if (Auth::user()->role == 'user')
+                        <a href="{{ route('dashboard') }}" class="flex items-center">
+                            <svg class="h-8 w-8 text-500 border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full p-1"
+                                viewBox="0 0 24 24" fill="black">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </a>
+                    @else
+                        <a href="{{ route('users') }}" class="flex items-center">
+                            <svg class="h-8 w-8 text-500 border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full p-1"
+                                viewBox="0 0 24 24" fill="black">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </a>
+                    @endif
+
+                @endauth
+
+                @guest
+                    <a href="{{ route('register') }}">
+                        <svg class="h-8 w-8 text-500 border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full p-1"
+                            viewBox="0 0 24 24" fill="black">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </a>
+                @endguest
 
                 <!-- Bouton Publier -->
                 <a href="{{ route('publish') }}"
@@ -52,10 +77,13 @@
                 class="hidden lg:flex flex-col lg:flex-row items-center w-full lg:w-auto mt-4 lg:mt-0">
                 <ul class="flex flex-col lg:flex-row lg:space-x-8 font-medium w-full lg:w-auto">
                     <li><a href="/" class="block py-2 px-4 text-black hover:text-[#25D366]">Accueil</a></li>
-                    <li><a href="{{ route('proprites') }}" class="block py-2 px-4 text-black hover:text-[#25D366]">Propriétés</a></li>
-                    <li><a href="{{route('a-propos')}}" class="block py-2 px-4 text-black hover:text-[#25D366]">À propos</a></li>
+                    <li><a href="{{ route('proprites') }}"
+                            class="block py-2 px-4 text-black hover:text-[#25D366]">Propriétés</a></li>
+                    <li><a href="{{ route('a-propos') }}" class="block py-2 px-4 text-black hover:text-[#25D366]">À
+                            propos</a></li>
                     <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">Blog</a></li>
-                    <li><a href="{{ route('contact') }}" class="block py-2 px-4 text-black hover:text-[#25D366]">Contact</a></li>
+                    <li><a href="{{ route('contact') }}"
+                            class="block py-2 px-4 text-black hover:text-[#25D366]">Contact</a></li>
                 </ul>
             </div>
         </div>

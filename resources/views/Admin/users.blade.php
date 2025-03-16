@@ -1,0 +1,50 @@
+<x-app-layout>
+
+
+    <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
+            <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
+                <h2 class="text-2xl font-semibold mb-4 dark:text-white">Users</h2>
+
+                <div class="overflow-x-auto">
+                    <table
+                        class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
+                        <thead class="bg-gray-100 dark:bg-gray-800">
+                            <tr>
+                                <th class="p-3 text-left border">ID</th>
+                                <th class="p-3 text-left border">Nom</th>
+                                <th class="p-3 text-left border">Adresse</th>
+                                {{-- <th class="p-3 text-left border">Métrage</th>
+                                <th class="p-3 text-left border">Téléphone</th>
+                                <th class="p-3 text-left border">Prix</th>
+                                <th class="p-3 text-center border">Action</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach ($users as $user)
+                                <tr class="border-t">
+                                    <td class="p-3 border">
+                                        {{ $user->id }}
+                                    </td>
+                                    <td class="p-3 border">{{ $user->name }}</td>
+                                    <td class="p-3 border">{{ $user->email }}</td>
+
+                                    {{-- <td class="p-3 text-center border">
+                                    <button class="text-red-500 hover:text-red-700 transition">
+                                        🗑
+                                    </button>
+                                </td> --}}
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</x-app-layout>

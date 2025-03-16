@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -16,8 +17,15 @@ class HomeController extends Controller
         return view('pages.about');
     }
    
-    public function admin(){
-        return view('Admin.admin');
+    public function users(){
+
+        $users = User::latest()->get();
+
+        return view('Admin.users', compact('users'));
+    }
+
+    public function proprites(){
+        return view('Admin.proprites');
     }
 }
 
