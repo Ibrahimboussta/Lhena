@@ -31,5 +31,12 @@ class HomeController extends Controller
         $properties = Propritie::latest()->get();
         return view('Admin.proprites', compact('properties'));
     }
+
+    public function destroy(Request $request, Propritie $property, $id){
+        $property = Propritie::findOrFail($id);
+        $property->delete();
+
+        return redirect()->back()->with('success', 'Property supprimé avec succès');
+    }
 }
 

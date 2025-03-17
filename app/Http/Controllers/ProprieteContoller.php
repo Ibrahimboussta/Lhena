@@ -10,21 +10,22 @@ class ProprieteContoller extends Controller
 {
     public function index()
     {
-        $properties = Propritie::latest()->get();
-
+        $properties = Propritie::latest()->paginate(3);
+    
         return view('pages.proprietes', compact('properties'));
     }
     public function details($id)
     {
         $property = Propritie::findOrFail($id); // Fetch the single property
         $photos = json_decode($property->photos); // Decode the photos array from JSON
-        
+
         return view('pages.proprietesDetails', compact('property', 'photos'));
     }
-    
-    
 
-    public function dashboard(){
+
+
+    public function dashboard()
+    {
         $properties = Propritie::latest()->get();
         return view('dashboard', compact('properties'));
     }
@@ -50,11 +51,11 @@ class ProprieteContoller extends Controller
             'listing_type.*' => 'in:À-vendre,À-louer', // Validation for each value in the listing_type array
 
         ]);
-    
+
         // Check if the user is authenticated
         // Get the authenticated user
         $user = Auth::user();
-    
+
         // Handle file uploads (photos)
         $photos = [];
         foreach ($request->file('photos') as $photo) {
@@ -76,7 +77,7 @@ class ProprieteContoller extends Controller
             'price' => $request->price,
             'contact_phone' => $request->contact_phone,
             'description' => $request->description,
-            'photos' => json_encode($photos), 
+            'photos' => json_encode($photos),
             'listing_type' => implode(',', $request->listing_type), // Store as comma-separated string
         ]);
 
@@ -90,21 +91,51 @@ class ProprieteContoller extends Controller
     {
         // Find the property by ID
         $propritie = Propritie::findOrFail($id);
-    
+
         // Check ownership or if the user is an admin
         $user = Auth::user();
-    
+
         if ($propritie->user_id === $user->id || $user->role === 'admin') {
             // Only delete the property that matches the ID
             $propritie->delete();
-    
+
             return redirect()->route('dashboard')->with('success', 'Property deleted successfully!');
         }
-    
+
         // Unauthorized action if not the owner or admin
         abort(403, 'Unauthorized action.');
     }
+
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $propertyType = $request->input('property_type');
+        $quartier = $request->input('quartier');
+        $ville = $request->input('ville');
     
+        $properties = Propritie::query();
     
+        if ($query) {
+            $properties->where('title', 'like', "%$query%")
+                ->orWhere('address', 'like', "%$query%");
+        }
+    
+        if ($propertyType) {
+            $properties->where('property_type', $propertyType);
+        }
+    
+        if ($quartier) {
+            $properties->where('neighborhood', $quartier);
+        }
+    
+        if ($ville) {
+            $properties->where('city', $ville);
+        }
+    
+        $properties = $properties->paginate(3);
+    
+        return view('pages.proprietes', compact('properties'));
+    }
     
 }

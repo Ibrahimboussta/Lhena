@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['admin'])->group(function () {
     Route::get('/admin', [HomeController::class, 'users'])->name('users');
     Route::get('/proprites', [HomeController::class, 'proprites'])->name('proprites.admin');
+    Route::get('/contacts', [ContactController::class, 'contact'])->name('contacts.admin');
+    Route::delete('/contacts/delete/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::delete('/proprites/delete/{id}', [HomeController::class, 'destroy'])->name('properties.admin.destroy');
 });
 
 
@@ -43,6 +46,8 @@ Route::get('/a-propos', [HomeController::class, 'about' ])->name('a-propos');
 
 
 Route::post('/proprtie/post', [ProprieteContoller::class, 'store' ])->name('proprites.store');
+Route::post('/contact/post', [ContactController::class, 'store' ])->name('contact.store');
+Route::get('/search', [ProprieteContoller::class, 'search'])->name('properties.search');
 
 
 

@@ -15,24 +15,25 @@
             <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
 
                 <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
-                    <form action="#" class="space-y-4">
+                    <form action="{{ route('contact.store') }}" method="POST" class="space-y-4">
+                        @csrf
                         <div>
                             <label class="sr-only" for="name">Name</label>
                             <input class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm" placeholder="Name"
-                                type="text" id="name" name='prenom' />
+                                type="text" id="name" name='name' />
                         </div>
 
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <label class="sr-only" for="email">Email</label>
                                 <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm"
-                                    placeholder="Email address" type="email" id="email" />
+                                    placeholder="Email address" type="email" id="email" name='email' />
                             </div>
 
                             <div>
                                 <label class="sr-only" for="phone">Phone</label>
                                 <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm"
-                                    placeholder="Phone Number" type="number" id="phone" />
+                                    placeholder="Phone Number" type="number" id="phone" name = 'phone' />
                             </div>
                         </div>
 
@@ -42,13 +43,13 @@
                             <label class="sr-only" for="message">Message</label>
 
                             <textarea class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm" placeholder="Message" rows="8"
-                                id="message"></textarea>
+                                id="message" name = 'message' ></textarea>
                         </div>
 
                         <div class="mt-4">
                             <button type="submit"
                                 class="inline-block w-full rounded-lg bg-[#E7C873] px-5 py-3 font-medium text-black sm:w-auto">
-                                Send Enquiry
+                                Envoyer
                             </button>
                         </div>
                     </form>

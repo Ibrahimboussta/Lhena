@@ -26,6 +26,9 @@
                             <x-nav-link :href="route('proprites.admin')" :active="request()->routeIs('proprites.admin')">
                                 {{ __('Proprites') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('contacts.admin')" :active="request()->routeIs('contacts.admin')">
+                                {{ __('Contacts') }}
+                            </x-nav-link>
                         </div>
 
                     </div>
