@@ -1,8 +1,8 @@
-<section class="px-6 sm:px-16 ">
+<section class="px-6 py-14 sm:px-16 ">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center  bg-[#25D366] py-6 sm:py-16 px-6 sm:px-18 w-full rounded-2xl">
         <div>
             <h2 class="text-3xl font-semibold text-white">Devenir agent immobilier</h2>
-            <p class="text-white pt-2 text-[15px] font-medium">Nous collaborons avec les meilleures entreprises mondiales</p>
+            <p class="text-white pt-2 text-[15px] font-medium">Nous collaborons avec les meilleures entreprises </p>
         </div>
         <div class="flex justify-start pt-6">
             <button class="bg-[#E7C873] py-2 px-6 rounded-md border-0">

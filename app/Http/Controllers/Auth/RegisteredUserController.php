@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         if ($user->role === 'user') {
-            return redirect('/dashboard');
+            return redirect()->route('publish');
         }else{
             return redirect('/admin');
         }

@@ -1,4 +1,4 @@
-<section class=" px-6 sm:px-16 py-24">
+{{-- <section class=" px-6 sm:px-16 py-24">
 
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -46,4 +46,4 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
