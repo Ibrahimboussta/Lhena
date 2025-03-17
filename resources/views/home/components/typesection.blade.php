@@ -1,4 +1,4 @@
-<section class="px-6 sm:px-16 py-14">
+{{-- <section class="px-6 sm:px-16 py-14">
     <h2 class="text-3xl font-semibold text-[#1A1A1A]">Catégories en vedette : Explorez les propriétés</h2>
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-2">
         <p class="text-[15px] font-medium">Explorez une large gamme de propriétés par catégorie</p>
@@ -67,4 +67,4 @@
         </a>
     </div>
 
-</section>
+</section> --}}

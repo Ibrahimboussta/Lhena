@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsUser;
 use App\Http\Middleware\RedirectIfNotAuthenticated;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,6 +17,8 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->alias([
             'admin' => IsAdmin::class,
+            'user' => IsUser::class,
+        
             'authRegister' => RedirectIfNotAuthenticated::class,
         ]);
     })

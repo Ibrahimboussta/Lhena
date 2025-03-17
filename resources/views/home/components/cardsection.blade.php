@@ -2,7 +2,7 @@
     <h2 class="text-3xl font-semibold">Propriétés en vedette</h2>
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-2">
         <p class="text-[15px] font-medium">Découvrez les Meilleures Propriétés du Moment</p>
-        <div class="flex items-center gap-x-2 sm:gap-x-4 mt-2 sm:mt-0">
+        {{-- <div class="flex items-center gap-x-2 sm:gap-x-4 mt-2 sm:mt-0">
             <a href="">
                 <button
                     class="font-medium text-[#1A1A1A] text-[13px] rounded-xl border border-black px-3 py-1 bg-[#FFF8F6]">
@@ -15,7 +15,7 @@
             <a href="">
                 <button class="font-medium text-[#1A1A1A] text-[13px]">À louer</button>
             </a>
-        </div>
+        </div> --}}
     </div>
 
     <div class="flex justify-between pt-6 w-full">

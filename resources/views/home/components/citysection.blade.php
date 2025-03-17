@@ -1,4 +1,4 @@
-<section class=" px-6 sm:px-16 py-8">
+{{-- <section class=" px-6 sm:px-16 py-8">
     <div class="">
         <h2 class="text-3xl font-semibold">Trouver des propriétés dans ces villess</h2>
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-2">
@@ -187,4 +187,4 @@
         keenSliderPrevious.addEventListener('click', () => keenSlider.prev())
         keenSliderNext.addEventListener('click', () => keenSlider.next())
     </script>
-</section>
+</section> --}}

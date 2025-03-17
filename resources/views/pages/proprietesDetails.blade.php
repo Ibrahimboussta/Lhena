@@ -43,12 +43,22 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center space-x-0.5 pt-1">
-                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
-                        <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank">
-                            <p>{{ $property->address }}</p>
-                        </a>
+                    <div class="flex items-center justify-between pt-4 px-4 gap-x-4">
+                        <!-- Adresse avec icône -->
+                        <div class="flex items-center space-x-0.5">
+                            <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
+                            <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank">
+                                <p>{{ $property->address }}</p>
+                            </a>
+                        </div>
+                    
+                        <!-- Prix -->
+                        <div class="flex items-center gap-x-3">
+                            <p class="text-black text-lg">Prix:</p>
+                            <h2 class="text-lg font-semibold text-[#25D366]">{{ $property->price }}DH</h2>
+                        </div>
                     </div>
+                    
 
 
                 </div>
@@ -57,11 +67,7 @@
                 <!-- Sidebar (droite) -->
                 <div class="w-full md:w-1/3 flex flex-col items-center justify-center p-6 border-l border-gray-200">
                     <div class="flex flex-col gap-4 w-full max-w-xs text-center">
-                        <div class="flex items-center justify-between px-4 gap-x-4">
-                            <p class="text-gray-600 text-3xl">Prix</p>
-                            <h2 class="text-xl font-semibold text-[#25D366]">${{ $property->price }}</h2>
-
-                        </div>
+                        
                         <button
                             class="bg-[#E7C873] text-black py-2 rounded-md hover:bg-amber-400 transition-colors duration-300">
                             A vendre
@@ -74,6 +80,7 @@
                             class="bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition-colors duration-300">
                             Discuter sur WhatsApp
                         </button>
+                        
                     </div>
                 </div>
             </div>
@@ -83,27 +90,31 @@
 
                 <!-- Section gauche : Description -->
                 <div class="w-full md:w-2/3 flex flex-col justify-between p-6 border-r border-gray-200">
-                    <h2 class="text-xl font-semibold text-gray-800">Description du bien</h2>
-                    <p class="text-gray-600 text-sm ">
-                        {{ $property->description }}
-                    </p>
-                    <ul class="mt-4 space-y-2 text-gray-700 text-sm">
-                        <li class="flex items-center gap-2">
+                    
+                    <ul class="flex  space-x-2 text-gray-700 text-sm">
+                        <li class="flex items-center gap-2  ">
                             <img src="{{ asset('images/beds.svg') }}" class="w-4 h-4" alt="Chambres">
                             {{ $property->bedrooms }}
-                            chambres
+                            chambres  |
                         </li>
+                        
                         <li class="flex items-center gap-2">
                             <img src="{{ asset('images/dosh.svg') }}" class="w-4 h-4" alt="Salle de bain">
-                            {{ $property->bathrooms }} salles de bain
+                            {{ $property->bathrooms }} salles de bain  |
                         </li>
+                        
                         <li class="flex  items-center gap-2">
                             <img src="{{ asset('images/space.svg') }}" class="w-4 h-4" alt="Superficie">
                             {{ $property->surface }}
-                            surface m²
+                             m² 
                         </li>
+                        
 
                     </ul>
+                    <h2 class="text-xl mt-4  font-semibold text-gray-800">Description du bien</h2>
+                    <p class="text-gray-600 mt-4  text-sm ">
+                        {{ $property->description }}
+                    </p>
                 </div>
 
                 <!-- Section droite : Google Maps -->
@@ -111,33 +122,25 @@
 
             </div>
 
-            <section id="testimonials" aria-label="What our customers are saying" class="">
+            <section id="testimonials" aria-label="Ce que nos clients disent" class="">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <ul role="list"
-                        class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:gap-8 lg:mt-20 lg:max-w-none lg:grid-cols-3">
+                    <ul role="list" class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:gap-8 lg:mt-20 lg:max-w-none lg:grid-cols-3">
                         <li>
                             <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                                 <li>
-                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10"><svg
-                                            aria-hidden="true" width="105" height="78"
-                                            class="absolute left-6 top-6 fill-slate-100">
-                                            <path
-                                                d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                            </path>
+                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10">
+                                        <svg aria-hidden="true" width="105" height="78" class="absolute left-6 top-6 fill-slate-100">
+                                            <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z"></path>
                                         </svg>
                                         <blockquote class="relative">
-                                            <p class="text-lg tracking-tight text-slate-900">I love the fitness apparel and
-                                                gear I purchased from
-                                                this site. The quality is exceptional and the prices are unbeatable.</p>
+                                            <p class="text-lg tracking-tight text-slate-900">Nous avons trouvé la maison de nos rêves grâce à cet agent immobilier. Le service était exceptionnel et l'équipe très professionnelle.</p>
                                         </blockquote>
-                                        <figcaption
-                                            class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
+                                        <figcaption class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
                                             <div>
-                                                <div class="font-display text-base text-slate-900">Sheryl Berge</div>
+                                                <div class="font-display text-base text-slate-900">Sophie Durand</div>
                                             </div>
                                             <div class="overflow-hidden rounded-full bg-slate-50">
-                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent"
-                                                    src="https://randomuser.me/api/portraits/men/15.jpg">
+                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent" src="https://randomuser.me/api/portraits/men/15.jpg">
                                             </div>
                                         </figcaption>
                                     </figure>
@@ -147,27 +150,19 @@
                         <li>
                             <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                                 <li>
-                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10"><svg
-                                            aria-hidden="true" width="105" height="78"
-                                            class="absolute left-6 top-6 fill-slate-100">
-                                            <path
-                                                d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                            </path>
+                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10">
+                                        <svg aria-hidden="true" width="105" height="78" class="absolute left-6 top-6 fill-slate-100">
+                                            <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z"></path>
                                         </svg>
                                         <blockquote class="relative">
-                                            <p class="text-lg tracking-tight text-slate-900">As a professional athlete, I
-                                                rely on high-performance
-                                                gear for my training. This site offers a great selection of top-notch
-                                                products.</p>
+                                            <p class="text-lg tracking-tight text-slate-900">L'achat de ma première maison a été une expérience inoubliable grâce à cette agence. Ils m'ont accompagné à chaque étape et m'ont trouvé un bien parfait.</p>
                                         </blockquote>
-                                        <figcaption
-                                            class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
+                                        <figcaption class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
                                             <div>
-                                                <div class="font-display text-base text-slate-900">Leland Kiehn</div>
+                                                <div class="font-display text-base text-slate-900">Marc Dupont</div>
                                             </div>
                                             <div class="overflow-hidden rounded-full bg-slate-50">
-                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent"
-                                                    src="https://randomuser.me/api/portraits/women/15.jpg">
+                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent" src="https://randomuser.me/api/portraits/women/15.jpg">
                                             </div>
                                         </figcaption>
                                     </figure>
@@ -177,27 +172,19 @@
                         <li>
                             <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
                                 <li>
-                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10"><svg
-                                            aria-hidden="true" width="105" height="78"
-                                            class="absolute left-6 top-6 fill-slate-100">
-                                            <path
-                                                d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z">
-                                            </path>
+                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10">
+                                        <svg aria-hidden="true" width="105" height="78" class="absolute left-6 top-6 fill-slate-100">
+                                            <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z"></path>
                                         </svg>
                                         <blockquote class="relative">
-                                            <p class="text-lg tracking-tight text-slate-900">The fitness apparel I bought
-                                                here fits perfectly and
-                                                feels amazing. I highly recommend this store to anyone looking for quality
-                                                gear.</p>
+                                            <p class="text-lg tracking-tight text-slate-900">Une expérience incroyable. L'équipe était à l'écoute et a su nous guider dans l'achat de notre appartement. Je les recommande vivement!</p>
                                         </blockquote>
-                                        <figcaption
-                                            class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
+                                        <figcaption class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
                                             <div>
-                                                <div class="font-display text-base text-slate-900">Peter Renolds</div>
+                                                <div class="font-display text-base text-slate-900">Isabelle Martin</div>
                                             </div>
                                             <div class="overflow-hidden rounded-full bg-slate-50">
-                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent"
-                                                    src="https://randomuser.me/api/portraits/men/10.jpg">
+                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent" src="https://randomuser.me/api/portraits/men/16.jpg">
                                             </div>
                                         </figcaption>
                                     </figure>
@@ -207,6 +194,7 @@
                     </ul>
                 </div>
             </section>
+            
 
         </div>
 

@@ -21,7 +21,7 @@
                             class="bg-[#fcf2f0] rounded-full p-1 size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                         </svg>
-                        <p>100% sécurisé</p>
+                        <p>Propriétés de qualité</p>
                     </div>
 
                     <div class="flex items-center space-x-1">
@@ -30,7 +30,7 @@
                             class="bg-[#fcf2f0] rounded-full p-1 size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                         </svg>
-                        <p>100% sécurisé</p>
+                        <p>Transactions sécurisées</p>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                             class="bg-[#fcf2f0] rounded-full p-1 size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                         </svg>
-                        <p>100% sécurisé</p>
+                        <p>Rendement garanti</p>
                     </div>
 
                     <div class="flex items-center space-x-1">
@@ -50,7 +50,7 @@
                             class="bg-[#fcf2f0] rounded-full p-1 size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                         </svg>
-                        <p>100% sécurisé</p>
+                        <p>Accompagnement sur mesure</p>
                     </div>
                 </div>
             </div>
