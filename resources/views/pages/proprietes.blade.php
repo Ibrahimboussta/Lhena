@@ -13,7 +13,7 @@
                         class="flex-grow md:flex-none w-[50vw] px-4 py-2 border text-black border-[#25D366] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#25D366] transition duration-200" />
 
                     <!-- Property Type Selection -->
-                    <select name="property_type" class="border p-2 rounded w-full" required>
+                    <select name="property_type" class="border p-2 rounded w-full" >
                         <option value="" disabled selected>Type</option>
                         <option value="appartement">Appartement</option>
                         <option value="maison">Maison</option>

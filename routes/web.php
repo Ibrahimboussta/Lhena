@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MailingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProprieteContoller;
 use App\Http\Controllers\PublishController;
@@ -34,6 +35,9 @@ Route::middleware(['admin'])->group(function () {
     Route::get('/contacts', [ContactController::class, 'contact'])->name('contacts.admin');
     Route::delete('/contacts/delete/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
     Route::delete('/proprites/delete/{id}', [HomeController::class, 'destroy'])->name('properties.admin.destroy');
+    Route::get('/emails', [MailingController::class, 'index'])->name('mailing');
+    Route::delete('/emails/delete/{id}', [MailingController::class, 'destroy'])->name('mailing.destroy');
+    
 });
 
 
@@ -49,6 +53,8 @@ Route::post('/proprtie/post', [ProprieteContoller::class, 'store' ])->name('prop
 Route::post('/contact/post', [ContactController::class, 'store' ])->name('contact.store');
 Route::get('/search', [ProprieteContoller::class, 'search'])->name('properties.search');
 
+
+Route::post('/emails/post', [MailingController::class, 'store'])->name('mailing.store');
 
 
 require __DIR__.'/auth.php';

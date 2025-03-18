@@ -142,10 +142,10 @@
                         <h4 class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
                             Ressources</h4>
                         <ul class="grid gap-4 min-[500px]:gap-6 text-center min-[500px]:text-left">
-                            <li><a href="javascript:;" class="text-gray-600 hover:text-gray-900">FAQ</a></li>
-                            <li><a href="javascript:;" class="text-gray-600 hover:text-gray-900">Guide d'achat</a></li>
-                            <li><a href="javascript:;" class="text-gray-600 hover:text-gray-900">Guide de vente</a></li>
-                            <li><a href="javascript:;" class="text-gray-600 hover:text-gray-900">Conseils immobiliers</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">FAQ</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Guide d'achat</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Guide de vente</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Conseils immobiliers</a></li>
                         </ul>
                     </div>
                 </div>
@@ -158,7 +158,9 @@
                     <!-- Formulaire -->
                     <div class="flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-full">
                         <!-- Champ Email -->
-                        <input type="email" name="email"
+                        <form action="{{route('mailing.store')}}" method="POST" class="flex gap-x-4" >
+                            @csrf
+                            <input type="email" name="email"
                             class="py-3 px-6 bg-gray-100 lg:bg-gray-100 rounded-full text-gray-900 placeholder:text-gray-500 focus:outline-none flex-1 w-full"
                             placeholder="Votre email ici..." />
                 
@@ -167,6 +169,8 @@
                             class="w-full lg:w-auto py-3.5 px-7 bg-[#25D366] shadow-md rounded-full text-white font-semibold hover:bg-black">
                             S'abonner
                         </button>
+                        </form>
+                        
                     </div>
                 </div>
                 

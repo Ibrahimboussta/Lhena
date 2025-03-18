@@ -29,6 +29,9 @@
                             <x-nav-link :href="route('contacts.admin')" :active="request()->routeIs('contacts.admin')">
                                 {{ __('Contacts') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('mailing')" :active="request()->routeIs('mailing')">
+                                {{ __('Emails') }}
+                            </x-nav-link>
                         </div>
 
                     </div>
@@ -112,6 +115,12 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('proprites.admin')" :active="request()->routeIs('proprites.admin')">
                     {{ __('Proprietes') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('contacts.admin')" :active="request()->routeIs('contacts.admin')">
+                    {{ __('Contacts') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('mailing')" :active="request()->routeIs('mailing')">
+                    {{ __('Emails') }}
                 </x-responsive-nav-link>
 
             </div>
