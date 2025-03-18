@@ -2,9 +2,11 @@
     <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
             <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
-                <h2 class="text-2xl font-semibold mb-4 dark:text-white">Propriétés</h2>
-
-                <div class="overflow-x-auto">
+                <div class="flex justify-between items-center ">
+                    <h2 class="text-2xl font-semibold mb-4 dark:text-white">Propriétés</h2>
+                    <a href="{{ route('publish') }}"><button class="bg-black hover:bg-gray-800 text-white  py-2 px-5 rounded-md border-0">Ajouter une propriété</button></a>
+                </div>
+                <div class="overflow-x-auto pt-2">
                     <table class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
                         <thead class="bg-gray-100 dark:bg-gray-800">
                             <tr>

@@ -81,7 +81,7 @@ class ProprieteContoller extends Controller
             'listing_type' => implode(',', $request->listing_type), // Store as comma-separated string
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('success', 'Property added successfully!');
 
         // Create a new property entry and associate it with the authenticated user
     }

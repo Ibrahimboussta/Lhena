@@ -17,22 +17,21 @@
                     <form action="{{ route('contact.store') }}" method="POST" class="space-y-4">
                         @csrf
                         <div>
-                            <label class="sr-only" for="name">Name</label>
-                            <input class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm" placeholder="Name"
-                                type="text" id="name" name='prenom' />
+                            <label class="sr-only" for="name">Nom</label>
+                            <input class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm" placeholder="Nom"
+                                type="text" id="name" name='name' />
                         </div>
-
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <label class="sr-only" for="email">Email</label>
                                 <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm"
-                                    placeholder="Email address" type="email" id="email" />
+                                    placeholder="Adresse email" type="email" id="email" name='email' />
                             </div>
 
                             <div>
                                 <label class="sr-only" for="phone">Téléphone</label>
                                 <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm"
-                                    placeholder="Phone Number" type="number" id="phone" />
+                                    placeholder="Numéro de téléphone" type="number" id="phone" name = 'phone' />
                             </div>
                         </div>
 
@@ -46,7 +45,7 @@
                         <div class="mt-4">
                             <button type="submit"
                                 class="inline-block w-full rounded-lg bg-[#E7C873] px-5 py-3 font-medium text-black sm:w-auto">
-                                Send Enquiry
+                                Envoyer la demande
                             </button>
                         </div>
                     </form>
