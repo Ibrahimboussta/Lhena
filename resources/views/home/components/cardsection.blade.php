@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                             <div>
-                                <p class="font-semibold text-[#1F4B43]">{{ $property->price }} DH</p>
+                                <p class="font-semibold text-[#25D366]">{{ $property->price }} DH</p>
                             </div>
                         </div>
 

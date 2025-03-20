@@ -21,6 +21,14 @@
                         <option value="villa">Villa</option>
                     </select>
 
+                     <!-- City Selection -->
+                     <select name="ville" class="border p-2 rounded w-full">
+                        <option value="">Ville</option>
+                        <option value="casablanca">Casablanca</option>
+                        <option value="rabat">Rabat</option>
+                        <option value="marrakech">Marrakech</option>
+                    </select>
+
                     <!-- Neighborhood Selection -->
                     <select name="quartier" class="border p-2 rounded w-full">
                         <option value="">Quartier</option>
@@ -29,13 +37,7 @@
                         <option value="bord">Bord de mer</option>
                     </select>
 
-                    <!-- City Selection -->
-                    <select name="ville" class="border p-2 rounded w-full">
-                        <option value="">Ville</option>
-                        <option value="casablanca">Casablanca</option>
-                        <option value="rabat">Rabat</option>
-                        <option value="marrakech">Marrakech</option>
-                    </select>
+
 
                     <!-- Filter Button -->
                     <button type="submit"
@@ -91,7 +93,7 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <p class="font-semibold text-[#1F4B43]">{{ $property->price }} DH</p>
+                                                <p class="font-semibold text-[#25D366]">{{ $property->price }} DH</p>
                                             </div>
                                         </div>
 

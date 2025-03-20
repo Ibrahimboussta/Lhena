@@ -18,8 +18,9 @@ class ProprieteContoller extends Controller
     {
         $property = Propritie::findOrFail($id); // Fetch the single property
         $photos = json_decode($property->photos); // Decode the photos array from JSON
+        $properties = Propritie::latest()->paginate(3);
 
-        return view('pages.proprietesDetails', compact('property', 'photos'));
+        return view('pages.proprietesDetails', compact('property', 'photos', 'properties'));
     }
 
 
@@ -43,6 +44,7 @@ class ProprieteContoller extends Controller
             'bedrooms' => 'required|integer|min:0',
             'bathrooms' => 'required|integer|min:0',
             'price' => 'required|numeric|min:0',
+            'price_type' => 'nullable|string|in:nuit,mois,an',
             'contact_phone' => 'required|string|max:20',
             'description' => 'nullable|string',
             'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Each photo file validation
@@ -75,6 +77,7 @@ class ProprieteContoller extends Controller
             'bedrooms' => $request->bedrooms,
             'bathrooms' => $request->bathrooms,
             'price' => $request->price,
+            'price_type' => $request->price_type ?: null, // Store NULL if empty
             'contact_phone' => $request->contact_phone,
             'description' => $request->description,
             'photos' => json_encode($photos),

@@ -45,6 +45,9 @@
 
                 @endauth
 
+              
+            </a>
+
                 @guest
                     <a href="{{ route('register') }}">
                         <svg class="h-8 w-8 text-500 border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full p-1"
@@ -85,7 +88,7 @@
             <!-- Menu Navigation -->
             <div id="mobile-menu"
                 class="hidden lg:flex flex-col lg:flex-row items-center w-full lg:w-auto mt-4 lg:mt-0">
-                <ul class="flex flex-col lg:flex-row lg:space-x-8 font-medium w-full lg:w-auto">
+                <ul class="flex flex-col lg:flex-row lg:space-x-2 font-medium w-full lg:w-auto">
                     <li><a href="/" class="block py-2 px-4 text-black hover:text-[#25D366]">Accueil</a></li>
                     <li><a href="{{ route('proprites') }}"
                             class="block py-2 px-4 text-black hover:text-[#25D366]">Propriétés</a></li>
@@ -94,6 +97,11 @@
                     {{-- <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">Blog</a></li> --}}
                     <li><a href="{{ route('contact') }}"
                             class="block py-2 px-4 text-black hover:text-[#25D366]">Contact</a></li>
+
+                            <a href="tel:+212601196563"
+                            class="text-black border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5 w-fit">
+                            +212 601 196 563
+                        </a>
                 </ul>
             </div>
         </div>
@@ -151,25 +159,26 @@
                 </div>
                 <div class="block w-full max-w-lg mx-auto px-4">
                     <!-- Titre -->
-                    <h3 class="font-manrope font-semibold text-2xl text-gray-900 leading-9 mb-6 text-center lg:text-left">
+                    <h3 class="font-manrope font-semibold text-xl text-gray-900 leading-9 mb-6 text-center lg:text-left">
                         Abonnez-vous à la newsletter et lisez les nouveaux articles en premier
                     </h3>
                 
                     <!-- Formulaire -->
                     <div class="flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-full">
                         <!-- Champ Email -->
-                        <form action="{{route('mailing.store')}}" method="POST" class="flex gap-x-4" >
+                        <form action="{{ route('mailing.store') }}" method="POST" class="flex flex-col sm:flex-row gap-4">
                             @csrf
                             <input type="email" name="email"
-                            class="py-3 px-6 bg-gray-100 lg:bg-gray-100 rounded-full text-gray-900 placeholder:text-gray-500 focus:outline-none flex-1 w-full"
-                            placeholder="Votre email ici..." />
-                
-                        <!-- Bouton Submit -->
-                        <button type="submit"
-                            class="w-full lg:w-auto py-3.5 px-7 bg-[#25D366] shadow-md rounded-full text-white font-semibold hover:bg-black">
-                            S'abonner
-                        </button>
+                                class="py-3 px-6 bg-gray-100 rounded-full text-gray-900 placeholder:text-gray-500 focus:outline-none flex-1 w-[80vw] sm:w-full"
+                                placeholder="Votre email ici..." />
+                            
+                            <button type="submit"
+                                class="w-full sm:w-auto py-3.5 px-7 bg-[#25D366] shadow-md rounded-full text-white font-semibold hover:bg-black">
+                                S'abonner
+                            </button>
                         </form>
+                        
+                            
                         
                     </div>
                 </div>

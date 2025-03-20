@@ -1,21 +1,38 @@
 @extends('layouts.index')
 @section('content')
     <section class="px-6 sm:px-16 py-20">
-        <div class="flex flex-col items-center min-h-screen px-4 space-y-8">
+        <div class="flex flex-col items-center min-h-screen px-4 space-y-1">
 
             <!-- Premier Bloc : Carrousel + Sidebar -->
             <div class="flex flex-col md:flex-row w-full max-w-screen-xl bg-white rounded-lg ">
 
                 <!-- Section gauche : Carrousel -->
-                <div class="w-full md:w-2/3 p-4">
+                <div class="w-full md:w-3/3 p-4">
                     <!-- Titre de l'annonce -->
-                    <h1 class="text-2xl font-semibold text-gray-800 mb-2 text-center md:text-left">{{ $property->title }}
+                    <!-- Desktop & Tablet Version -->
+                    <div class="hidden md:flex flex-col pb-4 ">
+                        <p class="text-3xl font-semibold ">{{ $property->title }}</p>
+                        <p class="text-sm text-gray-600 px-2">{{ $property->created_at->diffForHumans() }}</p>
+                    </div>
+
+                    <!-- Mobile Sticky Bottom Bar -->
+                    <div
+                        class="fixed bottom-0 left-0 w-full bg-white border-t border-[#25D366] px-4 py-2 flex justify-between items-center z-50  md:hidden">
+                        <div class="flex flex-col">
+                            <p class="text-xl font-semibold ">{{ $property->title }}</p>
+                            <p class="text-[12px] text-gray-600 px-1">{{ $property->created_at->diffForHumans() }}</p>
+                        </div>
+                        <h2 class="text-md font-bold text-[#25D366]">
+                            {{ $property->price }} DH
+                        </h2>
+                    </div>
+
                     </h1>
 
                     <!-- Carrousel -->
                     <div class="relative w-full bg-white rounded-lg shadow-lg overflow-hidden">
                         <!-- Slides Container -->
-                        <div class="relative w-full h-80" id="carousel-container">
+                        <div class="relative w-full h-96" id="carousel-container">
                             <!-- Carousel Images -->
                             @foreach ($photos as $index => $photo)
                                 <img src="{{ asset('storage/' . $photo) }}"
@@ -43,44 +60,115 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between pt-4 px-4 gap-x-4">
-                        <!-- Adresse avec icône -->
-                        <div class="flex items-center space-x-0.5">
-                            <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
-                            <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank">
-                                <p>{{ $property->address }}</p>
-                            </a>
-                        </div>
-                    
-                        <!-- Prix -->
-                        <div class="flex items-center gap-x-3">
+                    <!-- Adresse avec icône -->
+                    <div class="flex items-center space-x-0.5 pt-4">
+                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
+                        <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank">
+                            <p class="text-xl">{{ $property->address }}</p>
+                        </a>
+                    </div>
+
+                    <!-- Prix -->
+                    {{-- <div class="flex items-center gap-x-3">
                             <p class="text-black text-lg">Prix:</p>
                             <h2 class="text-lg font-semibold text-[#25D366]">{{ $property->price }}DH</h2>
-                        </div>
-                    </div>
-                    
+                        </div> --}}
+
 
 
                 </div>
 
 
                 <!-- Sidebar (droite) -->
-                <div class="w-full md:w-1/3 flex flex-col items-center justify-center p-6 border-l border-gray-200">
+                <div
+                    class="w-full md:w-1/3 flex flex-col items-center justify-start pt-3 md:pt-16 p-6 border-l border-gray-200">
                     <div class="flex flex-col gap-4 w-full max-w-xs text-center">
-                        
+                        <h2 class="hidden md:block text-xl text-start font-semibold text-black">
+                            @if ($property->listing_type == 'À-louer')
+                                @if ($property->price_type == 'nuit')
+                                    MAD <span class="text-[#25D366]">{{ $property->price }}</span> par Nuit
+                                @elseif($property->price_type == 'mois')
+                                    MAD <span class="text-[#25D366]">{{ $property->price }}</span> par Mois
+                                @elseif($property->price_type == 'an')
+                                    MAD <span class="text-[#25D366]">{{ $property->price }}</span> par an
+                                @endif
+                            @else
+                                MAD {{ $property->price }}
+                            @endif
+
+                        </h2>
+
                         <button
                             class="bg-[#E7C873] text-black py-2 rounded-md hover:bg-amber-400 transition-colors duration-300">
-                            A vendre
+                            @if ($property->listing_type == 'À-vendre')
+                                À-vendre
+                            @elseif($property->listing_type == 'À-louer')
+                                À-louer
+                            @else
+                                {{ $property->listing_type }}
+                            @endif
                         </button>
-                        <button
-                            class="bg-blue-700 text-white py-2 rounded-md hover:bg-blue-950 transition-colors duration-300">
+                        <button onclick="openAgentModal()"
+                            class="bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-950 transition-colors duration-300">
                             Appeler l'agent
                         </button>
-                        <button
-                            class="bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition-colors duration-300">
-                            Discuter sur WhatsApp
+
+                        <!-- Modal -->
+                        <div id="agentModal"
+                            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
+                            <div class="bg-white rounded-lg shadow-lg p-6 w-80 relative">
+                                <button onclick="closeAgentModal()"
+                                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                                    ✖
+                                </button>
+
+                                <h2 class="text-xl font-semibold mb-4 text-center">Contacter l'agent</h2>
+
+                                <p class="text-lg font-bold text-gray-800 text-center mb-4">
+                                    📞 <a href="tel: +212-6342-624" class="text-blue-700 hover:underline">
+                                        +212-6342-624
+                                    </a>
+                                </p>
+
+                                <button onclick="closeAgentModal()"
+                                    class="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
+                                    Fermer
+                                </button>
+                            </div>
+                        </div>
+                        <button onclick="openModal()"
+                            class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors duration-300">
+                            Appelle
                         </button>
-                        
+
+                        <!-- Modal Background -->
+                        <div id="phoneModal"
+                            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+                            <!-- Modal Content -->
+                            <div class="bg-white rounded-lg shadow-lg p-6 w-80 relative">
+                                <button onclick="closeModal()"
+                                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                                    ✖
+                                </button>
+
+                                <h2 class="text-xl font-semibold mb-4">Numéro du Propriétaire</h2>
+
+                                <p class="text-lg font-bold text-gray-800 text-center">
+                                    📞 <a href="tel:{{ $property->contact_phone }}" class="text-green-600 hover:underline">
+                                        {{ $property->contact_phone }}
+                                    </a>
+                                </p>
+
+
+                                <button onclick="closeModal()"
+                                    class="mt-6 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
+                                    Fermer
+                                </button>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
@@ -89,26 +177,26 @@
             <div class="flex flex-col md:flex-row w-full max-w-screen-xl bg-white rounded-lg ">
 
                 <!-- Section gauche : Description -->
-                <div class="w-full md:w-2/3 flex flex-col justify-between p-6 border-r border-gray-200">
-                    
+                <div class="w-full md:w-2/3 flex flex-col justify-between px-6 border-r border-gray-200">
+
                     <ul class="flex  space-x-2 text-gray-700 text-sm">
                         <li class="flex items-center gap-2  ">
                             <img src="{{ asset('images/beds.svg') }}" class="w-4 h-4" alt="Chambres">
                             {{ $property->bedrooms }}
-                            chambres  |
+                            chambres |
                         </li>
-                        
+
                         <li class="flex items-center gap-2">
                             <img src="{{ asset('images/dosh.svg') }}" class="w-4 h-4" alt="Salle de bain">
-                            {{ $property->bathrooms }} salles de bain  |
+                            {{ $property->bathrooms }} salles de bain |
                         </li>
-                        
+
                         <li class="flex  items-center gap-2">
                             <img src="{{ asset('images/space.svg') }}" class="w-4 h-4" alt="Superficie">
                             {{ $property->surface }}
-                             m² 
+                            m²
                         </li>
-                        
+
 
                     </ul>
                     <h2 class="text-xl mt-4  font-semibold text-gray-800">Description du bien</h2>
@@ -117,121 +205,139 @@
                     </p>
                 </div>
 
-                <!-- Section droite : Google Maps -->
-
-
             </div>
+    </div>
+    
+    <section class=" pt-12 ">
 
-            <section id="testimonials" aria-label="Ce que nos clients disent" class="">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <ul role="list" class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:gap-8 lg:mt-20 lg:max-w-none lg:grid-cols-3">
-                        <li>
-                            <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
-                                <li>
-                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10">
-                                        <svg aria-hidden="true" width="105" height="78" class="absolute left-6 top-6 fill-slate-100">
-                                            <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z"></path>
-                                        </svg>
-                                        <blockquote class="relative">
-                                            <p class="text-lg tracking-tight text-slate-900">Nous avons trouvé la maison de nos rêves grâce à cet agent immobilier. Le service était exceptionnel et l'équipe très professionnelle.</p>
-                                        </blockquote>
-                                        <figcaption class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                            <div>
-                                                <div class="font-display text-base text-slate-900">Sophie Durand</div>
-                                            </div>
-                                            <div class="overflow-hidden rounded-full bg-slate-50">
-                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent" src="https://randomuser.me/api/portraits/men/15.jpg">
-                                            </div>
-                                        </figcaption>
-                                    </figure>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
-                                <li>
-                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10">
-                                        <svg aria-hidden="true" width="105" height="78" class="absolute left-6 top-6 fill-slate-100">
-                                            <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z"></path>
-                                        </svg>
-                                        <blockquote class="relative">
-                                            <p class="text-lg tracking-tight text-slate-900">L'achat de ma première maison a été une expérience inoubliable grâce à cette agence. Ils m'ont accompagné à chaque étape et m'ont trouvé un bien parfait.</p>
-                                        </blockquote>
-                                        <figcaption class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                            <div>
-                                                <div class="font-display text-base text-slate-900">Marc Dupont</div>
-                                            </div>
-                                            <div class="overflow-hidden rounded-full bg-slate-50">
-                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent" src="https://randomuser.me/api/portraits/women/15.jpg">
-                                            </div>
-                                        </figcaption>
-                                    </figure>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <ul role="list" class="flex flex-col gap-y-6 sm:gap-y-8">
-                                <li>
-                                    <figure class="relative rounded-2xl bg-white p-6 shadow shadow-slate-900/10">
-                                        <svg aria-hidden="true" width="105" height="78" class="absolute left-6 top-6 fill-slate-100">
-                                            <path d="M25.086 77.292c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622C1.054 58.534 0 53.411 0 47.686c0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C28.325 3.917 33.599 1.507 39.324 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Zm54.24 0c-4.821 0-9.115-1.205-12.882-3.616-3.767-2.561-6.78-6.102-9.04-10.622-2.11-4.52-3.164-9.643-3.164-15.368 0-5.273.904-10.396 2.712-15.368 1.959-4.972 4.746-9.567 8.362-13.786a59.042 59.042 0 0 1 12.43-11.3C82.565 3.917 87.839 1.507 93.564 0l11.074 13.786c-6.479 2.561-11.677 5.951-15.594 10.17-3.767 4.219-5.65 7.835-5.65 10.848 0 1.356.377 2.863 1.13 4.52.904 1.507 2.637 3.089 5.198 4.746 3.767 2.41 6.328 4.972 7.684 7.684 1.507 2.561 2.26 5.5 2.26 8.814 0 5.123-1.959 9.19-5.876 12.204-3.767 3.013-8.588 4.52-14.464 4.52Z"></path>
-                                        </svg>
-                                        <blockquote class="relative">
-                                            <p class="text-lg tracking-tight text-slate-900">Une expérience incroyable. L'équipe était à l'écoute et a su nous guider dans l'achat de notre appartement. Je les recommande vivement!</p>
-                                        </blockquote>
-                                        <figcaption class="relative mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
-                                            <div>
-                                                <div class="font-display text-base text-slate-900">Isabelle Martin</div>
-                                            </div>
-                                            <div class="overflow-hidden rounded-full bg-slate-50">
-                                                <img alt="" class="h-14 w-14 object-cover" style="color:transparent" src="https://randomuser.me/api/portraits/men/16.jpg">
-                                            </div>
-                                        </figcaption>
-                                    </figure>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </section>
-            
 
+        <h2 class="text-center text-3xl font-semibold mb-4 ">Des Propriétés Similaires</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6 w-full pt-7">
+
+            @foreach ($properties as $property)
+                <a href="{{ route('proprites.details', $property->id) }}" class="w-full">
+                    <div
+                        class="w-full rounded-2xl border border-[#e0dede] p-2 hover:shadow duration-400 relative">
+                        <!-- Image Section with Positioned Labels -->
+                        <div class="relative">
+                            <img class="w-full h-80 object-cover rounded-2xl"
+                                src="{{ asset('storage/' . json_decode($property->photos)[0]) }}"
+                                alt="">
+
+                            <!-- Labels -->
+                            <div class="absolute top-4 left-4 flex space-x-2">
+                                @if (strpos($property->listing_type, 'À-vendre') !== false)
+                                    <span
+                                        class="text-white bg-[#25D366] rounded-2xl px-3 py-1 uppercase font-medium text-xs sm:text-sm">
+                                        À vendre
+                                    </span>
+                                @endif
+                                @if (strpos($property->listing_type, 'À-louer') !== false)
+                                    <span
+                                        class="text-white bg-[#E7C873] rounded-2xl px-3 py-1 uppercase font-medium text-xs sm:text-sm">
+                                        À louer
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Property Details -->
+                        <div class="flex justify-between items-start pt-2 px-1">
+                            <div>
+                                <p class="font-semibold text-[#1A1A1A] text-xl">{{ $property->title }}</p>
+                                <div class="flex items-center space-x-0.5 pt-1">
+                                    <img src="{{ asset('images/local.svg') }}" alt=""
+                                        class="w-4 h-4">
+                                    <p>{{ $property->address }}</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-[#25D366]">{{ $property->price }} DH</p>
+                            </div>
+                        </div>
+
+                        <!-- Property Features -->
+                        <div class="flex items-center py-2 px-1 gap-x-4">
+                            <div class="flex items-center space-x-0.5">
+                                <img class="w-4 h-4" src="{{ asset('images/beds.svg') }}" alt="">
+                                <p>{{ $property->bedrooms }}</p>
+                            </div>
+                            <div class="flex items-center space-x-0.5">
+                                <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}" alt="">
+                                <p>{{ $property->bathrooms }}</p>
+                            </div>
+                            <div class="flex items-center space-x-0.5">
+                                <img class="w-4 h-4" src="{{ asset('images/space.svg') }}" alt="">
+                                <p>{{ $property->surface }} m²</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
         </div>
 
+    </section>
+
+
         <script>
-            // Simple JavaScript for handling image transition and navigation
+            // ==========================
+            // Modal Handling
+            // ==========================
+            function openModal() {
+                document.getElementById('phoneModal').classList.remove('hidden');
+            }
+
+            function closeModal() {
+                document.getElementById('phoneModal').classList.add('hidden');
+            }
+
+            function openAgentModal() {
+                document.getElementById('agentModal').classList.remove('hidden');
+            }
+
+            function closeAgentModal() {
+                document.getElementById('agentModal').classList.add('hidden');
+            }
+
+            // ==========================
+            // Carousel Handling
+            // ==========================
             let currentSlide = 0;
             const slides = document.querySelectorAll('#carousel-container img');
             const indicators = document.querySelectorAll('.absolute.bottom-4 button');
 
-            // Function to show the current slide
             function showSlide(index) {
                 slides.forEach((slide, idx) => {
                     slide.classList.add('opacity-0');
                     indicators[idx].classList.add('bg-gray-400');
                     indicators[idx].classList.remove('bg-white');
                 });
+
                 slides[index].classList.remove('opacity-0');
                 indicators[index].classList.remove('bg-gray-400');
                 indicators[index].classList.add('bg-white');
             }
 
-            // Show the initial slide
-            showSlide(currentSlide);
-
-            // Previous button click
-            document.getElementById('prev').addEventListener('click', () => {
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            // Show initial slide on load
+            if (slides.length > 0) {
                 showSlide(currentSlide);
-            });
+            }
 
-            // Next button click
-            document.getElementById('next').addEventListener('click', () => {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            });
+            const prevBtn = document.getElementById('prev');
+            const nextBtn = document.getElementById('next');
 
-            // Indicators click
+            if (prevBtn && nextBtn) {
+                prevBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                    showSlide(currentSlide);
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                });
+            }
+
             indicators.forEach((indicator, index) => {
                 indicator.addEventListener('click', () => {
                     currentSlide = index;
@@ -239,5 +345,6 @@
                 });
             });
         </script>
+
     </section>
 @endsection

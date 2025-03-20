@@ -12,9 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('proprities', function (Blueprint $table) {
-             $table->id();
+            $table->id();
             $table->string('title'); // Title of the property
             $table->string('property_type'); // Type of property (appartment, house, etc.)
+            $table->string('price_type')->nullable()->default(null);
             $table->string('city'); // City where the property is located
             $table->string('neighborhood'); // Neighborhood of the property
             $table->string('address'); // Complete address of the property

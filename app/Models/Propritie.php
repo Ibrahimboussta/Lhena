@@ -18,6 +18,7 @@ class Propritie extends Model
         'bedrooms',
         'bathrooms',
         'price',
+        'price_type',
         'contact_phone',
         'description',
         'photos',
