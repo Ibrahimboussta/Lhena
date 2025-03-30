@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['admin'])->group(function () {
-    Route::get('/admin', [HomeController::class, 'users'])->name('users');
+    Route::get('/bourseimmo', [HomeController::class, 'users'])->name('users');
     Route::get('/proprites', [HomeController::class, 'proprites'])->name('proprites.admin');
     Route::get('/contacts', [ContactController::class, 'contact'])->name('contacts.admin');
     Route::delete('/contacts/delete/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');

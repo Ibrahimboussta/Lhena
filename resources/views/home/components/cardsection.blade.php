@@ -2,20 +2,7 @@
     <h2 class="text-3xl font-semibold">Propriétés en vedette</h2>
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-2">
         <p class="text-[15px] font-medium">Découvrez les Meilleures Propriétés du Moment</p>
-        {{-- <div class="flex items-center gap-x-2 sm:gap-x-4 mt-2 sm:mt-0">
-            <a href="">
-                <button
-                    class="font-medium text-[#1A1A1A] text-[13px] rounded-xl border border-black px-3 py-1 bg-[#FFF8F6]">
-                    Toutes les propriétés
-                </button>
-            </a>
-            <a href="">
-                <button class="font-medium text-[#1A1A1A] text-[13px]">À vendre</button>
-            </a>
-            <a href="">
-                <button class="font-medium text-[#1A1A1A] text-[13px]">À louer</button>
-            </a>
-        </div> --}}
+       
     </div>
 
     <div class="flex justify-between pt-6 w-full">
@@ -47,6 +34,7 @@
                         <!-- Property Details -->
                         <div class="flex justify-between items-start pt-2 px-1">
                             <div>
+                                <p class="font-medium text-[#8b8b8b] text-[15px]">{{ $property->property_type }}</p>
                                 <p class="font-semibold text-[#1A1A1A] text-xl">{{ $property->title }}</p>
                                 <div class="flex items-center space-x-0.5 pt-1">
                                     <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
@@ -54,7 +42,7 @@
                                 </div>
                             </div>
                             <div>
-                                <p class="font-semibold text-[#25D366]">{{ $property->price }} DH</p>
+                                <p class="font-semibold text-xl text-[#25D366]">{{ $property->price }} DH</p>
                             </div>
                         </div>
 

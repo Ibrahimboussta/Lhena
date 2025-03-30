@@ -10,7 +10,7 @@ class MailingController extends Controller
     //
     public function index()
     {
-        $emails = Mailing::all();
+        $emails = Mailing::latest()->paginate(10); // Paginate with 10 emails per page
         return view('Admin.emails', compact('emails'));
     }
     public function store(Request $request)

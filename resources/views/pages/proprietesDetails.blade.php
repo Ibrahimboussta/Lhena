@@ -10,7 +10,7 @@
                 <div class="w-full md:w-3/3 p-4">
                     <!-- Titre de l'annonce -->
                     <!-- Desktop & Tablet Version -->
-                    <div class="hidden md:flex flex-col pb-4 ">
+                    <div class="hidden md:flex flex-col pb-4 pt-5">
                         <p class="text-3xl font-semibold ">{{ $property->title }}</p>
                         <p class="text-sm text-gray-600 px-2">{{ $property->created_at->diffForHumans() }}</p>
                     </div>
@@ -86,14 +86,14 @@
                         <h2 class="hidden md:block text-xl text-start font-semibold text-black">
                             @if ($property->listing_type == 'À-louer')
                                 @if ($property->price_type == 'nuit')
-                                    MAD <span class="text-[#25D366]">{{ $property->price }}</span> par Nuit
+                                    <span class="text-[#25D366]">{{ $property->price }}</span> MAD/nuit
                                 @elseif($property->price_type == 'mois')
-                                    MAD <span class="text-[#25D366]">{{ $property->price }}</span> par Mois
+                                    <span class="text-[#25D366]">{{ $property->price }}</span> MAD/mois
                                 @elseif($property->price_type == 'an')
-                                    MAD <span class="text-[#25D366]">{{ $property->price }}</span> par an
+                                    <span class="text-[#25D366]">{{ $property->price }}</span> MAD/an
                                 @endif
                             @else
-                                MAD {{ $property->price }}
+                                {{ $property->price }} MAD
                             @endif
 
                         </h2>
@@ -108,6 +108,44 @@
                                 {{ $property->listing_type }}
                             @endif
                         </button>
+
+
+
+                        
+
+                        <button onclick="openModal()"
+                            class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors duration-300">
+                            Appelle le propriétaire
+                        </button>
+
+                        <!-- Modal Background -->
+                        <div id="phoneModal"
+                            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+                            <!-- Modal Content -->
+                            <div class="bg-white rounded-lg shadow-lg p-6 w-80 relative">
+                                <button onclick="closeModal()"
+                                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                                    ✖
+                                </button>
+
+                                <h2 class="text-xl font-semibold mb-4">Numéro du Propriétaire</h2>
+
+                                <p class="text-lg font-bold text-gray-800 text-center">
+                                    📞 <a href="tel:{{ $property->contact_phone }}" class="text-green-600 hover:underline">
+                                        {{ $property->contact_phone }}
+                                    </a>
+                                </p>
+
+
+                                <button onclick="closeModal()"
+                                    class="mt-6 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
+                                    Fermer
+                                </button>
+                            </div>
+                        </div>
+
+
+
                         <button onclick="openAgentModal()"
                             class="bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-950 transition-colors duration-300">
                             Appeler l'agent
@@ -136,36 +174,7 @@
                                 </button>
                             </div>
                         </div>
-                        <button onclick="openModal()"
-                            class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors duration-300">
-                            Appelle
-                        </button>
 
-                        <!-- Modal Background -->
-                        <div id="phoneModal"
-                            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
-                            <!-- Modal Content -->
-                            <div class="bg-white rounded-lg shadow-lg p-6 w-80 relative">
-                                <button onclick="closeModal()"
-                                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-                                    ✖
-                                </button>
-
-                                <h2 class="text-xl font-semibold mb-4">Numéro du Propriétaire</h2>
-
-                                <p class="text-lg font-bold text-gray-800 text-center">
-                                    📞 <a href="tel:{{ $property->contact_phone }}" class="text-green-600 hover:underline">
-                                        {{ $property->contact_phone }}
-                                    </a>
-                                </p>
-
-
-                                <button onclick="closeModal()"
-                                    class="mt-6 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
-                                    Fermer
-                                </button>
-                            </div>
-                        </div>
 
 
 

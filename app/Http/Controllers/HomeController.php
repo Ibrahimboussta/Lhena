@@ -20,15 +20,14 @@ class HomeController extends Controller
         return view('pages.about');
     }
    
-    public function users(){
-
-        $users = User::latest()->get();
-
+    public function users()
+    {
+        $users = User::latest()->paginate(10); // Paginate with 10 users per page
         return view('Admin.users', compact('users'));
     }
-
-    public function proprites(){
-        $properties = Propritie::latest()->get();
+    public function proprites()
+    {
+        $properties = Propritie::latest()->paginate(10); // Paginate with 10 properties per page
         return view('Admin.proprites', compact('properties'));
     }
 

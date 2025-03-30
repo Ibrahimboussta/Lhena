@@ -4,8 +4,9 @@
             <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
                 <div class="flex justify-between items-center ">
                     <h2 class="text-2xl font-semibold mb-4 dark:text-white">Propriétés</h2>
-                    <h2 class="text-xl font-semibold mb-4 dark:text-white"> {{ count($properties) }} <span
-                            class="text-[#25D366] text-[15px]">Propriétés</span></h2>
+                    <h2 class="text-xl font-semibold mb-4 dark:text-white">
+                        {{ $properties->total() }} <span class="text-[#25D366] text-[15px]">Propriétés</span>
+                    </h2>
                 </div>
                 <div class="overflow-x-auto">
                     <table
@@ -60,7 +61,6 @@
                                                     🗑
                                                 </button>
                                             </form>
-
                                         </td>
                                     </tr>
                                 @endif
@@ -68,9 +68,12 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
 
+                {{-- Pagination Links --}}
+                <div class="mt-4">
+                    {{ $properties->links('pagination::tailwind') }}
+                </div>
+            </div>
         </div>
     </div>
-
 </x-app-layout>

@@ -1,6 +1,5 @@
 @extends('layouts.index')
 @section('content')
-
     <section class="px-6 sm:px-16 py-20">
         <h1 class="text-4xl font-bold pt-8">Contactez-nous</h1>
 
@@ -31,15 +30,17 @@
                             <div>
                                 <label class="sr-only" for="phone">Téléphone</label>
                                 <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm"
-                                    placeholder="Numéro de téléphone" type="number" id="phone" name = 'phone' />
+                                    placeholder="+212 612345678" type="tel" id="phone" name="phone"
+                                    pattern="\+?[0-9]*" inputmode="numeric" />
                             </div>
+
                         </div>
 
                         <div>
                             <label class="sr-only" for="message">Message</label>
 
                             <textarea class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm" placeholder="Message" rows="8"
-                                id="message" name = 'message' ></textarea>
+                                id="message" name = 'message'></textarea>
                         </div>
 
                         <div class="mt-4">
@@ -93,7 +94,8 @@
                     <button
                         class="relative flex gap-2 items-center w-full py-5 text-base font-semibold text-left border-t md:text-lg border-base-content/10"
                         aria-expanded="false" onclick="toggleFAQ(this)">
-                        <span class="flex-1 text-base-content">Quels sont les critères pour acheter un bien immobilier ?</span>
+                        <span class="flex-1 text-base-content">Quels sont les critères pour acheter un bien immobilier
+                            ?</span>
                         <svg class="flex-shrink-0 w-4 h-4 ml-auto fill-current" viewBox="0 0 16 16"
                             xmlns="http://www.w3.org/2000/svg">
                             <rect y="7" width="16" height="2" rx="1"
@@ -105,7 +107,10 @@
                     <div class="transition-all duration-300 ease-in-out max-h-0 overflow-hidden"
                         style="transition: max-height 0.3s ease-in-out 0s;">
                         <div class="pb-5 leading-relaxed">
-                            <div class="space-y-2 leading-relaxed">Les critères varient selon le type de bien, la localisation et le budget. Il est essentiel de vérifier la conformité légale du bien, de prendre en compte la situation géographique, et de s’assurer que le financement est en place.</div>
+                            <div class="space-y-2 leading-relaxed">Les critères varient selon le type de bien, la
+                                localisation et le budget. Il est essentiel de vérifier la conformité légale du bien, de
+                                prendre en compte la situation géographique, et de s’assurer que le financement est en
+                                place.</div>
                         </div>
                     </div>
                 </li>
@@ -125,7 +130,10 @@
                     <div class="transition-all duration-300 ease-in-out max-h-0 overflow-hidden"
                         style="transition: max-height 0.3s ease-in-out 0s;">
                         <div class="pb-5 leading-relaxed">
-                            <div class="space-y-2 leading-relaxed">La valeur d’un bien immobilier dépend de plusieurs facteurs, notamment sa localisation, sa superficie, son état général, et les prix du marché local. Une estimation professionnelle est souvent recommandée pour obtenir une évaluation précise.</div>
+                            <div class="space-y-2 leading-relaxed">La valeur d’un bien immobilier dépend de plusieurs
+                                facteurs, notamment sa localisation, sa superficie, son état général, et les prix du marché
+                                local. Une estimation professionnelle est souvent recommandée pour obtenir une évaluation
+                                précise.</div>
                         </div>
                     </div>
                 </li>
@@ -145,7 +153,10 @@
                     <div class="transition-all duration-300 ease-in-out max-h-0 overflow-hidden"
                         style="transition: max-height 0.3s ease-in-out 0s;">
                         <div class="pb-5 leading-relaxed">
-                            <div class="space-y-2 leading-relaxed">Le processus inclut la recherche du bien, la signature du contrat de vente, la demande de financement (si nécessaire), la signature de l'acte notarié, et enfin la remise des clés. Il est important de bien comprendre chaque étape et de s'assurer que tous les documents légaux sont en ordre.</div>
+                            <div class="space-y-2 leading-relaxed">Le processus inclut la recherche du bien, la signature
+                                du contrat de vente, la demande de financement (si nécessaire), la signature de l'acte
+                                notarié, et enfin la remise des clés. Il est important de bien comprendre chaque étape et de
+                                s'assurer que tous les documents légaux sont en ordre.</div>
                         </div>
                     </div>
                 </li>
@@ -163,4 +174,9 @@
         }
     </script>
 
+    <script>
+        document.getElementById('phone').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9+]/g, ''); // Allow only numbers and +
+        });
+    </script>
 @endsection

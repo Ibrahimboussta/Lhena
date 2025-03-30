@@ -19,6 +19,7 @@
             <!-- Logo -->
             <a href="/" class="flex items-center">
                 <img class="h-12 w-auto" src="{{ asset('images/logo.png') }}" alt="Logo">
+           
             </a>
 
             <!-- Section droite (boutons + menu burger) -->
@@ -45,33 +46,51 @@
 
                 @endauth
 
-              
-            </a>
 
-                @guest
-                    <a href="{{ route('register') }}">
-                        <svg class="h-8 w-8 text-500 border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full p-1"
-                            viewBox="0 0 24 24" fill="black">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                            <circle cx="12" cy="7" r="4" />
-                        </svg>
-                    </a>
-                @endguest
+                </a>
+
+                <a href="tel:+212601196563"
+                    class="text-black border flex flex-col-reverse items-center bg-[#E7C873]  rounded-full font-medium text-[10px]  lg:text-sm  px-4 lg:px-5 py-2 lg:py-2.5 w-full">
+                    0601 196 563
+
+                    <span class="flex flex-col items-center uppercase">Demande/Offre
+                        <br>
+
+                        <span class="">RAPIDEMENT
+                        </span>
+                    </span>
+                </a>
 
                 <!-- Bouton Publier -->
                 @auth
-                    <a href="{{ route('publish') }}"
-                        class="text-black border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">
-                        Publier une annonce
-                    </a>
+                <a href="{{ route('publish') }}"
+                class="text-black border bg-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-[10px] lg:text-sm px-4 lg:px-5 py-2 lg:py-2.5 w-full">
+                COMMERCIALSEZ
+                <span class="flex flex-col items-center uppercase">VOS BIENS
+                    <br>
+
+                    <span class="">ANNONCER
+                    </span>
+                </span>
+            </a>
                 @endauth
 
                 @guest
                     <a href="{{ route('register') }}"
-                        class="text-black border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5">
-                        Publier une annonce
+                        class="text-black border bg-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-[10px] lg:text-sm px-4 lg:px-5 py-2 lg:py-2.5 w-full">
+                        COMMERCIALSEZ
+                        <span class="flex flex-col items-center uppercase">VOS BIENS
+                            <br>
+
+                            <span class="">ANNONCER
+                            </span>
+                        </span>
                     </a>
+
+
                 @endguest
+
+
                 <!-- Bouton Menu Mobile -->
                 <button id="menu-toggle"
                     class="lg:hidden p-2 text-black rounded-lg hover:text-black hover:bg-[#25D366] duration-500 focus:ring-1 focus:ring-[#25D366]">
@@ -88,7 +107,7 @@
             <!-- Menu Navigation -->
             <div id="mobile-menu"
                 class="hidden lg:flex flex-col lg:flex-row items-center w-full lg:w-auto mt-4 lg:mt-0">
-                <ul class="flex flex-col lg:flex-row lg:space-x-2 font-medium w-full lg:w-auto">
+                <ul class="flex flex-col lg:flex-row lg:items-center lg:space-x-2 font-medium w-full lg:w-auto">
                     <li><a href="/" class="block py-2 px-4 text-black hover:text-[#25D366]">Accueil</a></li>
                     <li><a href="{{ route('proprites') }}"
                             class="block py-2 px-4 text-black hover:text-[#25D366]">Propriétés</a></li>
@@ -98,10 +117,9 @@
                     <li><a href="{{ route('contact') }}"
                             class="block py-2 px-4 text-black hover:text-[#25D366]">Contact</a></li>
 
-                            <a href="tel:+212601196563"
-                            class="text-black border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-sm px-4 lg:px-5 py-2 lg:py-2.5 w-fit">
-                            +212 601 196 563
-                        </a>
+
+
+
                 </ul>
             </div>
         </div>
@@ -120,80 +138,99 @@
 
     @yield('content')
 
-    
+
     <footer class="w-full bg-gray-50 ">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
-            
-            <div class="flex justify-between flex-col py-8 min-[500px]:py-14 gap-8 min-[500px]:gap-16 lg:gap-0 lg:flex-row">
-                <div class="flex flex-col items-center max-lg:justify-center min-[500px]:items-start min-[500px]:flex-row gap-8 sm:gap-12 xl:gap-24">
+
+            <div
+                class="flex justify-between flex-col py-8 min-[500px]:py-14 gap-8 min-[500px]:gap-16 lg:gap-0 lg:flex-row">
+                <div
+                    class="flex flex-col items-center max-lg:justify-center min-[500px]:items-start min-[500px]:flex-row gap-8 sm:gap-12 xl:gap-24">
                     <div class="block">
-                        <h4 class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
+                        <h4
+                            class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
                             Notre Agence</h4>
                         <ul class="grid gap-4 min-[500px]:gap-6 text-center min-[500px]:text-left">
                             <li><a href="/" class="text-gray-600 hover:text-gray-900">Accueil</a></li>
-                            <li><a href="{{ route('proprites') }}" class="text-gray-600 hover:text-gray-900">Propriétés</a></li>
-                            <li><a href="{{ route('a-propos') }}" class="text-gray-600 hover:text-gray-900">À propos</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Contact</a></li>
+                            <li><a href="{{ route('proprites') }}"
+                                    class="text-gray-600 hover:text-gray-900">Propriétés</a></li>
+                            <li><a href="{{ route('a-propos') }}" class="text-gray-600 hover:text-gray-900">À
+                                    propos</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Contact</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="block">
-                        <h4 class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
+                        <h4
+                            class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
                             Services</h4>
                         <ul class="grid gap-4 min-[500px]:gap-6 text-center min-[500px]:text-left">
-                            <li><a href="{{ route('proprites') }}" class="text-gray-600 hover:text-gray-900">Acheter</a></li>
-                            <li><a href="{{ route('proprites') }};" class="text-gray-600 hover:text-gray-900">Louer</a></li>
-                            <li><a href="{{ route('proprites') }}" class="text-gray-600 hover:text-gray-900">Vendre</a></li>
-                            <li><a href="{{ route('proprites') }}" class="text-gray-600 hover:text-gray-900">Tous </a></li>
+                            <li><a href="{{ route('proprites') }}"
+                                    class="text-gray-600 hover:text-gray-900">Acheter</a></li>
+                            <li><a href="{{ route('proprites') }};" class="text-gray-600 hover:text-gray-900">Louer</a>
+                            </li>
+                            <li><a href="{{ route('proprites') }}" class="text-gray-600 hover:text-gray-900">Vendre</a>
+                            </li>
+                            <li><a href="{{ route('proprites') }}" class="text-gray-600 hover:text-gray-900">Tous </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="block">
-                        <h4 class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
+                        <h4
+                            class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
                             Ressources</h4>
                         <ul class="grid gap-4 min-[500px]:gap-6 text-center min-[500px]:text-left">
                             <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">FAQ</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Guide d'achat</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Guide de vente</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Conseils immobiliers</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Guide
+                                    d'achat</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Guide de
+                                    vente</a></li>
+                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Conseils
+                                    immobiliers</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="block w-full max-w-lg mx-auto px-4">
                     <!-- Titre -->
-                    <h3 class="font-manrope font-semibold text-xl text-gray-900 leading-9 mb-6 text-center lg:text-left">
+                    <h3
+                        class="font-manrope font-semibold text-xl text-gray-900 leading-9 mb-6 text-center lg:text-left">
                         Abonnez-vous à la newsletter et lisez les nouveaux articles en premier
                     </h3>
-                
+
                     <!-- Formulaire -->
-                    <div class="flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-full">
+                    <div
+                        class="flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-full">
                         <!-- Champ Email -->
-                        <form action="{{ route('mailing.store') }}" method="POST" class="flex flex-col sm:flex-row gap-4">
+                        <form action="{{ route('mailing.store') }}" method="POST"
+                            class="flex flex-col sm:flex-row gap-4">
                             @csrf
                             <input type="email" name="email"
                                 class="py-3 px-6 bg-gray-100 rounded-full text-gray-900 placeholder:text-gray-500 focus:outline-none flex-1 w-[80vw] sm:w-full"
                                 placeholder="Votre email ici..." />
-                            
+
                             <button type="submit"
                                 class="w-full sm:w-auto py-3.5 px-7 bg-[#25D366] shadow-md rounded-full text-white font-semibold hover:bg-black">
                                 S'abonner
                             </button>
                         </form>
-                        
-                            
-                        
+
+
+
                     </div>
                 </div>
-                
-                </div>
-                <div class="py-4 border-t flex justify-center border-gray-200">
-                    <div class="flex items-center justify-center flex-col gap-8 lg:gap-0 lg:flex-row lg:justify-between">
-                        <span class="text-sm text-gray-500">©<a href="https://pagedone.io/">Bourseimmo</a>, Tous droits réservés.</span>
-                    </div>
-                </div>
-                
+
             </div>
+            <div class="py-4 border-t flex justify-center border-gray-200">
+                <div class="flex items-center justify-center flex-col gap-8 lg:gap-0 lg:flex-row lg:justify-between">
+                    <span class="text-sm text-gray-500">©<a href="https://pagedone.io/">Bourseimmo</a>, Tous droits
+                        réservés.</span>
+                </div>
+            </div>
+
+        </div>
         </div>
     </footer>
-    
+
 
 </body>
 

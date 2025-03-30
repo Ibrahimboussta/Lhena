@@ -14,7 +14,7 @@ class ContactController extends Controller
 
 
     public function contact(){
-        $contacts = Contact::latest()->get();
+        $contacts = Contact::latest()->paginate(10); // Paginate with 10 contacts per page
         return view('Admin.contact', compact('contacts'));
     }
 

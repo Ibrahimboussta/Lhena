@@ -7,22 +7,32 @@
 
                 <!-- Search Form -->
                 <form action="{{ route('properties.search') }}" method="GET"
-                    class="w-full z-50  max-w-none flex flex-wrap md:flex-nowrap items-center gap-3 mt-5 bg-white px-4 py-3 rounded-lg shadow-md md:sticky md:top-[4rem]">
+                    class="w-full z-50  max-w-none flex flex-wrap md:flex-nowrap items-center gap-3 mt-5 bg-white px-4 py-3 rounded-lg shadow-md md:sticky md:top-[6rem]">
                     <!-- Search Bar -->
-                    <input type="text" name="query" placeholder="Rechercher un bien..."
-                        class="flex-grow md:flex-none w-[50vw] px-4 py-2 border text-black border-[#25D366] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#25D366] transition duration-200" />
 
                     <!-- Property Type Selection -->
-                    <select name="property_type" class="border p-2 rounded w-full" >
+                    <select name="property_type" class="border p-2 rounded w-full">
                         <option value="" disabled selected>Type</option>
+                        <option value="">Type</option>
                         <option value="appartement">Appartement</option>
-                        <option value="maison">Maison</option>
-                        <option value="terrain">Terrain</option>
+                        <option value="studio">Studio</option>
+                        <option value="bureau">Bureau</option>
+                        <option value="local_commercial">Local commercial</option>
+                        <option value="depot_entrepot">Dépôt/Entrepôt</option>
                         <option value="villa">Villa</option>
+                        <option value="maison">Maison</option>
+                        <option value="immeuble">Immeuble</option>
+                        <option value="terrain_urbain">Terrain urbain</option>
+                        <option value="terrain_industriel">Terrain industriel/Carrière</option>
+                        <option value="ferme_terrain_agricole">Ferme/Terrain agricole</option>
+                        <option value="hotel_cafe_restaurant">Hôtel/Café-Restaurant</option>
+                        <option value="residence_balneaire">Résidence balnéaire</option>
+                        <option value="residence_etudiante">Résidence étudiante</option>
+                        <option value="location_vacances">Location de vacances</option>
                     </select>
 
-                     <!-- City Selection -->
-                     <select name="ville" class="border p-2 rounded w-full">
+                    <!-- City Selection -->
+                    <select name="ville" class="border p-2 rounded w-full">
                         <option value="">Ville</option>
                         <option value="casablanca">Casablanca</option>
                         <option value="rabat">Rabat</option>
@@ -85,6 +95,8 @@
                                         <!-- Property Details -->
                                         <div class="flex justify-between items-start pt-2 px-1">
                                             <div>
+                                                <p class="font-medium text-[#8b8b8b] text-[15px]">
+                                                    {{ $property->property_type }}</p>
                                                 <p class="font-semibold text-[#1A1A1A] text-xl">{{ $property->title }}</p>
                                                 <div class="flex items-center space-x-0.5 pt-1">
                                                     <img src="{{ asset('images/local.svg') }}" alt=""
@@ -93,7 +105,8 @@
                                                 </div>
                                             </div>
                                             <div>
-                                                <p class="font-semibold text-[#25D366]">{{ $property->price }} DH</p>
+                                                <p class="font-semibold text-xl text-[#25D366]">{{ $property->price }} DH
+                                                </p>
                                             </div>
                                         </div>
 

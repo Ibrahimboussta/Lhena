@@ -11,7 +11,7 @@ class ProprieteContoller extends Controller
     public function index()
     {
         $properties = Propritie::latest()->paginate(3);
-    
+
         return view('pages.proprietes', compact('properties'));
     }
     public function details($id)
@@ -116,29 +116,29 @@ class ProprieteContoller extends Controller
         $propertyType = $request->input('property_type');
         $quartier = $request->input('quartier');
         $ville = $request->input('ville');
-    
+
         $properties = Propritie::query();
-    
+
         if ($query) {
             $properties->where('title', 'like', "%$query%")
                 ->orWhere('address', 'like', "%$query%");
         }
-    
+
         if ($propertyType) {
             $properties->where('property_type', $propertyType);
         }
-    
+
         if ($quartier) {
             $properties->where('neighborhood', $quartier);
         }
-    
+
         if ($ville) {
             $properties->where('city', $ville);
         }
-    
+
         $properties = $properties->paginate(3);
-    
+
         return view('pages.proprietes', compact('properties'));
     }
-    
+
 }

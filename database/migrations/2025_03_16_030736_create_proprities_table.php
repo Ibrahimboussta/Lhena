@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('city'); // City where the property is located
             $table->string('neighborhood'); // Neighborhood of the property
             $table->string('address'); // Complete address of the property
-            $table->decimal('surface', 8, 2); // Surface area of the property in square meters
+            $table->integer('surface'); // Surface area of the property in square meters
             $table->integer('bedrooms'); // Number of bedrooms
             $table->integer('bathrooms'); // Number of bathrooms
             $table->decimal('price', 10, 2); // Price of the property

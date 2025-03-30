@@ -59,13 +59,26 @@
                                 placeholder="Titre de l'annonce (ex: Appartement 2 pièces à Casablanca)"
                                 class="border p-2 rounded w-full" required>
 
-                            <select name="property_type" class="border p-2 rounded w-full" required>
-                                <option value="">Type de propriété</option>
-                                <option value="appartement">Appartement</option>
-                                <option value="maison">Maison</option>
-                                <option value="terrain">Terrain</option>
-                                <option value="villa">Villa</option>
-                            </select>
+                                <select name="property_type" class="border p-2 rounded w-full" required>
+                                    <option value="">Type de propriété</option>
+                                    <option value="appartement">Appartement</option>
+                                    <option value="studio">Studio</option>
+                                    <option value="bureau">Bureau</option>
+                                    <option value="local_commercial">Local commercial</option>
+                                    <option value="depot_entrepot">Dépôt/Entrepôt</option>
+                                    <option value="villa">Villa</option>
+                                    <option value="maison">Maison</option>
+                                    <option value="immeuble">Immeuble</option>
+                                    <option value="terrain_urbain">Terrain urbain</option>
+                                    <option value="terrain_industriel">Terrain industriel/Carrière</option>
+                                    <option value="ferme_terrain_agricole">Ferme/Terrain agricole</option>
+                                    <option value="hotel_cafe_restaurant">Hôtel/Café-Restaurant</option>
+                                    <option value="residence_balneaire">Résidence balnéaire</option>
+                                    <option value="residence_etudiante">Résidence étudiante</option>
+                                    <option value="location_vacances">Location de vacances</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                                
                         </div>
 
                         <!-- Ville et Quartier -->
@@ -83,22 +96,22 @@
                                 class="border p-2 rounded w-full">
 
                             <input type="number" name="surface" placeholder="Superficie (m²)"
-                                class="border p-2 rounded w-full" required>
+                                class="border p-2 rounded w-full" required min="0">
                         </div>
 
                         <!-- Nombre de chambres et de salles de bain -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <input type="number" name="bedrooms" placeholder="Nombre de chambres"
-                                class="border p-2 rounded w-full" required>
+                                class="border p-2 rounded w-full" required min="0">
 
                             <input type="number" name="bathrooms" placeholder="Nombre de salles de bain"
-                                class="border p-2 rounded w-full" required>
+                                class="border p-2 rounded w-full" required min="0">
                         </div>
 
                         <!-- Prix et Téléphone -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <input type="number" name="price" placeholder="Prix (MAD)" class="border p-2 rounded w-full"
-                                required>
+                                required min="0">
 
                             <input type="tel" name="contact_phone" placeholder="Numéro de téléphone"
                                 class="border p-2 rounded w-full" required>
@@ -122,9 +135,11 @@
                         <!-- Bouton de soumission -->
                         <div class="flex justify-end mt-6">
                             @auth
-                                <button type="submit"
+                                {{-- <button type="submit"
                                     class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800">Soumettre
-                                    l'annonce</button>
+                                    l'annonce</button> --}}
+
+                                    <button type="submit" class="bg-[#E7C873] text-black px-6 py-2 rounded inline-block">Soumettre l'annonce</button>
                             @endauth
 
                             @guest
