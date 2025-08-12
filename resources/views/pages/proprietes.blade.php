@@ -7,7 +7,7 @@
 
                 <!-- Search Form -->
                 <form action="{{ route('properties.search') }}" method="GET"
-                    class="w-full z-50  max-w-none flex flex-wrap md:flex-nowrap items-center gap-3 mt-5 bg-white px-4 py-3 rounded-lg shadow-md md:sticky md:top-[6rem]">
+                    class="w-full z-50  max-w-none flex flex-wrap md:flex-nowrap items-center gap-3 mt-5 bg-white px-4 py-3 rounded-lg shadow-md md:sticky md:top-[4rem]">
                     <!-- Search Bar -->
 
                     <!-- Property Type Selection -->
@@ -51,7 +51,7 @@
 
                     <!-- Filter Button -->
                     <button type="submit"
-                        class="px-4 py-2 bg-[#E7C873] hover:bg-[#d6b760] text-black rounded-lg transition duration-200 ease-in-out">
+                        class="inline-flex items-center justify-center px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200">
                         Filtrer
                     </button>
                 </form>
@@ -79,13 +79,13 @@
                                             <div class="absolute top-4 left-4 flex space-x-2">
                                                 @if (strpos($property->listing_type, 'À-vendre') !== false)
                                                     <span
-                                                        class="text-white bg-[#25D366] rounded-2xl px-3 py-1 uppercase font-medium text-xs sm:text-sm">
+                                                        class="text-white bg-[#25D366] rounded-lg px-3 py-1 uppercase font-medium text-xs">
                                                         À vendre
                                                     </span>
                                                 @endif
                                                 @if (strpos($property->listing_type, 'À-louer') !== false)
                                                     <span
-                                                        class="text-white bg-[#E7C873] rounded-2xl px-3 py-1 uppercase font-medium text-xs sm:text-sm">
+                                                        class="text-white bg-[#E7C873] rounded-lg px-3 py-1 uppercase font-medium text-xs">
                                                         À louer
                                                     </span>
                                                 @endif

@@ -2,7 +2,7 @@
     <h2 class="text-3xl font-semibold">Propriétés en vedette</h2>
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-2">
         <p class="text-[15px] font-medium">Découvrez les Meilleures Propriétés du Moment</p>
-       
+
     </div>
 
     <div class="flex justify-between pt-6 w-full">
@@ -70,8 +70,8 @@
     </div>
 
     <div class="flex justify-center pt-6">
-        <button class="bg-[#E7C873] py-2 px-8 rounded-md fborder-0">
-            <a href="{{ route('proprites') }}" class="text-black font-medium text-md ">Voir plus</a>
-        </button>
+        <a href="{{ route('proprites') }}" class="inline-flex items-center justify-center bg-black text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200">
+            Voir plus
+        </a>
     </div>
 </section>

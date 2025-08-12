@@ -4,7 +4,9 @@
             <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
                 <div class="flex justify-between items-center ">
                     <h2 class="text-2xl font-semibold mb-4 dark:text-white">Propriétés</h2>
-                    <a href="{{ route('publish') }}"><button class="bg-white hover:bg-gray-800 dark:hover:text-white text-dark  py-1 px-5 rounded-md border-0 dark:bg-white">Ajouter une propriété</button></a>
+                    <a href="{{ route('publish') }}" class="inline-flex items-center px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-300">
+                        Ajouter une propriété
+                    </a>
                 </div>
                 <div class="overflow-x-auto pt-2">
                     <table class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
@@ -23,7 +25,7 @@
 
                             @foreach ($properties as $property)
                             @if (Auth::user()->id == $property->user_id)
-                                
+
                             <tr class="border-t">
                                 <td class="p-3 border">
                                     @if($property->photos)
@@ -40,19 +42,18 @@
                                 <td class="p-3 text-center border">
                                     <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
                                         @csrf
-                                        @method('DELETE') <!-- This makes the POST request act as a DELETE -->
-                                        
-                                        <button class="text-red-500 hover:text-red-700 transition" type="submit">
+                                        @method('DELETE')
+                                        <button class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" type="submit">
+                                            <span class="sr-only">Supprimer</span>
                                             🗑
                                         </button>
                                     </form>
-                                    
                                 </td>
                             </tr>
                             @endif
-                                
+
                             @endforeach
-                            
+
                         </tbody>
                     </table>
                 </div>

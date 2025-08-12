@@ -99,7 +99,7 @@
                         </h2>
 
                         <button
-                            class="bg-[#E7C873] text-black py-2 rounded-md hover:bg-amber-400 transition-colors duration-300">
+                            class="bg-black text-white py-2 rounded-md hover:bg-gray-900 transition-colors duration-300">
                             @if ($property->listing_type == 'À-vendre')
                                 À-vendre
                             @elseif($property->listing_type == 'À-louer')
@@ -111,10 +111,10 @@
 
 
 
-                        
+
 
                         <button onclick="openModal()"
-                            class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors duration-300">
+                            class="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-900 transition-colors duration-300">
                             Appelle le propriétaire
                         </button>
 
@@ -147,7 +147,7 @@
 
 
                         <button onclick="openAgentModal()"
-                            class="bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-950 transition-colors duration-300">
+                            class="bg-black text-white py-2 px-4 rounded-md hover:bg-gray-900 transition-colors duration-300">
                             Appeler l'agent
                         </button>
 
@@ -216,7 +216,7 @@
 
             </div>
     </div>
-    
+
     <section class=" pt-12 ">
 
 
@@ -237,13 +237,13 @@
                             <div class="absolute top-4 left-4 flex space-x-2">
                                 @if (strpos($property->listing_type, 'À-vendre') !== false)
                                     <span
-                                        class="text-white bg-[#25D366] rounded-2xl px-3 py-1 uppercase font-medium text-xs sm:text-sm">
+                                        class="text-white bg-[#25D366] rounded-lg px-3 py-1 uppercase font-medium text-xs">
                                         À vendre
                                     </span>
                                 @endif
                                 @if (strpos($property->listing_type, 'À-louer') !== false)
                                     <span
-                                        class="text-white bg-[#E7C873] rounded-2xl px-3 py-1 uppercase font-medium text-xs sm:text-sm">
+                                        class="text-white bg-[#E7C873] rounded-lg px-3 py-1 uppercase font-medium text-xs">
                                         À louer
                                     </span>
                                 @endif
