@@ -8,119 +8,97 @@
     <title>Bourseimmo</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
-    <link rel="icon" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" href="{{ asset('images/lhena-logo.png') }}">
 
 </head>
 
 <body>
 
-    <nav class="bg-white border-gray-200 py-3 px-2 sm:px-6 shadow fixed top-0 left-0 w-full z-50">
-        <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-            <!-- Logo -->
-            <a href="/" class="flex items-center">
-                <img class="h-12 w-auto" src="{{ asset('images/logo.png') }}" alt="Logo">
-           
-            </a>
+    <nav class="bg-white backdrop-blur-md bg-opacity-90 fixed top-0 left-0 w-full z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/" class="flex items-center">
+                        <img class="h-28 w-auto" src="{{ asset('images/lhena-logo.png') }}" alt="Logo">
+                    </a>
+                </div>
 
-            <!-- Section droite (boutons + menu burger) -->
-            <div class="flex items-center lg:order-2 gap-4">
-                <!-- Icône Profil -->
-                @auth
-                    @if (Auth::user()->role == 'user')
-                        <a href="{{ route('dashboard') }}" class="flex items-center">
-                            <svg class="h-8 w-8 text-500 border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full p-1"
-                                viewBox="0 0 24 24" fill="black">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                <circle cx="12" cy="7" r="4" />
-                            </svg>
+                <!-- Navigation principale - Desktop -->
+                <div class="hidden lg:flex lg:items-center lg:space-x-8">
+                    <a href="/"
+                        class="text-gray-600 hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200">Accueil</a>
+                    <a href="{{ route('proprites') }}"
+                        class="text-gray-600 hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200">Propriétés</a>
+                    <a href="{{ route('a-propos') }}"
+                        class="text-gray-600 hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200">À
+                        propos</a>
+                    <a href="{{ route('contact') }}"
+                        class="text-gray-600 hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200">Contact</a>
+                </div>
+
+                <!-- Boutons d'action -->
+                <div class="flex items-center space-x-4">
+                    @auth
+                        <!-- Bouton Publier -->
+                        <a href="{{ route('publish') }}"
+                            class="hidden lg:flex items-center space-x-2 bg-black text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition duration-200">
+                            <span>Publier une annonce</span>
+                        </a>
+
+                        <!-- Profile -->
+                        <a href="{{ Auth::user()->role == 'user' ? route('dashboard') : route('users') }}"
+                            class="flex items-center">
+                            <div
+                                class="p-2 rounded-full border border-gray-300 hover:bg-black hover:border-black hover:text-white transition duration-200">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 1 8 0 4 4 0 0 1-8 0z" />
+                                </svg>
+                            </div>
                         </a>
                     @else
-                        <a href="{{ route('users') }}" class="flex items-center">
-                            <svg class="h-8 w-8 text-500 border border-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full p-1"
-                                viewBox="0 0 24 24" fill="black">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                <circle cx="12" cy="7" r="4" />
-                            </svg>
-                        </a>
-                    @endif
+                        <div class="flex items-center space-x-2">
+                            <a href="{{ route('login') }}"
+                                class="hidden lg:flex items-center bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200">
+                                <span>Se connecter</span>
+                            </a>
 
-                @endauth
+                            <a href="{{ route('register') }}"
+                                class="flex items-center border border-gray-300 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-black hover:text-white hover:border-black transition duration-300">
+                                <span>S'inscrire</span>
+                            </a>
+                        </div>
+                    @endauth
 
-
-                </a>
-
-                <a href="tel:+212601196563"
-                    class="text-black border flex flex-col-reverse items-center bg-[#E7C873]  rounded-full font-medium text-[10px]  lg:text-sm  px-4 lg:px-5 py-2 lg:py-2.5 w-full">
-                    0601 196 563
-
-                    <span class="flex flex-col items-center uppercase">Demande/Offre
-                        <br>
-
-                        <span class="">RAPIDEMENT
-                        </span>
-                    </span>
-                </a>
-
-                <!-- Bouton Publier -->
-                @auth
-                <a href="{{ route('publish') }}"
-                class="text-black border bg-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-[10px] lg:text-sm px-4 lg:px-5 py-2 lg:py-2.5 w-full">
-                COMMERCIALSEZ
-                <span class="flex flex-col items-center uppercase">VOS BIENS
-                    <br>
-
-                    <span class="">ANNONCER
-                    </span>
-                </span>
-            </a>
-                @endauth
-
-                @guest
-                    <a href="{{ route('register') }}"
-                        class="text-black border bg-[#25D366] hover:text-black hover:bg-[#25D366] duration-500 rounded-full font-medium text-[10px] lg:text-sm px-4 lg:px-5 py-2 lg:py-2.5 w-full">
-                        COMMERCIALSEZ
-                        <span class="flex flex-col items-center uppercase">VOS BIENS
-                            <br>
-
-                            <span class="">ANNONCER
-                            </span>
-                        </span>
-                    </a>
-
-
-                @endguest
-
-
-                <!-- Bouton Menu Mobile -->
-                <button id="menu-toggle"
-                    class="lg:hidden p-2 text-black rounded-lg hover:text-black hover:bg-[#25D366] duration-500 focus:ring-1 focus:ring-[#25D366]">
-                    <span class="sr-only">Ouvrir le menu</span>
-                    <svg class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-
-                </button>
-
+                    <!-- Menu Mobile -->
+                    <button id="menu-toggle" class="lg:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
-            <!-- Menu Navigation -->
-            <div id="mobile-menu"
-                class="hidden lg:flex flex-col lg:flex-row items-center w-full lg:w-auto mt-4 lg:mt-0">
-                <ul class="flex flex-col lg:flex-row lg:items-center lg:space-x-2 font-medium w-full lg:w-auto">
-                    <li><a href="/" class="block py-2 px-4 text-black hover:text-[#25D366]">Accueil</a></li>
-                    <li><a href="{{ route('proprites') }}"
-                            class="block py-2 px-4 text-black hover:text-[#25D366]">Propriétés</a></li>
-                    <li><a href="{{ route('a-propos') }}" class="block py-2 px-4 text-black hover:text-[#25D366]">À
-                            propos</a></li>
-                    {{-- <li><a href="#" class="block py-2 px-4 text-black hover:text-[#25D366]">Blog</a></li> --}}
-                    <li><a href="{{ route('contact') }}"
-                            class="block py-2 px-4 text-black hover:text-[#25D366]">Contact</a></li>
-
-
-
-
-                </ul>
+            <!-- Menu Mobile -->
+            <div id="mobile-menu" class="lg:hidden hidden pb-3">
+                <div class="pt-2 pb-3 space-y-1">
+                    <a href="/"
+                        class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">Accueil</a>
+                    <a href="{{ route('proprites') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">Propriétés</a>
+                    <a href="{{ route('a-propos') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">À
+                        propos</a>
+                    <a href="{{ route('contact') }}"
+                        class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">Contact</a>
+                    @auth
+                        <a href="{{ route('publish') }}"
+                            class="block px-3 py-2 text-base font-medium text-white bg-black hover:bg-gray-800 rounded-md mt-2">Publier
+                            une annonce</a>
+                    @endauth
+                </div>
             </div>
         </div>
     </nav>
@@ -139,97 +117,64 @@
     @yield('content')
 
 
-    <footer class="w-full bg-gray-50 ">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-12">
-
-            <div
-                class="flex justify-between flex-col py-8 min-[500px]:py-14 gap-8 min-[500px]:gap-16 lg:gap-0 lg:flex-row">
-                <div
-                    class="flex flex-col items-center max-lg:justify-center min-[500px]:items-start min-[500px]:flex-row gap-8 sm:gap-12 xl:gap-24">
-                    <div class="block">
-                        <h4
-                            class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
-                            Notre Agence</h4>
-                        <ul class="grid gap-4 min-[500px]:gap-6 text-center min-[500px]:text-left">
-                            <li><a href="/" class="text-gray-600 hover:text-gray-900">Accueil</a></li>
-                            <li><a href="{{ route('proprites') }}"
-                                    class="text-gray-600 hover:text-gray-900">Propriétés</a></li>
-                            <li><a href="{{ route('a-propos') }}" class="text-gray-600 hover:text-gray-900">À
-                                    propos</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="block">
-                        <h4
-                            class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
-                            Services</h4>
-                        <ul class="grid gap-4 min-[500px]:gap-6 text-center min-[500px]:text-left">
-                            <li><a href="{{ route('proprites') }}"
-                                    class="text-gray-600 hover:text-gray-900">Acheter</a></li>
-                            <li><a href="{{ route('proprites') }};" class="text-gray-600 hover:text-gray-900">Louer</a>
-                            </li>
-                            <li><a href="{{ route('proprites') }}" class="text-gray-600 hover:text-gray-900">Vendre</a>
-                            </li>
-                            <li><a href="{{ route('proprites') }}" class="text-gray-600 hover:text-gray-900">Tous </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="block">
-                        <h4
-                            class="text-lg text-gray-900 font-medium mb-4 min-[500px]:mb-7 text-center min-[500px]:text-left">
-                            Ressources</h4>
-                        <ul class="grid gap-4 min-[500px]:gap-6 text-center min-[500px]:text-left">
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">FAQ</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Guide
-                                    d'achat</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Guide de
-                                    vente</a></li>
-                            <li><a href="{{ route('contact') }}" class="text-gray-600 hover:text-gray-900">Conseils
-                                    immobiliers</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="block w-full max-w-lg mx-auto px-4">
-                    <!-- Titre -->
-                    <h3
-                        class="font-manrope font-semibold text-xl text-gray-900 leading-9 mb-6 text-center lg:text-left">
-                        Abonnez-vous à la newsletter et lisez les nouveaux articles en premier
-                    </h3>
-
-                    <!-- Formulaire -->
-                    <div
-                        class="flex flex-col lg:flex-row items-center lg:items-stretch gap-4 lg:bg-transparent p-4 lg:p-0 rounded-lg lg:rounded-full">
-                        <!-- Champ Email -->
-                        <form action="{{ route('mailing.store') }}" method="POST"
-                            class="flex flex-col sm:flex-row gap-4">
-                            @csrf
-                            <input type="email" name="email"
-                                class="py-3 px-6 bg-gray-100 rounded-full text-gray-900 placeholder:text-gray-500 focus:outline-none flex-1 w-[80vw] sm:w-full"
-                                placeholder="Votre email ici..." />
-
-                            <button type="submit"
-                                class="w-full sm:w-auto py-3.5 px-7 bg-[#25D366] shadow-md rounded-full text-white font-semibold hover:bg-black">
-                                S'abonner
-                            </button>
-                        </form>
-
-
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="py-4 border-t flex justify-center border-gray-200">
-                <div class="flex items-center justify-center flex-col gap-8 lg:gap-0 lg:flex-row lg:justify-between">
-                    <span class="text-sm text-gray-500">©<a href="https://pagedone.io/">Bourseimmo</a>, Tous droits
-                        réservés.</span>
-                </div>
+  <footer class="bg-gray-50 border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
+            <!-- Notre Agence -->
+            <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Notre Agence</h4>
+                <ul class="space-y-3 text-gray-600">
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="{{ route('proprites') }}">Propriétés</a></li>
+                    <li><a href="{{ route('a-propos') }}">À propos</a></li>
+                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                </ul>
             </div>
 
+            <!-- Services -->
+            <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Services</h4>
+                <ul class="space-y-3 text-gray-600">
+                    <li><a href="{{ route('proprites') }}">Acheter</a></li>
+                    <li><a href="{{ route('proprites') }}">Louer</a></li>
+                    <li><a href="{{ route('proprites') }}">Vendre</a></li>
+                    <li><a href="{{ route('proprites') }}">Tous</a></li>
+                </ul>
+            </div>
+
+            <!-- Ressources -->
+            <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Ressources</h4>
+                <ul class="space-y-3 text-gray-600">
+                    <li><a href="{{ route('contact') }}">FAQ</a></li>
+                    <li><a href="{{ route('contact') }}">Guide d'achat</a></li>
+                    <li><a href="{{ route('contact') }}">Guide de vente</a></li>
+                    <li><a href="{{ route('contact') }}">Conseils immobiliers</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4">Newsletter</h4>
+                <p class="text-gray-600 mb-4">Abonnez-vous pour recevoir nos dernières actualités.</p>
+                <form action="{{ route('mailing.store') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
+                    @csrf
+                    <input type="email" name="email"
+                        class="w-full px-4 py-2 rounded-md bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Votre email ici..." />
+                    <button type="submit"
+                        class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition">S'abonner</button>
+                </form>
+            </div>
         </div>
+
+        <!-- Bottom -->
+        <div class="mt-10 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+            © {{ now()->year }} <a href="/" class="font-semibold text-gray-700">Bourseimmo</a>. Tous droits réservés.
         </div>
-    </footer>
+    </div>
+</footer>
+
 
 
 </body>

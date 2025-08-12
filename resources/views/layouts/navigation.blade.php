@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <a href="/" class="flex items-center">
-                    <img class="h-12 w-auto" src="{{ asset('images/logo.png') }}" alt="Logo">
+                    <img class="h-28 w-auto" src="{{ asset('images/lhena-logo.png') }}" alt="Logo">
                 </a>
 
                 <!-- Navigation Links -->

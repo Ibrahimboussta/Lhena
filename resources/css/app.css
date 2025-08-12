@@ -4,11 +4,19 @@
 
 
 
-.herosection{
-    background-image: url('../../public/images/elements.png');
-    width: 100%;
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    color: #333; /* لون نص نظيف */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600; /* عناوين بخط ثقيل شوي */
+    color: #111;
+}
+
+p, span, li {
+    font-weight: 400;
+    font-size: 1rem;
 }
