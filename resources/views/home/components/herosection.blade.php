@@ -1,32 +1,25 @@
 {{-- !herosection --}}
 <section class="bg-white">
     <div class="min-h-screen flex items-center">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <!-- Main Hero Content -->
-            <div class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 pt-20 md:pt-0">
-                <!-- Right Side - Text -->
-                <div class="w-full md:w-1/2">
-                    <div class="flex flex-col gap-4 md:gap-6">
-                        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 !leading-tight">
-                            Simplifiez votre recherche immobilière au Maroc avec notre plateforme fiable.
-                        </h1>
-                        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 md:mt-4">
-                            <a href="{{ route('proprites') }}"
-                                class="inline-flex items-center justify-center bg-black text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200">
-                                Explorez nos offres
-                            </a>
-                            <a href="{{ route('contact') }}"
-                                class="inline-flex items-center justify-center bg-white text-black px-6 py-2.5 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-all duration-200">
-                                Contactez-nous
-                            </a>
-                        </div>
+        <div class="max-w-7xl mx-auto  w-full">
 
-                    </div>
-                </div>
 
-                <!-- Left Side - Image -->
-                <div class="w-full md:w-1/2 flex justify-center px-4 sm:px-6 md:px-0 hidden lg:bg-white sm:bg-gray-200 md:flex">
-                    <img class="w-full max-w-2xl rounded-2xl shadow-sm" src="{{ asset('images/hero.jpg') }}" alt="Hero Image">
+            <div class="hero-section flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-0">
+                <h1
+                    class="text-2xl sm:text-3xl md:text-5xl font-bold text-white text-center leading-snug max-w-[90%] sm:max-w-[80%] md:max-w-[55%] backdrop-blur-sm bg-gray/50 p-4 sm:p-6 rounded-lg mx-auto">
+                    Simplifiez votre recherche immobilière au Maroc avec notre plateforme fiable.
+                </h1>
+
+
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 md:mt-4">
+                    <a href="{{ route('proprites') }}"
+                        class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200">
+                        Explorez nos offres
+                    </a>
+                    <a href="{{ route('contact') }}"
+                        class="inline-flex items-center justify-center bg-white text-black px-6 py-2.5 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                        Contactez-nous
+                    </a>
                 </div>
             </div>
 
@@ -68,7 +61,7 @@
 
                     <!-- Filter Button -->
                     <button type="submit"
-                        class="w-full md:w-auto px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200">
+                        class="w-full md:w-auto px-6 py-2.5 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200">
                         Rechercher
                     </button>
                 </form>

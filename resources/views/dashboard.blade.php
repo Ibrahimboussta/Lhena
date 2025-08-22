@@ -4,7 +4,7 @@
             <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
                 <div class="flex justify-between items-center ">
                     <h2 class="text-2xl font-semibold mb-4 dark:text-white">Propriétés</h2>
-                    <a href="{{ route('publish') }}" class="inline-flex items-center px-4 py-2 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-300">
+                    <a href="{{ route('publish') }}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-300">
                         Ajouter une propriété
                     </a>
                 </div>

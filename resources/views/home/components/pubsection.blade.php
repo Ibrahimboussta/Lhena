@@ -6,9 +6,9 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center group">
-                    <div class="bg-white rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-sm transition-transform duration-200 group-hover:scale-105">
+                    <div class="bg-white rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-sm transition-transform duration-500 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-red-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6 text-black">
+                            stroke="currentColor" class="size-6 text-black hover:shadow-sm hover:bg-red-500 hover:text-white transition-colors duration-200">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
                         </svg>
@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="text-center group">
-                    <div class="bg-white rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-sm transition-transform duration-200 group-hover:scale-105">
+                    <div class="bg-white rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-sm transition-transform duration-500 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-red-500">
                         <svg class="size-6 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="text-center group">
-                    <div class="bg-white rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-sm transition-transform duration-200 group-hover:scale-105">
+                    <div class="bg-white rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-sm transition-transform duration-500 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-red-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6 text-black">
                             <path stroke-linecap="round" stroke-linejoin="round"
