@@ -7,7 +7,7 @@
         </div>
         <div class="flex justify-start pt-6">
             @auth
-                <a href="{{ route('publish') }}" class="inline-flex items-center justify-center bg-black text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200 group">
+                <a href="{{ route('publish') }}" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200 group">
                     publier une annonce
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5 ml-2 group-hover:translate-x-0.5 transition-transform">
@@ -17,7 +17,7 @@
                 </a>
             @endauth
             @guest
-                <a href="{{ route('register') }}" class="inline-flex items-center justify-center bg-black text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200 group">
+                <a href="{{ route('register') }}" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200 group">
                     publier une annonce
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-5 ml-2 group-hover:translate-x-0.5 transition-transform">

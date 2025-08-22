@@ -22,7 +22,7 @@
                         <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2" stroke="currentColor"
-                                class="size-5 text-gray-900">
+                                class="size-5 text-red-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                             </svg>
                         </div>
@@ -33,7 +33,7 @@
                         <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2" stroke="currentColor"
-                                class="size-5 text-gray-900">
+                                class="size-5 text-red-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                             </svg>
                         </div>
@@ -46,7 +46,7 @@
                         <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2" stroke="currentColor"
-                                class="size-5 text-gray-900">
+                                class="size-5 text-red-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                             </svg>
                         </div>
@@ -57,7 +57,7 @@
                         <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="2" stroke="currentColor"
-                                class="size-5 text-gray-900">
+                                class="size-5 text-red-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                             </svg>
                         </div>
@@ -68,7 +68,7 @@
 
             <!-- See More Button -->
             <div class="flex justify-start pt-8">
-                <a href="{{route('a-propos')}}" class="inline-flex items-center justify-center bg-black text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200 group">
+                <a href="{{route('a-propos')}}" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200 group">
                     Voir plus
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor"

@@ -14,7 +14,8 @@
 
 <body>
 
-    <nav class="bg-white backdrop-blur-md bg-opacity-90 fixed top-0 left-0 w-full z-50 shadow-sm">
+    <nav
+        class="bg-gray-50 backdrop-blur-sm bg-opacity-60 fixed top-0 left-0 w-full z-50 shadow-sm border-b border-red-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <!-- Logo -->
@@ -27,22 +28,38 @@
                 <!-- Navigation principale - Desktop -->
                 <div class="hidden lg:flex lg:items-center lg:space-x-8">
                     <a href="/"
-                        class="text-gray-600 hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200">Accueil</a>
+                        class="relative text-gray-600 hover:text-black px-1 py-1 text-sm font-medium transition-colors duration-200
+               after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-red-500
+               after:transition-all after:duration-500 hover:after:w-full">
+                        Accueil
+                    </a>
                     <a href="{{ route('proprites') }}"
-                        class="text-gray-600 hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200">Propriétés</a>
+                        class="relative text-gray-600 hover:text-black px-1 py-1 text-sm font-medium transition-colors duration-200
+               after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-red-500
+               after:transition-all after:duration-500 hover:after:w-full">
+                        Propriétés
+                    </a>
                     <a href="{{ route('a-propos') }}"
-                        class="text-gray-600 hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200">À
-                        propos</a>
+                        class="relative text-gray-600 hover:text-black px-1 py-1 text-sm font-medium transition-colors duration-200
+               after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-red-500
+               after:transition-all after:duration-500 hover:after:w-full">
+                        À propos
+                    </a>
                     <a href="{{ route('contact') }}"
-                        class="text-gray-600 hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200">Contact</a>
+                        class="relative text-gray-600 hover:text-black px-1 py-1 text-sm font-medium transition-colors duration-200
+               after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-red-500
+               after:transition-all after:duration-500 hover:after:w-full">
+                        Contact
+                    </a>
                 </div>
+
 
                 <!-- Boutons d'action -->
                 <div class="flex items-center space-x-4">
                     @auth
                         <!-- Bouton Publier -->
                         <a href="{{ route('publish') }}"
-                            class="hidden lg:flex items-center space-x-2 bg-black text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition duration-200">
+                            class="hidden lg:flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition duration-200">
                             <span>Publier une annonce</span>
                         </a>
 
@@ -60,12 +77,12 @@
                     @else
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('login') }}"
-                                class="hidden lg:flex items-center bg-black text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200">
+                                class="hidden lg:flex items-center bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-green-800 transition duration-200">
                                 <span>Se connecter</span>
                             </a>
 
                             <a href="{{ route('register') }}"
-                                class="flex items-center border border-gray-300 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-black hover:text-white hover:border-black transition duration-300">
+                                class="flex items-center border border-red-700 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-red-700 hover:text-white transition duration-300">
                                 <span>S'inscrire</span>
                             </a>
                         </div>
@@ -117,63 +134,76 @@
     @yield('content')
 
 
-  <footer class="bg-gray-50 border-t border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
-            <!-- Notre Agence -->
-            <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-4">Notre Agence</h4>
-                <ul class="space-y-3 text-gray-600">
-                    <li><a href="/">Accueil</a></li>
-                    <li><a href="{{ route('proprites') }}">Propriétés</a></li>
-                    <li><a href="{{ route('a-propos') }}">À propos</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
-                </ul>
+    <footer class="bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 text-center md:text-left">
+                <!-- Notre Agence -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Notre Agence</h4>
+                    <ul class="space-y-3 text-gray-600">
+                        <li><a href="/">Accueil</a></li>
+                        <li><a href="{{ route('proprites') }}">Propriétés</a></li>
+                        <li><a href="{{ route('a-propos') }}">À propos</a></li>
+                        <li><a href="{{ route('contact') }}">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Services</h4>
+                    <ul class="space-y-3 text-gray-600">
+                        <li><a href="{{ route('proprites') }}">Acheter</a></li>
+                        <li><a href="{{ route('proprites') }}">Louer</a></li>
+                        <li><a href="{{ route('proprites') }}">Vendre</a></li>
+                        <li><a href="{{ route('proprites') }}">Tous</a></li>
+                    </ul>
+                </div>
+
+                <!-- Ressources -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Ressources</h4>
+                    <ul class="space-y-3 text-gray-600">
+                        <li><a href="{{ route('contact') }}">FAQ</a></li>
+                        <li><a href="{{ route('contact') }}">Guide d'achat</a></li>
+                        <li><a href="{{ route('contact') }}">Guide de vente</a></li>
+                        <li><a href="{{ route('contact') }}">Conseils immobiliers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Newsletter</h4>
+                    <p class="text-gray-600 mb-4">Abonnez-vous pour recevoir nos dernières actualités.</p>
+                    <form action="{{ route('mailing.store') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
+                        @csrf
+                        <input type="email" name="email"
+                            class="w-full px-4 py-2 rounded-md bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+                            placeholder="Votre email ici..." />
+                        <button type="submit"
+                            class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">S'abonner</button>
+                    </form>
+                </div>
             </div>
 
-            <!-- Services -->
-            <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-4">Services</h4>
-                <ul class="space-y-3 text-gray-600">
-                    <li><a href="{{ route('proprites') }}">Acheter</a></li>
-                    <li><a href="{{ route('proprites') }}">Louer</a></li>
-                    <li><a href="{{ route('proprites') }}">Vendre</a></li>
-                    <li><a href="{{ route('proprites') }}">Tous</a></li>
-                </ul>
-            </div>
+            <!-- Bottom -->
+            <div class="mt-10 pt-5 border-t border-gray-200 text-sm text-gray-500">
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
 
-            <!-- Ressources -->
-            <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-4">Ressources</h4>
-                <ul class="space-y-3 text-gray-600">
-                    <li><a href="{{ route('contact') }}">FAQ</a></li>
-                    <li><a href="{{ route('contact') }}">Guide d'achat</a></li>
-                    <li><a href="{{ route('contact') }}">Guide de vente</a></li>
-                    <li><a href="{{ route('contact') }}">Conseils immobiliers</a></li>
-                </ul>
-            </div>
+                    <div class="text-center md:text-left">
+                        © {{ now()->year }} <a href="/" class="font-semibold text-gray-700">lhena</a>. Tous
+                        droits réservés.
+                    </div>
 
-            <!-- Newsletter -->
-            <div>
-                <h4 class="text-lg font-semibold text-gray-900 mb-4">Newsletter</h4>
-                <p class="text-gray-600 mb-4">Abonnez-vous pour recevoir nos dernières actualités.</p>
-                <form action="{{ route('mailing.store') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
-                    @csrf
-                    <input type="email" name="email"
-                        class="w-full px-4 py-2 rounded-md bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
-                        placeholder="Votre email ici..." />
-                    <button type="submit"
-                        class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition">S'abonner</button>
-                </form>
+                    <div class="flex items-center space-x-4">
+                        <img class="w-6 h-6 text-red-400" src="{{ asset('images/visa.svg') }}" alt="">
+                        <img class="w-6 h-6" src="{{ asset('images/mastercard.svg') }}" alt="">
+                        <img class="w-6 h-6" src="{{ asset('images/paypal.svg') }}" alt="">
+                    </div>
+
+                </div>
             </div>
         </div>
-
-        <!-- Bottom -->
-        <div class="mt-10 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
-            © {{ now()->year }} <a href="/" class="font-semibold text-gray-700">Bourseimmo</a>. Tous droits réservés.
-        </div>
-    </div>
-</footer>
+    </footer>
 
 
 

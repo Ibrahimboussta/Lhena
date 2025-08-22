@@ -16,9 +16,9 @@
                                 src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt="">
 
                             <!-- Labels -->
-                            <div class="absolute top-4 left-4 flex space-x-2">
+                            <div class="absolute top-2 left-2 flex space-x-1">
                                 @if(strpos($property->listing_type, 'À-vendre') !== false)
-                                    <span class="text-white bg-[#25D366] rounded-2xl px-3 py-1 uppercase font-medium text-xs sm:text-sm">
+                                    <span class="text-white bg-[#25D366] rounded-2xl px-2 py-1 uppercase font-medium text-xs sm:text-sm">
                                         À vendre
                                     </span>
                                 @endif
@@ -70,7 +70,7 @@
     </div>
 
     <div class="flex justify-center pt-6">
-        <a href="{{ route('proprites') }}" class="inline-flex items-center justify-center bg-black text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200">
+        <a href="{{ route('proprites') }}" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200">
             Voir plus
         </a>
     </div>
