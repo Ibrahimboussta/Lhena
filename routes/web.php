@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MailingController;
 use App\Http\Controllers\ProfileController;
@@ -59,6 +60,11 @@ Route::get('/search', [ProprieteContoller::class, 'search'])->name('properties.s
 
 
 Route::post('/emails/post', [MailingController::class, 'store'])->name('mailing.store');
+
+
+
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
 
 require __DIR__.'/auth.php';

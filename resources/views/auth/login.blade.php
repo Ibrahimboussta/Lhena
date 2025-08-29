@@ -51,11 +51,19 @@
         <div>
             <div class="flex justify-center mt-4">
     <x-primary-button
-        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white text-base font-semibold rounded-lg shadow-md shadow-green-200 
-               transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-green-300 
+        class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white text-base font-semibold rounded-lg shadow-md shadow-green-200
+               transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-green-300
                focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
         {{ __('Se connecter') }}
     </x-primary-button>
+
+    <a href="{{ route('google.redirect') }}"
+   class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white text-base font-semibold rounded-lg shadow-md shadow-red-200
+          transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg hover:shadow-red-300
+          focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900 flex justify-center items-center gap-2">
+    Continuer avec Google
+</a>
+
 </div>
 
         </div>
