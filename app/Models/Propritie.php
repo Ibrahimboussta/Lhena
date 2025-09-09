@@ -22,9 +22,11 @@ class Propritie extends Model
         'contact_phone',
         'description',
         'photos',
-        'user_id', 
-        'listing_type',  // Add this line to the fillable array
-
+        'user_id',
+        'listing_type',
+        'available_from',
+        'available_until',
+        'date_available'
     ];
 
     public function user()

@@ -13,23 +13,25 @@ return new class extends Migration
     {
         Schema::create('proprities', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); // Title of the property
-            $table->string('property_type'); // Type of property (appartment, house, etc.)
+            $table->string('title');
+            $table->string('property_type');
             $table->string('price_type')->nullable()->default(null);
-            $table->string('city'); // City where the property is located
-            $table->string('neighborhood'); // Neighborhood of the property
-            $table->string('address'); // Complete address of the property
-            $table->integer('surface'); // Surface area of the property in square meters
-            $table->integer('bedrooms'); // Number of bedrooms
-            $table->integer('bathrooms'); // Number of bathrooms
-            $table->decimal('price', 10, 2); // Price of the property
-            $table->string('contact_phone'); // Contact phone number
-            $table->text('description')->nullable(); // Detailed description of the property (optional)
-            $table->json('photos'); // Photos of the property stored as JSON
-            $table->string('listing_type'); // Photos of the property stored as JSON
-            $table->unsignedBigInteger('user_id'); // Foreign key to the User table
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade'); // Foreign key constraint (cascade delete)
-            $table->timestamps(); // Created and updated timestamps
+            $table->string('city');
+            $table->string('neighborhood');
+            $table->string('address');
+            $table->integer('surface');
+            $table->integer('bedrooms');
+            $table->integer('bathrooms');
+            $table->decimal('price', 10, 2);
+            $table->string('contact_phone');
+            $table->text('description')->nullable();
+            $table->json('photos');
+            $table->string('listing_type');
+            $table->date('available_from')->nullable();
+            $table->date('available_until')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

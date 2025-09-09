@@ -29,21 +29,38 @@
                 <form action="{{ route('properties.search') }}" method="GET"
                     class="hidden md:flex flex-col md:flex-row items-center gap-4 bg-gray-50 p-6 rounded-2xl shadow-md">
 
+
+
+
+                     <select name="listing_type" class="border p-2 rounded w-full">
+                        <option value="">Status</option>
+                        <option value="À-vendre">À vendre</option>
+                        <option value="À-louer">À louer</option>
+                    </select>
+
                     <!-- Property Type Selection -->
-                    <select name="property_type"
-                        class="w-full md:w-1/3 px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-300 transition-all duration-200">
-                        <option value="">Type de bien</option>
+                    <select name="property_type" class="border p-2 rounded w-full">
+                        <option value="" disabled selected>Type</option>
+                        <option value="">Type</option>
                         <option value="appartement">Appartement</option>
                         <option value="studio">Studio</option>
                         <option value="bureau">Bureau</option>
+                        <option value="local_commercial">Local commercial</option>
+                        <option value="depot_entrepot">Dépôt/Entrepôt</option>
                         <option value="villa">Villa</option>
                         <option value="maison">Maison</option>
-                        <option value="terrain">Terrain</option>
+                        <option value="immeuble">Immeuble</option>
+                        <option value="terrain_urbain">Terrain urbain</option>
+                        <option value="terrain_industriel">Terrain industriel/Carrière</option>
+                        <option value="ferme_terrain_agricole">Ferme/Terrain agricole</option>
+                        <option value="hotel_cafe_restaurant">Hôtel/Café-Restaurant</option>
+                        <option value="residence_balneaire">Résidence balnéaire</option>
+                        <option value="residence_etudiante">Résidence étudiante</option>
+                        <option value="location_vacances">Location de vacances</option>
                     </select>
 
                     <!-- City Selection -->
-                    <select name="ville"
-                        class="w-full md:w-1/3 px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-300 transition-all duration-200">
+                    <select name="ville" class="border p-2 rounded w-full">
                         <option value="">Ville</option>
                         <option value="casablanca">Casablanca</option>
                         <option value="rabat">Rabat</option>
@@ -51,13 +68,13 @@
                     </select>
 
                     <!-- Neighborhood Selection -->
-                    <select name="quartier"
-                        class="w-full md:w-1/3 px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-300 transition-all duration-200">
+                    <select name="quartier" class="border p-2 rounded w-full">
                         <option value="">Quartier</option>
-                        <option value="centre">Centre-ville</option>
+                        <option value="centre-ville">Centre-ville</option>
                         <option value="residence">Résidentiel</option>
                         <option value="bord">Bord de mer</option>
                     </select>
+
 
                     <!-- Filter Button -->
                     <button type="submit"

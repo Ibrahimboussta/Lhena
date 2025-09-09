@@ -10,7 +10,7 @@ class ProprieteContoller extends Controller
 {
     public function index()
     {
-        $properties = Propritie::latest()->paginate(3);
+        $properties = Propritie::latest()->paginate(12);
 
         return view('pages.proprietes', compact('properties'));
     }
@@ -31,64 +31,67 @@ class ProprieteContoller extends Controller
         return view('dashboard', compact('properties'));
     }
 
-        public function store(Request $request)
-        {
-            // Validate the form fields
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'property_type' => 'required|string|max:100',
-                'city' => 'required|string|max:100',
-                'neighborhood' => 'required|string|max:100',
-                'address' => 'required|string|max:255',
-                'surface' => 'required|numeric|min:0',
-                'bedrooms' => 'required|integer|min:0',
-                'bathrooms' => 'required|integer|min:0',
-                'price' => 'required|numeric|min:0',
-                'price_type' => 'nullable|string|in:nuit,mois,an',
-                'contact_phone' => 'required|string|max:20',
-                'description' => 'nullable|string',
-                'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp,ico,bmp,tiff,webm|max:20480', // Max 20MB per image
-                'photos' => 'required|array|max:10', // Max 10 images
-                'listing_type' => 'required|array', // Changed to array to allow multiple values (À vendre, À louer)
-                'listing_type.*' => 'in:À-vendre,À-louer', // Validation for each value in the listing_type array
+    public function store(Request $request)
+    {
+        // Validate the form fields
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'property_type' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'neighborhood' => 'required|string|max:100',
+            'address' => 'required|string|max:255',
+            'surface' => 'required|numeric|min:0',
+            'bedrooms' => 'required|integer|min:0',
+            'bathrooms' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+            'price_type' => 'nullable|string|in:nuit,mois,an',
+            'contact_phone' => 'required|string|max:20',
+            'description' => 'nullable|string',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp,ico,bmp,tiff,webm|max:20480', // Max 20MB per image
+            'photos' => 'required|array|max:10', // Max 10 images
+            'listing_type' => 'required|array',
+            'listing_type.*' => 'in:À-vendre,À-louer',
+            'available_from' => 'required|date|after_or_equal:today',
+            'available_until' => 'nullable|date|after_or_equal:available_from',
+        ]);
 
-            ]);
 
+        // Check if the user is authenticated
+        // Get the authenticated user
+        $user = Auth::user();
 
-            // Check if the user is authenticated
-            // Get the authenticated user
-            $user = Auth::user();
-
-            // Handle file uploads (photos)
-            $photos = [];
-            foreach ($request->file('photos') as $photo) {
-                // Store photo in the public storage and get the path
-                $path = $photo->store('properties', 'public');
-                $photos[] = $path;
-            }
-
-            Propritie::create([
-                'user_id' => $user->id,  // Associate the property with the authenticated user
-                'title' => $request->title,
-                'property_type' => $request->property_type,
-                'city' => $request->city,
-                'neighborhood' => $request->neighborhood,
-                'address' => $request->address,
-                'surface' => $request->surface,
-                'bedrooms' => $request->bedrooms,
-                'bathrooms' => $request->bathrooms,
-                'price' => $request->price,
-                'price_type' => $request->price_type ?: null, // Store NULL if empty
-                'contact_phone' => $request->contact_phone,
-                'description' => $request->description,
-                'photos' => json_encode($photos),
-                'listing_type' => implode(',', $request->listing_type), // Store as comma-separated string
-            ]);
-
-            return redirect()->route('dashboard')->with('success', 'Property added successfully!');
-
-            // Create a new property entry and associate it with the authenticated user
+        // Handle file uploads (photos)
+        $photos = [];
+        foreach ($request->file('photos') as $photo) {
+            // Store photo in the public storage and get the path
+            $path = $photo->store('properties', 'public');
+            $photos[] = $path;
         }
+
+        Propritie::create([
+            'user_id' => $user->id,  // Associate the property with the authenticated user
+            'title' => $request->title,
+            'property_type' => $request->property_type,
+            'city' => $request->city,
+            'neighborhood' => $request->neighborhood,
+            'address' => $request->address,
+            'surface' => $request->surface,
+            'bedrooms' => $request->bedrooms,
+            'bathrooms' => $request->bathrooms,
+            'price' => $request->price,
+            'price_type' => $request->price_type ?: null, // Store NULL if empty
+            'contact_phone' => $request->contact_phone,
+            'description' => $request->description,
+            'photos' => json_encode($photos),
+            'listing_type' => implode(',', $request->listing_type),
+            'available_from' => $request->available_from,
+            'available_until' => $request->available_until
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Property added successfully!');
+
+        // Create a new property entry and associate it with the authenticated user
+    }
 
 
     public function destroy($id)
@@ -117,29 +120,69 @@ class ProprieteContoller extends Controller
         $propertyType = $request->input('property_type');
         $quartier = $request->input('quartier');
         $ville = $request->input('ville');
+        $listingType = $request->input('listing_type');
 
         $properties = Propritie::query();
 
+        // 🔍 Search by title/address
         if ($query) {
-            $properties->where('title', 'like', "%$query%")
-                ->orWhere('address', 'like', "%$query%");
+            $properties->where(function ($q) use ($query) {
+                $q->where('title', 'like', "%$query%")
+                    ->orWhere('address', 'like', "%$query%");
+            });
         }
 
+        // 🏠 Property type
         if ($propertyType) {
             $properties->where('property_type', $propertyType);
         }
 
+        // 📍 Quartier
         if ($quartier) {
             $properties->where('neighborhood', $quartier);
         }
 
+        // 🏙 Ville
         if ($ville) {
             $properties->where('city', $ville);
         }
 
-        $properties = $properties->paginate(3);
+        // 📌 Listing type
+        if ($listingType) {
+            $properties->where('listing_type', 'like', "%$listingType%");
+        }
+
+        $minPrice = $request->input('min_price');
+        $maxPrice = $request->input('max_price');
+
+        if (filled($minPrice) && filled($maxPrice)) {
+            $properties->whereBetween('price', [$minPrice, $maxPrice]);
+        } elseif (filled($minPrice)) {
+            $properties->where('price', '>=', $minPrice);
+        } elseif (filled($maxPrice)) {
+            $properties->where('price', '<=', $maxPrice);
+        }
+
+
+        if (filled($minPrice)) $minPrice = (float) $minPrice;
+        if (filled($maxPrice)) $maxPrice = (float) $maxPrice;
+
+        // 📅 Availability filter (from → to)
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
+
+        if ($fromDate && $toDate) {
+            $properties->where(function ($q) use ($fromDate, $toDate) {
+                $q->where('available_from', '<=', $fromDate)
+                    ->where(function ($q2) use ($toDate) {
+                        $q2->whereNull('available_until')
+                            ->orWhere('available_until', '>=', $toDate);
+                    });
+            });
+        }
+
+        $properties = $properties->paginate(12);
 
         return view('pages.proprietes', compact('properties'));
     }
-
 }

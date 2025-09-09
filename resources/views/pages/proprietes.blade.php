@@ -7,12 +7,17 @@
 
                 <!-- Search Form -->
                 <form action="{{ route('properties.search') }}" method="GET"
-                    class="w-full z-50  max-w-none flex flex-wrap md:flex-nowrap items-center gap-3 mt-5 bg-white px-4 py-3 rounded-lg shadow-md md:sticky md:top-[4rem]">
-                    <!-- Search Bar -->
+                    class="w-full max-w-none grid grid-cols-1 md:grid-cols-6 gap-3 mt-5 bg-white px-4 py-4 rounded-2xl shadow-lg md:sticky md:top-[4rem] z-50">
 
-                    <!-- Property Type Selection -->
-                    <select name="property_type" class="border p-2 rounded w-full">
-                        <option value="" disabled selected>Type</option>
+                    <!-- Listing Type -->
+                    <select name="listing_type" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
+                        <option value="">Statut</option>
+                        <option value="À-vendre">À vendre</option>
+                        <option value="À-louer">À louer</option>
+                    </select>
+
+                    <!-- Property Type -->
+                    <select name="property_type" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
                         <option value="">Type</option>
                         <option value="appartement">Appartement</option>
                         <option value="studio">Studio</option>
@@ -31,30 +36,43 @@
                         <option value="location_vacances">Location de vacances</option>
                     </select>
 
-                    <!-- City Selection -->
-                    <select name="ville" class="border p-2 rounded w-full">
+                    <!-- City -->
+                    <select name="ville" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
                         <option value="">Ville</option>
                         <option value="casablanca">Casablanca</option>
                         <option value="rabat">Rabat</option>
                         <option value="marrakech">Marrakech</option>
                     </select>
 
-                    <!-- Neighborhood Selection -->
-                    <select name="quartier" class="border p-2 rounded w-full">
+                    <!-- Neighborhood -->
+                    <select name="quartier" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
                         <option value="">Quartier</option>
                         <option value="centre-ville">Centre-ville</option>
                         <option value="residence">Résidentiel</option>
                         <option value="bord">Bord de mer</option>
                     </select>
 
+                    <!-- Price Range -->
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" name="min_price" placeholder="Prix min" class="border p-2 rounded-lg w-full">
+                        <input type="number" name="max_price" placeholder="Prix max" class="border p-2 rounded-lg w-full">
+                    </div>
 
+                    <!-- Date Range -->
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="date" name="from_date" class="border p-2 rounded-lg w-full">
+                        <input type="date" name="to_date" class="border p-2 rounded-lg w-full">
+                    </div>
 
                     <!-- Filter Button -->
-                    <button type="submit"
-                        class="inline-flex items-center justify-center px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200">
-                        Filtrer
-                    </button>
+                    <div class="md:col-span-6 flex justify-end">
+                        <button type="submit"
+                            class="w-full md:w-auto inline-flex items-center justify-center px-6 py-2.5 bg-black text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-all duration-200">
+                            🔍 Filtrer
+                        </button>
+                    </div>
                 </form>
+
 
                 <!-- Property Cards -->
                 <div class="flex justify-between pt-6 w-full">
@@ -125,6 +143,22 @@
                                                 <p>{{ $property->surface }} m²</p>
                                             </div>
                                         </div>
+
+                                        <!-- Availability Date -->
+                                        @if ($property->date_available)
+                                            <div class="flex items-center px-1 pb-2">
+                                                <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                    </svg>
+                                                    <span>Disponible à partir du
+                                                        {{ \Carbon\Carbon::parse($property->date_available)->format('d/m/Y') }}</span>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </a>
                             @endforeach
