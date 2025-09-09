@@ -1,4 +1,6 @@
 {{-- !herosection --}}
+{{ __('messages.welcome') }}
+
 <section class="bg-white">
     <div class="min-h-screen flex items-center">
         <div class="max-w-7xl mx-auto  w-full">

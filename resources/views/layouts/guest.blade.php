@@ -18,7 +18,7 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4">
-    <div class="flex flex-col md:flex-row bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden max-w-4xl w-full">
+    <div class="flex flex-col md:flex-row bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden max-w-4xl  w-full">
         
         <!-- Left Side (Image / Logo + Moroccan Background) -->
         <div class="hidden md:flex md:w-1/2 items-center justify-center p-8 bg-cover bg-center" 
@@ -31,7 +31,7 @@
         </div>
 
         <!-- Right Side (Form) -->
-        <div class="w-full md:w-1/2 p-8">
+        <div class="w-full md:w-1/2 p-6">
             <div class="w-full sm:max-w-md mx-auto">
                 {{ $slot }}
             </div>

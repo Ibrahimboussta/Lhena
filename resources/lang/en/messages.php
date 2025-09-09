@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'Accueil' => 'Home',
+    'Propriétés' => 'Properties',
+    'À propos' => 'About',
+    'Contact' => 'Contact',
+    'Publier une annonce' => 'Post an ad',
+    'Se connecter' => 'Login',
+    "S'inscrire" => 'Register',
+    'Notre Agence' => 'Our Agency',
+    'Services' => 'Services',
+    'Acheter' => 'Buy',
+    'Louer' => 'Rent',
+    'Vendre' => 'Sell',
+    'Tous' => 'All',
+    'Ressources' => 'Resources',
+    'FAQ' => 'FAQ',
+    "Guide d'achat" => 'Buying Guide',
+    'Guide de vente' => 'Selling Guide',
+    'Conseils immobiliers' => 'Real Estate Tips',
+    'Newsletter' => 'Newsletter',
+    'Abonnez-vous pour recevoir nos dernières actualités.' => 'Subscribe to receive our latest news.',
+    'Votre email ici...' => 'Your email here...',
+    "S'abonner" => 'Subscribe',
+];
