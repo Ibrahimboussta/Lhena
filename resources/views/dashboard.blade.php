@@ -18,6 +18,7 @@
                                 <th class="p-3 text-left border">Métrage</th>
                                 <th class="p-3 text-left border">Téléphone</th>
                                 <th class="p-3 text-left border">Prix</th>
+                                <th class="p-3 text-left border">Disponibilité</th>
                                 <th class="p-3 text-center border">Action</th>
                             </tr>
                         </thead>
@@ -39,6 +40,11 @@
                                 <td class="p-3 border">{{ $property->surface }} m²</td>
                                 <td class="p-3 border">{{ $property->contact_phone }}</td>
                                 <td class="p-3 border text-[#25D366]">{{ number_format($property->price, 2) }} DH</td>
+                                <td class="p-3 border">
+
+                                    {{ $property->available_from }} / {{ $property->available_until }}
+
+                                </td>
                                 <td class="p-3 text-center border">
                                     <form action="{{ route('properties.destroy', $property->id) }}" method="POST">
                                         @csrf

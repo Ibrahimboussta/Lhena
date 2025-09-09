@@ -109,6 +109,23 @@
                         <input type="tel" name="contact_phone" placeholder="Numéro de téléphone" class="border p-2 rounded w-full" required>
                     </div>
 
+                    <!-- Date Range Available -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Période de disponibilité</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <input type="date" name="available_from" id="available_from"
+                                       class="border p-2 rounded w-full bg-white"
+                                       required>
+                            </div>
+                            <div>
+                                <input type="date" name="available_until" id="available_until"
+                                       class="border p-2 rounded w-full bg-white">
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">La date de fin est optionnelle pour les propriétés à vendre</p>
+                    </div>
+
                     <!-- Description -->
                     <div class="mb-4">
                         <textarea name="description" placeholder="Description détaillée de la propriété" class="border p-2 rounded w-full" rows="4" required></textarea>
@@ -200,6 +217,43 @@
                 errorText.classList.add('hidden');
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const availableUntilInput = document.getElementById('available_until');
+            const listingTypeCheckboxes = document.querySelectorAll('input[name="listing_type[]"]');
+
+            // Set minimum date for both inputs to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('available_from').min = today;
+            availableUntilInput.min = today;
+
+            // Update end date requirement based on listing type
+            function updateEndDateRequirement() {
+                const isRental = Array.from(listingTypeCheckboxes)
+                    .some(cb => cb.checked && cb.value === 'À-louer');
+                availableUntilInput.required = isRental;
+            }
+
+            // Add validation to form submission
+            document.getElementById('propertyForm').addEventListener('submit', function(e) {
+                const startDate = document.getElementById('available_from').value;
+                const endDate = availableUntilInput.value;
+                const isRental = Array.from(listingTypeCheckboxes)
+                    .some(cb => cb.checked && cb.value === 'À-louer');
+
+                if (isRental && endDate && startDate >= endDate) {
+                    e.preventDefault();
+                    alert('La date de fin doit être postérieure à la date de début');
+                }
+            });
+
+            // Add event listeners
+            listingTypeCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateEndDateRequirement);
+            });
+
+            // Initial check
+            updateEndDateRequirement();
     </script>
 
 </section>
