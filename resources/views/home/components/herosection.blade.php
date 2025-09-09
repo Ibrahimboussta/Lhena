@@ -34,15 +34,15 @@
 
 
 
-                     <select name="listing_type" class="border p-2 rounded w-full">
-                        <option value="">Status</option>
+                     <!-- Listing Type -->
+                    <select name="listing_type" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
+                        <option value="">Statut</option>
                         <option value="À-vendre">À vendre</option>
                         <option value="À-louer">À louer</option>
                     </select>
 
-                    <!-- Property Type Selection -->
-                    <select name="property_type" class="border p-2 rounded w-full">
-                        <option value="" disabled selected>Type</option>
+                    <!-- Property Type -->
+                    <select name="property_type" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
                         <option value="">Type</option>
                         <option value="appartement">Appartement</option>
                         <option value="studio">Studio</option>
@@ -61,21 +61,33 @@
                         <option value="location_vacances">Location de vacances</option>
                     </select>
 
-                    <!-- City Selection -->
-                    <select name="ville" class="border p-2 rounded w-full">
+                    <!-- City -->
+                    <select name="ville" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
                         <option value="">Ville</option>
                         <option value="casablanca">Casablanca</option>
                         <option value="rabat">Rabat</option>
                         <option value="marrakech">Marrakech</option>
                     </select>
 
-                    <!-- Neighborhood Selection -->
-                    <select name="quartier" class="border p-2 rounded w-full">
+                    <!-- Neighborhood -->
+                    <select name="quartier" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
                         <option value="">Quartier</option>
                         <option value="centre-ville">Centre-ville</option>
                         <option value="residence">Résidentiel</option>
                         <option value="bord">Bord de mer</option>
                     </select>
+
+                    <!-- Price Range -->
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" name="min_price" placeholder="Prix min" class="border p-2 rounded-lg w-full">
+                        <input type="number" name="max_price" placeholder="Prix max" class="border p-2 rounded-lg w-full">
+                    </div>
+
+                    <!-- Date Range -->
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="date" name="from_date" class="border p-2 rounded-lg w-full">
+                        <input type="date" name="to_date" class="border p-2 rounded-lg w-full">
+                    </div>
 
 
                     <!-- Filter Button -->
