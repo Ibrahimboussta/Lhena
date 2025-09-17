@@ -6,69 +6,91 @@
             <div class="flex-1 order-2 md:order-none">
 
                 <!-- Search Form -->
-                <form action="{{ route('properties.search') }}" method="GET"
-                    class="w-full max-w-none grid grid-cols-1 md:grid-cols-6 gap-3 mt-5 bg-white px-4 py-4 rounded-2xl shadow-lg md:sticky md:top-[4rem] z-50">
+                <form action="{{ route('properties.search') }}" method="GET" x-data="{ active: 1 }"
+                    class="bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-gray-100 space-y-4">
 
-                    <!-- Listing Type -->
-                    <select name="listing_type" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
-                        <option value="">Statut</option>
-                        <option value="À-vendre">À vendre</option>
-                        <option value="À-louer">À louer</option>
-                    </select>
-
-                    <!-- Property Type -->
-                    <select name="property_type" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
-                        <option value="">Type</option>
-                        <option value="appartement">Appartement</option>
-                        <option value="studio">Studio</option>
-                        <option value="bureau">Bureau</option>
-                        <option value="local_commercial">Local commercial</option>
-                        <option value="depot_entrepot">Dépôt/Entrepôt</option>
-                        <option value="villa">Villa</option>
-                        <option value="maison">Maison</option>
-                        <option value="immeuble">Immeuble</option>
-                        <option value="terrain_urbain">Terrain urbain</option>
-                        <option value="terrain_industriel">Terrain industriel/Carrière</option>
-                        <option value="ferme_terrain_agricole">Ferme/Terrain agricole</option>
-                        <option value="hotel_cafe_restaurant">Hôtel/Café-Restaurant</option>
-                        <option value="residence_balneaire">Résidence balnéaire</option>
-                        <option value="residence_etudiante">Résidence étudiante</option>
-                        <option value="location_vacances">Location de vacances</option>
-                    </select>
-
-                    <!-- City -->
-                    <select name="ville" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
-                        <option value="">Ville</option>
-                        <option value="casablanca">Casablanca</option>
-                        <option value="rabat">Rabat</option>
-                        <option value="marrakech">Marrakech</option>
-                    </select>
-
-                    <!-- Neighborhood -->
-                    <select name="quartier" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-black/50">
-                        <option value="">Quartier</option>
-                        <option value="centre-ville">Centre-ville</option>
-                        <option value="residence">Résidentiel</option>
-                        <option value="bord">Bord de mer</option>
-                    </select>
-
-                    <!-- Price Range -->
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="number" name="min_price" placeholder="Prix min" class="border p-2 rounded-lg w-full">
-                        <input type="number" name="max_price" placeholder="Prix max" class="border p-2 rounded-lg w-full">
+                    <!-- Toggle Buttons -->
+                    <div class="flex gap-3">
+                        <button type="button" @click="active = (active === 1 ? null : 1)"
+                            :class="active === 1 ? 'bg-green-600 text-white' : 'bg-emerald-100 text-emerald-700'"
+                            class="flex-1 px-4 py-2 rounded-lg text-sm font-medium transition">
+                            Filtres
+                        </button>
+                        <button type="button" @click="active = (active === 2 ? null : 2)"
+                            :class="active === 2 ? 'bg-green-600 text-white' : 'bg-emerald-100 text-emerald-700'"
+                            class="flex-1 px-4 py-2 rounded-lg text-sm font-medium transition">
+                            Prix
+                        </button>
+                        <button type="button" @click="active = (active === 3 ? null : 3)"
+                            :class="active === 3 ? 'bg-green-600 text-white' : 'bg-emerald-100 text-emerald-700'"
+                            class="flex-1 px-4 py-2 rounded-lg text-sm font-medium transition">
+                            Dates
+                        </button>
                     </div>
 
-                    <!-- Date Range -->
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="date" name="from_date" class="border p-2 rounded-lg w-full">
-                        <input type="date" name="to_date" class="border p-2 rounded-lg w-full">
+                    <!-- Sections -->
+                    <div class="space-y-4">
+                        <!-- Part 1: Basic Filters -->
+                        <div x-show="active === 1" x-transition class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                            <select name="listing_type"
+                                class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="">Statut</option>
+                                <option value="À-vendre">À vendre</option>
+                                <option value="À-louer">À louer</option>
+                            </select>
+
+                            <select name="property_type"
+                                class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="">Type</option>
+                                <option value="appartement">Appartement</option>
+                                <option value="studio">Studio</option>
+                                <option value="villa">Villa</option>
+                                <option value="maison">Maison</option>
+                            </select>
+
+                            <select name="ville"
+                                class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="">Ville</option>
+                                <option value="casablanca">Casablanca</option>
+                                <option value="rabat">Rabat</option>
+                                <option value="marrakech">Marrakech</option>
+                            </select>
+
+                            <select name="quartier"
+                                class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="">Quartier</option>
+                                <option value="centre-ville">Centre-ville</option>
+                                <option value="residence">Résidentiel</option>
+                                <option value="bord">Bord de mer</option>
+                            </select>
+                        </div>
+
+                        <!-- Part 2: Price Range -->
+                        <div x-show="active === 2" x-transition class="grid grid-cols-2 gap-3">
+                            <input type="number" name="min_price" placeholder="Prix min" min="0"
+                                class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <input type="number" name="max_price" placeholder="Prix max" min="0"
+                                class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </div>
+
+                        <!-- Part 3: Date Range -->
+                        <div x-show="active === 3" x-transition class="grid grid-cols-2 gap-3">
+                            <input type="date" name="from_date"
+                                class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                            <input type="date" name="to_date"
+                                class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                        </div>
                     </div>
 
-                    <!-- Filter Button -->
-                    <div class="md:col-span-6 flex justify-end">
+                    <!-- Search Button -->
+                    <div class="flex justify-end">
                         <button type="submit"
-                            class="w-full md:w-auto inline-flex items-center justify-center px-6 py-2.5 bg-black text-white text-sm font-semibold rounded-lg hover:bg-gray-800 transition-all duration-200">
-                            🔍 Filtrer
+                            class="flex items-center justify-center w-11 h-11 rounded-full bg-green-600 text-white shadow-md hover:bg-emerald-600 hover:shadow-lg active:scale-95 transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
+                            </svg>
                         </button>
                     </div>
                 </form>
@@ -135,11 +157,13 @@
                                                 <p>{{ $property->bedrooms }}</p>
                                             </div>
                                             <div class="flex items-center space-x-0.5">
-                                                <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}" alt="">
+                                                <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}"
+                                                    alt="">
                                                 <p>{{ $property->bathrooms }}</p>
                                             </div>
                                             <div class="flex items-center space-x-0.5">
-                                                <img class="w-4 h-4" src="{{ asset('images/space.svg') }}" alt="">
+                                                <img class="w-4 h-4" src="{{ asset('images/space.svg') }}"
+                                                    alt="">
                                                 <p>{{ $property->surface }} m²</p>
                                             </div>
                                         </div>
@@ -148,8 +172,8 @@
                                         @if ($property->date_available)
                                             <div class="flex items-center px-1 pb-2">
                                                 <div class="flex items-center space-x-2 text-sm text-gray-600">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2"
                                                             d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -180,8 +204,10 @@
 
 
         </div>
-        </div>
     </section>
 
 
+    <script src="//unpkg.com/alpinejs" defer></script>
+
 @endsection
+

@@ -14,14 +14,16 @@ class ProprieteContoller extends Controller
 
         return view('pages.proprietes', compact('properties'));
     }
-    public function details($id)
-    {
-        $property = Propritie::findOrFail($id); // Fetch the single property
-        $photos = json_decode($property->photos); // Decode the photos array from JSON
-        $properties = Propritie::latest()->paginate(3);
+ public function details($id)
+{
+    // Fetch exact property with its reviews + user
+    $property = Propritie::with('reviews.user')->findOrFail($id);
 
-        return view('pages.proprietesDetails', compact('property', 'photos', 'properties'));
-    }
+    $photos = json_decode($property->photos);
+    $properties = Propritie::latest()->paginate(3);
+
+    return view('pages.proprietesDetails', compact('property', 'photos', 'properties'));
+}
 
 
 
@@ -155,17 +157,16 @@ class ProprieteContoller extends Controller
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
 
-        if (filled($minPrice) && filled($maxPrice)) {
-            $properties->whereBetween('price', [$minPrice, $maxPrice]);
-        } elseif (filled($minPrice)) {
-            $properties->where('price', '>=', $minPrice);
-        } elseif (filled($maxPrice)) {
-            $properties->where('price', '<=', $maxPrice);
+        if ($minPrice !== null && $maxPrice !== null) {
+            $properties->whereBetween('price', [(float) $minPrice, (float) $maxPrice]);
+        } elseif ($minPrice !== null) {
+            $properties->where('price', '>=', (float) $minPrice);
+        } elseif ($maxPrice !== null) {
+            $properties->where('price', '<=', (float) $maxPrice);
         }
 
 
-        if (filled($minPrice)) $minPrice = (float) $minPrice;
-        if (filled($maxPrice)) $maxPrice = (float) $maxPrice;
+
 
         // 📅 Availability filter (from → to)
         $fromDate = $request->input('from_date');

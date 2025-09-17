@@ -235,23 +235,23 @@
             <h2 class="text-center text-3xl font-semibold mb-4 ">Des Propriétés Similaires</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6 w-full pt-7">
 
-                @foreach ($properties as $property)
-                    <a href="{{ route('proprites.details', $property->id) }}" class="w-full">
+                @foreach ($properties as $similarProperty)
+                    <a href="{{ route('proprites.details', $similarProperty->id) }}" class="w-full">
                         <div class="w-full rounded-2xl border border-[#e0dede] p-2 hover:shadow duration-400 relative">
                             <!-- Image Section with Positioned Labels -->
                             <div class="relative">
                                 <img class="w-full h-80 object-cover rounded-2xl"
-                                    src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt="">
+                                    src="{{ asset('storage/' . json_decode($similarProperty->photos)[0]) }}" alt="">
 
                                 <!-- Labels -->
                                 <div class="absolute top-4 left-4 flex space-x-2">
-                                    @if (strpos($property->listing_type, 'À-vendre') !== false)
+                                    @if (strpos($similarProperty->listing_type, 'À-vendre') !== false)
                                         <span
                                             class="text-white bg-[#25D366] rounded-lg px-3 py-1 uppercase font-medium text-xs">
                                             À vendre
                                         </span>
                                     @endif
-                                    @if (strpos($property->listing_type, 'À-louer') !== false)
+                                    @if (strpos($similarProperty->listing_type, 'À-louer') !== false)
                                         <span
                                             class="text-white bg-[#E7C873] rounded-lg px-3 py-1 uppercase font-medium text-xs">
                                             À louer
@@ -263,14 +263,14 @@
                             <!-- Property Details -->
                             <div class="flex justify-between items-start pt-2 px-1">
                                 <div>
-                                    <p class="font-semibold text-[#1A1A1A] text-xl">{{ $property->title }}</p>
+                                    <p class="font-semibold text-[#1A1A1A] text-xl">{{ $similarProperty->title }}</p>
                                     <div class="flex items-center space-x-0.5 pt-1">
                                         <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
-                                        <p>{{ $property->address }}</p>
+                                        <p>{{ $similarProperty->address }}</p>
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-[#25D366]">{{ $property->price }} DH</p>
+                                    <p class="font-semibold text-[#25D366]">{{ $similarProperty->price }} DH</p>
                                 </div>
                             </div>
 
@@ -278,21 +278,108 @@
                             <div class="flex items-center py-2 px-1 gap-x-4">
                                 <div class="flex items-center space-x-0.5">
                                     <img class="w-4 h-4" src="{{ asset('images/beds.svg') }}" alt="">
-                                    <p>{{ $property->bedrooms }}</p>
+                                    <p>{{ $similarProperty->bedrooms }}</p>
                                 </div>
                                 <div class="flex items-center space-x-0.5">
                                     <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}" alt="">
-                                    <p>{{ $property->bathrooms }}</p>
+                                    <p>{{ $similarProperty->bathrooms }}</p>
                                 </div>
                                 <div class="flex items-center space-x-0.5">
                                     <img class="w-4 h-4" src="{{ asset('images/space.svg') }}" alt="">
-                                    <p>{{ $property->surface }} m²</p>
+                                    <p>{{ $similarProperty->surface }} m²</p>
                                 </div>
                             </div>
                         </div>
                     </a>
                 @endforeach
             </div>
+
+
+			<!-- Reviews & Comments -->
+			<div class="mt-10 border-t border-gray-200 pt-8">
+				<h3 class="text-2xl font-semibold text-[#1A1A1A] mb-4">Avis et commentaires</h3>
+
+				@if (session('success'))
+					<div class="mb-4 rounded-lg bg-emerald-50 text-emerald-800 px-4 py-3 border border-emerald-200">
+						{{ session('success') }}
+					</div>
+				@endif
+
+				@if ($errors->any())
+					<div class="mb-4 rounded-lg bg-red-50 text-red-700 px-4 py-3 border border-red-200">
+						<ul class="list-disc list-inside text-sm">
+							@foreach ($errors->all() as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+					</div>
+				@endif
+
+				@if (Auth::check())
+					<form action="{{ route('reviews.store') }}" method="POST" class="space-y-4 bg-white border border-gray-200 rounded-xl p-4">
+						@csrf
+						<input type="hidden" name="proprity_id" value="{{ $property->id }}">
+
+						<div class="space-y-2">
+							<label class="block text-sm font-medium text-gray-700">Votre note</label>
+							<div class="flex items-center gap-3">
+								@for ($i = 5; $i >= 1; $i--)
+									<label class="flex items-center gap-1 cursor-pointer select-none">
+										<input type="radio" name="rating" value="{{ $i }}" class="accent-yellow-400" {{ old('rating', 5) == $i ? 'checked' : '' }}>
+										<span class="text-yellow-400">{{ str_repeat('★', $i) }}<span class="text-gray-300">{{ str_repeat('☆', 5 - $i) }}</span></span>
+									</label>
+								@endfor
+							</div>
+						</div>
+
+						<div class="space-y-2">
+							<label for="comment" class="block text-sm font-medium text-gray-700">Votre avis</label>
+							<textarea id="comment" name="comment" placeholder="Partagez votre expérience..." class="w-full min-h-28 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-gray-400">{{ old('comment') }}</textarea>
+						</div>
+
+						<div class="flex justify-end">
+							<button type="submit" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+								Envoyer
+							</button>
+						</div>
+					</form>
+				@else
+					<div class="my-3">
+						<a href="{{ route('register') }}" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+							Ajouter un commentaire
+						</a>
+					</div>
+				@endif
+
+				<div class="mt-6 space-y-3">
+					@if ($property->reviews->isEmpty())
+						<p class="text-sm text-gray-500">Aucun commentaire pour le moment. Soyez le premier à donner votre avis.</p>
+					@else
+						@foreach ($property->reviews as $review)
+							<div class="border border-gray-200 rounded-xl p-4 bg-white">
+								<div class="flex items-start gap-3">
+									<div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-semibold">
+										{{ strtoupper(mb_substr($review->user->name, 0, 1)) }}
+									</div>
+									<div class="flex-1">
+										<div class="flex items-center justify-between">
+											<p class="font-semibold text-[#1A1A1A]">{{ $review->user->name }}</p>
+											<p class="text-xs text-gray-500">{{ $review->created_at->diffForHumans() }}</p>
+										</div>
+										<div class="text-sm">
+											<span class="text-yellow-400">{{ str_repeat('★', $review->rating) }}</span><span class="text-gray-300">{{ str_repeat('☆', 5 - $review->rating) }}</span>
+										</div>
+										<p class="mt-1 text-sm text-gray-700">{{ $review->comment }}</p>
+									</div>
+								</div>
+							</div>
+						@endforeach
+					@endif
+				</div>
+			</div>
+
+
+
 
         </section>
 
