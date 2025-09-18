@@ -25,6 +25,14 @@
                             </span>
                         </div>
                         <p class="text-sm text-gray-600 px-2">{{ $property->created_at->diffForHumans() }}</p>
+                        @php
+                            $avgRating = (int) round($property->reviews->avg('rating') ?? 0);
+                            $reviewsCount = $property->reviews->count();
+                        @endphp
+                        <div class="flex items-center gap-2 px-2 mt-1">
+                            <span class="text-yellow-400">{{ str_repeat('★', $avgRating) }}<span class="text-gray-300">{{ str_repeat('☆', 5 - $avgRating) }}</span></span>
+                            <span class="text-sm text-gray-600">({{ $reviewsCount }} avis)</span>
+                        </div>
                     </div>
 
                     <!-- Mobile Sticky Bottom Bar -->
@@ -45,9 +53,11 @@
                     <div class="relative w-full bg-white rounded-lg shadow-lg overflow-hidden">
                         <!-- Slides Container -->
                         <div class="relative w-full h-96" id="carousel-container">
+                            <div id="carousel-skeleton" class="absolute inset-0 skeleton skeleton-animate rounded-lg"></div>
                             <!-- Carousel Images -->
                             @foreach ($photos as $index => $photo)
-                                <img src="{{ asset('storage/' . $photo) }}"
+                                <img src="{{ asset('storage/' . $photo) }}" loading="lazy" decoding="async" @if($index===0) fetchpriority="high" @endif
+                                    onload="if({{ $index }}===0){ const sk=document.getElementById('carousel-skeleton'); if(sk){ sk.classList.add('opacity-0'); sk.classList.remove('skeleton-animate'); }}"
                                     class="absolute w-full h-full object-cover transition-opacity duration-600 rounded-lg {{ $index !== 0 ? 'opacity-0' : '' }}" />
                             @endforeach
                         </div>
@@ -74,7 +84,7 @@
 
                     <!-- Adresse avec icône -->
                     <div class="flex items-center space-x-0.5 pt-4">
-                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
+                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4" loading="lazy">
                         <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank">
                             <p class="text-xl">{{ $property->address }}</p>
                         </a>
@@ -240,8 +250,12 @@
                         <div class="w-full rounded-2xl border border-[#e0dede] p-2 hover:shadow duration-400 relative">
                             <!-- Image Section with Positioned Labels -->
                             <div class="relative">
-                                <img class="w-full h-80 object-cover rounded-2xl"
-                                    src="{{ asset('storage/' . json_decode($similarProperty->photos)[0]) }}" alt="">
+                                <div class="relative overflow-hidden rounded-2xl">
+                                    <div class="absolute inset-0 skeleton skeleton-animate rounded-2xl"></div>
+                                    <img class="w-full h-80 object-cover rounded-2xl opacity-0 transition-[opacity,transform] duration-300 hover:scale-[1.02]"
+                                        src="{{ asset('storage/' . json_decode($similarProperty->photos)[0]) }}" alt="" loading="lazy" decoding="async"
+                                        onload="this.classList.remove('opacity-0'); this.previousElementSibling.classList.add('opacity-0'); this.previousElementSibling.classList.remove('skeleton-animate');">
+                                </div>
 
                                 <!-- Labels -->
                                 <div class="absolute top-4 left-4 flex space-x-2">
@@ -265,7 +279,7 @@
                                 <div>
                                     <p class="font-semibold text-[#1A1A1A] text-xl">{{ $similarProperty->title }}</p>
                                     <div class="flex items-center space-x-0.5 pt-1">
-                                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
+                                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4" loading="lazy">
                                         <p>{{ $similarProperty->address }}</p>
                                     </div>
                                 </div>
@@ -277,15 +291,15 @@
                             <!-- Property Features -->
                             <div class="flex items-center py-2 px-1 gap-x-4">
                                 <div class="flex items-center space-x-0.5">
-                                    <img class="w-4 h-4" src="{{ asset('images/beds.svg') }}" alt="">
+                                    <img class="w-4 h-4" src="{{ asset('images/beds.svg') }}" alt="" loading="lazy">
                                     <p>{{ $similarProperty->bedrooms }}</p>
                                 </div>
                                 <div class="flex items-center space-x-0.5">
-                                    <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}" alt="">
+                                    <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}" alt="" loading="lazy">
                                     <p>{{ $similarProperty->bathrooms }}</p>
                                 </div>
                                 <div class="flex items-center space-x-0.5">
-                                    <img class="w-4 h-4" src="{{ asset('images/space.svg') }}" alt="">
+                                    <img class="w-4 h-4" src="{{ asset('images/space.svg') }}" alt="" loading="lazy">
                                     <p>{{ $similarProperty->surface }} m²</p>
                                 </div>
                             </div>
@@ -450,6 +464,20 @@
                 });
             });
         </script>
+
+        <style>
+            .skeleton {
+                background: linear-gradient(90deg, rgba(229,231,235,1) 25%, rgba(243,244,246,1) 37%, rgba(229,231,235,1) 63%);
+                background-size: 400% 100%;
+            }
+            .skeleton-animate {
+                animation: shimmer 1.25s infinite;
+            }
+            @keyframes shimmer {
+                0% { background-position: 100% 0; }
+                100% { background-position: 0 0; }
+            }
+        </style>
 
     </section>
 @endsection
