@@ -1,309 +1,125 @@
 @extends('layouts.index')
 @section('content')
     <section class="px-6  py-20">
-        <div class="flex flex-col items-center min-h-screen px-4 space-y-1">
+        <div class="flex flex-col items-center min-h-screen px-4 py-6 bg-gray-50">
 
-            <!-- Premier Bloc : Carrousel + Sidebar -->
-            <div class="flex flex-col md:flex-row w-full max-w-screen-xl bg-white rounded-lg ">
+    <!-- Main Content -->
+    <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <!-- Section gauche : Carrousel -->
-                <div class="w-full md:w-3/3 px-0">
-                    <!-- Titre de l'annonce -->
-                    <!-- Desktop & Tablet Version -->
-                    <div class="hidden md:flex flex-col pb-4 ">
-                        <div class="flex justify-between items-center">
-                            <p class="text-3xl font-semibold ">{{ $property->title }}</p>
-                            <span
-                                class="bg-red-100 text-red-600 py-1 px-3 test-sm mr-3 rounded-full hover:bg-gray-900 transition-colors duration-300 border border-red-400 cursor-auto">
-                                @if ($property->listing_type == 'À-vendre')
-                                    À-vendre
-                                @elseif($property->listing_type == 'À-louer')
-                                    À-louer
-                                @else
-                                    {{ $property->listing_type }}
-                                @endif
-                            </span>
-                        </div>
-                        <p class="text-sm text-gray-600 px-2">{{ $property->created_at->diffForHumans() }}</p>
-                    </div>
+        <!-- Left: Carousel + Description -->
+        <div class="md:col-span-2 bg-white rounded-2xl shadow p-4 space-y-4">
 
-                    <!-- Mobile Sticky Bottom Bar -->
-                    <div
-                        class="fixed bottom-0 left-0 w-full bg-white border-t border-[#25D366] px-4 py-2 flex justify-between items-center z-50  md:hidden">
-                        <div class="flex flex-col">
-                            <p class="text-xl font-semibold ">{{ $property->title }}</p>
-                            <p class="text-[12px] text-gray-600 px-1">{{ $property->created_at->diffForHumans() }}</p>
-                        </div>
-                        <h2 class="text-md font-bold text-[#25D366]">
-                            {{ $property->price }} DH
-                        </h2>
-                    </div>
-
-                    </h1>
-
-                    <!-- Carrousel -->
-                    <div class="relative w-full bg-white rounded-lg shadow-lg overflow-hidden">
-                        <!-- Slides Container -->
-                        <div class="relative w-full h-96" id="carousel-container">
-                            <!-- Carousel Images -->
-                            @foreach ($photos as $index => $photo)
-                                <img src="{{ asset('storage/' . $photo) }}"
-                                    class="absolute w-full h-full object-cover transition-opacity duration-600 rounded-lg {{ $index !== 0 ? 'opacity-0' : '' }}" />
-                            @endforeach
-                        </div>
-
-                        <!-- Navigation Buttons -->
-                        <button id="prev"
-                            class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-2 rounded-full hover:bg-opacity-70">
-                            &#10094;
-                        </button>
-
-                        <button id="next"
-                            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white px-2 rounded-full hover:bg-opacity-70">
-                            &#10095;
-                        </button>
-
-                        <!-- Indicators -->
-                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                            @foreach ($photos as $index => $photo)
-                                <button
-                                    class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-gray-400' }}"></button>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Adresse avec icône -->
-                    <div class="flex items-center space-x-0.5 pt-4">
-                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
-                        <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank">
-                            <p class="text-xl">{{ $property->address }}</p>
-                        </a>
-                    </div>
-
-                    <!-- Prix -->
-
-
-
-
+            <!-- Title & Tag -->
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ $property->title }}</h1>
+                    <p class="text-sm text-gray-500">{{ $property->created_at->diffForHumans() }}</p>
                 </div>
-
-
-                <!-- Sidebar (droite) -->
-                <div
-                    class="w-full md:w-1/3 flex flex-col items-center justify-start pt-3 md:pt-16 p-6 border-l border-gray-200">
-                    <div class="flex flex-col gap-4 w-full max-w-xs text-center">
-                        <h2 class="hidden md:block text-xl text-start font-semibold text-black">
-                            @if ($property->listing_type == 'À-louer')
-                                @if ($property->price_type == 'nuit')
-                                    <span class="text-[#25D366]">{{ $property->price }}</span> MAD/nuit
-                                @elseif($property->price_type == 'mois')
-                                    <span class="text-[#25D366]">{{ $property->price }}</span> MAD/mois
-                                @elseif($property->price_type == 'an')
-                                    <span class="text-[#25D366]">{{ $property->price }}</span> MAD/an
-                                @endif
-                            @else
-                                {{ $property->price }} MAD
-                            @endif
-
-                        </h2>
-
-
-
-
-
-                        @auth
-                            <!-- Si connecté : lien direct vers checkout -->
-                            <a href="{{ route('checkout', $property->id) }}"
-                                class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors duration-300">
-                                Réserver
-                            </a>
-                        @endauth
-
-                        @guest
-                            <!-- Si pas connecté : bouton qui ouvre modal -->
-                            <button onclick="openLoginModal()"
-                                class="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors duration-300">
-                                Réserver
-                            </button>
-
-                            <!-- Modal -->
-                            <div id="loginModal"
-                                class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
-                                <!-- Contenu du modal -->
-                                <div class="bg-white rounded-lg shadow-lg p-6 w-80 relative">
-                                    <button onclick="closeLoginModal()"
-                                        class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-                                        ✖
-                                    </button>
-
-                                    <h2 class="text-lg font-semibold mb-4 text-center text-gray-800">
-                                        Veuillez vous connecter pour réserver
-                                    </h2>
-
-                                    <a href="{{ route('register') }}"
-                                        class="block w-full bg-green-500 text-white text-center py-2 px-5 text-sm rounded-md hover:bg-green-600 transition-colors duration-300 font-semibold">
-                                        S'inscrire
-                                    </a>
-                                </div>
-                            </div>
-
-                            <!-- Script -->
-                            <script>
-                                function openLoginModal() {
-                                    document.getElementById('loginModal').classList.remove('hidden');
-                                }
-
-                                function closeLoginModal() {
-                                    document.getElementById('loginModal').classList.add('hidden');
-                                }
-                            </script>
-                        @endguest
-
-
-
-                        <button onclick="openAgentModal()"
-                            class="bg-white text-black border border-red-500 py-2 px-4 rounded-md hover:bg-red-700 transition-colors duration-300">
-                            Appeler l'agent
-                        </button>
-
-                        <!-- Modal -->
-                        <div id="agentModal"
-                            class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
-                            <div class="bg-white rounded-lg shadow-lg p-6 w-80 relative">
-                                <button onclick="closeAgentModal()"
-                                    class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-                                    ✖
-                                </button>
-
-                                <h2 class="text-xl font-semibold mb-4 text-center">Contacter l'agent</h2>
-
-                                <p class="text-lg font-bold text-gray-800 text-center mb-4">
-                                    📞 <a href="tel: +212-6342-624" class="text-blue-700 hover:underline">
-                                        +212-6342-624
-                                    </a>
-                                </p>
-
-                                <button onclick="closeAgentModal()"
-                                    class="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
-                                    Fermer
-                                </button>
-                            </div>
-                        </div>
-
-
-
-
-                    </div>
-                </div>
+                <span class="px-3 py-1 text-xs font-semibold rounded-full
+                    {{ $property->listing_type == 'À-vendre' ? 'bg-emerald-100 text-emerald-700' : 'bg-yellow-100 text-yellow-700' }}">
+                    {{ $property->listing_type }}
+                </span>
             </div>
 
-            <!-- Deuxième Bloc : Description + Google Maps -->
-            <div class="flex flex-col md:flex-row w-full max-w-screen-xl bg-white rounded-lg ">
+            <!-- Rating -->
+            @php
+                $avgRating = (int) round($property->reviews->avg('rating') ?? 0);
+                $reviewsCount = $property->reviews->count();
+            @endphp
+            <div class="flex items-center gap-2">
+                <span class="text-yellow-400 text-lg">{{ str_repeat('★', $avgRating) }}<span
+                        class="text-gray-300">{{ str_repeat('☆', 5 - $avgRating) }}</span></span>
+                <span class="text-sm text-gray-600">({{ $reviewsCount }} avis)</span>
+            </div>
 
-                <!-- Section gauche : Description -->
-                <div class="w-full md:w-2/3 flex flex-col justify-between px-2 border-r border-gray-200">
+            <!-- Carousel -->
+            <div class="relative w-full h-96 rounded-lg overflow-hidden shadow">
+                @foreach ($photos as $index => $photo)
+                    <img src="{{ asset('storage/' . $photo) }}" alt=""
+                        class="absolute w-full h-full object-cover transition-opacity duration-500
+                        {{ $index !== 0 ? 'opacity-0' : '' }}">
+                @endforeach
 
-                    <ul class="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0 text-gray-700 text-sm">
-                        <li class="flex items-center gap-1 justify-center">
-                            <img src="{{ asset('images/beds.svg') }}" class="w-6 h-6" alt="Chambres">
-                            {{ $property->bedrooms }} chambres |
-                        </li>
+                <!-- Nav buttons -->
+                <button id="prev"
+                    class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white px-3 py-1 rounded-full hover:bg-opacity-60">
+                    ❮
+                </button>
+                <button id="next"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white px-3 py-1 rounded-full hover:bg-opacity-60">
+                    ❯
+                </button>
+            </div>
 
-                        <li class="flex items-center gap-2">
-                            <img src="{{ asset('images/dosh.svg') }}" class="w-6 h-6" alt="Salle de bain">
-                            {{ $property->bathrooms }} salles de bain |
-                        </li>
-
-                        <li class="flex items-center gap-2">
-                            <img src="{{ asset('images/space.svg') }}" class="w-6 h-6" alt="Superficie">
-                            {{ $property->surface }} m²
-                        </li>
-                    </ul>
-
-                    <h2 class="text-xl mt-4  font-semibold text-gray-800">Description du bien</h2>
-                    <p class="text-gray-600 mt-4  text-sm ">
-                        {{ $property->description }}
-                    </p>
-                </div>
-
+            <!-- Description (under carousel) -->
+            <div class="mt-4">
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Description du bien</h2>
+                <p class="text-gray-600 leading-relaxed text-sm">{{ $property->description }}</p>
             </div>
         </div>
 
-        <section class=" pt-12 ">
+        <!-- Right: Details + Price + Booking -->
+        <div class="md:col-span-1">
+            <div class="sticky top-16 bg-white rounded-2xl shadow p-6 space-y-4">
 
-
-            <h2 class="text-center text-3xl font-semibold mb-4 ">Des Propriétés Similaires</h2>
-            <div class="flex justify-between pt-6 w-full">
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6 w-full">
-                    @foreach ($properties->take(9) as $property)
-                        <a href="{{ route('proprites.details', $property->id) }}" class="w-full group">
-                            <div class="w-full rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
-
-                                <!-- ✅ Image Section with fixed size -->
-                                <div class="relative w-full h-64 overflow-hidden">
-                                    <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                                        src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt="">
-
-                                    <!-- Labels -->
-                                    <div class="absolute top-3 left-3 flex space-x-2">
-                                        @if(strpos($property->listing_type, 'À-vendre') !== false)
-                                            <span class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                                À vendre
-                                            </span>
-                                        @endif
-                                        @if(strpos($property->listing_type, 'À-louer') !== false)
-                                            <span class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                                À louer
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <!-- ✅ Property Content -->
-                                <div class="flex-1 flex flex-col p-4">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <p class="text-sm font-medium text-gray-500">{{ $property->property_type }}</p>
-                                            <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition">
-                                                {{ $property->title }}
-                                            </h4>
-                                            <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
-                                                <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
-                                                <p class="truncate max-w-[180px]">{{ $property->address }}</p>
-                                            </div>
-                                        </div>
-                                        <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
-                                            {{ number_format($property->price, 0, ',', ' ') }} DH
-                                        </p>
-                                    </div>
-
-                                    <!-- ✅ Property Features -->
-                                    <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
-                                            <span>{{ $property->bedrooms }}</span>
-                                        </div>
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
-                                            <span>{{ $property->bathrooms }}</span>
-                                        </div>
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
-                                            <span>{{ $property->surface }} m²</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </a>
-                    @endforeach
+                <!-- Address -->
+                <div class="flex items-center gap-2">
+                    <img src="{{ asset('images/local.svg') }}" class="w-5 h-5 opacity-70" alt="">
+                    <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank"
+                        class="text-gray-700 hover:text-emerald-600">
+                        {{ $property->address }}
+                    </a>
                 </div>
+
+                <!-- Features -->
+                <div class="flex flex-col gap-2 mt-2 text-gray-600 text-sm">
+                    <div class="flex items-center gap-2">
+                        <img src="{{ asset('images/beds.svg') }}" class="w-5 h-5 opacity-70" alt="">
+                        {{ $property->bedrooms }} Chambres
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <img src="{{ asset('images/dosh.svg') }}" class="w-5 h-5 opacity-70" alt="">
+                        {{ $property->bathrooms }} Salles de bain
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <img src="{{ asset('images/space.svg') }}" class="w-5 h-5 opacity-70" alt="">
+                        {{ $property->surface }} m²
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <h2 class="text-2xl font-bold text-emerald-600">
+                    {{ $property->price }} MAD
+                    @if ($property->listing_type == 'À-louer')
+                        <span class="text-sm text-gray-500">/{{ $property->price_type }}</span>
+                    @endif
+                </h2>
+
+                <!-- Booking -->
+                @auth
+                    <a href="{{ route('checkout', $property->id) }}"
+                        class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                        Réserver
+                    </a>
+                @else
+                    <button onclick="openLoginModal()"
+                        class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition">
+                        Réserver
+                    </button>
+                @endauth
+
+                <!-- Agent -->
+                <button onclick="openAgentModal()"
+                    class="block w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
+                    📞 Appeler l'agent
+                </button>
             </div>
+        </div>
 
-
-
-			<div class="mt-10 border-t border-gray-200 pt-8 max-w-6xl mx-auto">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+    </div>
+</div>
+<div class="mt-10 border-t border-gray-200 pt-8 max-w-6xl mx-auto">
+                    <h3 class="flex items-center justify-center text-3xl font-bold text-gray-900 mb-8 gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 8h2a2 2 0 012 2v9a2 2 0 01-2 2h-6l-4 4v-4H7a2 2 0 01-2-2v-1" />
@@ -409,6 +225,104 @@
                     </div>
             </div>
 
+
+
+        <section class=" pt-12 ">
+
+
+            <h2 class="flex items-center justify-center text-3xl font-bold text-gray-900 mb-8 gap-3">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10z" />
+    </svg>
+    Des Propriétés Similaires
+</h2>
+
+<div class="w-full pt-6">
+    @if ($properties->isEmpty())
+        <!-- ✅ Message if no properties -->
+        <div class="flex justify-center">
+            <div class="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto w-12 h-12 text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9.75 17L4.5 12.75l5.25-4.25M14.25 7l5.25 4.25-5.25 4.25" />
+                </svg>
+                <p class="text-gray-600 font-medium">Aucune propriété similaire trouvée</p>
+            </div>
+        </div>
+    @else
+        <!-- ✅ Property Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6">
+            @foreach ($properties->take(9) as $property)
+                <a href="{{ route('proprites.details', $property->id) }}" class="group">
+                    <div class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col">
+
+                        <!-- Image -->
+                        <div class="relative w-full h-64 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                 src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt="">
+                            <div class="absolute top-3 left-3 flex space-x-2">
+                                @if(strpos($property->listing_type, 'À-vendre') !== false)
+                                    <span class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
+                                        À vendre
+                                    </span>
+                                @endif
+                                @if(strpos($property->listing_type, 'À-louer') !== false)
+                                    <span class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
+                                        À louer
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="flex-1 flex flex-col p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">{{ $property->property_type }}</p>
+                                    <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition">
+                                        {{ $property->title }}
+                                    </h4>
+                                    <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-70 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <p class="truncate max-w-[180px]">{{ $property->address }}</p>
+                                    </div>
+                                </div>
+                                <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
+                                    {{ number_format($property->price, 0, ',', ' ') }} DH
+                                </p>
+                            </div>
+
+                            <!-- Features -->
+                            <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
+                                <div class="flex items-center space-x-1">
+                                    <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
+                                    <span>{{ $property->bedrooms }}</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
+                                    <span>{{ $property->bathrooms }}</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
+                                    <span>{{ $property->surface }} m²</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    @endif
+</div>
+
+
+
+
+			
 {{-- ✅ Alpine.js for star rating --}}
 <script src="//unpkg.com/alpinejs" defer></script>
 
@@ -485,6 +399,27 @@
                 });
             });
         </script>
+
+        <style>
+            .skeleton {
+                background: linear-gradient(90deg, rgba(229, 231, 235, 1) 25%, rgba(243, 244, 246, 1) 37%, rgba(229, 231, 235, 1) 63%);
+                background-size: 400% 100%;
+            }
+
+            .skeleton-animate {
+                animation: shimmer 1.25s infinite;
+            }
+
+            @keyframes shimmer {
+                0% {
+                    background-position: 100% 0;
+                }
+
+                100% {
+                    background-position: 0 0;
+                }
+            }
+        </style>
 
     </section>
 @endsection

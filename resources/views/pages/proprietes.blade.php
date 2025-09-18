@@ -111,9 +111,13 @@
                                         class="w-full rounded-2xl border border-[#e0dede] p-2 hover:shadow duration-400 relative">
                                         <!-- Image Section with Positioned Labels -->
                                         <div class="relative">
-                                            <img class="w-full h-80 object-cover rounded-2xl"
+                                        <div class="relative overflow-hidden rounded-2xl">
+                                            <div class="absolute inset-0 skeleton skeleton-animate rounded-2xl"></div>
+                                            <img class="w-full h-80 object-cover rounded-2xl opacity-0 transition-[opacity,transform] duration-300 hover:scale-[1.02]"
                                                 src="{{ asset('storage/' . json_decode($property->photos)[0]) }}"
-                                                alt="">
+                                                alt="" loading="lazy" decoding="async"
+                                                onload="this.classList.remove('opacity-0'); this.previousElementSibling.classList.add('opacity-0'); this.previousElementSibling.classList.remove('skeleton-animate');">
+                                        </div>
 
                                             <!-- Labels -->
                                             <div class="absolute top-4 left-4 flex space-x-2">
@@ -140,7 +144,7 @@
                                                 <p class="font-semibold text-[#1A1A1A] text-xl">{{ $property->title }}</p>
                                                 <div class="flex items-center space-x-0.5 pt-1">
                                                     <img src="{{ asset('images/local.svg') }}" alt=""
-                                                        class="w-4 h-4">
+                                                        class="w-4 h-4" loading="lazy">
                                                     <p>{{ $property->address }}</p>
                                                 </div>
                                             </div>
@@ -153,17 +157,17 @@
                                         <!-- Property Features -->
                                         <div class="flex items-center py-2 px-1 gap-x-4">
                                             <div class="flex items-center space-x-0.5">
-                                                <img class="w-4 h-4" src="{{ asset('images/beds.svg') }}" alt="">
+                                                <img class="w-4 h-4" src="{{ asset('images/beds.svg') }}" alt="" loading="lazy">
                                                 <p>{{ $property->bedrooms }}</p>
                                             </div>
                                             <div class="flex items-center space-x-0.5">
                                                 <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}"
-                                                    alt="">
+                                                    alt="" loading="lazy">
                                                 <p>{{ $property->bathrooms }}</p>
                                             </div>
                                             <div class="flex items-center space-x-0.5">
                                                 <img class="w-4 h-4" src="{{ asset('images/space.svg') }}"
-                                                    alt="">
+                                                    alt="" loading="lazy">
                                                 <p>{{ $property->surface }} m²</p>
                                             </div>
                                         </div>
