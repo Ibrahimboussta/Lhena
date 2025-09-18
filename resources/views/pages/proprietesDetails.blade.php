@@ -1,5 +1,28 @@
 @extends('layouts.index')
 @section('content')
+
+    <style>
+        .skeleton {
+            background: linear-gradient(90deg, rgba(229, 231, 235, 1) 25%, rgba(243, 244, 246, 1) 37%, rgba(229, 231, 235, 1) 63%);
+            background-size: 400% 100%;
+        }
+
+        .skeleton-animate {
+            animation: shimmer 1.25s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 100% 0;
+            }
+
+            100% {
+                background-position: 0 0;
+            }
+        }
+    </style>
+
+
     <section class="px-6  py-20">
         <div class="flex flex-col items-center min-h-screen px-4 space-y-1">
 
@@ -241,7 +264,11 @@
             </div>
         </div>
 
-        <section class=" pt-12 ">
+
+    </section>
+
+
+     <section class=" pt-12 ">
 
 
             <h2 class="text-center text-3xl font-semibold mb-4 ">Des Propriétés Similaires</h2>
@@ -347,14 +374,14 @@
                                                 :class="i <= rating ? 'text-yellow-400' : 'text-gray-300'"
                                                 viewBox="0 0 20 20" fill="currentColor">
                                                 <path d="M9.049 2.927c.3-.921 1.603-.921
-                                            1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
-                                            0 1.371 1.24.588 1.81l-2.8
-                                            2.034a1 1 0 00-.364 1.118l1.07
-                                            3.292c.3.921-.755 1.688-1.54
-                                            1.118l-2.8-2.034a1 1 0
-                                            00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1
-                                            1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1
-                                            1 0 00.951-.69l1.07-3.292z" />
+                                                    1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
+                                                    0 1.371 1.24.588 1.81l-2.8
+                                                    2.034a1 1 0 00-.364 1.118l1.07
+                                                    3.292c.3.921-.755 1.688-1.54
+                                                    1.118l-2.8-2.034a1 1 0
+                                                    00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1
+                                                    1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1
+                                                    1 0 00.951-.69l1.07-3.292z" />
                                             </svg>
                                         </label>
                                     </template>
@@ -429,95 +456,70 @@
 
 
         </section>
+    <script>
+        // ==========================
+        // Modal Handling
+        // ==========================
+        function openModal() {
+            document.getElementById('phoneModal').classList.remove('hidden');
+        }
 
+        function closeModal() {
+            document.getElementById('phoneModal').classList.add('hidden');
+        }
 
-        <script>
-            // ==========================
-            // Modal Handling
-            // ==========================
-            function openModal() {
-                document.getElementById('phoneModal').classList.remove('hidden');
-            }
+        function openAgentModal() {
+            document.getElementById('agentModal').classList.remove('hidden');
+        }
 
-            function closeModal() {
-                document.getElementById('phoneModal').classList.add('hidden');
-            }
+        function closeAgentModal() {
+            document.getElementById('agentModal').classList.add('hidden');
+        }
 
-            function openAgentModal() {
-                document.getElementById('agentModal').classList.remove('hidden');
-            }
+        // ==========================
+        // Carousel Handling
+        // ==========================
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('#carousel-container img');
+        const indicators = document.querySelectorAll('.absolute.bottom-4 button');
 
-            function closeAgentModal() {
-                document.getElementById('agentModal').classList.add('hidden');
-            }
-
-            // ==========================
-            // Carousel Handling
-            // ==========================
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('#carousel-container img');
-            const indicators = document.querySelectorAll('.absolute.bottom-4 button');
-
-            function showSlide(index) {
-                slides.forEach((slide, idx) => {
-                    slide.classList.add('opacity-0');
-                    indicators[idx].classList.add('bg-gray-400');
-                    indicators[idx].classList.remove('bg-white');
-                });
-
-                slides[index].classList.remove('opacity-0');
-                indicators[index].classList.remove('bg-gray-400');
-                indicators[index].classList.add('bg-white');
-            }
-
-            // Show initial slide on load
-            if (slides.length > 0) {
-                showSlide(currentSlide);
-            }
-
-            const prevBtn = document.getElementById('prev');
-            const nextBtn = document.getElementById('next');
-
-            if (prevBtn && nextBtn) {
-                prevBtn.addEventListener('click', () => {
-                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                    showSlide(currentSlide);
-                });
-
-                nextBtn.addEventListener('click', () => {
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    showSlide(currentSlide);
-                });
-            }
-
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', () => {
-                    currentSlide = index;
-                    showSlide(currentSlide);
-                });
+        function showSlide(index) {
+            slides.forEach((slide, idx) => {
+                slide.classList.add('opacity-0');
+                indicators[idx].classList.add('bg-gray-400');
+                indicators[idx].classList.remove('bg-white');
             });
-        </script>
 
-        <style>
-            .skeleton {
-                background: linear-gradient(90deg, rgba(229, 231, 235, 1) 25%, rgba(243, 244, 246, 1) 37%, rgba(229, 231, 235, 1) 63%);
-                background-size: 400% 100%;
-            }
+            slides[index].classList.remove('opacity-0');
+            indicators[index].classList.remove('bg-gray-400');
+            indicators[index].classList.add('bg-white');
+        }
 
-            .skeleton-animate {
-                animation: shimmer 1.25s infinite;
-            }
+        // Show initial slide on load
+        if (slides.length > 0) {
+            showSlide(currentSlide);
+        }
 
-            @keyframes shimmer {
-                0% {
-                    background-position: 100% 0;
-                }
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
 
-                100% {
-                    background-position: 0 0;
-                }
-            }
-        </style>
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            });
 
-    </section>
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            });
+        }
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+    </script>
 @endsection
