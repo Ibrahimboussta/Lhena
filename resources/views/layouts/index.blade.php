@@ -67,16 +67,39 @@
                         </a>
 
                         <!-- Profile -->
-                        <a href="{{ Auth::user()->role == 'user' ? route('dashboard') : route('users') }}"
-                            class="flex items-center">
-                            <div
-                                class="p-2 rounded-full border border-gray-300 hover:bg-black hover:border-black hover:text-white transition duration-200">
-                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 1 8 0 4 4 0 0 1-8 0z" />
-                                </svg>
-                            </div>
-                        </a>
+                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button
+                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 ">
+                                        {{-- أيقونة المستخدم بدل الاسم --}}
+                                        <div
+                                            class="p-2 rounded-full border border-black hover:bg-black hover:border-black hover:text-white transition duration-200">
+                                            <svg class="h-5 w-5 text-black hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 1 8 0 4 4 0 0 1-8 0z" />
+                                            </svg>
+                                        </div>
+
+                                    </button>
+                                </x-slot>
+
+                                <x-slot name="content">
+                                    <x-dropdown-link :href="route('profile.edit')">
+                                        {{ __('Profile') }}
+                                    </x-dropdown-link>
+
+                                    <!-- Authentication -->
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <x-dropdown-link :href="route('logout')"
+                                            onclick="event.preventDefault(); this.closest('form').submit();">
+                                            {{ __('Log Out') }}
+                                        </x-dropdown-link>
+                                    </form>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
                     @else
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('login') }}"
@@ -177,10 +200,11 @@
                 <div>
                     <h4 class="text-lg font-semibold text-gray-900 mb-4">Newsletter</h4>
                     <p class="text-gray-600 mb-4">Abonnez-vous pour recevoir nos dernières actualités.</p>
-                    <form action="{{ route('mailing.store') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
+                    <form action="{{ route('mailing.store') }}" method="POST"
+                        class="flex flex-col sm:flex-row gap-3">
                         @csrf
                         <input type="email" name="email"
-                            class="w-full px-4 py-2 rounded-md bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+                            class="w-full px-4 py-2 rounded-md bg-gray-100 border border-gray-30d0 focus:outline-none focus:ring-2 focus:ring-black"
                             placeholder="Votre email ici..." />
                         <button type="submit"
                             class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">S'abonner</button>
