@@ -14,16 +14,21 @@ class ProprieteContoller extends Controller
 
         return view('pages.proprietes', compact('properties'));
     }
- public function details($id)
+public function details($id)
 {
     // Fetch exact property with its reviews + user
     $property = Propritie::with('reviews.user')->findOrFail($id);
 
     $photos = json_decode($property->photos);
-    $properties = Propritie::latest()->paginate(3);
+
+    // ✅ Fetch latest properties but exclude the current one
+    $properties = Propritie::where('id', '!=', $id)
+        ->latest()
+        ->paginate(3);
 
     return view('pages.proprietesDetails', compact('property', 'photos', 'properties'));
 }
+
 
 
 

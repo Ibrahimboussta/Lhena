@@ -233,165 +233,183 @@
 
 
             <h2 class="text-center text-3xl font-semibold mb-4 ">Des Propriétés Similaires</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6 w-full pt-7">
+            <div class="flex justify-between pt-6 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6 w-full">
+                    @foreach ($properties->take(9) as $property)
+                        <a href="{{ route('proprites.details', $property->id) }}" class="w-full group">
+                            <div class="w-full rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
 
-                @foreach ($properties as $similarProperty)
-                    <a href="{{ route('proprites.details', $similarProperty->id) }}" class="w-full">
-                        <div class="w-full rounded-2xl border border-[#e0dede] p-2 hover:shadow duration-400 relative">
-                            <!-- Image Section with Positioned Labels -->
-                            <div class="relative">
-                                <img class="w-full h-80 object-cover rounded-2xl"
-                                    src="{{ asset('storage/' . json_decode($similarProperty->photos)[0]) }}" alt="">
+                                <!-- ✅ Image Section with fixed size -->
+                                <div class="relative w-full h-64 overflow-hidden">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                        src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt="">
 
-                                <!-- Labels -->
-                                <div class="absolute top-4 left-4 flex space-x-2">
-                                    @if (strpos($similarProperty->listing_type, 'À-vendre') !== false)
-                                        <span
-                                            class="text-white bg-[#25D366] rounded-lg px-3 py-1 uppercase font-medium text-xs">
-                                            À vendre
-                                        </span>
-                                    @endif
-                                    @if (strpos($similarProperty->listing_type, 'À-louer') !== false)
-                                        <span
-                                            class="text-white bg-[#E7C873] rounded-lg px-3 py-1 uppercase font-medium text-xs">
-                                            À louer
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-
-                            <!-- Property Details -->
-                            <div class="flex justify-between items-start pt-2 px-1">
-                                <div>
-                                    <p class="font-semibold text-[#1A1A1A] text-xl">{{ $similarProperty->title }}</p>
-                                    <div class="flex items-center space-x-0.5 pt-1">
-                                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4">
-                                        <p>{{ $similarProperty->address }}</p>
+                                    <!-- Labels -->
+                                    <div class="absolute top-3 left-3 flex space-x-2">
+                                        @if(strpos($property->listing_type, 'À-vendre') !== false)
+                                            <span class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
+                                                À vendre
+                                            </span>
+                                        @endif
+                                        @if(strpos($property->listing_type, 'À-louer') !== false)
+                                            <span class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
+                                                À louer
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
-                                <div>
-                                    <p class="font-semibold text-[#25D366]">{{ $similarProperty->price }} DH</p>
-                                </div>
-                            </div>
 
-                            <!-- Property Features -->
-                            <div class="flex items-center py-2 px-1 gap-x-4">
-                                <div class="flex items-center space-x-0.5">
-                                    <img class="w-4 h-4" src="{{ asset('images/beds.svg') }}" alt="">
-                                    <p>{{ $similarProperty->bedrooms }}</p>
-                                </div>
-                                <div class="flex items-center space-x-0.5">
-                                    <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}" alt="">
-                                    <p>{{ $similarProperty->bathrooms }}</p>
-                                </div>
-                                <div class="flex items-center space-x-0.5">
-                                    <img class="w-4 h-4" src="{{ asset('images/space.svg') }}" alt="">
-                                    <p>{{ $similarProperty->surface }} m²</p>
+                                <!-- ✅ Property Content -->
+                                <div class="flex-1 flex flex-col p-4">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-500">{{ $property->property_type }}</p>
+                                            <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition">
+                                                {{ $property->title }}
+                                            </h4>
+                                            <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
+                                                <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
+                                                <p class="truncate max-w-[180px]">{{ $property->address }}</p>
+                                            </div>
+                                        </div>
+                                        <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
+                                            {{ number_format($property->price, 0, ',', ' ') }} DH
+                                        </p>
+                                    </div>
+
+                                    <!-- ✅ Property Features -->
+                                    <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
+                                        <div class="flex items-center space-x-1">
+                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
+                                            <span>{{ $property->bedrooms }}</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1">
+                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
+                                            <span>{{ $property->bathrooms }}</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1">
+                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
+                                            <span>{{ $property->surface }} m²</span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                @endforeach
+                        </a>
+                    @endforeach
+                </div>
             </div>
 
 
-			<!-- Reviews & Comments -->
-			<div class="mt-10 border-t border-gray-200 pt-8 max-w-5xl mx-auto">
-<h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 8h2a2 2 0 012 2v9a2 2 0 01-2 2h-6l-4 4v-4H7a2 2 0 01-2-2v-1" />
-        </svg>
-        Avis et commentaires
-    </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {{-- ✅ Review Form --}}
-        @if (Auth::check())
-            <form action="{{ route('reviews.store') }}" method="POST"
-                  class="space-y-4 bg-white shadow-md border border-gray-200 rounded-xl p-6 h-fit">
-                @csrf
-                <input type="hidden" name="proprity_id" value="{{ $property->id }}">
 
-                {{-- Rating --}}
-                <div class="space-y-2" x-data="{ rating: {{ old('rating', 5) }} }">
-                    <label class="block text-sm font-medium text-gray-700">Votre note</label>
-                    <div class="flex items-center gap-2">
-                        <template x-for="i in 5" :key="i">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="rating" :value="i" x-model="rating" class="hidden" />
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-7 h-7 transition-colors duration-200"
-                                     :class="i <= rating ? 'text-yellow-400' : 'text-gray-300'"
-                                     viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 
-                                        1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 
-                                        0 1.371 1.24.588 1.81l-2.8 
-                                        2.034a1 1 0 00-.364 1.118l1.07 
-                                        3.292c.3.921-.755 1.688-1.54 
-                                        1.118l-2.8-2.034a1 1 0 
-                                        00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 
-                                        1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 
-                                        1 0 00.951-.69l1.07-3.292z"/>
-                                </svg>
-                            </label>
-                        </template>
-                    </div>
-                </div>
+			<div class="mt-10 border-t border-gray-200 pt-8 max-w-6xl mx-auto">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8h2a2 2 0 012 2v9a2 2 0 01-2 2h-6l-4 4v-4H7a2 2 0 01-2-2v-1" />
+                        </svg>
+                        Avis et commentaires
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {{-- ✅ Review Form (if logged in) --}}
+                        @auth
+                            <form action="{{ route('reviews.store') }}" method="POST"
+                                class="space-y-4 bg-white shadow-md border border-gray-200 rounded-xl p-6 h-fit">
+                                @csrf
+                                <input type="hidden" name="proprity_id" value="{{ $property->id }}">
 
-                {{-- Comment --}}
-                <div class="space-y-2">
-                    <label for="comment" class="block text-sm font-medium text-gray-700">Votre avis</label>
-                    <textarea id="comment" name="comment" placeholder="Partagez votre expérience..."
-                              class="w-full min-h-28 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-gray-400">{{ old('comment') }}</textarea>
-                </div>
-
-                <div class="flex justify-end">
-                    <button type="submit"
-                            class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition">
-                        Envoyer
-                    </button>
-                </div>
-            </form>
-        @else
-            <div class="my-3 text-center">
-                <a href="{{ route('register') }}"
-                   class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition">
-                    Ajouter un commentaire
-                </a>
-            </div>
-        @endif
-
-        {{-- ✅ Comments Section --}}
-        <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 max-h-96 overflow-y-auto space-y-4">
-            @if ($property->reviews->isEmpty())
-                <p class="text-sm text-gray-500 text-center">Aucun commentaire pour le moment. Soyez le premier à donner votre avis.</p>
-            @else
-                @foreach ($property->reviews as $review)
-                    <div class="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
-                        <div class="flex items-start gap-3">
-                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-semibold">
-                                {{ strtoupper(mb_substr($review->user->name, 0, 1)) }}
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex items-center justify-between">
-                                    <p class="font-semibold text-[#1A1A1A]">{{ $review->user->name }}</p>
-                                    <p class="text-xs text-gray-500">{{ $review->created_at->diffForHumans() }}</p>
+                                {{-- Rating --}}
+                                <div class="space-y-2" x-data="{ rating: {{ old('rating', 5) }} }">
+                                    <label class="block text-sm font-medium text-gray-700">Votre note</label>
+                                    <div class="flex items-center gap-2">
+                                        <template x-for="i in 5" :key="i">
+                                            <label class="cursor-pointer">
+                                                <input type="radio" name="rating" :value="i" x-model="rating" class="hidden" />
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-7 h-7 transition-colors duration-200"
+                                                    :class="i <= rating ? 'text-yellow-400' : 'text-gray-300'"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 
+                                                        1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 
+                                                        0 1.371 1.24.588 1.81l-2.8 
+                                                        2.034a1 1 0 00-.364 1.118l1.07 
+                                                        3.292c.3.921-.755 1.688-1.54 
+                                                        1.118l-2.8-2.034a1 1 0 
+                                                        00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 
+                                                        1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 
+                                                        1 0 00.951-.69l1.07-3.292z"/>
+                                                </svg>
+                                            </label>
+                                        </template>
+                                    </div>
                                 </div>
-                                <div class="text-sm">
-                                    <span class="text-yellow-400">{{ str_repeat('★', $review->rating) }}</span>
-                                    <span class="text-gray-300">{{ str_repeat('☆', 5 - $review->rating) }}</span>
+
+                                {{-- Comment --}}
+                                <div class="space-y-2">
+                                    <label for="comment" class="block text-sm font-medium text-gray-700">Votre avis</label>
+                                    <textarea id="comment" name="comment" placeholder="Partagez votre expérience..."
+                                            class="w-full min-h-28 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-gray-400">{{ old('comment') }}</textarea>
                                 </div>
-                                <p class="mt-2 text-sm text-gray-700 leading-relaxed">{{ $review->comment }}</p>
+
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                            class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition">
+                                        Envoyer
+                                    </button>
+                                </div>
+                            </form>
+                        @endauth
+
+                        {{-- ✅ Guest Message (if not logged in) --}}
+                        @guest
+                            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm text-center h-fit">
+                                <p class="text-gray-600 text-sm mb-4">
+                                    Connectez-vous ou créez un compte pour laisser un avis.
+                                </p>
+                                <div class="flex justify-center gap-3">
+                                    <a href="{{ route('login') }}"
+                                    class="px-4 py-2 rounded-lg bg-gray-800 text-white text-sm font-medium hover:bg-gray-900 transition">
+                                        Se connecter
+                                    </a>
+                                    <a href="{{ route('register') }}"
+                                    class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition">
+                                        S’inscrire
+                                    </a>
+                                </div>
                             </div>
+                        @endguest
+
+                        {{-- ✅ Comments Section --}}
+                        <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 max-h-96 overflow-y-auto space-y-4">
+                            @if ($property->reviews->isEmpty())
+                                <p class="text-sm text-gray-500 text-center">Aucun commentaire pour le moment. Soyez le premier à donner votre avis.</p>
+                            @else
+                                @foreach ($property->reviews as $review)
+                                    <div class="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
+                                        <div class="flex items-start gap-3">
+                                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-semibold">
+                                                {{ strtoupper(mb_substr($review->user->name, 0, 1)) }}
+                                            </div>
+                                            <div class="flex-1">
+                                                <div class="flex items-center justify-between">
+                                                    <p class="font-semibold text-[#1A1A1A]">{{ $review->user->name }}</p>
+                                                    <p class="text-xs text-gray-500">{{ $review->created_at->diffForHumans() }}</p>
+                                                </div>
+                                                <div class="text-sm">
+                                                    <span class="text-yellow-400">{{ str_repeat('★', $review->rating) }}</span>
+                                                    <span class="text-gray-300">{{ str_repeat('☆', 5 - $review->rating) }}</span>
+                                                </div>
+                                                <p class="mt-2 text-sm text-gray-700 leading-relaxed">{{ $review->comment }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
-                @endforeach
-            @endif
-        </div>
-    </div>
-</div>
+            </div>
 
-{{-- ✅ Alpine.js --}}
+{{-- ✅ Alpine.js for star rating --}}
 <script src="//unpkg.com/alpinejs" defer></script>
 
 
