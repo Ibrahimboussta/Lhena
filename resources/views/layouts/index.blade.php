@@ -103,12 +103,12 @@
                     @else
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('login') }}"
-                                class="hidden lg:flex items-center bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-green-800 transition duration-200">
+                                class="hidden lg:flex items-center bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition duration-200">
                                 <span>Se connecter</span>
                             </a>
 
                             <a href="{{ route('register') }}"
-                                class="flex items-center border border-red-700 text-gray-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-red-700 hover:text-white transition duration-300">
+                                class="flex items-center text-white bg-red-600 border border-red-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700 hover:text-white transition duration-300">
                                 <span>S'inscrire</span>
                             </a>
                         </div>

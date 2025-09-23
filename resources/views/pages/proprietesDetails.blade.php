@@ -34,7 +34,7 @@
 
             <!-- Title & Tag -->
             <div class="flex justify-between items-start">
-                <div>
+                <div class="space-y-1">
                     <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ $property->title }}</h1>
                     <p class="text-sm text-gray-500">{{ $property->created_at->diffForHumans() }}</p>
                 </div>
@@ -119,23 +119,54 @@
                 </h2>
 
                 <!-- Booking -->
-                @auth
-                    <a href="{{ route('checkout', $property->id) }}"
-                        class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition">
-                        Réserver
-                    </a>
-                @else
-                    <button onclick="openLoginModal()"
-                        class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition">
-                        Réserver
-                    </button>
-                @endauth
+               <div class="space-y-2">
 
-                <!-- Agent -->
-                <button onclick="openAgentModal()"
-                    class="block w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
-                    📞 Appeler l'agent
-                </button>
+    <!-- Réserver Button -->
+    @auth
+        <a href="{{ route('checkout', $property->id) }}"
+           class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition">
+           Réserver
+        </a>
+    @else
+        <button onclick="openLoginModal()"
+           class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg transition">
+           Réserver
+        </button>
+    @endauth
+
+    <!-- Appeler l'agent Button -->
+    <button onclick="openAgentModal()"
+           class="block w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
+           📞 Appeler l'agent
+    </button>
+
+</div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg max-w-md w-full">
+        <h2 class="text-lg font-bold mb-4">Veuillez vous connecter</h2>
+        <p class="mb-4">Vous devez être connecté pour réserver ce bien.</p>
+        <div class="flex justify-end space-x-2">
+            <a href="{{ route('login') }}"
+               class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">Se connecter</a>
+            <button onclick="closeLoginModal()"
+               class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- Agent Modal -->
+<div id="agentModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg max-w-md w-full">
+        <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
+        <p class="mb-4">📞 Numéro de tel : {{ $property->contact_phone }}</p>
+        <div class="flex justify-end">
+            <button onclick="closeAgentModal()"
+               class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
+        </div>
+    </div>
+</div>
             </div>
         </div>
 
@@ -207,11 +238,11 @@
                                 </p>
                                 <div class="flex justify-center gap-3">
                                     <a href="{{ route('login') }}"
-                                    class="px-4 py-2 rounded-lg bg-gray-800 text-white text-sm font-medium hover:bg-gray-900 transition">
+                                    class="px-4 py-2 rounded-md bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition">
                                         Se connecter
                                     </a>
                                     <a href="{{ route('register') }}"
-                                    class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition">
+                                    class="px-4 py-2 rounded-md bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition">
                                         S’inscrire
                                     </a>
                                 </div>
@@ -265,7 +296,7 @@
     Des Propriétés Similaires
 </h2>
 
-<div class="w-full pt-6">
+<div class="w-full pb-12 px-6 sm:px-16">
     @if ($properties->isEmpty())
         <!-- ✅ Message if no properties -->
         <div class="flex justify-center">
@@ -362,21 +393,20 @@
         // ==========================
         // Modal Handling
         // ==========================
-        function openModal() {
-            document.getElementById('phoneModal').classList.remove('hidden');
-        }
+        function openLoginModal() {
+        document.getElementById('loginModal').classList.remove('hidden');
+    }
+    function closeLoginModal() {
+        document.getElementById('loginModal').classList.add('hidden');
+    }
 
-        function closeModal() {
-            document.getElementById('phoneModal').classList.add('hidden');
-        }
-
-        function openAgentModal() {
-            document.getElementById('agentModal').classList.remove('hidden');
-        }
-
-        function closeAgentModal() {
-            document.getElementById('agentModal').classList.add('hidden');
-        }
+    // Agent Modal
+    function openAgentModal() {
+        document.getElementById('agentModal').classList.remove('hidden');
+    }
+    function closeAgentModal() {
+        document.getElementById('agentModal').classList.add('hidden');
+    }
 
         // ==========================
         // Carousel Handling
