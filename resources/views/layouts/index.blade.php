@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lhena</title>
+    <title>Lhena - Votre plateforme immobilière de confiance</title>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     <link rel="icon" href="{{ asset('images/lhena-logo.png') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 
 </head>
 
@@ -66,49 +70,58 @@
                             <span>Publier une annonce</span>
                         </a>
 
-                        <!-- Profile -->
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <button
-                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 ">
-                                        {{-- أيقونة المستخدم بدل الاسم --}}
-                                        <div
-                                            class="p-2 rounded-full border border-black hover:bg-black hover:border-black hover:text-white transition duration-200">
-                                            <svg class="h-5 w-5 text-black hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 1 8 0 4 4 0 0 1-8 0z" />
-                                            </svg>
-                                        </div>
+                        <!-- Profile Dropdown -->
+                        <div class="relative" x-data="{ open: false }">
+                            <!-- Profile Button -->
+                            <button @click="open = !open" @click.away="open = false"
+                                class="p-2 rounded-full border border-gray-300 hover:bg-black hover:border-black hover:text-white transition duration-200">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 1 8 0 4 4 0 0 1-8 0z" />
+                                </svg>
+                            </button>
 
+                            <!-- Dropdown Menu -->
+                            <div x-show="open"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 py-1">
+
+                                <!-- Dashboard -->
+                                <a href="{{ Auth::user()->role == 'user' ? route('dashboard') : route('users') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    {{ Auth::user()->role == 'user' ? 'Dashboard' : 'Admin Panel' }}
+                                </a>
+
+                                <!-- Profile -->
+                                <a href="{{ route('profile.edit') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                    Profile
+                                </a>
+
+                                <!-- Logout -->
+                                <form method="POST" action="{{ route('logout') }}" class="block">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Se déconnecter
                                     </button>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <x-dropdown-link :href="route('profile.edit')">
-                                        {{ __('Profile') }}
-                                    </x-dropdown-link>
-
-                                    <!-- Authentication -->
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <x-dropdown-link :href="route('logout')"
-                                            onclick="event.preventDefault(); this.closest('form').submit();">
-                                            {{ __('Log Out') }}
-                                        </x-dropdown-link>
-                                    </form>
-                                </x-slot>
-                            </x-dropdown>
+                                </form>
+                            </div>
                         </div>
                     @else
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('login') }}"
-                                class="hidden lg:flex items-center bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition duration-200">
+                                class="hidden lg:flex items-center bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition duration-200">
                                 <span>Se connecter</span>
                             </a>
 
                             <a href="{{ route('register') }}"
-                                class="flex items-center text-white bg-red-600 border border-red-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700 hover:text-white transition duration-300">
+                                class="flex items-center  bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700 hover:text-white transition duration-300">
                                 <span>S'inscrire</span>
                             </a>
                         </div>
@@ -200,11 +213,10 @@
                 <div>
                     <h4 class="text-lg font-semibold text-gray-900 mb-4">Newsletter</h4>
                     <p class="text-gray-600 mb-4">Abonnez-vous pour recevoir nos dernières actualités.</p>
-                    <form action="{{ route('mailing.store') }}" method="POST"
-                        class="flex flex-col sm:flex-row gap-3">
+                    <form action="{{ route('mailing.store') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
                         @csrf
                         <input type="email" name="email"
-                            class="w-full px-4 py-2 rounded-md bg-gray-100 border border-gray-30d0 focus:outline-none focus:ring-2 focus:ring-black"
+                            class="w-full px-4 py-2 rounded-md bg-gray-100 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
                             placeholder="Votre email ici..." />
                         <button type="submit"
                             class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">S'abonner</button>

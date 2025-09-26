@@ -13,40 +13,67 @@
             <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
 
                 <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
-                    <form action="{{ route('contact.store') }}" method="POST" class="space-y-4">
+                    <form action="{{ route('contact.store') }}"
+                          method="POST"
+                          class="space-y-4"
+                          x-data="{ loading: false }"
+                          @submit="loading = true">
                         @csrf
                         <div>
                             <label class="sr-only" for="name">Nom</label>
-                            <input class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm" placeholder="Nom"
-                                type="text" id="name" name='name' />
+                            <input class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                   placeholder="Nom"
+                                   type="text"
+                                   id="name"
+                                   name="name"
+                                   :disabled="loading" />
                         </div>
                         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                             <div>
                                 <label class="sr-only" for="email">Email</label>
-                                <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm"
-                                    placeholder="Adresse email" type="email" id="email" name='email' />
+                                <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                       placeholder="Adresse email"
+                                       type="email"
+                                       id="email"
+                                       name="email"
+                                       :disabled="loading" />
                             </div>
 
                             <div>
                                 <label class="sr-only" for="phone">Téléphone</label>
-                                <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm"
-                                    placeholder="+212 612345678" type="tel" id="phone" name="phone"
-                                    pattern="\+?[0-9]*" inputmode="numeric" />
+                                <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                       placeholder="+212 612345678"
+                                       type="tel"
+                                       id="phone"
+                                       name="phone"
+                                       pattern="\+?[0-9]*"
+                                       inputmode="numeric"
+                                       :disabled="loading" />
                             </div>
-
                         </div>
 
                         <div>
                             <label class="sr-only" for="message">Message</label>
 
-                            <textarea class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm" placeholder="Message" rows="8"
-                                id="message" name = 'message'></textarea>
+                            <textarea class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                      placeholder="Message"
+                                      rows="8"
+                                      id="message"
+                                      name="message"
+                                      :disabled="loading"></textarea>
                         </div>
 
                         <div class="mt-4">
                             <button type="submit"
-                                class="inline-flex items-center justify-center w-full sm:w-auto px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200">
-                                Envoyer la demande
+                                class="inline-flex items-center justify-center w-full sm:w-auto px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                :disabled="loading">
+                                <template x-if="loading">
+                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                </template>
+                                <span x-text="loading ? 'Envoi en cours...' : 'Envoyer la demande'"></span>
                             </button>
                         </div>
                     </form>

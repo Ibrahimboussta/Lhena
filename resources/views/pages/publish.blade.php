@@ -1,260 +1,354 @@
 @extends('layouts.index')
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<section class="px-6">
 
+<section class="px-6">
     <h1 class="text-4xl font-bold pt-24">Publier une annonce</h1>
 
     <div class="py-8">
         <div class="container mx-auto border border-red-700 rounded-lg shadow-md">
             <div class="bg-white shadow rounded-lg p-6">
-                <h1 class="text-xl font-semibold mb-2 text-gray-900">Informations personnelles</h1>
-                <p class="text-gray-600 mb-3">Utilisez une adresse permanente où vous pouvez recevoir du courrier.</p>
 
-                <form action="{{ route('proprites.store') }}" method="POST" enctype="multipart/form-data" id="propertyForm">
+                <!-- Header -->
+                <h2 class="text-xl font-semibold mb-2 text-gray-900">Informations personnelles</h2>
+                <p class="text-gray-600 mb-4">Utilisez une adresse permanente où vous pouvez recevoir du courrier.</p>
+
+                @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                <form action="{{ route('proprites.store') }}"
+                      method="POST"
+                      enctype="multipart/form-data"
+                      id="propertyForm">
                     @csrf
 
-                    <!-- Upload Progress -->
-                    <div class="mb-4" id="upload-progress" style="display: none;">
-                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                            <div class="bg-black h-2.5 rounded-full" id="progress-bar" style="width: 0%"></div>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-2" id="progress-text">Téléchargement: 0%</p>
-                    </div>
 
-                    <!-- Listing Type -->
+
+                    <!-- Listing Type + Price Type -->
                     <div class="flex flex-wrap items-center gap-4 pb-5">
-                        <div class="flex flex-wrap items-center gap-4">
-                            <label class="flex items-center space-x-2">
+                        <div class="flex items-center gap-4">
+                            <label class="flex items-center gap-2">
                                 <input type="checkbox" name="listing_type[]" value="À-vendre">
                                 <span>À vendre</span>
                             </label>
-                            <label class="flex items-center space-x-2">
+                            <label class="flex items-center gap-2">
                                 <input type="checkbox" name="listing_type[]" value="À-louer">
                                 <span>À louer</span>
                             </label>
                         </div>
 
-                        <!-- Price Type -->
-                        <div class="w-full">
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <label class="flex items-center space-x-2">
-                                    <input type="radio" name="price_type" value="" checked>
-                                    <span>-- Aucun --</span>
+                        <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
+                            @foreach (['' => '-- Aucun --', 'nuit' => 'Par nuit', 'mois' => 'Par mois', 'an' => 'Par an'] as $val => $label)
+                                <label class="flex items-center gap-2">
+                                    <input type="radio" name="price_type" value="{{ $val }}" {{ $val === '' ? 'checked' : '' }}>
+                                    <span>{{ $label }}</span>
                                 </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="radio" name="price_type" value="nuit">
-                                    <span>Par nuit</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="radio" name="price_type" value="mois">
-                                    <span>Par mois</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="radio" name="price_type" value="an">
-                                    <span>Par an</span>
-                                </label>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
 
-                    <!-- Title & Property Type -->
+                    <!-- Title + Type -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <input type="text" name="title"
-                            placeholder="Titre de l'annonce (ex: Appartement 2 pièces à Casablanca)"
-                            class="border p-2 rounded w-full" required>
-
-                        <select name="property_type" class="border p-2 rounded w-full" required>
-                            <option value="">Type de propriété</option>
-                            <option value="appartement">Appartement</option>
-                            <option value="studio">Studio</option>
-                            <option value="bureau">Bureau</option>
-                            <option value="local_commercial">Local commercial</option>
-                            <option value="depot_entrepot">Dépôt/Entrepôt</option>
-                            <option value="villa">Villa</option>
-                            <option value="maison">Maison</option>
-                            <option value="immeuble">Immeuble</option>
-                            <option value="terrain_urbain">Terrain urbain</option>
-                            <option value="terrain_industriel">Terrain industriel/Carrière</option>
-                            <option value="ferme_terrain_agricole">Ferme/Terrain agricole</option>
-                            <option value="hotel_cafe_restaurant">Hôtel/Café-Restaurant</option>
-                            <option value="residence_balneaire">Résidence balnéaire</option>
-                            <option value="residence_etudiante">Résidence étudiante</option>
-                            <option value="location_vacances">Location de vacances</option>
-                            <option value="autre">Autre</option>
-                        </select>
+                        <div>
+                            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Titre *</label>
+                            <input type="text" id="title" name="title"
+                                   class="border p-2 rounded w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                                   placeholder="Appartement 2 pièces à Casablanca" :disabled="loading" required>
+                        </div>
+                        <div>
+                            <label for="property_type" class="block text-sm font-medium text-gray-700 mb-1">Type *</label>
+                            <select id="property_type" name="property_type"
+                                    class="border p-2 rounded w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                                    :disabled="loading" required>
+                                <option value="">Sélectionnez</option>
+                                <option value="appartement">Appartement</option>
+                                <option value="studio">Studio</option>
+                                <option value="villa">Villa</option>
+                                <option value="maison">Maison</option>
+                                <option value="immeuble">Immeuble</option>
+                                <option value="bureau">Bureau</option>
+                                <option value="local_commercial">Local commercial</option>
+                                <option value="terrain_urbain">Terrain urbain</option>
+                                <option value="terrain_industriel">Terrain industriel</option>
+                                <option value="ferme_terrain_agricole">Ferme/Terrain agricole</option>
+                                <option value="hotel_cafe_restaurant">Hôtel/Café-Restaurant</option>
+                                <option value="residence_balneaire">Résidence balnéaire</option>
+                                <option value="residence_etudiante">Résidence étudiante</option>
+                                <option value="location_vacances">Location vacances</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- City & Neighborhood -->
+                    <!-- City + Neighborhood -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <input type="text" name="city" placeholder="Ville (ex: Casablanca)" class="border p-2 rounded w-full" required>
-                        <input type="text" name="neighborhood" placeholder="Quartier (ex: Maarif)" class="border p-2 rounded w-full">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ville *</label>
+                            <input type="text" name="city" placeholder="Casablanca" class="border p-2 rounded w-full" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Quartier</label>
+                            <input type="text" name="neighborhood" placeholder="Maarif" class="border p-2 rounded w-full">
+                        </div>
                     </div>
 
-                    <!-- Address & Surface -->
+                    <!-- Address + Surface -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <input type="text" name="address" placeholder="Adresse complète (facultatif)" class="border p-2 rounded w-full">
-                        <input type="number" name="surface" placeholder="Superficie (m²)" class="border p-2 rounded w-full" required min="0">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
+                            <input type="text" name="address" placeholder="Adresse complète" class="border p-2 rounded w-full">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Superficie (m²) *</label>
+                            <input type="number" name="surface" class="border p-2 rounded w-full" min="0" required>
+                        </div>
                     </div>
 
-                    <!-- Bedrooms & Bathrooms -->
+                    <!-- Bedrooms + Bathrooms -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <input type="number" name="bedrooms" placeholder="Nombre de chambres" class="border p-2 rounded w-full" required min="0">
-                        <input type="number" name="bathrooms" placeholder="Nombre de salles de bain" class="border p-2 rounded w-full" required min="0">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Chambres *</label>
+                            <input type="number" name="bedrooms" class="border p-2 rounded w-full" min="0" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Salles de bain *</label>
+                            <input type="number" name="bathrooms" class="border p-2 rounded w-full" min="0" required>
+                        </div>
                     </div>
 
-                    <!-- Price & Phone -->
+                    <!-- Price + Phone -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <input type="number" name="price" placeholder="Prix (MAD)" class="border p-2 rounded w-full" required min="0">
-                        <input type="tel" name="contact_phone" placeholder="Numéro de téléphone" class="border p-2 rounded w-full" required>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Prix (MAD) *</label>
+                            <input type="number" name="price" class="border p-2 rounded w-full" min="0" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone *</label>
+                            <input type="tel" name="contact_phone" class="border p-2 rounded w-full" required>
+                        </div>
                     </div>
 
-                    <!-- Date Range Available -->
+                    <!-- Dates -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Période de disponibilité</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Disponibilité</label>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <input type="date" name="available_from" id="available_from"
-                                       class="border p-2 rounded w-full bg-white"
-                                       required>
-                            </div>
-                            <div>
-                                <input type="date" name="available_until" id="available_until"
-                                       class="border p-2 rounded w-full bg-white">
-                            </div>
+                            <input type="date" name="available_from" id="available_from" class="border p-2 rounded w-full" required>
+                            <input type="date" name="available_until" id="available_until" class="border p-2 rounded w-full">
                         </div>
-                        <p class="text-sm text-gray-500 mt-1">La date de fin est optionnelle pour les propriétés à vendre</p>
+                        <p class="text-sm text-gray-500 mt-1">La date de fin est optionnelle pour les biens à vendre.</p>
                     </div>
 
+                    <!-- Amenities -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3">Équipements et Services</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Basique -->
+                            <div class="space-y-3">
+                                <h4 class="font-medium text-gray-700">Basique</h4>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="wifi" class="rounded">
+                                    <span>WiFi</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="parking" class="rounded">
+                                    <span>Parking</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="elevator" class="rounded">
+                                    <span>Ascenseur</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="security" class="rounded">
+                                    <span>Sécurité 24/7</span>
+                                </label>
+                            </div>
+                            <!-- Confort -->
+                            <div class="space-y-3">
+                                <h4 class="font-medium text-gray-700">Confort</h4>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="ac" class="rounded">
+                                    <span>Climatisation</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="heating" class="rounded">
+                                    <span>Chauffage</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="furnished" class="rounded">
+                                    <span>Meublé</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="equipped_kitchen" class="rounded">
+                                    <span>Cuisine équipée</span>
+                                </label>
+                            </div>
+                            <!-- Extérieur -->
+                            <div class="space-y-3">
+                                <h4 class="font-medium text-gray-700">Extérieur</h4>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="balcony" class="rounded">
+                                    <span>Balcon</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="terrace" class="rounded">
+                                    <span>Terrasse</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="garden" class="rounded">
+                                    <span>Jardin</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="pool" class="rounded">
+                                    <span>Piscine</span>
+                                </label>
+                            </div>
+                            <!-- Additionnels -->
+                            <div class="space-y-3">
+                                <h4 class="font-medium text-gray-700">Additionnels</h4>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="gym" class="rounded">
+                                    <span>Salle de sport</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="concierge" class="rounded">
+                                    <span>Concierge</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="storage" class="rounded">
+                                    <span>Cave/Storage</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" name="amenities[]" value="panoramic_view" class="rounded">
+                                    <span>Vue panoramique</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Description -->
                     <div class="mb-4">
-                        <textarea name="description" placeholder="Description détaillée de la propriété" class="border p-2 rounded w-full" rows="4" required></textarea>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+                        <textarea name="description" class="border p-2 rounded w-full" rows="4" required></textarea>
                     </div>
 
                     <!-- Photos -->
                     <div class="mb-4">
-                        <label class="block mb-2 font-medium text-sm">Ajouter des photos (Max: 10 photos, jusqu'à 20MB chacune)</label>
-                        <input multiple type="file" name="photos[]" id="photos" accept="image/*"
-                            class="border p-2 rounded w-full" onchange="handleImageUpload(this)"
-                            data-max-files="10" data-max-size="20">
+                        <label class="block text-sm font-medium mb-2">Photos (max 10, 20MB chacune)</label>
+                        <input type="file" name="photos[]" id="photos" multiple accept="image/*" class="border p-2 rounded w-full">
                         <p id="file-error" class="text-red-500 text-sm mt-1 hidden"></p>
                         <div id="image-previews" class="grid grid-cols-3 md:grid-cols-10 gap-4 mt-4"></div>
                     </div>
 
-                    <!-- Submit Button -->
+                    <!-- VIP -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Pack VIP (Optionnel)</h3>
+                            <button type="button"
+                                    onclick="document.getElementById('vip-packages').classList.toggle('hidden')"
+                                    class="flex items-center gap-2 text-green-600 hover:text-green-700">
+                                <span>Voir les packs VIP</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="vip-packages" class="hidden">
+                            <div class="flex flex-col md:flex-row gap-6 w-full">
+                            <!-- 3 Months Pack -->
+                            <div class="flex-1">
+                                <input type="radio" name="vip_package" value="3_months" id="pack-3-months" class="hidden peer">
+                                <label for="pack-3-months" class="flex flex-col justify-between h-full bg-white border border-gray-200 rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all cursor-pointer peer-checked:border-green-500 peer-checked:ring-4 peer-checked:ring-green-200">
+                                    <div>
+                                        <h4 class="text-xl font-semibold mb-2">Pack 3 Mois</h4>
+                                        <div class="text-3xl font-bold text-green-600 mb-2">299 DH</div>
+                                        <div class="text-gray-600 mb-4 text-sm">Idéal pour tester la visibilité VIP sur une courte période. Inclut badge VIP, annonce en tête de liste, et plus de visibilité.</div>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>Annonce en tête de liste</li>
+                                            <li>Badge VIP</li>
+                                            <li>Plus de visibilité</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <span class="inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium peer-checked:bg-green-600 peer-checked:text-white transition-colors">Sélectionner</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <!-- 6 Months Pack -->
+                            <div class="flex-1 relative">
+                                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-1 rounded-full text-sm shadow-lg z-10">Populaire</div>
+                                <input type="radio" name="vip_package" value="6_months" id="pack-6-months" class="hidden peer">
+                                <label for="pack-6-months" class="flex flex-col justify-between h-full bg-gradient-to-br from-green-50 to-white border border-green-300 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer peer-checked:border-green-500 peer-checked:ring-4 peer-checked:ring-green-400">
+                                    <div>
+                                        <h4 class="text-xl font-semibold mb-2">Pack 6 Mois</h4>
+                                        <div class="text-3xl font-bold text-green-600 mb-2">499 DH</div>
+                                        <div class="text-gray-600 mb-4 text-sm">Le choix populaire pour une visibilité prolongée. Inclut tous les avantages du pack 3 mois, statistiques de vues et support prioritaire.</div>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>Tous les avantages du pack 3 mois</li>
+                                            <li>Statistiques de vues</li>
+                                            <li>Support prioritaire</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <span class="inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium peer-checked:bg-green-600 peer-checked:text-white transition-colors">Sélectionner</span>
+                                    </div>
+                                </label>
+                            </div>
+                            <!-- 1 Year Pack -->
+                            <div class="flex-1">
+                                <input type="radio" name="vip_package" value="1_year" id="pack-1-year" class="hidden peer">
+                                <label for="pack-1-year" class="flex flex-col justify-between h-full bg-white border border-gray-200 rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all cursor-pointer peer-checked:border-green-500 peer-checked:ring-4 peer-checked:ring-green-200">
+                                    <div>
+                                        <h4 class="text-xl font-semibold mb-2">Pack 1 An</h4>
+                                        <div class="text-3xl font-bold text-green-600 mb-2">899 DH</div>
+                                        <div class="text-gray-600 mb-4 text-sm">Pour une présence maximale toute l'année. Inclut tous les avantages du pack 6 mois, promotion sur réseaux sociaux et assistance personnalisée.</div>
+                                        <ul class="space-y-2 text-gray-600">
+                                            <li>Tous les avantages du pack 6 mois</li>
+                                            <li>Promotion sur réseaux sociaux</li>
+                                            <li>Assistance personnalisée</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <span class="inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium peer-checked:bg-green-600 peer-checked:text-white transition-colors">Sélectionner</span>
+                                    </div>
+                                </label>
+                            </div>
+                            </div>
+                        </div>
+                </div>                    <!-- Submit -->
                     <div class="flex justify-end mt-6">
-                        @auth
-                            <button type="submit" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200">Soumettre l'annonce</button>
-                        @endauth
-
-                        @guest
-                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200">
-                                Créez un compte pour publier
-                            </a>
-                        @endguest
+                        <button type="submit"
+                                class="bg-green-600 text-white px-6 py-2.5 rounded-lg hover:bg-green-700 flex items-center gap-2"
+                                onclick="this.classList.add('submitting')"
+                                id="submitBtn">
+                            <span class="inline-block">Soumettre l'annonce</span>
+                            <svg class="w-5 h-5 hidden animate-spin submitLoader" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                            </svg>
+                        </button>
                     </div>
+
+                    <style>
+                        button.submitting .submitLoader {
+                            display: inline-block;
+                        }
+                    </style>
                 </form>
+
             </div>
         </div>
     </div>
-
-    <script>
-        function handleImageUpload(input) {
-            const maxFiles = parseInt(input.dataset.maxFiles);
-            const maxSize = parseInt(input.dataset.maxSize) * 1024 * 1024;
-            const errorText = document.getElementById('file-error');
-            const previewsContainer = document.getElementById('image-previews');
-            let error = '';
-
-            previewsContainer.innerHTML = '';
-
-            if (input.files.length > maxFiles) {
-                error = `Vous pouvez télécharger jusqu'à ${maxFiles} images maximum.`;
-            }
-
-            let totalSize = 0;
-            if (!error) {
-                for (let i = 0; i < input.files.length; i++) {
-                    const file = input.files[i];
-                    totalSize += file.size;
-
-                    if (!file.type.startsWith('image/')) {
-                        error = `Le fichier "${file.name}" n'est pas une image valide.`;
-                        break;
-                    }
-
-                    if (file.size > maxSize) {
-                        error = `Le fichier "${file.name}" est trop volumineux. La taille maximum est de ${input.dataset.maxSize}MB.`;
-                        break;
-                    }
-
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const preview = document.createElement('div');
-                        preview.className = 'relative aspect-square';
-                        preview.innerHTML = `
-                            <img src="${e.target.result}" class="w-full h-full object-cover rounded-lg shadow-sm" alt="Preview">
-                            <span class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-md text-xs">
-                                ${(file.size / (1024 * 1024)).toFixed(1)}MB
-                            </span>
-                        `;
-                        previewsContainer.appendChild(preview);
-                    }
-                    reader.readAsDataURL(file);
-                }
-            }
-
-            if (totalSize > 100 * 1024 * 1024) { // 100MB total limit
-                error = `La taille totale des fichiers (${(totalSize / (1024 * 1024)).toFixed(1)}MB) dépasse la limite de 100MB.`;
-            }
-
-            if (error) {
-                errorText.textContent = error;
-                errorText.classList.remove('hidden');
-                input.value = "";
-                previewsContainer.innerHTML = '';
-            } else {
-                errorText.classList.add('hidden');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const availableUntilInput = document.getElementById('available_until');
-            const listingTypeCheckboxes = document.querySelectorAll('input[name="listing_type[]"]');
-
-            // Set minimum date for both inputs to today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('available_from').min = today;
-            availableUntilInput.min = today;
-
-            // Update end date requirement based on listing type
-            function updateEndDateRequirement() {
-                const isRental = Array.from(listingTypeCheckboxes)
-                    .some(cb => cb.checked && cb.value === 'À-louer');
-                availableUntilInput.required = isRental;
-            }
-
-            // Add validation to form submission
-            document.getElementById('propertyForm').addEventListener('submit', function(e) {
-                const startDate = document.getElementById('available_from').value;
-                const endDate = availableUntilInput.value;
-                const isRental = Array.from(listingTypeCheckboxes)
-                    .some(cb => cb.checked && cb.value === 'À-louer');
-
-                if (isRental && endDate && startDate >= endDate) {
-                    e.preventDefault();
-                    alert('La date de fin doit être postérieure à la date de début');
-                }
-            });
-
-            // Add event listeners
-            listingTypeCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updateEndDateRequirement);
-            });
-
-            // Initial check
-            updateEndDateRequirement();
-    </script>
-
 </section>
 @endsection

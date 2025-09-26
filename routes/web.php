@@ -47,7 +47,7 @@ Route::middleware(['admin'])->group(function () {
 
 
 Route::get('/propriete', [ProprieteContoller::class, 'index' ])->name('proprites');
-Route::get('/propriete/details/{id}', [ProprieteContoller::class, 'details'])->name('proprites.details');
+Route::get('/propriete/{slug}', [ProprieteContoller::class, 'details'])->name('proprites.details');
 Route::get('/contact', [ContactController::class, 'index' ])->name('contact');
 Route::get('/publier-annonce', [PublishController::class, 'index' ])->name('publish');
 Route::get('/a-propos', [HomeController::class, 'about' ])->name('a-propos');

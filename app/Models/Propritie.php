@@ -2,10 +2,20 @@
 
 namespace App\Models;
 
+use App\Traits\HashId;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Propritie extends Model
 {
+    use HashId;
+
+    public function getSlugAttribute()
+    {
+        $city = Str::slug($this->city);
+        $title = Str::slug($this->title);
+        return "{$city}-{$title}-{$this->hashed_id}";
+    }
     //
     protected $table = 'proprities';
     protected $fillable = [
@@ -26,7 +36,10 @@ class Propritie extends Model
         'listing_type',
         'available_from',
         'available_until',
-        'date_available'
+        'date_available',
+        'amenities',
+        'vip_package',
+        'vip_until'
     ];
 
     public function user()
@@ -38,4 +51,6 @@ class Propritie extends Model
     {
         return $this->hasMany(Review::class, 'proprity_id');
     }
+
+
 }

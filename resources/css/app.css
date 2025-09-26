@@ -9,6 +9,8 @@ body {
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     color: #333; /* لون نص نظيف */
+    scroll-behavior: smooth;
+    background-color: #f9f9f9; /* خلفية فاتحة */
 }
 
 h1, h2, h3, h4, h5, h6 {

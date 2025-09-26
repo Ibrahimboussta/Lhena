@@ -14,17 +14,32 @@ class ProprieteContoller extends Controller
 
         return view('pages.proprietes', compact('properties'));
     }
-public function details($id)
+public function details($slug)
 {
+    // Extract the hashed ID from the slug (it's the last part after the last dash)
+    $parts = explode('-', $slug);
+    $hash = end($parts);
+
+    // Decode the hash to get the actual ID
+    $id = Propritie::decodeHash($hash);
+    if (!$id) {
+        abort(404);
+    }
+
     // Fetch exact property with its reviews + user
     $property = Propritie::with('reviews.user')->findOrFail($id);
+
+    // Verify the slug matches to prevent URL manipulation
+    if ($property->slug !== $slug) {
+        return redirect()->route('proprites.details', $property->slug);
+    }
 
     $photos = json_decode($property->photos);
 
     // ✅ Fetch latest properties but exclude the current one
     $properties = Propritie::where('id', '!=', $id)
         ->latest()
-        ->paginate(3);
+        ->paginate(6);
 
     return view('pages.proprietesDetails', compact('property', 'photos', 'properties'));
 }
@@ -40,6 +55,9 @@ public function details($id)
 
     public function store(Request $request)
     {
+        // Valid
+
+
         // Validate the form fields
         $request->validate([
             'title' => 'required|string|max:255',
@@ -60,6 +78,7 @@ public function details($id)
             'listing_type.*' => 'in:À-vendre,À-louer',
             'available_from' => 'required|date|after_or_equal:today',
             'available_until' => 'nullable|date|after_or_equal:available_from',
+            'vip_package' => 'nullable|string|in:3_months,6_months,1_year',
         ]);
 
 
@@ -73,6 +92,24 @@ public function details($id)
             // Store photo in the public storage and get the path
             $path = $photo->store('properties', 'public');
             $photos[] = $path;
+        }
+
+        // Calculate VIP expiration date if a package is selected
+        $vipUntil = null;
+        $vipPackage = $request->input('vip_package');
+        if ($vipPackage) {
+            $vipUntil = match($vipPackage) {
+                '3_months' => now()->addMonths(3),
+                '6_months' => now()->addMonths(6),
+                '1_year' => now()->addYear(),
+                default => null
+            };
+
+            // Log VIP package selection
+            \Illuminate\Support\Facades\Log::info('VIP Package selected:', [
+                'package' => $vipPackage,
+                'expires' => $vipUntil
+            ]);
         }
 
         Propritie::create([
@@ -92,7 +129,10 @@ public function details($id)
             'photos' => json_encode($photos),
             'listing_type' => implode(',', $request->listing_type),
             'available_from' => $request->available_from,
-            'available_until' => $request->available_until
+            'available_until' => $request->available_until,
+            'amenities' => $request->amenities ? json_encode($request->amenities) : null,
+            'vip_package' => $request->vip_package,
+            'vip_until' => $vipUntil
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Property added successfully!');
