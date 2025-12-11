@@ -331,8 +331,7 @@
                         <div class="space-y-2">
                             <label for="comment" class="block text-sm font-medium text-gray-700">Votre avis</label>
                             <textarea id="comment" name="comment" placeholder="Partagez votre expérience..."
-                                class="w-full min-h-28 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-gray-400"
-                                :disabled="loading">{{ old('comment') }}</textarea>
+                                class="w-full min-h-28 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-gray-400">{{ old('comment') }}</textarea>
                         </div>
 
                         <div class="flex justify-end">
@@ -386,12 +385,12 @@
                         </p>
 
                         <div class="space-y-3">
-                            <a href="{{ route('register') }}" 
+                            <a href="{{ route('register') }}"
                                class="block w-full bg-emerald-600 text-white text-center py-2 px-5 text-sm rounded-md hover:bg-emerald-700 transition-colors duration-300 font-semibold">
                                 S'inscrire
                             </a>
-                            
-                            <a href="{{ route('login') }}" 
+
+                            <a href="{{ route('login') }}"
                                class="block w-full bg-gray-100 text-gray-700 text-center py-2 px-5 text-sm rounded-md hover:bg-gray-200 transition-colors duration-300 font-semibold">
                                 Se connecter
                             </a>
@@ -420,9 +419,16 @@
                                         </div>
                                         <div class="text-sm">
                                             <span class="text-yellow-400">{{ str_repeat('★', $review->rating) }}</span>
+
                                             <span class="text-gray-300">{{ str_repeat('☆', 5 - $review->rating) }}</span>
                                         </div>
-                                        <p class="mt-2 text-sm text-gray-700 leading-relaxed">{{ $review->comment }}</p>
+                                        <p class="mt-2 text-sm text-gray-700 leading-relaxed">
+                                            @if($review->comment && !empty(trim($review->comment)))
+                                                {{ $review->comment }}
+                                            @else
+                                                <span class="text-gray-400 italic">No comment provided</span>
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
                             </div>

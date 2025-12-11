@@ -39,7 +39,8 @@ class Propritie extends Model
         'date_available',
         'amenities',
         'vip_package',
-        'vip_until'
+        'vip_until',
+        'slug'
     ];
 
     public function user()

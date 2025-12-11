@@ -112,7 +112,11 @@ public function details($slug)
             ]);
         }
 
-        Propritie::create([
+        // Generate temporary slug
+        $tempSlug = \Illuminate\Support\Str::slug($request->city . '-' . $request->title) . '-temp-' . time();
+
+        // Create property first
+        $property = Propritie::create([
             'user_id' => $user->id,  // Associate the property with the authenticated user
             'title' => $request->title,
             'property_type' => $request->property_type,
@@ -132,8 +136,13 @@ public function details($slug)
             'available_until' => $request->available_until,
             'amenities' => $request->amenities ? json_encode($request->amenities) : null,
             'vip_package' => $request->vip_package,
-            'vip_until' => $vipUntil
+            'vip_until' => $vipUntil,
+            'slug' => $tempSlug
         ]);
+
+        // Update with final slug
+        $finalSlug = \Illuminate\Support\Str::slug($request->city . '-' . $request->title) . '-' . $property->hashed_id;
+        $property->update(['slug' => $finalSlug]);
 
         return redirect()->route('dashboard')->with('success', 'Property added successfully!');
 
