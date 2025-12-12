@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Traits\HashId;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Propritie extends Model
 {
     use HashId;
+    use HasFactory;
 
     public function getSlugAttribute()
     {

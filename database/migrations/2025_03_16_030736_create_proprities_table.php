@@ -30,7 +30,7 @@ return new class extends Migration
             $table->date('available_from')->nullable();
             $table->date('available_until')->nullable();
             $table->boolean('published')->default(false);
-            $table->string('slug'); // maybe missing
+            $table->string('slug')->unique()->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

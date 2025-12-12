@@ -13,8 +13,8 @@
 
                     <!-- ✅ Image Section with fixed size -->
                     <div class="relative w-full h-64 overflow-hidden">
-                        <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                             src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt="">
+                       <img src="{{ asset(json_decode($property->photos)[0]) }}" alt="">
+
 
                         <!-- Labels -->
                         <div class="absolute top-3 left-3 flex space-x-2">
