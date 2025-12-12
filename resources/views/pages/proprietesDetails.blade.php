@@ -23,8 +23,8 @@
     </style>
 
 
-    <section class="px-6  py-20">
-        <div class="flex flex-col items-center min-h-screen px-4 py-6 bg-gray-50">
+    <section class="px-6 py-20">
+        <div class="flex flex-col items-center min-h-screen py-6 bg-gray-50 ">
 
             <!-- Main Content -->
             <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -10,16 +10,21 @@ class HomeController extends Controller
 {
     //
     public function index()
-    {
-        $properties = Propritie::latest()->get(); // Get all properties
-        return view('welcome', compact('properties')); // Pass properties to the view
-    }
-    
+{
+    $properties = Propritie::where('published', true)
+        ->latest()
+        ->take(9)
+        ->get();
+
+    return view('welcome', compact('properties'));
+}
+
+
     public function about()
     {
         return view('pages.about');
     }
-   
+
     public function users()
     {
         $users = User::latest()->paginate(10); // Paginate with 10 users per page

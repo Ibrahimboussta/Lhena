@@ -70,4 +70,9 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name
 
 Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
 
+
+
+Route::patch('/admin/properties/{id}/toggle', [ProprieteContoller::class, 'togglePublish'])
+    ->name('properties.toggle.publish');
+
 require __DIR__.'/auth.php';

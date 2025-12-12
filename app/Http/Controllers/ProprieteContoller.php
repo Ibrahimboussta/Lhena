@@ -8,41 +8,48 @@ use Illuminate\Support\Facades\Auth;
 
 class ProprieteContoller extends Controller
 {
-    public function index()
-    {
-        $properties = Propritie::latest()->paginate(12);
-
-        return view('pages.proprietes', compact('properties'));
-    }
-public function details($slug)
+public function index()
 {
-    // Extract the hashed ID from the slug (it's the last part after the last dash)
-    $parts = explode('-', $slug);
-    $hash = end($parts);
-
-    // Decode the hash to get the actual ID
-    $id = Propritie::decodeHash($hash);
-    if (!$id) {
-        abort(404);
-    }
-
-    // Fetch exact property with its reviews + user
-    $property = Propritie::with('reviews.user')->findOrFail($id);
-
-    // Verify the slug matches to prevent URL manipulation
-    if ($property->slug !== $slug) {
-        return redirect()->route('proprites.details', $property->slug);
-    }
-
-    $photos = json_decode($property->photos);
-
-    // ✅ Fetch latest properties but exclude the current one
-    $properties = Propritie::where('id', '!=', $id)
+    // Show ONLY published properties on the website
+    $properties = Propritie::where('published', true)
         ->latest()
-        ->paginate(6);
+        ->paginate(12);
 
-    return view('pages.proprietesDetails', compact('property', 'photos', 'properties'));
+    return view('pages.proprietes', compact('properties'));
 }
+
+
+    public function details($slug)
+    {
+        // Extract the hashed ID from the slug (it's the last part after the last dash)
+        $parts = explode('-', $slug);
+        $hash = end($parts);
+
+        // Decode the hash to get the actual ID
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
+        }
+
+        // Fetch exact property with its reviews + user
+$property = Propritie::with('reviews.user')
+    ->where('published', true)
+    ->findOrFail($id);
+
+        // Verify the slug matches to prevent URL manipulation
+        if ($property->slug !== $slug) {
+            return redirect()->route('proprites.details', $property->slug);
+        }
+
+        $photos = json_decode($property->photos);
+
+        // ✅ Fetch latest properties but exclude the current one
+        $properties = Propritie::where('id', '!=', $id)
+            ->latest()
+            ->paginate(6);
+
+        return view('pages.proprietesDetails', compact('property', 'photos', 'properties'));
+    }
 
 
 
@@ -98,7 +105,7 @@ public function details($slug)
         $vipUntil = null;
         $vipPackage = $request->input('vip_package');
         if ($vipPackage) {
-            $vipUntil = match($vipPackage) {
+            $vipUntil = match ($vipPackage) {
                 '3_months' => now()->addMonths(3),
                 '6_months' => now()->addMonths(6),
                 '1_year' => now()->addYear(),
@@ -239,5 +246,17 @@ public function details($slug)
         $properties = $properties->paginate(12);
 
         return view('pages.proprietes', compact('properties'));
+    }
+
+
+    public function togglePublish($id)
+    {
+        $property = Propritie::findOrFail($id);
+
+        // Toggle publish status
+        $property->published = !$property->published;
+        $property->save();
+
+        return redirect()->back()->with('success', 'Statut mis à jour !');
     }
 }

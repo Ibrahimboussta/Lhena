@@ -8,66 +8,158 @@
                         {{ $properties->total() }} <span class="text-[#25D366] text-[15px]">Propriétés</span>
                     </h2>
                 </div>
-                <div class="overflow-x-auto">
-                    <table
-                        class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
-                        <thead class="bg-gray-100 dark:bg-gray-800">
-                            <tr>
-                                <th class="p-3 text-left border">Image</th>
-                                <th class="p-3 text-left border">Nom</th>
-                                <th class="p-3 text-left border">Adresse</th>
-                                <th class="p-3 text-left border">Métrage</th>
-                                <th class="p-3 text-left border">Téléphone</th>
-                                <th class="p-3 text-left border">Prix</th>
-                                <th class="p-3 text-center border">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($properties as $property)
-                                @if (Auth::user()->id == $property->user_id || Auth::user()->role == 'admin')
-                                    <tr class="border-t hover:bg-gray-50">
-                                        <td class="p-3 border ">
-                                            @if ($property->photos)
-                                                <img src="{{ asset('storage/' . json_decode($property->photos)[0]) }}"
-                                                    alt="Property Image" class="w-16 h-16 object-cover">
-                                            @else
-                                                No Image
-                                            @endif
-                                        </td>
-                                        <td class="p-3 border">{{ $property->title }}</td>
-                                        <td class="p-3 border">
-                                            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($property->address) }}"
-                                                target="_blank" class=" hover:underline">
-                                                {{ $property->address }}
-                                            </a>
-                                        </td>
-                                        <td class="p-3 border">{{ $property->surface }} m²</td>
-                                        <td class="p-3 border">
-                                            <a href="tel:{{ $property->contact_phone }}"
-                                                class=" hover:underline">
-                                                {{ $property->contact_phone }}
-                                            </a>
-                                        </td>
-                                        <td class="p-3 border text-[#25D366]">{{ number_format($property->price, 2) }}
-                                            DH</td>
-                                        <td class="p-3 text-center border">
-                                            <form action="{{ route('properties.admin.destroy', $property->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE') <!-- This makes the POST request act as a DELETE -->
+              <div class="overflow-x-auto">
+    <table class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
+        <thead class="bg-gray-100 dark:bg-gray-800">
+            <tr>
+                <th class="p-3 text-left border">Image</th>
+                <th class="p-3 text-left border">Nom</th>
+                <th class="p-3 text-left border">Adresse</th>
+                <th class="p-3 text-left border">Métrage</th>
+                <th class="p-3 text-left border">Téléphone</th>
+                <th class="p-3 text-left border">Prix</th>
+                <th class="p-3 text-center border">Statut</th>
+                <th class="p-3 text-center border">Action</th>
+            </tr>
+        </thead>
 
-                                                <button class="text-red-500 hover:text-red-700 transition"
-                                                    type="submit">
-                                                    🗑
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+        <tbody>
+            @foreach ($properties as $property)
+                @if (Auth::user()->id == $property->user_id || Auth::user()->role == 'admin')
+                    <tr class="border-t hover:bg-gray-50">
+
+                        <!-- IMAGE + MODAL -->
+                        <td class="p-3 border text-center" x-data="{ open: false }">
+                            @if ($property->photos)
+                                @php $photos = json_decode($property->photos); @endphp
+
+                                <img
+                                    src="{{ asset('storage/' . $photos[0]) }}"
+                                    class="w-16 h-16 object-cover cursor-pointer rounded"
+                                    @click="open = true"
+                                >
+                            @else
+                                No Image
+                            @endif
+
+                            <!-- Modal -->
+                            <div
+                                x-show="open"
+                                x-transition
+                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                            >
+                                <div class="bg-white p-4 rounded-lg shadow-lg max-w-4xl w-full relative">
+
+                                    <!-- Close Button -->
+                                    <button
+                                        class="absolute top-3 right-3 text-gray-700 text-xl font-bold hover:text-black"
+                                        @click="open = false"
+                                    >
+                                        ✕
+                                    </button>
+
+                                    <!-- Gallery -->
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                                        @foreach ($photos as $photo)
+                                            <img
+                                                src="{{ asset('storage/' . $photo) }}"
+                                                class="w-full h-48 object-cover rounded"
+                                            >
+                                        @endforeach
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Property Title -->
+                        <td class="p-3 border">{{ $property->title }}</td>
+
+                        <!-- Address -->
+                        <td class="p-3 border">
+                            <a
+                                href="https://www.google.com/maps/search/?api=1&query={{ urlencode($property->address) }}"
+                                target="_blank"
+                                class="hover:underline"
+                            >
+                                {{ $property->address }}
+                            </a>
+                        </td>
+
+                        <!-- Surface -->
+                        <td class="p-3 border">{{ $property->surface }} m²</td>
+
+                        <!-- Phone -->
+                        <td class="p-3 border">
+                            <a href="tel:{{ $property->contact_phone }}" class="hover:underline">
+                                {{ $property->contact_phone }}
+                            </a>
+                        </td>
+
+                        <!-- Price -->
+                        <td class="p-3 border text-[#25D366]">
+                            {{ number_format($property->price, 2) }} DH
+                        </td>
+
+                        <!-- STATUS -->
+                        <td class="p-3 text-center border">
+                            <div class="flex items-center justify-center space-x-3">
+
+                                @if ($property->published)
+                                    <span class="px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
+                                        Publié
+                                    </span>
+                                @else
+                                    <span class="px-2 py-1 text-xs font-medium text-yellow-800 bg-yellow-100 rounded-full">
+                                        En attente
+                                    </span>
                                 @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+
+                                <!-- Publish / Unpublish -->
+                                <form action="{{ route('properties.toggle.publish', $property->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    @if ($property->published)
+                                        <button
+                                            class="text-yellow-600 hover:text-yellow-800 transition"
+                                            type="submit"
+                                            title="Dépublier"
+                                        >
+                                            👁️‍🗨️
+                                        </button>
+                                    @else
+                                        <button
+                                            class="text-green-600 hover:text-green-800 transition"
+                                            type="submit"
+                                            title="Publier"
+                                        >
+                                            ✅
+                                        </button>
+                                    @endif
+                                </form>
+                            </div>
+                        </td>
+
+                        <!-- DELETE -->
+                        <td class="p-3 text-center border">
+                            <form action="{{ route('properties.admin.destroy', $property->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="text-red-500 hover:text-red-700 transition" type="submit">
+                                    🗑
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                @endif
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
 
                 {{-- Pagination Links --}}
                 <div class="mt-4">
@@ -76,4 +168,8 @@
             </div>
         </div>
     </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 </x-app-layout>
