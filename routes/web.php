@@ -51,8 +51,6 @@ Route::get('/propriete/{slug}', [ProprieteContoller::class, 'details'])->name('p
 Route::get('/contact', [ContactController::class, 'index' ])->name('contact');
 Route::get('/publier-annonce', [PublishController::class, 'index' ])->name('publish');
 Route::get('/a-propos', [HomeController::class, 'about' ])->name('a-propos');
-Route::get('/checkout', [CheckoutController::class, 'checkout' ])->name('checkout');
-Route::get('/checkout/{id}', [CheckoutController::class, 'checkoutDetails'])->name('checkout');
 
 
 

@@ -33,12 +33,16 @@
                                     <tr class="border-t">
                                         <td class="p-3 border">
                                             @if ($property->photos)
-                                                <img src="{{ asset('storage/' . json_decode($property->photos)[0]) }}"
-                                                    alt="Property Image" class="w-16 h-16 object-cover">
+                                                <button onclick="openGalleryModal({{ $property->id }})">
+                                                    <img src="{{ asset('storage/' . json_decode($property->photos)[0]) }}"
+                                                        alt="Property Image"
+                                                        class="w-16 h-16 object-cover cursor-pointer">
+                                                </button>
                                             @else
                                                 No Image
                                             @endif
                                         </td>
+
                                         <td class="p-3 border">{{ $property->title }}</td>
                                         <td class="p-3 border">{{ $property->address }}</td>
                                         <td class="p-3 border">{{ $property->surface }} m²</td>
@@ -51,17 +55,19 @@
 
                                         </td>
 
-                                       <td class="p-3 border">
-    @if ($property->published)
-        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-            ● Publié
-        </span>
-    @else
-        <span class="px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded-full">
-            ● Non Publié
-        </span>
-    @endif
-</td>
+                                        <td class="p-3 border">
+                                            @if ($property->published)
+                                                <span
+                                                    class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+                                                    ● Publié
+                                                </span>
+                                            @else
+                                                <span
+                                                    class="px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded-full">
+                                                    ● Non Publié
+                                                </span>
+                                            @endif
+                                        </td>
 
 
 
@@ -89,4 +95,47 @@
 
         </div>
     </div>
+
+    <!-- Modal -->
+<div id="galleryModal"
+     class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50">
+    <div class="bg-white p-4 rounded-lg max-w-3xl w-full relative">
+        <button onclick="closeGalleryModal()"
+                class="absolute top-3 right-3 text-black text-2xl">&times;</button>
+
+        <div id="galleryContent" class="grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
+    </div>
+</div>
+
+
+<script>
+    const properties = @json($properties);
+
+    function openGalleryModal(id) {
+        const modal = document.getElementById("galleryModal");
+        const content = document.getElementById("galleryContent");
+
+        const property = properties.find(p => p.id === id);
+        const photos = JSON.parse(property.photos);
+
+        // Clear old images
+        content.innerHTML = "";
+
+        // Insert all photos
+        photos.forEach(photo => {
+            content.innerHTML += `
+                <img src="/storage/${photo}"
+                     class="w-full h-40 object-cover rounded-md shadow">
+            `;
+        });
+
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+    }
+
+    function closeGalleryModal() {
+        document.getElementById("galleryModal").classList.add("hidden");
+    }
+</script>
+
 </x-app-layout>

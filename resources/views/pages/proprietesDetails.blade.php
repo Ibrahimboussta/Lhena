@@ -39,18 +39,21 @@
                             <p class="text-sm text-gray-500">{{ $property->created_at->diffForHumans() }}</p>
                         </div>
                         <div class="flex items-center space-x-2">
-                            @if($property->vip_package && $property->vip_until && $property->vip_until > now())
-                            <span class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                </svg>
-                                VIP
-                            </span>
+                            @if ($property->vip_package && $property->vip_until && $property->vip_until > now())
+                                <span
+                                    class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                    VIP
+                                </span>
                             @endif
                             <span
                                 class="px-3 py-1 text-xs font-semibold rounded-full
                         {{ $property->listing_type == 'À-vendre' ? 'bg-emerald-100 text-emerald-700' : 'bg-yellow-100 text-yellow-700' }}">
-                                    {{ $property->listing_type }}
+                                {{ $property->listing_type }}
                             </span>
                         </div>
                     </div>
@@ -68,11 +71,11 @@
 
                     <!-- Carousel -->
                     <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow">
-                            @foreach ($photos as $index => $photo)
+                        @foreach ($photos as $index => $photo)
                             <img src="{{ asset('storage/' . $photo) }}" alt="" loading="lazy"
                                 class="absolute w-full h-full object-cover transition-opacity duration-500
                         {{ $index !== 0 ? 'opacity-0' : '' }}">
-                            @endforeach
+                        @endforeach
 
                         <!-- Nav buttons -->
                         <button id="prev"
@@ -106,7 +109,8 @@
 
                         <!-- Address -->
                         <div class="flex items-center gap-2">
-                            <img src="{{ asset('images/local.svg') }}" class="w-5 h-5 opacity-70" alt="" loading="lazy">
+                            <img src="{{ asset('images/local.svg') }}" class="w-5 h-5 opacity-70" alt=""
+                                loading="lazy">
                             <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank"
                                 class="text-gray-700 hover:text-emerald-600">
                                 {{ $property->address }}
@@ -118,85 +122,106 @@
                             <!-- Basic Features -->
                             <div class="flex flex-col gap-2 text-gray-600 text-sm">
                                 <div class="flex items-center gap-2">
-                                    <img src="{{ asset('images/beds.svg') }}" class="w-5 h-5 opacity-70" alt="" loading="lazy">
+                                    <img src="{{ asset('images/beds.svg') }}" class="w-5 h-5 opacity-70" alt=""
+                                        loading="lazy">
                                     {{ $property->bedrooms }} Chambres
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <img src="{{ asset('images/dosh.svg') }}" class="w-5 h-5 opacity-70" alt="" loading="lazy">
+                                    <img src="{{ asset('images/dosh.svg') }}" class="w-5 h-5 opacity-70" alt=""
+                                        loading="lazy">
                                     {{ $property->bathrooms }} Salles de bain
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <img src="{{ asset('images/space.svg') }}" class="w-5 h-5 opacity-70" alt="" loading="lazy">
+                                    <img src="{{ asset('images/space.svg') }}" class="w-5 h-5 opacity-70" alt=""
+                                        loading="lazy">
                                     {{ $property->surface }} m²
                                 </div>
                             </div>
 
                             <!-- Amenities -->
-                            @if($property->amenities)
-                            <div class="border-t pt-4">
-                                <h3 class="text-gray-900 font-semibold mb-3">Équipements et services</h3>
-                                <div class="grid grid-cols-1 gap-2 text-sm">
-                                    @foreach(json_decode($property->amenities) as $amenity)
-                                        <div class="flex items-center gap-2 text-gray-600">
-                                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                            @switch($amenity)
-                                                @case('wifi')
-                                                    <span>WiFi</span>
+                            @if ($property->amenities)
+                                <div class="border-t pt-4">
+                                    <h3 class="text-gray-900 font-semibold mb-3">Équipements et services</h3>
+                                    <div class="grid grid-cols-1 gap-2 text-sm">
+                                        @foreach (json_decode($property->amenities) as $amenity)
+                                            <div class="flex items-center gap-2 text-gray-600">
+                                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                                @switch($amenity)
+                                                    @case('wifi')
+                                                        <span>WiFi</span>
                                                     @break
-                                                @case('parking')
-                                                    <span>Parking</span>
+
+                                                    @case('parking')
+                                                        <span>Parking</span>
                                                     @break
-                                                @case('elevator')
-                                                    <span>Ascenseur</span>
+
+                                                    @case('elevator')
+                                                        <span>Ascenseur</span>
                                                     @break
-                                                @case('security')
-                                                    <span>Sécurité 24/7</span>
+
+                                                    @case('security')
+                                                        <span>Sécurité 24/7</span>
                                                     @break
-                                                @case('ac')
-                                                    <span>Climatisation</span>
+
+                                                    @case('ac')
+                                                        <span>Climatisation</span>
                                                     @break
-                                                @case('heating')
-                                                    <span>Chauffage</span>
+
+                                                    @case('heating')
+                                                        <span>Chauffage</span>
                                                     @break
-                                                @case('furnished')
-                                                    <span>Meublé</span>
+
+                                                    @case('furnished')
+                                                        <span>Meublé</span>
                                                     @break
-                                                @case('equipped_kitchen')
-                                                    <span>Cuisine équipée</span>
+
+                                                    @case('equipped_kitchen')
+                                                        <span>Cuisine équipée</span>
                                                     @break
-                                                @case('balcony')
-                                                    <span>Balcon</span>
+
+                                                    @case('balcony')
+                                                        <span>Balcon</span>
                                                     @break
-                                                @case('terrace')
-                                                    <span>Terrasse</span>
+
+                                                    @case('terrace')
+                                                        <span>Terrasse</span>
                                                     @break
-                                                @case('garden')
-                                                    <span>Jardin</span>
+
+                                                    @case('garden')
+                                                        <span>Jardin</span>
                                                     @break
-                                                @case('pool')
-                                                    <span>Piscine</span>
+
+                                                    @case('pool')
+                                                        <span>Piscine</span>
                                                     @break
-                                                @case('gym')
-                                                    <span>Salle de sport</span>
+
+                                                    @case('gym')
+                                                        <span>Salle de sport</span>
                                                     @break
-                                                @case('concierge')
-                                                    <span>Concierge</span>
+
+                                                    @case('concierge')
+                                                        <span>Concierge</span>
                                                     @break
-                                                @case('storage')
-                                                    <span>Cave/Storage</span>
+
+                                                    @case('storage')
+                                                        <span>Cave/Storage</span>
                                                     @break
-                                                @case('panoramic_view')
-                                                    <span>Vue panoramique</span>
+
+                                                    @case('panoramic_view')
+                                                        <span>Vue panoramique</span>
                                                     @break
-                                                @default
-                                                    <span>{{ ucfirst(str_replace('_', ' ', $amenity)) }}</span>
-                                            @endswitch
-                                        </div>
-                                    @endforeach
+
+                                                    @default
+                                                        <span>{{ ucfirst(str_replace('_', ' ', $amenity)) }}</span>
+                                                @endswitch
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                         </div>
 
@@ -209,44 +234,51 @@
                         </h2>
 
                         <!-- Booking -->
-                        <div class="space-y-2">
+                        <div class="space-y-2" x-data="{ showAgentModal: false, showReserveModal: false }">
 
-                            <!-- Réserver Button -->
-                        @auth
-                             <a href="{{ route('checkout', $property->id) }}" class="w-full">
-                                <span class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
-                                Réserver
-                                </span>
-                            </a>
-                        @endauth
-                        @guest
-                             <button onclick="openReserveModal()" class="w-full">
-                                <span class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
-                                Réserver
+                            <!-- Réserver Button (opens modal showing publisher phone) -->
+                            <button @click="showReserveModal = true" class="w-full">
+                                <span
+                                    class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
+                                    Réserver
                                 </span>
                             </button>
-                         @endguest
+
+                            <!-- Reserve Modal -->
+                            <div x-show="showReserveModal"
+                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                                @click.self="showReserveModal = false" x-cloak>
+                                <div class="bg-white p-6 rounded-lg max-w-md w-full">
+                                    <h2 class="text-lg font-bold mb-4">Réserver cette propriété</h2>
+                                    <p class="mb-4">📞 Numéro de tel : {{ $property->contact_phone }}</p>
+                                    <div class="flex justify-end">
+                                        <a href="tel:{{ $property->contact_phone }}"
+                                            class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg">Appeler</a>
+                                        <button @click="showReserveModal = false"
+                                            class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Appeler l'agent Button -->
-                            <div x-data="{ showAgentModal: false }">
-                                <button @click="showAgentModal = true"
-                                        class="inline-flex items-center justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
-                                    <span>📞</span>
-                                    <span class="ml-2">Appeler l'agent</span>
-                                    </button>
+                            <button @click="showAgentModal = true"
+                                class="inline-flex items-center justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
+                                <span>📞</span>
+                                <span class="ml-2">Appeler l'agent</span>
+                            </button>
 
-                                <!-- Agent Modal -->
-                                <div x-show="showAgentModal"
-                                    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-                                    @click.self="showAgentModal = false"
-                                    x-cloak>
-                                    <div class="bg-white p-6 rounded-lg max-w-md w-full">
-                                        <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
-                                        <p class="mb-4">📞 Numéro de tel : {{ $property->contact_phone }}</p>
-                                        <div class="flex justify-end">
-                                            <button @click="showAgentModal = false"
-                                                class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
-                                        </div>
+                            <!-- Agent Modal -->
+                            <div x-show="showAgentModal"
+                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                                @click.self="showAgentModal = false" x-cloak>
+                                <div class="bg-white p-6 rounded-lg max-w-md w-full">
+                                    <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
+                                    <p class="mb-4">📞 Numéro de tel : 0634262436</p>
+                                    <div class="flex justify-end">
+                                        <a href="tel:0634262436"
+                                            class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg">Appeler</a>
+                                        <button @click="showAgentModal = false"
+                                            class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
                                     </div>
                                 </div>
                             </div>
@@ -254,12 +286,9 @@
                         </div>
 
                         <!-- Login Modal -->
-                        <div id="loginModal"
-                            class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50"
-                            :class="{ 'hidden': !modalOpen, 'flex': modalOpen }"
-                            x-data="{ modalOpen: false }"
-                            x-show="modalOpen"
-                            x-cloak>
+                        <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50"
+                            :class="{ 'hidden': !modalOpen, 'flex': modalOpen }" x-data="{ modalOpen: false }"
+                            x-show="modalOpen" x-cloak>
                             <div class="bg-white p-6 rounded-lg max-w-md w-full">
                                 <h2 class="text-lg font-bold mb-4">Veuillez vous connecter</h2>
                                 <p class="mb-4">Vous devez être connecté pour réserver ce bien.</p>
@@ -283,8 +312,8 @@
         </div>
         <div class="mt-10 border-t border-gray-200 pt-8 max-w-6xl mx-auto">
             <h3 class="flex items-center justify-center text-3xl font-bold text-gray-900 mb-8 gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 8h2a2 2 0 012 2v9a2 2 0 01-2 2h-6l-4 4v-4H7a2 2 0 01-2-2v-1" />
                 </svg>
@@ -293,11 +322,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {{-- ✅ Review Form (if logged in) --}}
                 @auth
-                    <form x-data="{ loading: false }"
-                          @submit="loading = true"
-                          action="{{ route('reviews.store') }}"
-                          method="POST"
-                          class="space-y-4 bg-white shadow-md border border-gray-200 rounded-xl p-6 h-fit">
+                    <form x-data="{ loading: false }" @submit="loading = true" action="{{ route('reviews.store') }}"
+                        method="POST" class="space-y-4 bg-white shadow-md border border-gray-200 rounded-xl p-6 h-fit">
                         @csrf
                         <input type="hidden" name="proprity_id" value="{{ $property->id }}">
 
@@ -313,19 +339,19 @@
                                             :class="i <= rating ? 'text-yellow-400' : 'text-gray-300'" viewBox="0 0 20 20"
                                             fill="currentColor">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921
-                                                                1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
-                                                                0 1.371 1.24.588 1.81l-2.8
-                                                                2.034a1 1 0 00-.364 1.118l1.07
-                                                                3.292c.3.921-.755 1.688-1.54
-                                                                1.118l-2.8-2.034a1 1 0
-                                                                00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1
-                                                                1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1
-                                                                1 0 00.951-.69l1.07-3.292z" />
+                                                                        1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
+                                                                        0 1.371 1.24.588 1.81l-2.8
+                                                                        2.034a1 1 0 00-.364 1.118l1.07
+                                                                        3.292c.3.921-.755 1.688-1.54
+                                                                        1.118l-2.8-2.034a1 1 0
+                                                                        00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1
+                                                                        1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1
+                                                                        1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
                                     </label>
                                 </template>
-                </div>
-            </div>
+                            </div>
+                        </div>
 
                         {{-- Comment --}}
                         <div class="space-y-2">
@@ -339,9 +365,13 @@
                                 class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
                                 :disabled="loading">
                                 <template x-if="loading">
-                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10"
+                                            stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                        </path>
                                     </svg>
                                 </template>
                                 <span x-text="loading ? 'Envoi en cours...' : 'Envoyer'"></span>
@@ -369,34 +399,7 @@
                     </div>
                 @endguest
 
-                <!-- Reservation Modal for Guests -->
-                <div id="reserveModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
-                    <div class="bg-white rounded-lg shadow-lg p-6 w-80 relative">
-                        <button onclick="closeReserveModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-                            ✖
-                        </button>
-
-                        <h2 class="text-lg font-semibold mb-4 text-center text-gray-800">
-                            Réserver cette propriété
-                        </h2>
-
-                        <p class="text-sm text-gray-600 mb-4 text-center">
-                            Vous devez vous inscrire ou vous connecter pour réserver cette propriété.
-                        </p>
-
-                        <div class="space-y-3">
-                            <a href="{{ route('register') }}"
-                               class="block w-full bg-emerald-600 text-white text-center py-2 px-5 text-sm rounded-md hover:bg-emerald-700 transition-colors duration-300 font-semibold">
-                                S'inscrire
-                            </a>
-
-                            <a href="{{ route('login') }}"
-                               class="block w-full bg-gray-100 text-gray-700 text-center py-2 px-5 text-sm rounded-md hover:bg-gray-200 transition-colors duration-300 font-semibold">
-                                Se connecter
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <!-- (Old guest reserve modal removed — now using Alpine modal near booking buttons) -->
 
                 {{-- ✅ Comments Section --}}
                 <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 max-h-96 overflow-y-auto space-y-4">
@@ -423,7 +426,7 @@
                                             <span class="text-gray-300">{{ str_repeat('☆', 5 - $review->rating) }}</span>
                                         </div>
                                         <p class="mt-2 text-sm text-gray-700 leading-relaxed">
-                                            @if($review->comment && !empty(trim($review->comment)))
+                                            @if ($review->comment && !empty(trim($review->comment)))
                                                 {{ $review->comment }}
                                             @else
                                                 <span class="text-gray-400 italic">No comment provided</span>
@@ -444,7 +447,7 @@
     </section>
 
 
-        <section class=" pt-12 ">
+    <section class=" pt-12 ">
 
 
         <h2 class="flex items-center justify-center text-3xl font-bold text-gray-900 mb-8 gap-3">
@@ -480,47 +483,54 @@
                                 <!-- Image -->
                                 <div class="relative w-full h-64 overflow-hidden">
                                     <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                                        src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt="" loading="lazy">
+                                        src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt=""
+                                        loading="lazy">
                                     <div class="absolute top-3 flex justify-between w-full px-3">
                                         <div class="flex space-x-2">
-                                    @if (strpos($property->listing_type, 'À-vendre') !== false)
-                                        <span
+                                            @if (strpos($property->listing_type, 'À-vendre') !== false)
+                                                <span
                                                     class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                            À vendre
-                                        </span>
-                                    @endif
-                                    @if (strpos($property->listing_type, 'À-louer') !== false)
-                                        <span
+                                                    À vendre
+                                                </span>
+                                            @endif
+                                            @if (strpos($property->listing_type, 'À-louer') !== false)
+                                                <span
                                                     class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                            À louer
-                                        </span>
-                                    @endif
-                                </div>
-                                        @if($property->vip_package && $property->vip_until && $property->vip_until > now())
-                                            <span class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                                    À louer
+                                                </span>
+                                            @endif
+                                        </div>
+                                        @if ($property->vip_package && $property->vip_until && $property->vip_until > now())
+                                            <span
+                                                class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                                 </svg>
                                                 VIP
                                             </span>
                                         @endif
-                            </div>
-                                    @if($property->vip_package && $property->vip_until && $property->vip_until > now())
-                                    <div class="absolute top-3 right-3">
-                                        <span class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                            </svg>
-                                            VIP
-                                        </span>
                                     </div>
+                                    @if ($property->vip_package && $property->vip_until && $property->vip_until > now())
+                                        <div class="absolute top-3 right-3">
+                                            <span
+                                                class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+                                                VIP
+                                            </span>
+                                        </div>
                                     @endif
                                 </div>
 
                                 <!-- Content -->
                                 <div class="flex-1 flex flex-col p-4">
                                     <div class="flex justify-between items-start">
-                                <div>
+                                        <div>
                                             <p class="text-sm font-medium text-gray-500">{{ $property->property_type }}
                                             </p>
                                             <h4
@@ -537,12 +547,12 @@
                                                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
                                                 <p class="truncate max-w-[180px]">{{ $property->address }}</p>
-                                </div>
+                                            </div>
                                         </div>
                                         <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
                                             {{ number_format($property->price, 0, ',', ' ') }} DH
                                         </p>
-                            </div>
+                                    </div>
 
                                     <!-- Features -->
                                     <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
@@ -555,20 +565,20 @@
                                             <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}"
                                                 alt="" loading="lazy">
                                             <span>{{ $property->bathrooms }}</span>
-                                </div>
+                                        </div>
                                         <div class="flex items-center space-x-1">
                                             <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}"
                                                 alt="" loading="lazy">
                                             <span>{{ $property->surface }} m²</span>
-                                </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                @endforeach
+                        </a>
+                    @endforeach
                 </div>
             @endif
-                </div>
+        </div>
 
 
 
@@ -581,75 +591,69 @@
 
 
 
-        </section>
-        <script>
-            // ==========================
-            // Modal Handling
-            // ==========================
+    </section>
+    <script>
+        // ==========================
+        // Modal Handling
+        // ==========================
         function openLoginModal() {
             const modal = document.getElementById('loginModal').__x.$data;
             modal.modalOpen = true;
-            }
+        }
 
         function closeLoginModal() {
             const modal = document.getElementById('loginModal').__x.$data;
             modal.modalOpen = false;
-            }
+        }
 
-        function openReserveModal() {
-            document.getElementById('reserveModal').classList.remove('hidden');
-            }
-
-        function closeReserveModal() {
-            document.getElementById('reserveModal').classList.add('hidden');
-            }
+        // Reserve modal is handled by Alpine.js within the booking section
 
 
 
-            // ==========================
-            // Carousel Handling
-            // ==========================
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('#carousel-container img');
-            const indicators = document.querySelectorAll('.absolute.bottom-4 button');
+        // ==========================
+        // Carousel Handling
+        // ==========================
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('#carousel-container img');
+        const indicators = document.querySelectorAll('.absolute.bottom-4 button');
 
-            function showSlide(index) {
-                slides.forEach((slide, idx) => {
-                    slide.classList.add('opacity-0');
-                    indicators[idx].classList.add('bg-gray-400');
-                    indicators[idx].classList.remove('bg-white');
-                });
-
-                slides[index].classList.remove('opacity-0');
-                indicators[index].classList.remove('bg-gray-400');
-                indicators[index].classList.add('bg-white');
-            }
-
-            // Show initial slide on load
-            if (slides.length > 0) {
-                showSlide(currentSlide);
-            }
-
-            const prevBtn = document.getElementById('prev');
-            const nextBtn = document.getElementById('next');
-
-            if (prevBtn && nextBtn) {
-                prevBtn.addEventListener('click', () => {
-                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                    showSlide(currentSlide);
-                });
-
-                nextBtn.addEventListener('click', () => {
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    showSlide(currentSlide);
-                });
-            }
-
-            indicators.forEach((indicator, index) => {
-                indicator.addEventListener('click', () => {
-                    currentSlide = index;
-                    showSlide(currentSlide);
-                });
+        function showSlide(index) {
+            slides.forEach((slide, idx) => {
+                slide.classList.add('opacity-0');
+                indicators[idx].classList.add('bg-gray-400');
+                indicators[idx].classList.remove('bg-white');
             });
-        </script>
+
+            slides[index].classList.remove('opacity-0');
+            indicators[index].classList.remove('bg-gray-400');
+            indicators[index].classList.add('bg-white');
+        }
+
+        // Show initial slide on load
+        if (slides.length > 0) {
+            showSlide(currentSlide);
+        }
+
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            });
+        }
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+    </script>
 @endsection
