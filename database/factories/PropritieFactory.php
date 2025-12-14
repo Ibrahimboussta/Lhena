@@ -53,8 +53,6 @@ class PropritieFactory extends Factory
             'available_from' => $this->faker->date(),
             'available_until' => $this->faker->date(),
             'published' => $this->faker->boolean(80),
-            'vip_package' => $this->faker->boolean(20),
-            'vip_until' => $this->faker->dateTimeBetween('now', '+1 year')->format('Y-m-d'),
             'amenities' => json_encode($this->faker->randomElements([
                 'wifi',
                 'parking',

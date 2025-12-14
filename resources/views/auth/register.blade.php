@@ -11,7 +11,7 @@
             </div>
 
             <!-- Content -->
-            <div class="p-6 overflow-y-auto">
+            <div class="p-6 overflow-hidden">
                 <div class="space-y-6 text-sm text-gray-600 dark:text-gray-300">
                     <div>
                         <h4 class="font-medium text-gray-900 dark:text-white mb-2">1. Acceptation des conditions générales</h4>
@@ -147,25 +147,37 @@
         </div>
 
         <!-- Buttons Row -->
-        <div class="flex items-center justify-around gap-3 pt-6">
-            <!-- Submit -->
-            <x-primary-button
-                class="flex-1 px-6 py-3  bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg
-               transition-all duration-300 ease-in-out focus:outline-none
-               focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
-                {{ __('S\'inscrire') }}
-            </x-primary-button>
+        <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 pt-6">
 
-            <!-- Google Signup -->
-            <a href="{{ route('google.redirect') }}"
-                class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-300 rounded-lg
-              hover:bg-gray-100 transition-all duration-300 ease-in-out
-              focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
-                <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google Icon" class="w-5 h-5" />
-                <span class="text-sm font-medium text-gray-700">Connect with Google</span>
-            </a>
-        </div>
+    <!-- Submit Button -->
+   <x-primary-button
+    class="w-full md:flex-1 px-6 py-4 md:py-3
+    flex items-center justify-center text-center
+    bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg
+    transition-all duration-300 ease-in-out focus:outline-none
+    focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+    {{ __('S\'inscrire') }}
+</x-primary-button>
 
+
+    <!-- Google Signup Button -->
+    <a href="{{ route('google.redirect') }}"
+       class="w-full md:flex-2 flex items-center justify-center gap-2
+       px-4 py-4 md:py-3
+       bg-white border border-gray-300 rounded-lg
+       hover:bg-gray-100 transition-all duration-300 ease-in-out
+       focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+
+        <img src="https://www.svgrepo.com/show/355037/google.svg"
+             alt="Google Icon"
+             class="w-5 h-5" />
+
+        <span class="text-sm font-medium text-gray-700">
+            Connect with Google
+        </span>
+    </a>
+
+</div>
 
         <!-- Redirect to Login -->
         <p class="text-sm text-center text-gray-600 dark:text-gray-400 pt-2">

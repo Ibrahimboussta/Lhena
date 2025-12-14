@@ -1,106 +1,73 @@
 @extends('layouts.index')
 @section('content')
-    <section class="px-6 sm:px-16 py-20">
-        <h1 class="text-4xl font-bold pt-8">Contactez-nous</h1>
+   <section class="px-6 sm:px-16 py-20">
+    <h1 class="text-4xl font-bold pt-8">Contactez-nous</h1>
 
-        <div class="max-w-2xl flex flex-col gap-y-2 py-5 ">
-            <p class="font-bold text-[15px]">Envoyer un message</p>
-            <p class="text-sm font-medium">Nous serions ravis de vous entendre et de répondre à toutes vos questions.
-                N’hésitez pas à nous écrire, nous vous répondrons dans les plus brefs délais !</p>
-        </div>
+    <div class="max-w-2xl flex flex-col gap-y-2 py-5">
+        <p class="font-bold text-[15px]">Envoyer un message</p>
+        <p class="text-sm font-medium">
+            Nous serions ravis de vous entendre et de répondre à toutes vos questions.
+        </p>
+    </div>
 
-        <div class="mx-auto max-w-screen-xl  sm:px-0">
-            <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
+    <div class="mx-auto max-w-screen-xl">
+        <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
 
-                <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
-                    <form action="{{ route('contact.store') }}"
-                          method="POST"
-                          class="space-y-4"
-                          x-data="{ loading: false }"
-                          @submit="loading = true">
-                        @csrf
-                        <div>
-                            <label class="sr-only" for="name">Nom</label>
-                            <input class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                                   placeholder="Nom"
-                                   type="text"
-                                   id="name"
-                                   name="name"
-                                   :disabled="loading" />
-                        </div>
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <div>
-                                <label class="sr-only" for="email">Email</label>
-                                <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                                       placeholder="Adresse email"
-                                       type="email"
-                                       id="email"
-                                       name="email"
-                                       :disabled="loading" />
-                            </div>
+            <!-- FORM -->
+            <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
+                <form
+                    method="POST"
+                    action="{{ route('contact.store') }}"
+                    x-data="{ loading: false }"
+                    @submit.prevent="loading = true; $el.submit();"
+                    class="space-y-4"
+                >
+                    @csrf
 
-                            <div>
-                                <label class="sr-only" for="phone">Téléphone</label>
-                                <input class="w-full rounded-lg bg-gray-100 border-gray-200 p-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                                       placeholder="+212 612345678"
-                                       type="tel"
-                                       id="phone"
-                                       name="phone"
-                                       pattern="\+?[0-9]*"
-                                       inputmode="numeric"
-                                       :disabled="loading" />
-                            </div>
-                        </div>
+                    <input class="w-full bg-gray-100 rounded-lg p-3 text-sm"
+                        placeholder="Nom" name="name" required>
 
-                        <div>
-                            <label class="sr-only" for="message">Message</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input class="w-full bg-gray-100 rounded-lg p-3 text-sm"
+                            placeholder="Adresse email" type="email" name="email" required>
 
-                            <textarea class="w-full bg-gray-100 rounded-lg border-gray-200 p-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                                      placeholder="Message"
-                                      rows="8"
-                                      id="message"
-                                      name="message"
-                                      :disabled="loading"></textarea>
-                        </div>
+                        <input class="w-full bg-gray-100 rounded-lg p-3 text-sm"
+                            placeholder="+212 612345678" name="phone" required>
+                    </div>
 
-                        <div class="mt-4">
-                            <button type="submit"
-                                class="inline-flex items-center justify-center w-full sm:w-auto px-6 py-2.5 bg-black text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                                :disabled="loading">
-                                <template x-if="loading">
-                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                </template>
-                                <span x-text="loading ? 'Envoi en cours...' : 'Envoyer la demande'"></span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <textarea class="w-full bg-gray-100 rounded-lg p-3 text-sm"
+                        placeholder="Message" rows="8" name="message" required></textarea>
 
-                <div class="lg:col-span-2">
-                    <p class="text-2xl font-bold">
-                        Appelez-nous
-                    </p>
-                    <p class="text-sm pt-3 ">
-                        Appelez-nous dès maintenant et bénéficiez d’un accompagnement personnalisé par notre équipe
-                        d’experts. Nous sommes à votre disposition pour répondre à toutes vos questions et vous aider à
-                        concrétiser vos projets immobiliers. </p>
+                    <button type="submit"
+                        class="px-6 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800"
+                        :disabled="loading">
+                        <span x-text="loading ? 'Envoi en cours…' : 'Envoyer la demande'"></span>
+                    </button>
+                </form>
 
-                    <p class="text-2xl font-bold pt-3 flex  items-center gap-x-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6 text-black">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                        </svg>
-                        <a href="tel:+212634262436" class="text-black">+212 634-262-436</a>
-
-                    </p>
-                </div>
+                @if (session('success'))
+                    <p class="text-green-600 text-sm mt-3">{{ session('success') }}</p>
+                @endif
             </div>
+
+            <!-- CALL US -->
+            <div class="lg:col-span-2">
+                <p class="text-2xl font-bold">Appelez-nous</p>
+                <p class="text-sm pt-3">
+                    Appelez-nous dès maintenant pour un accompagnement personnalisé.
+                </p>
+
+                <p class="text-2xl font-bold pt-4 flex items-center gap-2">
+                    📞
+                    <a href="tel:+212634262436" class="text-black">
+                        +212 634-262-436
+                    </a>
+                </p>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
     <section>
         <div class="mx-auto max-w-screen-xl px-6 sm:px-16">

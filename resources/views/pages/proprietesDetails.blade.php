@@ -15,10 +15,200 @@
             0% {
                 background-position: 100% 0;
             }
-
             100% {
                 background-position: 0 0;
             }
+        }
+
+        /* Enhanced Fullscreen Image Viewer */
+        .fullscreen-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.97);
+            z-index: 1000;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .fullscreen-viewer.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+        }
+
+        .viewer-title {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .viewer-close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .viewer-close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .main-image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            padding: 60px 20px 150px;
+            cursor: grab;
+        }
+
+        .main-image {
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 5;
+            backdrop-filter: blur(5px);
+            opacity: 0.8;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-50%) scale(1.1);
+            opacity: 1;
+        }
+
+        .prev-btn {
+            left: 20px;
+        }
+
+        .next-btn {
+            right: 20px;
+        }
+
+        .thumbnail-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            padding: 20px 15px 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            z-index: 5;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.3) transparent;
+        }
+
+        .thumbnail-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .thumbnail-container::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+
+        .thumbnail-scroll {
+            display: inline-flex;
+            gap: 12px;
+            padding: 10px 0;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .thumbnail:hover {
+            opacity: 0.9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border-color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .image-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 15;
+            backdrop-filter: blur(5px);
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
     </style>
 
@@ -39,17 +229,6 @@
                             <p class="text-sm text-gray-500">{{ $property->created_at->diffForHumans() }}</p>
                         </div>
                         <div class="flex items-center space-x-2">
-                            @if ($property->vip_package && $property->vip_until && $property->vip_until > now())
-                                <span
-                                    class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                    VIP
-                                </span>
-                            @endif
                             <span
                                 class="px-3 py-1 text-xs font-semibold rounded-full
                         {{ $property->listing_type == 'À-vendre' ? 'bg-emerald-100 text-emerald-700' : 'bg-yellow-100 text-yellow-700' }}">
@@ -72,27 +251,67 @@
                     <!-- Carousel -->
                     <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow">
                         @foreach ($photos as $index => $photo)
-                            <img src="{{ asset('storage/' . $photo) }}" alt="" loading="lazy"
-                                class="absolute w-full h-full object-cover transition-opacity duration-500
-                        {{ $index !== 0 ? 'opacity-0' : '' }}">
+                            <img src="{{ asset('storage/' . $photo) }}" alt="Property image {{ $index + 1 }}"
+                                 loading="lazy"
+                                 data-index="{{ $index }}"
+                                 class="absolute w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in
+                                 {{ $index !== 0 ? 'opacity-0' : '' }}"
+                                 onclick="openFullscreenViewer({{ $index }})">
                         @endforeach
 
                         <!-- Nav buttons -->
                         <button id="prev"
-                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white px-3 py-1 rounded-full hover:bg-opacity-60">
+                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-10"
+                            aria-label="Previous image">
                             ❮
                         </button>
                         <button id="next"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white px-3 py-1 rounded-full hover:bg-opacity-60">
+                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-10"
+                            aria-label="Next image">
                             ❯
                         </button>
 
                         <!-- Indicators -->
                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                             @foreach ($photos as $index => $photo)
-                                <button
-                                    class="w-3 h-3 rounded-full {{ $index === 0 ? 'bg-white' : 'bg-gray-400' }}"></button>
+                                <button class="indicator w-3 h-3 rounded-full transition-all {{ $index === 0 ? 'bg-white w-6' : 'bg-gray-400' }}"
+                                        data-index="{{ $index }}"
+                                        aria-label="Go to image {{ $index + 1 }}">
+                                </button>
                             @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Fullscreen Image Viewer -->
+                    <div id="fullscreen-viewer" class="fullscreen-viewer">
+                        <div class="viewer-header">
+                            <div class="viewer-title">Gallery</div>
+                            <button class="viewer-close-btn" onclick="closeFullscreenViewer()" aria-label="Close">
+                                &times;
+                            </button>
+                        </div>
+
+                        <div class="main-image-container">
+                            <button class="nav-btn prev-btn" onclick="navigateInViewer(-1)" aria-label="Previous image">
+                                ❮
+                            </button>
+                            <img id="fullscreen-image" class="main-image" src="" alt="Fullscreen property image">
+                            <button class="nav-btn next-btn" onclick="navigateInViewer(1)" aria-label="Next image">
+                                ❯
+                            </button>
+                            <div class="image-counter" id="image-counter">1 / {{ count($photos) }}</div>
+                        </div>
+
+                        <div class="thumbnail-container">
+                            <div class="thumbnail-scroll" id="thumbnail-scroll">
+                                @foreach($photos as $index => $photo)
+                                    <img src="{{ asset('storage/' . $photo) }}"
+                                         class="thumbnail {{ $index === 0 ? 'active' : '' }}"
+                                         data-index="{{ $index }}"
+                                         onclick="goToImage({{ $index }})"
+                                         alt="Thumbnail {{ $index + 1 }}">
+                                @endforeach
+                            </div>
                         </div>
                     </div>
 
@@ -500,31 +719,7 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        @if ($property->vip_package && $property->vip_until && $property->vip_until > now())
-                                            <span
-                                                class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                    viewBox="0 0 20 20" fill="currentColor">
-                                                    <path
-                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                VIP
-                                            </span>
-                                        @endif
                                     </div>
-                                    @if ($property->vip_package && $property->vip_until && $property->vip_until > now())
-                                        <div class="absolute top-3 right-3">
-                                            <span
-                                                class="bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-3 py-1 rounded-full uppercase font-bold text-xs shadow-lg flex items-center gap-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                    viewBox="0 0 20 20" fill="currentColor">
-                                                    <path
-                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                </svg>
-                                                VIP
-                                            </span>
-                                        </div>
-                                    @endif
                                 </div>
 
                                 <!-- Content -->
@@ -593,6 +788,127 @@
 
     </section>
     <script>
+        // ==========================
+        // Fullscreen Image Viewer
+        // ==========================
+        let currentPhotoIndex = 0;
+        const photos = @json($photos);
+        const fullscreenViewer = document.getElementById('fullscreen-viewer');
+        const fullscreenImage = document.getElementById('fullscreen-image');
+        const imageCounter = document.getElementById('image-counter');
+        const thumbnailScroll = document.getElementById('thumbnail-scroll');
+        const thumbnails = document.querySelectorAll('.thumbnail');
+
+        function openFullscreenViewer(index) {
+            currentPhotoIndex = index;
+            updateFullscreenImage();
+            fullscreenViewer.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            updateThumbnails();
+            scrollToThumbnail();
+        }
+
+        function closeFullscreenViewer() {
+            fullscreenViewer.classList.remove('active');
+            document.body.style.overflow = ''; // Re-enable scrolling
+        }
+
+        function navigateInViewer(direction) {
+            currentPhotoIndex = (currentPhotoIndex + direction + photos.length) % photos.length;
+            updateFullscreenImage();
+            updateThumbnails();
+            scrollToThumbnail();
+        }
+
+        function goToImage(index) {
+            currentPhotoIndex = index;
+            updateFullscreenImage();
+            updateThumbnails();
+            scrollToThumbnail();
+        }
+
+        function updateFullscreenImage() {
+            fullscreenImage.style.opacity = 0;
+            setTimeout(() => {
+                fullscreenImage.src = '{{ asset('storage/') }}/' + photos[currentPhotoIndex];
+                fullscreenImage.onload = () => {
+                    fullscreenImage.style.opacity = 1;
+                };
+                imageCounter.textContent = `${currentPhotoIndex + 1} / ${photos.length}`;
+            }, 150);
+        }
+
+        function updateThumbnails() {
+            thumbnails.forEach((thumb, index) => {
+                if (index === currentPhotoIndex) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+
+        function scrollToThumbnail() {
+            const activeThumb = thumbnails[currentPhotoIndex];
+            if (activeThumb) {
+                activeThumb.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!fullscreenViewer.classList.contains('active')) return;
+
+            switch(e.key) {
+                case 'Escape':
+                    closeFullscreenViewer();
+                    break;
+                case 'ArrowLeft':
+                    navigateInViewer(-1);
+                    break;
+                case 'ArrowRight':
+                    navigateInViewer(1);
+                    break;
+            }
+        });
+
+        // Swipe support for touch devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        fullscreenViewer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        fullscreenViewer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
+
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimum distance to trigger navigation
+            const difference = touchStartX - touchEndX;
+
+            if (Math.abs(difference) > swipeThreshold) {
+                if (difference > 0) {
+                    navigateInViewer(1); // Swipe left - next image
+                } else {
+                    navigateInViewer(-1); // Swipe right - previous image
+                }
+            }
+        }
+
+        // Click on indicators to navigate
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', () => {
+                goToImage(index);
+            });
+        });
+
         // ==========================
         // Modal Handling
         // ==========================

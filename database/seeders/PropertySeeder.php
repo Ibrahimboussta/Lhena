@@ -17,9 +17,9 @@ class PropertySeeder extends Seeder
     public function run(): void
     {
         $users = User::factory()->count(10)->create(); // create 10 fake users
-        Propritie::factory(50)->make()->each(function ($property) use ($users) {
-            $property->user_id = $users->random()->id;
-            $property->save();
-        });
+        // Propritie::factory(50)->make()->each(function ($property) use ($users) {
+        //     $property->user_id = $users->random()->id;
+        //     $property->save();
+        // });
     }
 }

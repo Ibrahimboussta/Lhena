@@ -85,7 +85,6 @@ $property = Propritie::with('reviews.user')
             'listing_type.*' => 'in:À-vendre,À-louer',
             'available_from' => 'required|date|after_or_equal:today',
             'available_until' => 'nullable|date|after_or_equal:available_from',
-            'vip_package' => 'nullable|string|in:3_months,6_months,1_year',
         ]);
 
 
@@ -99,24 +98,6 @@ $property = Propritie::with('reviews.user')
             // Store photo in the public storage and get the path
             $path = $photo->store('properties', 'public');
             $photos[] = $path;
-        }
-
-        // Calculate VIP expiration date if a package is selected
-        $vipUntil = null;
-        $vipPackage = $request->input('vip_package');
-        if ($vipPackage) {
-            $vipUntil = match ($vipPackage) {
-                '3_months' => now()->addMonths(3),
-                '6_months' => now()->addMonths(6),
-                '1_year' => now()->addYear(),
-                default => null
-            };
-
-            // Log VIP package selection
-            \Illuminate\Support\Facades\Log::info('VIP Package selected:', [
-                'package' => $vipPackage,
-                'expires' => $vipUntil
-            ]);
         }
 
         // Generate temporary slug
@@ -142,8 +123,6 @@ $property = Propritie::with('reviews.user')
             'available_from' => $request->available_from,
             'available_until' => $request->available_until,
             'amenities' => $request->amenities ? json_encode($request->amenities) : null,
-            'vip_package' => $request->vip_package,
-            'vip_until' => $vipUntil,
             'slug' => $tempSlug
         ]);
 

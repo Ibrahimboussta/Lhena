@@ -40,8 +40,6 @@ class Propritie extends Model
         'available_until',
         'date_available',
         'amenities',
-        'vip_package',
-        'vip_until',
         'slug'
     ];
 

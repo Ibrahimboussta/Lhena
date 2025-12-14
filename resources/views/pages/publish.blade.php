@@ -145,8 +145,8 @@
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Disponibilité</label>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="date" name="available_from" id="available_from" class="border p-2 rounded w-full" required>
-                            <input type="date" name="available_until" id="available_until" class="border p-2 rounded w-full">
+                            <input type="date" name="available_from" id="available_from" class="border p-2 rounded w-full" value="{{ date('Y-m-d') }}" required>
+                            <input type="date" name="available_until" id="available_until" class="border p-2 rounded w-full" value="{{ date('Y-m-d', strtotime('+30 days')) }}">
                         </div>
                         <p class="text-sm text-gray-500 mt-1">La date de fin est optionnelle pour les biens à vendre.</p>
                     </div>
@@ -251,82 +251,7 @@
                         <div id="image-previews" class="grid grid-cols-3 md:grid-cols-10 gap-4 mt-4"></div>
                     </div>
 
-                    <!-- VIP -->
-                    <div class="mb-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-semibold">Pack VIP (Optionnel)</h3>
-                            <button type="button"
-                                    onclick="document.getElementById('vip-packages').classList.toggle('hidden')"
-                                    class="flex items-center gap-2 text-green-600 hover:text-green-700">
-                                <span>Voir les packs VIP</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div id="vip-packages" class="hidden">
-                            <div class="flex flex-col md:flex-row gap-6 w-full">
-                            <!-- 3 Months Pack -->
-                            <div class="flex-1">
-                                <input type="radio" name="vip_package" value="3_months" id="pack-3-months" class="hidden peer">
-                                <label for="pack-3-months" class="flex flex-col justify-between h-full bg-white border border-gray-200 rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all cursor-pointer peer-checked:border-green-500 peer-checked:ring-4 peer-checked:ring-green-200">
-                                    <div>
-                                        <h4 class="text-xl font-semibold mb-2">Pack 3 Mois</h4>
-                                        <div class="text-3xl font-bold text-green-600 mb-2">299 DH</div>
-                                        <div class="text-gray-600 mb-4 text-sm">Idéal pour tester la visibilité VIP sur une courte période. Inclut badge VIP, annonce en tête de liste, et plus de visibilité.</div>
-                                        <ul class="space-y-2 text-gray-600">
-                                            <li>Annonce en tête de liste</li>
-                                            <li>Badge VIP</li>
-                                            <li>Plus de visibilité</li>
-                                        </ul>
-                                    </div>
-                                    <div class="mt-4 text-center">
-                                        <span class="inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium peer-checked:bg-green-600 peer-checked:text-white transition-colors">Sélectionner</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <!-- 6 Months Pack -->
-                            <div class="flex-1 relative">
-                                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-1 rounded-full text-sm shadow-lg z-10">Populaire</div>
-                                <input type="radio" name="vip_package" value="6_months" id="pack-6-months" class="hidden peer">
-                                <label for="pack-6-months" class="flex flex-col justify-between h-full bg-gradient-to-br from-green-50 to-white border border-green-300 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer peer-checked:border-green-500 peer-checked:ring-4 peer-checked:ring-green-400">
-                                    <div>
-                                        <h4 class="text-xl font-semibold mb-2">Pack 6 Mois</h4>
-                                        <div class="text-3xl font-bold text-green-600 mb-2">499 DH</div>
-                                        <div class="text-gray-600 mb-4 text-sm">Le choix populaire pour une visibilité prolongée. Inclut tous les avantages du pack 3 mois, statistiques de vues et support prioritaire.</div>
-                                        <ul class="space-y-2 text-gray-600">
-                                            <li>Tous les avantages du pack 3 mois</li>
-                                            <li>Statistiques de vues</li>
-                                            <li>Support prioritaire</li>
-                                        </ul>
-                                    </div>
-                                    <div class="mt-4 text-center">
-                                        <span class="inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium peer-checked:bg-green-600 peer-checked:text-white transition-colors">Sélectionner</span>
-                                    </div>
-                                </label>
-                            </div>
-                            <!-- 1 Year Pack -->
-                            <div class="flex-1">
-                                <input type="radio" name="vip_package" value="1_year" id="pack-1-year" class="hidden peer">
-                                <label for="pack-1-year" class="flex flex-col justify-between h-full bg-white border border-gray-200 rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all cursor-pointer peer-checked:border-green-500 peer-checked:ring-4 peer-checked:ring-green-200">
-                                    <div>
-                                        <h4 class="text-xl font-semibold mb-2">Pack 1 An</h4>
-                                        <div class="text-3xl font-bold text-green-600 mb-2">899 DH</div>
-                                        <div class="text-gray-600 mb-4 text-sm">Pour une présence maximale toute l'année. Inclut tous les avantages du pack 6 mois, promotion sur réseaux sociaux et assistance personnalisée.</div>
-                                        <ul class="space-y-2 text-gray-600">
-                                            <li>Tous les avantages du pack 6 mois</li>
-                                            <li>Promotion sur réseaux sociaux</li>
-                                            <li>Assistance personnalisée</li>
-                                        </ul>
-                                    </div>
-                                    <div class="mt-4 text-center">
-                                        <span class="inline-block px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium peer-checked:bg-green-600 peer-checked:text-white transition-colors">Sélectionner</span>
-                                    </div>
-                                </label>
-                            </div>
-                            </div>
-                        </div>
-                </div>                    <!-- Submit -->
+                    <!-- Submit -->
                     <div class="flex justify-end mt-6">
                         <button type="submit"
                                 class="bg-green-600 text-white px-6 py-2.5 rounded-lg hover:bg-green-700 flex items-center gap-2"
