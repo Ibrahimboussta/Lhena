@@ -693,7 +693,7 @@
                 </div>
             @else
                 <!-- ✅ Property Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
                     @foreach ($properties->take(9) as $property)
                         <a href="{{ route('proprites.details', $property->slug) }}" class="group">
                             <div

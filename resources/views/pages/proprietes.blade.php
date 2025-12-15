@@ -104,7 +104,7 @@
                             <p class="text-[#1A1A1A] text-2xl">Aucune propriété trouvée</p>
                         </div>
                     @else
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-6 w-full">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
                             @foreach ($properties as $property)
                                 <a href="{{ route('proprites.details', $property->slug) }}" class="w-full">
                                     <div

@@ -1,73 +1,119 @@
 @extends('layouts.index')
 @section('content')
-   <section class="px-6 sm:px-16 py-20">
-    <h1 class="text-4xl font-bold pt-8">Contactez-nous</h1>
+    <section class="px-6 sm:px-16 py-20">
+        <h1 class="text-4xl font-bold pt-8">Contactez-nous</h1>
 
-    <div class="max-w-2xl flex flex-col gap-y-2 py-5">
-        <p class="font-bold text-[15px]">Envoyer un message</p>
-        <p class="text-sm font-medium">
-            Nous serions ravis de vous entendre et de répondre à toutes vos questions.
-        </p>
-    </div>
-
-    <div class="mx-auto max-w-screen-xl">
-        <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
-
-            <!-- FORM -->
-            <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
-                <form
-                    method="POST"
-                    action="{{ route('contact.store') }}"
-                    x-data="{ loading: false }"
-                    @submit.prevent="loading = true; $el.submit();"
-                    class="space-y-4"
-                >
-                    @csrf
-
-                    <input class="w-full bg-gray-100 rounded-lg p-3 text-sm"
-                        placeholder="Nom" name="name" required>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <input class="w-full bg-gray-100 rounded-lg p-3 text-sm"
-                            placeholder="Adresse email" type="email" name="email" required>
-
-                        <input class="w-full bg-gray-100 rounded-lg p-3 text-sm"
-                            placeholder="+212 612345678" name="phone" required>
-                    </div>
-
-                    <textarea class="w-full bg-gray-100 rounded-lg p-3 text-sm"
-                        placeholder="Message" rows="8" name="message" required></textarea>
-
-                    <button type="submit"
-                        class="px-6 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800"
-                        :disabled="loading">
-                        <span x-text="loading ? 'Envoi en cours…' : 'Envoyer la demande'"></span>
-                    </button>
-                </form>
-
-                @if (session('success'))
-                    <p class="text-green-600 text-sm mt-3">{{ session('success') }}</p>
-                @endif
-            </div>
-
-            <!-- CALL US -->
-            <div class="lg:col-span-2">
-                <p class="text-2xl font-bold">Appelez-nous</p>
-                <p class="text-sm pt-3">
-                    Appelez-nous dès maintenant pour un accompagnement personnalisé.
-                </p>
-
-                <p class="text-2xl font-bold pt-4 flex items-center gap-2">
-                    📞
-                    <a href="tel:+212634262436" class="text-black">
-                        +212 634-262-436
-                    </a>
-                </p>
-            </div>
-
+        <div class="max-w-2xl flex flex-col gap-y-2 py-5">
+            <p class="font-bold text-[15px]">Envoyer un message</p>
+            <p class="text-sm font-medium">
+                Nous serions ravis de vous entendre et de répondre à toutes vos questions.
+            </p>
         </div>
-    </div>
-</section>
+
+        <div class="mx-auto max-w-screen-xl">
+            <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
+
+                <!-- FORM -->
+                <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
+                    <form method="POST" action="{{ route('contact.store') }}"
+                        x-data="{
+                            loading: false,
+                            formData: {
+                                name: '',
+                                email: '',
+                                phone: '',
+                                message: ''
+                            },
+                            trackFormSubmit() {
+                                if (typeof gtag === 'function') {
+                                    gtag('event', 'form_submit', {
+                                        'event_category': 'Contact',
+                                        'event_label': 'Contact Form Submission',
+                                        'form_id': 'contact_form',
+                                        'form_name': 'Contact Form',
+                                        'form_location': window.location.pathname,
+                                        'form_fields': Object.keys(this.formData).filter(key => this.formData[key] !== '').join(','),
+                                        'value': 1
+                                    });
+
+                                    // Track form field interactions
+                                    Object.keys(this.formData).forEach(field => {
+                                        if (this.formData[field]) {
+                                            gtag('event', 'form_field_complete', {
+                                                'event_category': 'Form Interaction',
+                                                'event_label': `Contact Form - ${field} completed`,
+                                                'form_id': 'contact_form',
+                                                'field_name': field,
+                                                'field_type': field === 'email' ? 'email' : 'text',
+                                                'value': 1
+                                            });
+                                        }
+                                    });
+                                }
+                                this.loading = true;
+                                return true;
+                            }
+                        }"
+                        @submit.prevent="
+                            // Collect form data
+                            const form = $event.target;
+                            const formData = new FormData(form);
+                            formData.forEach((value, key) => {
+                                if (this.formData.hasOwnProperty(key)) {
+                                    this.formData[key] = value;
+                                }
+                            });
+
+                            // Track form submission
+                            if (this.trackFormSubmit()) {
+                                form.submit();
+                            }
+                        "
+                        class="space-y-4">
+                        @csrf
+
+                        <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Nom" name="name" required>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Adresse email"
+                                type="email" name="email" required>
+
+                            <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="+212 612345678"
+                                name="phone" required>
+                        </div>
+
+                        <textarea class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Message" rows="8" name="message"
+                            required></textarea>
+
+                        <button type="submit" class="px-6 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800"
+                            :disabled="loading">
+                            <span x-text="loading ? 'Envoi en cours…' : 'Envoyer la demande'"></span>
+                        </button>
+                    </form>
+
+                    @if (session('success'))
+                        <p class="text-green-600 text-sm mt-3">{{ session('success') }}</p>
+                    @endif
+                </div>
+
+                <!-- CALL US -->
+                <div class="lg:col-span-2">
+                    <p class="text-2xl font-bold">Appelez-nous</p>
+                    <p class="text-sm pt-3">
+                        Appelez-nous dès maintenant pour un accompagnement personnalisé.
+                    </p>
+
+                    <p class="text-2xl font-bold pt-4 flex items-center gap-2">
+                        📞
+                        <a href="tel:+212634262436" class="text-black">
+                            +212 634-262-436
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
 
     <section>
         <div class="mx-auto max-w-screen-xl px-6 sm:px-16">
