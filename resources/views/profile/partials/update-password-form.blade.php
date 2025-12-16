@@ -16,11 +16,11 @@
         <!-- Current Password -->
         <div>
             <x-input-label for="update_password_current_password" :value="__('Mot de passe actuel')" class="text-green-700"/>
-            <x-text-input 
-                id="update_password_current_password" 
-                name="current_password" 
-                type="password" 
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg" 
+            <x-text-input
+                id="update_password_current_password"
+                name="current_password"
+                type="password"
+                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg"
                 autocomplete="current-password" />
             <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
         </div>
@@ -28,11 +28,11 @@
         <!-- New Password -->
         <div>
             <x-input-label for="update_password_password" :value="__('Nouveau mot de passe')" class="text-green-700"/>
-            <x-text-input 
-                id="update_password_password" 
-                name="password" 
-                type="password" 
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg" 
+            <x-text-input
+                id="update_password_password"
+                name="password"
+                type="password"
+                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg"
                 autocomplete="new-password" />
             <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
         </div>
@@ -40,11 +40,11 @@
         <!-- Confirm Password -->
         <div>
             <x-input-label for="update_password_password_confirmation" :value="__('Confirmer le mot de passe')" class="text-green-700"/>
-            <x-text-input 
-                id="update_password_password_confirmation" 
-                name="password_confirmation" 
-                type="password" 
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg" 
+            <x-text-input
+                id="update_password_password_confirmation"
+                name="password_confirmation"
+                type="password"
+                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg"
                 autocomplete="new-password" />
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
         </div>

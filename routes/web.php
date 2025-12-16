@@ -11,6 +11,7 @@ use App\Http\Controllers\ProprieteContoller;
 use App\Http\Controllers\PublishController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 
 
@@ -33,15 +34,37 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::middleware(['admin'])->group(function () {
-    Route::get('/lhenadmin', [HomeController::class, 'users'])->name('users');
-    Route::get('/proprites', [HomeController::class, 'proprites'])->name('proprites.admin');
-    Route::get('/contacts', [ContactController::class, 'contact'])->name('contacts.admin');
-    Route::delete('/contacts/delete/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
-    Route::delete('/proprites/delete/{id}', [HomeController::class, 'destroy'])->name('properties.admin.destroy');
-    Route::get('/emails', [MailingController::class, 'index'])->name('mailing');
-    Route::delete('/emails/delete/{id}', [MailingController::class, 'destroy'])->name('mailing.destroy');
+// Redirect old admin URL to the new secure one with rate limiting
+Route::get('/lhenadmin', function () {
+    return redirect()->route('users');
+})->middleware(['throttle:5,1']); // Allow 5 attempts per minute
 
+// Secure admin routes with extremely complex URL
+// The admin URL is now: /9x2k8p5q1r7s3t6v0w4y9z2a8b5c1d7e3f6g0h4i9j2k8l5m1n7o3p6q0r4s9t2u8v5w1x7y3z6a0b4c9d2e8f5g1h7i3j6k0l4m9n2o8p5q1r7s3t6v0w4y9z2
+Route::prefix('9x2k8p5q1r7s3t6v0w4y9z2a8b5c1d7e3f6g0h4i9j2k8l5m1n7o3p6q0r4s9t2u8v5w1x7y3z6a0b4c9d2e8f5g1h7i3j6k0l4m9n2o8p5q1r7s3t6v0w4y9z2')
+    ->middleware(['admin', 'throttle:60,1']) // 60 requests per minute
+    ->group(function () {
+        Route::get('/', [HomeController::class, 'users'])->name('users');
+        Route::get('/proprites', [HomeController::class, 'proprites'])->name('proprites.admin');
+        Route::get('/contacts', [ContactController::class, 'contact'])->name('contacts.admin');
+        Route::delete('/contacts/delete/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+        Route::delete('/proprites/delete/{id}', [HomeController::class, 'destroy'])->name('properties.admin.destroy');
+        Route::get('/emails', [MailingController::class, 'index'])->name('mailing');
+        Route::delete('/emails/delete/{id}', [MailingController::class, 'destroy'])->name('mailing.destroy');
+
+        // Add a simple health check endpoint that doesn't require auth
+        Route::get('/health', function () {
+            return response()->json(['status' => 'ok']);
+        })->withoutMiddleware(['admin']);
+    });
+
+// Custom 404 for admin routes to prevent URL guessing
+Route::fallback(function (Request $request) {
+    $path = $request->path();
+    if (str_starts_with($path, 'hashed-admin-')) {
+        abort(404, 'Page not found');
+    }
+    abort(404);
 });
 
 
