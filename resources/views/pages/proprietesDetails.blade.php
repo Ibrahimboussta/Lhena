@@ -1,5 +1,39 @@
 @extends('layouts.index')
 @section('content')
+    <!-- Alpine.js Store for Modals -->
+    <div x-data>
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('modal', {
+                    showReserveModal: false,
+                    showAgentModal: false,
+                    init() {
+                        // Close modals when clicking outside
+                        document.addEventListener('click', (e) => {
+                            if (this.showReserveModal && !e.target.closest('.modal-content')) {
+                                this.showReserveModal = false;
+                            }
+                            if (this.showAgentModal && !e.target.closest('.modal-content')) {
+                                this.showAgentModal = false;
+                            }
+                        });
+
+                        // Close on Escape key
+                        document.addEventListener('keydown', (e) => {
+                            if (e.key === 'Escape') {
+                                this.showReserveModal = false;
+                                this.showAgentModal = false;
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Toggle body scroll when modal is open
+            function toggleBodyScroll(enable) {
+                document.body.style.overflow = enable ? '' : 'hidden';
+            }
+        </script>
 
     <style>
         .skeleton {
@@ -249,7 +283,7 @@
                     </div>
 
                     <!-- Carousel -->
-                    <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow">
+                    <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow" style="z-index: 1;">
                         @foreach ($photos as $index => $photo)
                             <img src="{{ asset('storage/' . $photo) }}" alt="Property image {{ $index + 1 }}"
                                  loading="lazy"
@@ -261,13 +295,15 @@
 
                         <!-- Nav buttons -->
                         <button id="prev"
-                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-10"
-                            aria-label="Previous image">
+                                class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all"
+                                style="z-index: 5;"
+                                aria-label="Previous image">
                             ❮
                         </button>
                         <button id="next"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-10"
-                            aria-label="Next image">
+                                class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all"
+                                style="z-index: 5;"
+                                aria-label="Next image">
                             ❯
                         </button>
 
@@ -453,55 +489,20 @@
                         </h2>
 
                         <!-- Booking -->
-                        <div class="space-y-2" x-data="{ showAgentModal: false, showReserveModal: false }">
-
+                        <div class="space-y-2">
                             <!-- Réserver Button (opens modal showing publisher phone) -->
-                            <button @click="showReserveModal = true" class="w-full">
-                                <span
-                                    class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
+                            <button @click="$store.modal.showReserveModal = true" class="w-full">
+                                <span class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
                                     Réserver
                                 </span>
                             </button>
 
-                            <!-- Reserve Modal -->
-                            <div x-show="showReserveModal"
-                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-                                @click.self="showReserveModal = false" x-cloak>
-                                <div class="bg-white p-6 rounded-lg max-w-md w-full">
-                                    <h2 class="text-lg font-bold mb-4">Réserver cette propriété</h2>
-                                    <p class="mb-4">📞 Numéro de tel : {{ $property->contact_phone }}</p>
-                                    <div class="flex justify-end">
-                                        <a href="tel:{{ $property->contact_phone }}"
-                                            class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg">Appeler</a>
-                                        <button @click="showReserveModal = false"
-                                            class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- Appeler l'agent Button -->
-                            <button @click="showAgentModal = true"
+                            <button @click="$store.modal.showAgentModal = true"
                                 class="inline-flex items-center justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
                                 <span>📞</span>
                                 <span class="ml-2">Appeler l'agent</span>
                             </button>
-
-                            <!-- Agent Modal -->
-                            <div x-show="showAgentModal"
-                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-                                @click.self="showAgentModal = false" x-cloak>
-                                <div class="bg-white p-6 rounded-lg max-w-md w-full">
-                                    <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
-                                    <p class="mb-4">📞 Numéro de tel : 0634262436</p>
-                                    <div class="flex justify-end">
-                                        <a href="tel:0634262436"
-                                            class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg">Appeler</a>
-                                        <button @click="showAgentModal = false"
-                                            class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
                         <!-- Login Modal -->
@@ -922,54 +923,180 @@
             modal.modalOpen = false;
         }
 
-        // Reserve modal is handled by Alpine.js within the booking section
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // ==========================
+            // Carousel Handling
+            // ==========================
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('#carousel-container img');
+            const indicators = document.querySelectorAll('.absolute.bottom-4 button');
 
+            function showSlide(index) {
+                if (!slides.length) return;
 
+                slides.forEach((slide, idx) => {
+                    if (slide) slide.classList.add('opacity-0');
+                    if (indicators[idx]) {
+                        indicators[idx].classList.add('bg-gray-400');
+                        indicators[idx].classList.remove('bg-white', 'w-6');
+                    }
+                });
 
-        // ==========================
-        // Carousel Handling
-        // ==========================
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('#carousel-container img');
-        const indicators = document.querySelectorAll('.absolute.bottom-4 button');
+                if (slides[index]) {
+                    slides[index].classList.remove('opacity-0');
+                }
+                if (indicators[index]) {
+                    indicators[index].classList.remove('bg-gray-400');
+                    indicators[index].classList.add('bg-white', 'w-6');
+                }
+            }
 
-        function showSlide(index) {
-            slides.forEach((slide, idx) => {
-                slide.classList.add('opacity-0');
-                indicators[idx].classList.add('bg-gray-400');
-                indicators[idx].classList.remove('bg-white');
-            });
+            // Initialize carousel if there are slides
+            if (slides.length > 0) {
+                showSlide(currentSlide);
 
-            slides[index].classList.remove('opacity-0');
-            indicators[index].classList.remove('bg-gray-400');
-            indicators[index].classList.add('bg-white');
+                // Set up event listeners for navigation buttons
+                const prevBtn = document.getElementById('prev');
+                const nextBtn = document.getElementById('next');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                        showSlide(currentSlide);
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        showSlide(currentSlide);
+                    });
+                }
+
+                // Set up indicators
+                indicators.forEach((indicator, index) => {
+                    if (indicator) {
+                        indicator.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            currentSlide = index;
+                            showSlide(currentSlide);
+                        });
+                    }
+                });
+
+                // Add keyboard navigation
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowLeft') {
+                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                        showSlide(currentSlide);
+                    } else if (e.key === 'ArrowRight') {
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        showSlide(currentSlide);
+                    } else if (e.key === 'Escape') {
+                        closeFullscreenViewer();
+                    }
+                });
+            }
+        });
+
+        // Modal close function for the fullscreen image viewer
+        function closeFullscreenViewer() {
+            const viewer = document.getElementById('fullscreen-viewer');
+            if (viewer) {
+                viewer.classList.remove('active');
+                document.body.style.overflow = ''; // Re-enable scrolling
+            }
         }
 
-        // Show initial slide on load
-        if (slides.length > 0) {
-            showSlide(currentSlide);
+        // Keyboard navigation for the fullscreen viewer
+        function navigateInViewer(direction) {
+            if (window.currentViewerIndex !== undefined && window.viewerImages) {
+                window.currentViewerIndex = (window.currentViewerIndex + direction + window.viewerImages.length) % window.viewerImages.length;
+                const fullscreenImage = document.getElementById('fullscreen-image');
+                if (fullscreenImage && window.viewerImages[window.currentViewerIndex]) {
+                    fullscreenImage.src = window.viewerImages[window.currentViewerIndex];
+                }
+            }
         }
 
-        const prevBtn = document.getElementById('prev');
-        const nextBtn = document.getElementById('next');
-
-        if (prevBtn && nextBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                showSlide(currentSlide);
-            });
-
-            nextBtn.addEventListener('click', () => {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            });
+        // Modal state management
+        function toggleBodyScroll(enable) {
+            document.body.style.overflow = enable ? '' : 'hidden';
         }
 
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                currentSlide = index;
-                showSlide(currentSlide);
+        // Initialize modals store
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('modal', {
+                showReserveModal: false,
+                showAgentModal: false
+            });
+        });
+
+        // Watch for modal state changes to handle body scroll
+        document.addEventListener('alpine:initialized', () => {
+            Alpine.effect(() => {
+                const modalStore = Alpine.store('modal');
+                const isAnyModalOpen = modalStore.showReserveModal || modalStore.showAgentModal;
+                toggleBodyScroll(!isAnyModalOpen);
             });
         });
     </script>
+
+    <!-- Reserve Modal -->
+    <div x-data x-show="$store.modal.showReserveModal" x-transition.opacity class="fixed inset-0 z-[9999] flex items-center justify-center p-4" x-cloak>
+        <div class="fixed inset-0 bg-black/50" @click="$store.modal.showReserveModal = false"></div>
+        <div class="relative bg-white rounded-lg max-w-md w-full mx-4 z-10" @click.stop>
+            <div class="p-6">
+                <h2 class="text-lg font-bold mb-4">Réserver cette propriété</h2>
+                <p class="mb-4">📞 Numéro de tel : {{ $property->contact_phone }}</p>
+                <div class="flex justify-end">
+                    <a href="tel:{{ $property->contact_phone }}"
+                        class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                        Appeler
+                    </a>
+                    <button @click="$store.modal.showReserveModal = false"
+                        class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50">
+                        Fermer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Contact Modal -->
+    <div x-data="{ show: false }"
+         x-show="$store.modal.showAgentModal"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+         x-cloak
+         x-init="$watch('$store.modal.showAgentModal', value => {
+             show = value;
+             toggleBodyScroll(!value);
+         })">
+        <div class="fixed inset-0 bg-black/50" @click="$store.modal.showAgentModal = false"></div>
+        <div class="relative bg-white rounded-lg max-w-md w-full mx-4 z-10 modal-content">
+            <div class="p-6">
+                <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
+                <p class="mb-4">📞 Numéro de l'agent : 0634262436</p>
+                <div class="flex justify-end space-x-2">
+                    <a href="tel:{{ $property->contact_phone }}"
+                        class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
+                        Appeler
+                    </a>
+                    <button @click="$store.modal.showAgentModal = false"
+                        class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50">
+                        Fermer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
