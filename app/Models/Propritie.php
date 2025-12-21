@@ -6,11 +6,30 @@ use App\Traits\HashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Propritie extends Model
 {
     use HashId;
     use HasFactory;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($property) {
+            // Delete associated reviews
+            $property->reviews()->delete();
+
+            // Delete associated photos from storage
+            $photos = json_decode($property->photos, true) ?? [];
+            foreach ($photos as $photo) {
+                if (Storage::disk('public')->exists($photo)) {
+                    Storage::disk('public')->delete($photo);
+                }
+            }
+        });
+    }
 
     public function getSlugAttribute()
     {

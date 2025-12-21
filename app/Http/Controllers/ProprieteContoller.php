@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Propritie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ProprieteContoller extends Controller
 {
@@ -138,21 +139,34 @@ $property = Propritie::with('reviews.user')
 
     public function destroy($id)
     {
-        // Find the property by ID
-        $propritie = Propritie::findOrFail($id);
-
-        // Check ownership or if the user is an admin
-        $user = Auth::user();
-
-        if ($propritie->user_id === $user->id || $user->role === 'admin') {
-            // Only delete the property that matches the ID
-            $propritie->delete();
-
-            return redirect()->route('dashboard')->with('success', 'Property deleted successfully!');
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
         }
 
-        // Unauthorized action if not the owner or admin
-        abort(403, 'Unauthorized action.');
+        try {
+            // Find the property by ID
+            $property = Propritie::findOrFail($id);
+            $user = Auth::user();
+
+            // Check ownership or admin status
+            if ($property->user_id !== $user->id && $user->role !== 'admin') {
+                return redirect()->back()->with('error', 'You are not authorized to delete this property.');
+            }
+
+            // Delete the property (this will trigger the deleting event in the model)
+            $property->delete();
+
+            return redirect()->route('dashboard')
+                ->with('success', 'Property and all associated data have been deleted successfully!');
+
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error deleting property: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->with('error', 'An error occurred while deleting the property. Please try again.');
+        }
     }
 
 
