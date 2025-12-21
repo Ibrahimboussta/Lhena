@@ -149,10 +149,10 @@ $property = Propritie::with('reviews.user')
             $property = Propritie::findOrFail($id);
             $user = Auth::user();
 
-            // Check ownership or admin status
-            if ($property->user_id !== $user->id && $user->role !== 'admin') {
-                return redirect()->back()->with('error', 'You are not authorized to delete this property.');
-            }
+            // // Check ownership or admin status
+            // if ($property->user_id !== $user->id && $user->role !== 'admin') {
+            //     return redirect()->back()->with('error', 'You are not authorized to delete this property.');
+            // }
 
             // Delete the property (this will trigger the deleting event in the model)
             $property->delete();
