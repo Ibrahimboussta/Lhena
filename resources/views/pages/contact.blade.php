@@ -15,60 +15,60 @@
 
                 <!-- FORM -->
                 <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
-                    <form method="POST" action="{{ route('contact.store') }}"
-                        x-data="{
-                            loading: false,
-                            formData: {
-                                name: '',
-                                email: '',
-                                phone: '',
-                                message: ''
-                            },
-                            trackFormSubmit() {
-                                if (typeof gtag === 'function') {
-                                    gtag('event', 'form_submit', {
-                                        'event_category': 'Contact',
-                                        'event_label': 'Contact Form Submission',
-                                        'form_id': 'contact_form',
-                                        'form_name': 'Contact Form',
-                                        'form_location': window.location.pathname,
-                                        'form_fields': Object.keys(this.formData).filter(key => this.formData[key] !== '').join(','),
-                                        'value': 1
-                                    });
+                    <form method="POST" action="{{ route('contact.store') }}" x-data="{
+                        loading: false,
+                        formData: {
+                            name: '',
+                            email: '',
+                            phone: '',
+                            message: ''
+                        },
+                        trackFormSubmit() {
+                            if (typeof gtag === 'function') {
+                                gtag('event', 'form_submit', {
+                                    event_category: 'Contact',
+                                    event_label: 'Contact Form Submission',
+                                    form_id: 'contact_form',
+                                    form_name: 'Contact Form',
+                                    form_location: window.location.pathname,
+                                    form_fields: Object.keys(this.formData)
+                                        .filter(key => this.formData[key] !== '')
+                                        .join(','),
+                                    value: 1
+                                });
 
-                                    // Track form field interactions
-                                    Object.keys(this.formData).forEach(field => {
-                                        if (this.formData[field]) {
-                                            gtag('event', 'form_field_complete', {
-                                                'event_category': 'Form Interaction',
-                                                'event_label': `Contact Form - ${field} completed`,
-                                                'form_id': 'contact_form',
-                                                'field_name': field,
-                                                'field_type': field === 'email' ? 'email' : 'text',
-                                                'value': 1
-                                            });
-                                        }
-                                    });
-                                }
-                                this.loading = true;
-                                return true;
+                                Object.keys(this.formData).forEach(field => {
+                                    if (this.formData[field]) {
+                                        gtag('event', 'form_field_complete', {
+                                            event_category: 'Form Interaction',
+                                            event_label: `Contact Form - ${field} completed`,
+                                            form_id: 'contact_form',
+                                            field_name: field,
+                                            field_type: field === 'email' ? 'email' : 'text',
+                                            value: 1
+                                        });
+                                    }
+                                });
                             }
-                        }"
+
+                            this.loading = true;
+                            return true;
+                        }
+                    }"
                         @submit.prevent="
-                            // Collect form data
-                            const form = $event.target;
-                            const formData = new FormData(form);
-                            formData.forEach((value, key) => {
-                                if (this.formData.hasOwnProperty(key)) {
-                                    this.formData[key] = value;
-                                }
-                            });
+            const form = $event.target;
+            const formData = new FormData(form);
 
-                            // Track form submission
-                            if (this.trackFormSubmit()) {
-                                form.submit();
-                            }
-                        "
+            formData.forEach((value, key) => {
+                if ($data.formData.hasOwnProperty(key)) {
+                    $data.formData[key] = value;
+                }
+            });
+
+            if (trackFormSubmit()) {
+                form.submit();
+            }
+        "
                         class="space-y-4">
                         @csrf
 
@@ -78,8 +78,8 @@
                             <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Adresse email"
                                 type="email" name="email" required>
 
-                            <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="+212 612345678"
-                                name="phone" required>
+                            <input id="phone" class="w-full bg-gray-100 rounded-lg p-3 text-sm"
+                                placeholder="+212 612345678" name="phone" required>
                         </div>
 
                         <textarea class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Message" rows="8" name="message"
@@ -95,6 +95,7 @@
                         <p class="text-green-600 text-sm mt-3">{{ session('success') }}</p>
                     @endif
                 </div>
+
 
                 <!-- CALL US -->
                 <div class="lg:col-span-2">
@@ -212,11 +213,12 @@
             button.setAttribute("aria-expanded", button.getAttribute("aria-expanded") === "false" ? "true" : "false");
             content.style.maxHeight = button.getAttribute("aria-expanded") === "true" ? content.scrollHeight + "px" : "0";
         }
-    </script>
 
-    <script>
-        document.getElementById('phone').addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/[^0-9+]/g, ''); // Allow only numbers and +
-        });
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', e => {
+                e.target.value = e.target.value.replace(/[^0-9+]/g, '');
+            });
+        }
     </script>
 @endsection
