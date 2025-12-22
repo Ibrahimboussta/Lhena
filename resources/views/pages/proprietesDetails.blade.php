@@ -1,39 +1,5 @@
 @extends('layouts.index')
 @section('content')
-    <!-- Alpine.js Store for Modals -->
-    <div x-data>
-        <script>
-            document.addEventListener('alpine:init', () => {
-                Alpine.store('modal', {
-                    showReserveModal: false,
-                    showAgentModal: false,
-                    init() {
-                        // Close modals when clicking outside
-                        document.addEventListener('click', (e) => {
-                            if (this.showReserveModal && !e.target.closest('.modal-content')) {
-                                this.showReserveModal = false;
-                            }
-                            if (this.showAgentModal && !e.target.closest('.modal-content')) {
-                                this.showAgentModal = false;
-                            }
-                        });
-
-                        // Close on Escape key
-                        document.addEventListener('keydown', (e) => {
-                            if (e.key === 'Escape') {
-                                this.showReserveModal = false;
-                                this.showAgentModal = false;
-                            }
-                        });
-                    }
-                });
-            });
-
-            // Toggle body scroll when modal is open
-            function toggleBodyScroll(enable) {
-                document.body.style.overflow = enable ? '' : 'hidden';
-            }
-        </script>
 
     <style>
         .skeleton {
@@ -49,9 +15,15 @@
             0% {
                 background-position: 100% 0;
             }
+
             100% {
                 background-position: 0 0;
             }
+        }
+
+        /* Prevent body scroll when modal is open */
+        .overflow-hidden {
+            overflow: hidden !important;
         }
 
         /* Enhanced Fullscreen Image Viewer */
@@ -81,7 +53,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 20px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
             position: absolute;
             top: 0;
             left: 0;
@@ -94,7 +66,7 @@
             color: white;
             font-size: 1.1rem;
             font-weight: 500;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .viewer-close-btn {
@@ -178,7 +150,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
             padding: 20px 15px 15px;
             overflow-x: auto;
             white-space: nowrap;
@@ -187,7 +159,7 @@
             justify-content: center;
             z-index: 5;
             scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.3) transparent;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
         }
 
         .thumbnail-container::-webkit-scrollbar {
@@ -195,7 +167,7 @@
         }
 
         .thumbnail-container::-webkit-scrollbar-thumb {
-            background-color: rgba(255,255,255,0.3);
+            background-color: rgba(255, 255, 255, 0.3);
             border-radius: 3px;
         }
 
@@ -214,20 +186,20 @@
             cursor: pointer;
             opacity: 0.7;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .thumbnail:hover {
             opacity: 0.9;
             transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .thumbnail.active {
             opacity: 1;
             border-color: #fff;
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
 
         .image-counter {
@@ -242,7 +214,7 @@
             z-index: 15;
             backdrop-filter: blur(5px);
             font-weight: 500;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 
@@ -283,36 +255,33 @@
                     </div>
 
                     <!-- Carousel -->
-                    <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow" style="z-index: 1;">
+                    <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow">
                         @foreach ($photos as $index => $photo)
                             <img src="{{ asset('storage/' . $photo) }}" alt="Property image {{ $index + 1 }}"
-                                 loading="lazy"
-                                 data-index="{{ $index }}"
-                                 class="absolute w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in
+                                loading="lazy" data-index="{{ $index }}"
+                                class="absolute w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in
                                  {{ $index !== 0 ? 'opacity-0' : '' }}"
-                                 onclick="openFullscreenViewer({{ $index }})">
+                                onclick="openFullscreenViewer({{ $index }})">
                         @endforeach
 
                         <!-- Nav buttons -->
                         <button id="prev"
-                                class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all"
-                                style="z-index: 5;"
-                                aria-label="Previous image">
+                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-0"
+                            aria-label="Previous image">
                             ❮
                         </button>
                         <button id="next"
-                                class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all"
-                                style="z-index: 5;"
-                                aria-label="Next image">
+                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-0"
+                            aria-label="Next image">
                             ❯
                         </button>
 
                         <!-- Indicators -->
                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                             @foreach ($photos as $index => $photo)
-                                <button class="indicator w-3 h-3 rounded-full transition-all {{ $index === 0 ? 'bg-white w-6' : 'bg-gray-400' }}"
-                                        data-index="{{ $index }}"
-                                        aria-label="Go to image {{ $index + 1 }}">
+                                <button
+                                    class="indicator w-3 h-3 rounded-full transition-all {{ $index === 0 ? 'bg-white w-6' : 'bg-gray-400' }}"
+                                    data-index="{{ $index }}" aria-label="Go to image {{ $index + 1 }}">
                                 </button>
                             @endforeach
                         </div>
@@ -340,12 +309,11 @@
 
                         <div class="thumbnail-container">
                             <div class="thumbnail-scroll" id="thumbnail-scroll">
-                                @foreach($photos as $index => $photo)
+                                @foreach ($photos as $index => $photo)
                                     <img src="{{ asset('storage/' . $photo) }}"
-                                         class="thumbnail {{ $index === 0 ? 'active' : '' }}"
-                                         data-index="{{ $index }}"
-                                         onclick="goToImage({{ $index }})"
-                                         alt="Thumbnail {{ $index + 1 }}">
+                                        class="thumbnail {{ $index === 0 ? 'active' : '' }}"
+                                        data-index="{{ $index }}" onclick="goToImage({{ $index }})"
+                                        alt="Thumbnail {{ $index + 1 }}">
                                 @endforeach
                             </div>
                         </div>
@@ -489,24 +457,69 @@
                         </h2>
 
                         <!-- Booking -->
-                        <div class="space-y-2">
+                        <div class="space-y-2" x-data="{
+                            showAgentModal: false,
+                            showReserveModal: false,
+                            updateBodyScroll() {
+                                if (this.showAgentModal || this.showReserveModal) {
+                                    document.body.classList.add('overflow-hidden');
+                                } else {
+                                    document.body.classList.remove('overflow-hidden');
+                                }
+                            }
+                        }" x-init="updateBodyScroll()" x-effect="updateBodyScroll()">
+
                             <!-- Réserver Button (opens modal showing publisher phone) -->
-                            <button @click="$store.modal.showReserveModal = true" class="w-full">
-                                <span class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
+                            <button @click="showReserveModal = true" class="w-full">
+                                <span
+                                    class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
                                     Réserver
                                 </span>
                             </button>
 
+                            <!-- Reserve Modal -->
+                            <div x-show="showReserveModal"
+                                class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[99999]"
+                                @click.self="showReserveModal = false" x-cloak>
+                                <div class="bg-white p-6 rounded-lg max-w-md w-full">
+                                    <h2 class="text-lg font-bold mb-4">Réserver cette propriété</h2>
+                                    <p class="mb-4">📞 Numéro de tel : {{ $property->contact_phone }}</p>
+                                    <div class="flex justify-end">
+                                        <a href="tel:{{ $property->contact_phone }}"
+                                            class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg">Appeler</a>
+                                        <button @click="showReserveModal = false"
+                                            class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Appeler l'agent Button -->
-                            <button @click="$store.modal.showAgentModal = true"
+                            <button @click="showAgentModal = true"
                                 class="inline-flex items-center justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
                                 <span>📞</span>
                                 <span class="ml-2">Appeler l'agent</span>
                             </button>
+
+                            <!-- Agent Modal -->
+                            <div x-show="showAgentModal"
+                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99999]"
+                                @click.self="showAgentModal = false" x-cloak>
+                                <div class="bg-white p-6 rounded-lg max-w-md w-full">
+                                    <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
+                                    <p class="mb-4">📞 Numéro de tel : 0634262436</p>
+                                    <div class="flex justify-end">
+                                        <a href="tel:0634262436"
+                                            class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg">Appeler</a>
+                                        <button @click="showAgentModal = false"
+                                            class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <!-- Login Modal -->
-                        <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50"
+                        <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-[99999]"
                             :class="{ 'hidden': !modalOpen, 'flex': modalOpen }" x-data="{ modalOpen: false }"
                             x-show="modalOpen" x-cloak>
                             <div class="bg-white p-6 rounded-lg max-w-md w-full">
@@ -559,14 +572,14 @@
                                             :class="i <= rating ? 'text-yellow-400' : 'text-gray-300'" viewBox="0 0 20 20"
                                             fill="currentColor">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921
-                                                                        1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
-                                                                        0 1.371 1.24.588 1.81l-2.8
-                                                                        2.034a1 1 0 00-.364 1.118l1.07
-                                                                        3.292c.3.921-.755 1.688-1.54
-                                                                        1.118l-2.8-2.034a1 1 0
-                                                                        00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1
-                                                                        1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1
-                                                                        1 0 00.951-.69l1.07-3.292z" />
+                                                                                1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
+                                                                                0 1.371 1.24.588 1.81l-2.8
+                                                                                2.034a1 1 0 00-.364 1.118l1.07
+                                                                                3.292c.3.921-.755 1.688-1.54
+                                                                                1.118l-2.8-2.034a1 1 0
+                                                                                00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1
+                                                                                1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1
+                                                                                1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
                                     </label>
                                 </template>
@@ -679,7 +692,7 @@
             Des Propriétés Similaires
         </h2>
 
-        <div class="w-full pb-12 px-6 sm:px-16">
+        <div class="w-full pb-12 px-6 sm:px-16 ">
             @if ($properties->isEmpty())
                 <!-- ✅ Message if no properties -->
                 <div class="flex justify-center">
@@ -694,15 +707,15 @@
                 </div>
             @else
                 <!-- ✅ Property Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
                     @foreach ($properties->take(9) as $property)
                         <a href="{{ route('proprites.details', $property->slug) }}" class="group">
                             <div
-                                class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col">
+                                class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col z-0">
 
                                 <!-- Image -->
-                                <div class="relative w-full h-64 overflow-hidden">
-                                    <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                <div class="relative w-full h-64 overflow-hidden z-0">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500 z-0"
                                         src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt=""
                                         loading="lazy">
                                     <div class="absolute top-3 flex justify-between w-full px-3">
@@ -864,7 +877,7 @@
         document.addEventListener('keydown', (e) => {
             if (!fullscreenViewer.classList.contains('active')) return;
 
-            switch(e.key) {
+            switch (e.key) {
                 case 'Escape':
                     closeFullscreenViewer();
                     break;
@@ -923,180 +936,54 @@
             modal.modalOpen = false;
         }
 
-        // Wait for the DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // ==========================
-            // Carousel Handling
-            // ==========================
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('#carousel-container img');
-            const indicators = document.querySelectorAll('.absolute.bottom-4 button');
+        // Reserve modal is handled by Alpine.js within the booking section
 
-            function showSlide(index) {
-                if (!slides.length) return;
 
-                slides.forEach((slide, idx) => {
-                    if (slide) slide.classList.add('opacity-0');
-                    if (indicators[idx]) {
-                        indicators[idx].classList.add('bg-gray-400');
-                        indicators[idx].classList.remove('bg-white', 'w-6');
-                    }
-                });
 
-                if (slides[index]) {
-                    slides[index].classList.remove('opacity-0');
-                }
-                if (indicators[index]) {
-                    indicators[index].classList.remove('bg-gray-400');
-                    indicators[index].classList.add('bg-white', 'w-6');
-                }
-            }
+        // ==========================
+        // Carousel Handling
+        // ==========================
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('#carousel-container img');
+        const indicators = document.querySelectorAll('.absolute.bottom-4 button');
 
-            // Initialize carousel if there are slides
-            if (slides.length > 0) {
-                showSlide(currentSlide);
-
-                // Set up event listeners for navigation buttons
-                const prevBtn = document.getElementById('prev');
-                const nextBtn = document.getElementById('next');
-
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                        showSlide(currentSlide);
-                    });
-                }
-
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        currentSlide = (currentSlide + 1) % slides.length;
-                        showSlide(currentSlide);
-                    });
-                }
-
-                // Set up indicators
-                indicators.forEach((indicator, index) => {
-                    if (indicator) {
-                        indicator.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            currentSlide = index;
-                            showSlide(currentSlide);
-                        });
-                    }
-                });
-
-                // Add keyboard navigation
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'ArrowLeft') {
-                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                        showSlide(currentSlide);
-                    } else if (e.key === 'ArrowRight') {
-                        currentSlide = (currentSlide + 1) % slides.length;
-                        showSlide(currentSlide);
-                    } else if (e.key === 'Escape') {
-                        closeFullscreenViewer();
-                    }
-                });
-            }
-        });
-
-        // Modal close function for the fullscreen image viewer
-        function closeFullscreenViewer() {
-            const viewer = document.getElementById('fullscreen-viewer');
-            if (viewer) {
-                viewer.classList.remove('active');
-                document.body.style.overflow = ''; // Re-enable scrolling
-            }
-        }
-
-        // Keyboard navigation for the fullscreen viewer
-        function navigateInViewer(direction) {
-            if (window.currentViewerIndex !== undefined && window.viewerImages) {
-                window.currentViewerIndex = (window.currentViewerIndex + direction + window.viewerImages.length) % window.viewerImages.length;
-                const fullscreenImage = document.getElementById('fullscreen-image');
-                if (fullscreenImage && window.viewerImages[window.currentViewerIndex]) {
-                    fullscreenImage.src = window.viewerImages[window.currentViewerIndex];
-                }
-            }
-        }
-
-        // Modal state management
-        function toggleBodyScroll(enable) {
-            document.body.style.overflow = enable ? '' : 'hidden';
-        }
-
-        // Initialize modals store
-        document.addEventListener('alpine:init', () => {
-            Alpine.store('modal', {
-                showReserveModal: false,
-                showAgentModal: false
+        function showSlide(index) {
+            slides.forEach((slide, idx) => {
+                slide.classList.add('opacity-0');
+                indicators[idx].classList.add('bg-gray-400');
+                indicators[idx].classList.remove('bg-white');
             });
-        });
 
-        // Watch for modal state changes to handle body scroll
-        document.addEventListener('alpine:initialized', () => {
-            Alpine.effect(() => {
-                const modalStore = Alpine.store('modal');
-                const isAnyModalOpen = modalStore.showReserveModal || modalStore.showAgentModal;
-                toggleBodyScroll(!isAnyModalOpen);
+            slides[index].classList.remove('opacity-0');
+            indicators[index].classList.remove('bg-gray-400');
+            indicators[index].classList.add('bg-white');
+        }
+
+        // Show initial slide on load
+        if (slides.length > 0) {
+            showSlide(currentSlide);
+        }
+
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            });
+        }
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
             });
         });
     </script>
-
-    <!-- Reserve Modal -->
-    <div x-data x-show="$store.modal.showReserveModal" x-transition.opacity class="fixed inset-0 z-[9999] flex items-center justify-center p-4" x-cloak>
-        <div class="fixed inset-0 bg-black/50" @click="$store.modal.showReserveModal = false"></div>
-        <div class="relative bg-white rounded-lg max-w-md w-full mx-4 z-10" @click.stop>
-            <div class="p-6">
-                <h2 class="text-lg font-bold mb-4">Réserver cette propriété</h2>
-                <p class="mb-4">📞 Numéro de tel : {{ $property->contact_phone }}</p>
-                <div class="flex justify-end">
-                    <a href="tel:{{ $property->contact_phone }}"
-                        class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
-                        Appeler
-                    </a>
-                    <button @click="$store.modal.showReserveModal = false"
-                        class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50">
-                        Fermer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Agent Contact Modal -->
-    <div x-data="{ show: false }"
-         x-show="$store.modal.showAgentModal"
-         x-transition:enter="transition ease-out duration-200"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-         x-cloak
-         x-init="$watch('$store.modal.showAgentModal', value => {
-             show = value;
-             toggleBodyScroll(!value);
-         })">
-        <div class="fixed inset-0 bg-black/50" @click="$store.modal.showAgentModal = false"></div>
-        <div class="relative bg-white rounded-lg max-w-md w-full mx-4 z-10 modal-content">
-            <div class="p-6">
-                <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
-                <p class="mb-4">📞 Numéro de l'agent : 0634262436</p>
-                <div class="flex justify-end space-x-2">
-                    <a href="tel:{{ $property->contact_phone }}"
-                        class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
-                        Appeler
-                    </a>
-                    <button @click="$store.modal.showAgentModal = false"
-                        class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50">
-                        Fermer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
