@@ -116,17 +116,10 @@
         </div>
     </section>
 
-    <section>
-        <div class="mx-auto max-w-screen-xl px-6 sm:px-16">
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.239194318649!2d-7.585934225661413!3d33.599097741524126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd78482484c5%3A0xd904b09fb0a54766!2zUGxhdGVmb3JtZSBkZXMgamV1bmVzIHJvY2hlcyBub2lyZXMgLSDZhdmG2LXYqSDYp9mE2LTYqNin2Kgg2KfZhNi12K7ZiNixINin2YTYs9mI2K_Yp9ih!5e0!3m2!1sfr!2sma!4v1741740364019!5m2!1sfr!2sma"
-                width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </section>
+
 
     <section class="px-6 sm:px-16">
-        <div class="pt-20 pb-5  mx-auto flex flex-col md:flex-row gap-12">
+        <div class="pt-5 pb-5  mx-auto flex flex-col md:flex-row gap-12">
             <div class="flex flex-col text-left basis-1/2">
                 <p class="sm:text-4xl text-3xl font-extrabold text-base-content">Questions fréquemment posées</p>
             </div>
