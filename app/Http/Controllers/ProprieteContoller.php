@@ -220,28 +220,12 @@ class ProprieteContoller extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Property updated successfully!');
     }
-    public function destroy($hash)
+    public function destroy(Request $request, Propritie $property, $id)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')
-                ->with('error', 'You must be logged in to perform this action.');
-        }
+        $property = Propritie::findOrFail($id);
+        $property->delete();
 
-        $id = Propritie::decodeHash($hash);
-        if (!$id) {
-            abort(404);
-        }
-
-        try {
-            $property = Propritie::findOrFail($id);
-            $property->delete();
-
-            return redirect()->route('dashboard')
-                ->with('success', 'Property deleted successfully!');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'An error occurred while deleting the property.');
-        }
+        return redirect()->back()->with('success', 'Property supprimé avec succès');
     }
 
 
