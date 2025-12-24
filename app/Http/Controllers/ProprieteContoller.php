@@ -6,6 +6,7 @@ use App\Models\Propritie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class ProprieteContoller extends Controller
 {
     public function index()
@@ -219,43 +220,30 @@ class ProprieteContoller extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Property updated successfully!');
     }
-
     public function destroy($hash)
     {
-        // Ensure user is authenticated
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
+            return redirect()->route('login')
+                ->with('error', 'You must be logged in to perform this action.');
         }
 
-        // Decode the hash to get the actual ID
         $id = Propritie::decodeHash($hash);
         if (!$id) {
             abort(404);
         }
 
         try {
-            // Find the property by ID
             $property = Propritie::findOrFail($id);
-            $user = Auth::user();
-
-            // // Check ownership or admin status
-            // if ($property->user_id !== $user->id && $user->role !== 'admin') {
-            //     return redirect()->back()->with('error', 'You are not authorized to delete this property.');
-            // }
-
-            // Delete the property (this will trigger the deleting event in the model)
             $property->delete();
 
             return redirect()->route('dashboard')
-                ->with('success', 'Property and all associated data have been deleted successfully!');
+                ->with('success', 'Property deleted successfully!');
         } catch (\Exception $e) {
-            // Log the error
-            \Log::error('Error deleting property: ' . $e->getMessage());
-
             return redirect()->back()
-                ->with('error', 'An error occurred while deleting the property. Please try again.');
+                ->with('error', 'An error occurred while deleting the property.');
         }
     }
+
 
 
     public function search(Request $request)
@@ -346,6 +334,4 @@ class ProprieteContoller extends Controller
 
         return redirect()->back()->with('success', 'Statut mis à jour !');
     }
-
-
 }
