@@ -55,7 +55,7 @@
                                         <td class="p-3 border text-sm">{{ $property->surface }} m²</td>
                                         <td class="p-3 border text-sm text-[#25D366]">{{ number_format($property->price, 2) }}
                                             DH</td>
-                                        <td class="p-3 border">
+                                        <td class="p-3 border text-sm">
 
                                             {{ $property->available_from }} / {{ $property->available_until }}
 
