@@ -19,7 +19,6 @@
                                 <th class="p-3 text-left border">Adresse</th>
                                 <th class="p-3 text-left border">Métrage</th>
                                 <th class="p-3 text-left border">Prix</th>
-                                <th class="p-3 text-left border">Disponibilité</th>
                                 <th class="p-3 text-left border">Statut</th>
                                 <th class="p-3 text-center border">Action</th>
 
@@ -55,11 +54,7 @@
                                         <td class="p-3 border text-sm">{{ $property->surface }} m²</td>
                                         <td class="p-3 border text-sm text-[#25D366]">{{ number_format($property->price, 2) }}
                                             DH</td>
-                                        <td class="p-3 border text-sm">
 
-                                            {{ $property->available_from }} / {{ $property->available_until }}
-
-                                        </td>
 
                                         <td class="p-3 border">
                                             @if ($property->published)
