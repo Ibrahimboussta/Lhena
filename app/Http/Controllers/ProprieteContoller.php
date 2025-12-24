@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Propritie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class ProprieteContoller extends Controller
 {
@@ -251,7 +250,7 @@ class ProprieteContoller extends Controller
                 ->with('success', 'Property and all associated data have been deleted successfully!');
         } catch (\Exception $e) {
             // Log the error
-            Log::error('Error deleting property: ' . $e->getMessage());
+            \Log::error('Error deleting property: ' . $e->getMessage());
 
             return redirect()->back()
                 ->with('error', 'An error occurred while deleting the property. Please try again.');
