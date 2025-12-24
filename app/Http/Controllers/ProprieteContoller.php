@@ -138,6 +138,11 @@ class ProprieteContoller extends Controller
 
     public function update(Request $request, $hash)
     {
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
+        }
+
         // Decode the hash to get the actual ID
         $id = Propritie::decodeHash($hash);
         if (!$id) {
@@ -166,66 +171,103 @@ class ProprieteContoller extends Controller
             'available_until' => 'nullable|date|after_or_equal:available_from',
         ]);
 
-        // Find the property
-        $property = Propritie::findOrFail($id);
-        $user = Auth::user();
+        try {
+            // Find the property
+            $property = Propritie::findOrFail($id);
+            $user = Auth::user();
 
-        // Check ownership or admin status
-        if ($property->user_id !== $user->id && $user->role !== 'admin') {
-            return redirect()->back()->with('error', 'You are not authorized to update this property.');
-        }
-
-        // Handle file uploads (photos) if provided
-        $photos = json_decode($property->photos, true) ?? [];
-        if ($request->hasFile('photos')) {
-            // Delete old photos
-            foreach ($photos as $oldPhoto) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPhoto);
+            // Check ownership or admin status
+            if ($property->user_id !== $user->id && $user->role !== 'admin') {
+                return redirect()->back()->with('error', 'You are not authorized to update this property.');
             }
-            // Upload new photos
-            $photos = [];
-            foreach ($request->file('photos') as $photo) {
-                $path = $photo->store('properties', 'public');
-                $photos[] = $path;
+
+            // Handle file uploads (photos) if provided
+            $photos = json_decode($property->photos, true) ?? [];
+            if ($request->hasFile('photos')) {
+                // Delete old photos
+                foreach ($photos as $oldPhoto) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPhoto);
+                }
+                // Upload new photos
+                $photos = [];
+                foreach ($request->file('photos') as $photo) {
+                    $path = $photo->store('properties', 'public');
+                    $photos[] = $path;
+                }
             }
+
+            // Update slug if title or city changed
+            $newSlug = \Illuminate\Support\Str::slug($request->city . '-' . $request->title) . '-' . $property->hashed_id;
+            if ($property->slug !== $newSlug) {
+                $property->slug = $newSlug;
+            }
+
+            // Update property
+            $property->update([
+                'title' => $request->title,
+                'property_type' => $request->property_type,
+                'city' => $request->city,
+                'neighborhood' => $request->neighborhood,
+                'address' => $request->address,
+                'surface' => $request->surface,
+                'bedrooms' => $request->bedrooms,
+                'bathrooms' => $request->bathrooms,
+                'price' => $request->price,
+                'price_type' => $request->price_type ?: null,
+                'contact_phone' => $request->contact_phone,
+                'description' => $request->description,
+                'photos' => json_encode($photos),
+                'listing_type' => implode(',', $request->listing_type),
+                'available_from' => $request->available_from,
+                'available_until' => $request->available_until,
+                'amenities' => $request->amenities ? json_encode($request->amenities) : $property->amenities,
+                'slug' => $property->slug,
+            ]);
+
+            return redirect()->route('dashboard')->with('success', 'Property updated successfully!');
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('Error updating property: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->with('error', 'An error occurred while updating the property. Please try again.');
         }
-
-        // Update slug if title or city changed
-        $newSlug = \Illuminate\Support\Str::slug($request->city . '-' . $request->title) . '-' . $property->hashed_id;
-        if ($property->slug !== $newSlug) {
-            $property->slug = $newSlug;
-        }
-
-        // Update property
-        $property->update([
-            'title' => $request->title,
-            'property_type' => $request->property_type,
-            'city' => $request->city,
-            'neighborhood' => $request->neighborhood,
-            'address' => $request->address,
-            'surface' => $request->surface,
-            'bedrooms' => $request->bedrooms,
-            'bathrooms' => $request->bathrooms,
-            'price' => $request->price,
-            'price_type' => $request->price_type ?: null,
-            'contact_phone' => $request->contact_phone,
-            'description' => $request->description,
-            'photos' => json_encode($photos),
-            'listing_type' => implode(',', $request->listing_type),
-            'available_from' => $request->available_from,
-            'available_until' => $request->available_until,
-            'amenities' => $request->amenities ? json_encode($request->amenities) : $property->amenities,
-            'slug' => $property->slug,
-        ]);
-
-        return redirect()->route('dashboard')->with('success', 'Property updated successfully!');
     }
-    public function destroy(Request $request, Propritie $property, $id)
+    public function destroy($hash)
     {
-        $property = Propritie::findOrFail($id);
-        $property->delete();
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
+        }
 
-        return redirect()->back()->with('success', 'Property supprimé avec succès');
+        // Decode the hash to get the actual ID
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
+        }
+
+        try {
+            // Find the property by ID
+            $property = Propritie::findOrFail($id);
+            $user = Auth::user();
+
+            // Check ownership or admin status
+            if ($property->user_id !== $user->id && $user->role !== 'admin') {
+                return redirect()->back()->with('error', 'You are not authorized to delete this property.');
+            }
+
+            // Delete the property (this will trigger the deleting event in the model)
+            $property->delete();
+
+            return redirect()->route('dashboard')
+                ->with('success', 'Property and all associated data have been deleted successfully!');
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('Error deleting property: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->with('error', 'An error occurred while deleting the property. Please try again.');
+        }
     }
 
 
@@ -304,6 +346,11 @@ class ProprieteContoller extends Controller
 
     public function togglePublish($hash)
     {
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
+        }
+
         // Decode the hash to get the actual ID
         $id = Propritie::decodeHash($hash);
         if (!$id) {
@@ -311,11 +358,17 @@ class ProprieteContoller extends Controller
         }
 
         $property = Propritie::findOrFail($id);
+        $user = Auth::user();
+
+        // Check ownership or admin status
+        if ($property->user_id !== $user->id && $user->role !== 'admin') {
+            return redirect()->back()->with('error', 'You are not authorized to perform this action.');
+        }
 
         // Toggle publish status
         $property->published = !$property->published;
         $property->save();
 
-        return redirect()->back()->with('success', 'Statut mis à jour !');
+        return redirect()->route('dashboard')->with('success', 'Statut mis à jour !');
     }
 }

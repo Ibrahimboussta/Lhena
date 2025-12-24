@@ -81,6 +81,7 @@
                                                     <span class="sr-only">Modifier</span>
                                                     ✏️
                                                 </button>
+
                                                 <form action="{{ route('properties.destroy', $property->hashed_id) }}"
                                                     method="POST" class="inline">
                                                     @csrf
@@ -178,11 +179,22 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type de propriété</label>
                             <select name="property_type" id="editPropertyType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                                <option value="Appartement">Appartement</option>
-                                <option value="Maison">Maison</option>
-                                <option value="Villa">Villa</option>
-                                <option value="Bureau">Bureau</option>
-                                <option value="Terrain">Terrain</option>
+                                <option value="">Sélectionnez</option>
+                                <option value="appartement">Appartement</option>
+                                <option value="studio">Studio</option>
+                                <option value="villa">Villa</option>
+                                <option value="maison">Maison</option>
+                                <option value="immeuble">Immeuble</option>
+                                <option value="bureau">Bureau</option>
+                                <option value="local_commercial">Local commercial</option>
+                                <option value="terrain_urbain">Terrain urbain</option>
+                                <option value="terrain_industriel">Terrain industriel</option>
+                                <option value="ferme_terrain_agricole">Ferme/Terrain agricole</option>
+                                <option value="hotel_cafe_restaurant">Hôtel/Café-Restaurant</option>
+                                <option value="residence_balneaire">Résidence balnéaire</option>
+                                <option value="residence_etudiante">Résidence étudiante</option>
+                                <option value="location_vacances">Location vacances</option>
+                                <option value="autre">Autre</option>
                             </select>
                         </div>
 

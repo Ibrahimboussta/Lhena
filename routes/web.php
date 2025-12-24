@@ -23,6 +23,7 @@ Route::middleware(['authRegister'])->group(function () {
 
     Route::get('/dashboard', [ProprieteContoller::class, 'dashboard'])->name('dashboard');
     Route::put('/dashboard/update/{hash}', [ProprieteContoller::class, 'update'])->name('properties.update');
+    Route::patch('/dashboard/toggle/{hash}', [ProprieteContoller::class, 'togglePublish'])->name('properties.toggle');
     Route::delete('/dashboard/delete/{hash}', [ProprieteContoller::class, 'destroy'])->name('properties.destroy');
 
 
