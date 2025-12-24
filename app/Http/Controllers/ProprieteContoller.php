@@ -136,6 +136,30 @@ class ProprieteContoller extends Controller
         // Create a new property entry and associate it with the authenticated user
     }
 
+    public function edit($hash)
+    {
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
+        }
+
+        // Decode the hash to get the actual ID
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
+        }
+
+        $property = Propritie::findOrFail($id);
+        $user = Auth::user();
+
+        // Check ownership or admin status
+        if ($property->user_id !== $user->id && $user->role !== 'admin') {
+            return redirect()->route('dashboard')->with('error', 'You are not authorized to edit this property.');
+        }
+
+        return view('edit-property', compact('property'));
+    }
+
     public function update(Request $request, $hash)
     {
         // Ensure user is authenticated
@@ -341,34 +365,5 @@ class ProprieteContoller extends Controller
         $properties = $properties->paginate(12);
 
         return view('pages.proprietes', compact('properties'));
-    }
-
-
-    public function togglePublish($hash)
-    {
-        // Ensure user is authenticated
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
-        }
-
-        // Decode the hash to get the actual ID
-        $id = Propritie::decodeHash($hash);
-        if (!$id) {
-            abort(404);
-        }
-
-        $property = Propritie::findOrFail($id);
-        $user = Auth::user();
-
-        // Check ownership or admin status
-        if ($property->user_id !== $user->id && $user->role !== 'admin') {
-            return redirect()->back()->with('error', 'You are not authorized to perform this action.');
-        }
-
-        // Toggle publish status
-        $property->published = !$property->published;
-        $property->save();
-
-        return redirect()->route('dashboard')->with('success', 'Statut mis à jour !');
     }
 }

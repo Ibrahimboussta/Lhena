@@ -74,13 +74,15 @@
 
                                         <td class="p-3 text-center border">
                                             <div class="flex justify-center space-x-2">
-                                                <button
-                                                    onclick="openEditModal({{ $property->id }}, '{{ $property->hashed_id }}', '{{ addslashes($property->title) }}', '{{ addslashes($property->property_type) }}', '{{ addslashes($property->city) }}', '{{ addslashes($property->neighborhood) }}', '{{ addslashes($property->address) }}', '{{ $property->surface }}', '{{ $property->bedrooms }}', '{{ $property->bathrooms }}', '{{ $property->price }}', '{{ $property->price_type }}', '{{ $property->contact_phone }}', '{{ addslashes($property->description) }}', '{{ $property->available_from }}', '{{ $property->available_until }}', '{{ addslashes($property->listing_type) }}')"
-                                                    class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                                    title="Modifier">
-                                                    <span class="sr-only">Modifier</span>
-                                                    ✏️
-                                                </button>
+                                                <form action="{{ route('properties.edit', $property->hashed_id) }}" method="GET" class="inline">
+                                                    <button
+                                                        class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                                        type="submit"
+                                                        title="Modifier">
+                                                        <span class="sr-only">Modifier</span>
+                                                        ✏️
+                                                    </button>
+                                                </form>
 
                                                 <form action="{{ route('properties.destroy', $property->hashed_id) }}"
                                                     method="POST" class="inline">
