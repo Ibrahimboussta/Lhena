@@ -18,7 +18,6 @@
                                 <th class="p-3 text-left border">Nom</th>
                                 <th class="p-3 text-left border">Adresse</th>
                                 <th class="p-3 text-left border">Métrage</th>
-                                <th class="p-3 text-left border">Téléphone</th>
                                 <th class="p-3 text-left border">Prix</th>
                                 <th class="p-3 text-left border">Disponibilité</th>
                                 <th class="p-3 text-left border">Statut</th>
@@ -35,7 +34,7 @@
                                             @if ($property->photos)
                                                 @php $photos = json_decode($property->photos); @endphp
                                                 <div class="relative group">
-                                                    <button onclick="openGalleryModal({{ $property->id }}); event.stopPropagation();">
+                                                    <button onclick="openGalleryModal({{ $property->id }}, '{{ $property->photos }}'); event.stopPropagation();">
                                                         <img src="{{ asset('storage/' . $photos[0]) }}"
                                                             alt="Property image"
                                                             class="w-16 h-16 object-cover rounded cursor-pointer">
@@ -54,7 +53,6 @@
                                         <td class="p-3 border text-sm">{{ $property->title }}</td>
                                         <td class="p-3 border text-sm">{{ $property->address }}</td>
                                         <td class="p-3 border text-sm">{{ $property->surface }} m²</td>
-                                        <td class="p-3 border text-sm">{{ $property->contact_phone }}</td>
                                         <td class="p-3 border text-sm text-[#25D366]">{{ number_format($property->price, 2) }}
                                             DH</td>
                                         <td class="p-3 border">
@@ -80,17 +78,26 @@
 
 
                                         <td class="p-3 text-center border">
-                                            <form action="{{ route('properties.destroy', $property->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
+                                            <div class="flex justify-center space-x-2">
                                                 <button
-                                                    class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                                                    type="submit">
-                                                    <span class="sr-only">Supprimer</span>
-                                                    🗑
+                                                    onclick="openEditModal({{ $property->id }}, '{{ $property->hashed_id }}', '{{ addslashes($property->title) }}', '{{ addslashes($property->property_type) }}', '{{ addslashes($property->city) }}', '{{ addslashes($property->neighborhood) }}', '{{ addslashes($property->address) }}', '{{ $property->surface }}', '{{ $property->bedrooms }}', '{{ $property->bathrooms }}', '{{ $property->price }}', '{{ $property->price_type }}', '{{ $property->contact_phone }}', '{{ addslashes($property->description) }}', '{{ $property->available_from }}', '{{ $property->available_until }}', '{{ addslashes($property->listing_type) }}')"
+                                                    class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                                    title="Modifier">
+                                                    <span class="sr-only">Modifier</span>
+                                                    ✏️
                                                 </button>
-                                            </form>
+                                                <form action="{{ route('properties.destroy', $property->hashed_id) }}"
+                                                    method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button
+                                                        class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                        type="submit">
+                                                        <span class="sr-only">Supprimer</span>
+                                                        🗑
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endif
@@ -147,6 +154,156 @@
         </div>
     </div>
 
+    <!-- Edit Property Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold text-gray-900">Modifier la propriété</h3>
+                    <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <form id="editForm" action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="editPropertyHash" name="property_hash" value="">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Title -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Titre</label>
+                            <input type="text" name="title" id="editTitle" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Property Type -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type de propriété</label>
+                            <select name="property_type" id="editPropertyType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                <option value="Appartement">Appartement</option>
+                                <option value="Maison">Maison</option>
+                                <option value="Villa">Villa</option>
+                                <option value="Bureau">Bureau</option>
+                                <option value="Terrain">Terrain</option>
+                            </select>
+                        </div>
+
+                        <!-- City -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Ville</label>
+                            <input type="text" name="city" id="editCity" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Neighborhood -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Quartier</label>
+                            <input type="text" name="neighborhood" id="editNeighborhood" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Address -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Adresse</label>
+                            <input type="text" name="address" id="editAddress" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Surface -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Surface (m²)</label>
+                            <input type="number" name="surface" id="editSurface" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Bedrooms -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Chambres</label>
+                            <input type="number" name="bedrooms" id="editBedrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Bathrooms -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Salles de bain</label>
+                            <input type="number" name="bathrooms" id="editBathrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Price -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Prix</label>
+                            <input type="number" name="price" id="editPrice" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Price Type -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type de prix</label>
+                            <select name="price_type" id="editPriceType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Sélectionner</option>
+                                <option value="nuit">Par nuit</option>
+                                <option value="mois">Par mois</option>
+                                <option value="an">Par an</option>
+                            </select>
+                        </div>
+
+                        <!-- Contact Phone -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone de contact</label>
+                            <input type="text" name="contact_phone" id="editContactPhone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Available From -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Disponible à partir de</label>
+                            <input type="date" name="available_from" id="editAvailableFrom" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Available Until -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Disponible jusqu'à</label>
+                            <input type="date" name="available_until" id="editAvailableUntil" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <!-- Listing Type -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type d'annonce</label>
+                            <div class="flex space-x-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="listing_type[]" value="À-vendre" id="editListingVendre" class="mr-2">
+                                    À vendre
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="listing_type[]" value="À-louer" id="editListingLouer" class="mr-2">
+                                    À louer
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                            <textarea name="description" id="editDescription" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+
+                        <!-- Photos -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Photos (optionnel - remplacera les photos existantes)</label>
+                            <input type="file" name="photos[]" id="editPhotos" multiple accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <p class="text-sm text-gray-500 mt-1">Maximum 10 images, 20MB chacune</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" onclick="closeEditModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                            Annuler
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            Mettre à jour
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <style>
         /* Custom scrollbar for the gallery */
         .custom-scrollbar::-webkit-scrollbar {
@@ -175,11 +332,11 @@
     </style>
 
     <script>
-        const properties = @json($properties);
         let currentProperty = null;
         let currentIndex = 0;
+        let currentPhotos = [];
 
-        function openGalleryModal(id) {
+        function openGalleryModal(id, photosJson) {
             const modal = document.getElementById("galleryModal");
             const content = document.getElementById("galleryContent");
             const mainImageView = document.getElementById("mainImageView");
@@ -188,12 +345,11 @@
             const currentImageSpan = document.getElementById("currentImage");
             const totalImagesSpan = document.getElementById("totalImages");
 
-            currentProperty = properties.find(p => p.id === id);
-            const photos = JSON.parse(currentProperty.photos);
+            currentPhotos = JSON.parse(photosJson);
 
             // Clear old images and set up new ones
             content.innerHTML = "";
-            photos.forEach((photo, index) => {
+            currentPhotos.forEach((photo, index) => {
                 const img = document.createElement('img');
                 img.src = `/storage/${photo}`;
                 img.className = 'w-full h-48 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer';
@@ -203,7 +359,7 @@
             });
 
             // Update counters
-            totalImagesSpan.textContent = photos.length;
+            totalImagesSpan.textContent = currentPhotos.length;
             currentIndex = 0;
             updateCounter();
 
@@ -223,11 +379,10 @@
             const nextBtn = document.getElementById("nextBtn");
             const imageCounter = document.getElementById("imageCounter");
 
-            const photos = JSON.parse(currentProperty.photos);
             currentIndex = index;
 
             // Update main image
-            mainImage.src = `/storage/${photos[currentIndex]}`;
+            mainImage.src = `/storage/${currentPhotos[currentIndex]}`;
             mainImage.alt = `Property image ${currentIndex + 1}`;
 
             // Toggle views
@@ -251,7 +406,6 @@
 
         // Event listeners for navigation
         document.getElementById('prevBtn').addEventListener('click', () => {
-            const photos = JSON.parse(currentProperty.photos);
             if (currentIndex > 0) {
                 currentIndex--;
                 openImageView(currentIndex);
@@ -259,8 +413,7 @@
         });
 
         document.getElementById('nextBtn').addEventListener('click', () => {
-            const photos = JSON.parse(currentProperty.photos);
-            if (currentIndex < photos.length - 1) {
+            if (currentIndex < currentPhotos.length - 1) {
                 currentIndex++;
                 openImageView(currentIndex);
             }
@@ -270,8 +423,6 @@
         document.addEventListener('keydown', (e) => {
             const modal = document.getElementById("galleryModal");
             if (modal.classList.contains('hidden')) return;
-
-            const photos = currentProperty ? JSON.parse(currentProperty.photos) : [];
 
             switch(e.key) {
                 case 'Escape':
@@ -284,11 +435,70 @@
                     }
                     break;
                 case 'ArrowRight':
-                    if (currentIndex < photos.length - 1) {
+                    if (currentIndex < currentPhotos.length - 1) {
                         currentIndex++;
                         openImageView(currentIndex);
                     }
                     break;
+            }
+        });
+
+        function openEditModal(id, hashedId, title, propertyType, city, neighborhood, address, surface, bedrooms, bathrooms, price, priceType, contactPhone, description, availableFrom, availableUntil, listingType) {
+
+            // Populate form fields directly
+            document.getElementById('editTitle').value = title || '';
+            document.getElementById('editPropertyType').value = propertyType || '';
+            document.getElementById('editCity').value = city || '';
+            document.getElementById('editNeighborhood').value = neighborhood || '';
+            document.getElementById('editAddress').value = address || '';
+            document.getElementById('editSurface').value = surface || '';
+            document.getElementById('editBedrooms').value = bedrooms || '';
+            document.getElementById('editBathrooms').value = bathrooms || '';
+            document.getElementById('editPrice').value = price || '';
+            document.getElementById('editPriceType').value = priceType || '';
+            document.getElementById('editContactPhone').value = contactPhone || '';
+            document.getElementById('editDescription').value = description || '';
+
+            // Handle dates
+            if (availableFrom) {
+                const availableFromDate = new Date(availableFrom);
+                document.getElementById('editAvailableFrom').value = availableFromDate.toISOString().split('T')[0];
+            }
+            if (availableUntil) {
+                const availableUntilDate = new Date(availableUntil);
+                document.getElementById('editAvailableUntil').value = availableUntilDate.toISOString().split('T')[0];
+            }
+
+            // Handle listing type checkboxes
+            const listingTypes = listingType ? listingType.split(',') : [];
+            document.getElementById('editListingVendre').checked = listingTypes.includes('À-vendre');
+            document.getElementById('editListingLouer').checked = listingTypes.includes('À-louer');
+
+            // Set form action and hidden input
+            document.getElementById('editForm').action = `/dashboard/update/${hashedId}`;
+            document.getElementById('editPropertyHash').value = hashedId;
+
+            // Show modal
+            document.getElementById('editModal').classList.remove('hidden');
+            document.getElementById('editModal').classList.add('flex');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+            document.getElementById('editModal').classList.remove('flex');
+        }
+
+        // Close edit modal when clicking outside
+        document.getElementById('editModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('editModal')) {
+                closeEditModal();
+            }
+        });
+
+        // Close edit modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !document.getElementById('editModal').classList.contains('hidden')) {
+                closeEditModal();
             }
         });
     </script>

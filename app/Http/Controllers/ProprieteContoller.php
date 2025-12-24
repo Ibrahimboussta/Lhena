@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\Log;
 
 class ProprieteContoller extends Controller
 {
-public function index()
-{
-    // Show ONLY published properties on the website
-    $properties = Propritie::where('published', true)
-        ->latest()
-        ->paginate(12);
+    public function index()
+    {
+        // Show ONLY published properties on the website
+        $properties = Propritie::where('published', true)
+            ->latest()
+            ->paginate(12);
 
-    return view('pages.proprietes', compact('properties'));
-}
+        return view('pages.proprietes', compact('properties'));
+    }
 
 
     public function details($slug)
@@ -33,9 +33,9 @@ public function index()
         }
 
         // Fetch exact property with its reviews + user
-$property = Propritie::with('reviews.user')
-    ->where('published', true)
-    ->findOrFail($id);
+        $property = Propritie::with('reviews.user')
+            ->where('published', true)
+            ->findOrFail($id);
 
         // Verify the slug matches to prevent URL manipulation
         if ($property->slug !== $slug) {
@@ -57,7 +57,7 @@ $property = Propritie::with('reviews.user')
 
     public function dashboard()
     {
-        $properties = Propritie::latest()->get();
+        $properties = Propritie::where('user_id', Auth::id())->latest()->get();
         return view('dashboard', compact('properties'));
     }
 
@@ -136,12 +136,102 @@ $property = Propritie::with('reviews.user')
         // Create a new property entry and associate it with the authenticated user
     }
 
+    public function update(Request $request, $hash)
+    {
+        // Decode the hash to get the actual ID
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
+        }
 
-    public function destroy($id)
+        // Validate the form fields
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'property_type' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'neighborhood' => 'required|string|max:100',
+            'address' => 'required|string|max:255',
+            'surface' => 'required|numeric|min:0',
+            'bedrooms' => 'required|integer|min:0',
+            'bathrooms' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+            'price_type' => 'nullable|string|in:nuit,mois,an',
+            'contact_phone' => 'required|string|max:20',
+            'description' => 'nullable|string',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp,ico,bmp,tiff,webm|max:20480', // Max 20MB per image
+            'photos' => 'nullable|array|max:10', // Optional for update, Max 10 images
+            'listing_type' => 'required|array',
+            'listing_type.*' => 'in:À-vendre,À-louer',
+            'available_from' => 'required|date|after_or_equal:today',
+            'available_until' => 'nullable|date|after_or_equal:available_from',
+        ]);
+
+        // Find the property
+        $property = Propritie::findOrFail($id);
+        $user = Auth::user();
+
+        // Check ownership or admin status
+        if ($property->user_id !== $user->id && $user->role !== 'admin') {
+            return redirect()->back()->with('error', 'You are not authorized to update this property.');
+        }
+
+        // Handle file uploads (photos) if provided
+        $photos = json_decode($property->photos, true) ?? [];
+        if ($request->hasFile('photos')) {
+            // Delete old photos
+            foreach ($photos as $oldPhoto) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($oldPhoto);
+            }
+            // Upload new photos
+            $photos = [];
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('properties', 'public');
+                $photos[] = $path;
+            }
+        }
+
+        // Update slug if title or city changed
+        $newSlug = \Illuminate\Support\Str::slug($request->city . '-' . $request->title) . '-' . $property->hashed_id;
+        if ($property->slug !== $newSlug) {
+            $property->slug = $newSlug;
+        }
+
+        // Update property
+        $property->update([
+            'title' => $request->title,
+            'property_type' => $request->property_type,
+            'city' => $request->city,
+            'neighborhood' => $request->neighborhood,
+            'address' => $request->address,
+            'surface' => $request->surface,
+            'bedrooms' => $request->bedrooms,
+            'bathrooms' => $request->bathrooms,
+            'price' => $request->price,
+            'price_type' => $request->price_type ?: null,
+            'contact_phone' => $request->contact_phone,
+            'description' => $request->description,
+            'photos' => json_encode($photos),
+            'listing_type' => implode(',', $request->listing_type),
+            'available_from' => $request->available_from,
+            'available_until' => $request->available_until,
+            'amenities' => $request->amenities ? json_encode($request->amenities) : $property->amenities,
+            'slug' => $property->slug,
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Property updated successfully!');
+    }
+
+    public function destroy($hash)
     {
         // Ensure user is authenticated
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
+        }
+
+        // Decode the hash to get the actual ID
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
         }
 
         try {
@@ -159,7 +249,6 @@ $property = Propritie::with('reviews.user')
 
             return redirect()->route('dashboard')
                 ->with('success', 'Property and all associated data have been deleted successfully!');
-
         } catch (\Exception $e) {
             // Log the error
             Log::error('Error deleting property: ' . $e->getMessage());
@@ -242,8 +331,14 @@ $property = Propritie::with('reviews.user')
     }
 
 
-    public function togglePublish($id)
+    public function togglePublish($hash)
     {
+        // Decode the hash to get the actual ID
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
+        }
+
         $property = Propritie::findOrFail($id);
 
         // Toggle publish status
@@ -252,4 +347,6 @@ $property = Propritie::with('reviews.user')
 
         return redirect()->back()->with('success', 'Statut mis à jour !');
     }
+
+
 }

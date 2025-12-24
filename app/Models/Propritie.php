@@ -13,6 +13,8 @@ class Propritie extends Model
     use HashId;
     use HasFactory;
 
+    protected $appends = ['hashed_id'];
+
     protected static function boot()
     {
         parent::boot();

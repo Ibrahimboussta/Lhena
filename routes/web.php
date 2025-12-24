@@ -22,7 +22,8 @@ Route::get('/', [HomeController::class, 'index']);
 Route::middleware(['authRegister'])->group(function () {
 
     Route::get('/dashboard', [ProprieteContoller::class, 'dashboard'])->name('dashboard');
-    Route::delete('/dashboard/delete/{id}', [ProprieteContoller::class, 'destroy'])->name('properties.destroy');
+    Route::put('/dashboard/update/{hash}', [ProprieteContoller::class, 'update'])->name('properties.update');
+    Route::delete('/dashboard/delete/{hash}', [ProprieteContoller::class, 'destroy'])->name('properties.destroy');
 
 
 });
@@ -94,7 +95,7 @@ Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')-
 
 
 
-Route::patch('/admin/properties/{id}/toggle', [ProprieteContoller::class, 'togglePublish'])
+Route::patch('/admin/properties/{hash}/toggle', [ProprieteContoller::class, 'togglePublish'])
     ->name('properties.toggle.publish');
 
 
