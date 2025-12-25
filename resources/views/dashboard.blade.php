@@ -77,7 +77,7 @@
 
                                         <td class="p-3 text-center border">
                                             <div class="flex justify-center space-x-2">
-                                                <form action="{{ route('properties.destroy', $property->hashed_id) }}"
+                                                <form action="{{ route('properties.destroy', $property->id) }}"
                                                     method="POST" class="inline">
                                                     @csrf
                                                     @method('DELETE')

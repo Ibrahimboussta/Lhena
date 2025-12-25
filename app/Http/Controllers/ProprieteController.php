@@ -136,11 +136,8 @@ class ProprieteController extends Controller
         // Create a new property entry and associate it with the authenticated user
     }
 
- public function destroy($hash)
+ public function destroy($id)
 {
-    $id = Propritie::decodeHash($hash);
-    if (!$id) abort(404);
-
     $property = Propritie::findOrFail($id);
     $property->delete();
 
