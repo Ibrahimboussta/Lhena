@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Propritie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 
 class ProprieteController extends Controller
@@ -136,40 +137,40 @@ class ProprieteController extends Controller
         // Create a new property entry and associate it with the authenticated user
     }
 
-public function destroy($hash)
-{
-    // Ensure user is authenticated
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
-    }
-
-    // Decode the hash to get actual ID
-    $id = Propritie::decodeHash($hash);
-
-    if (!$id) {
-        abort(404);
-    }
-
-    try {
-        $property = Propritie::findOrFail($id);
-        $user = Auth::user();
-
-        // Check ownership or admin status
-        if ($property->user_id !== $user->id && $user->role !== 'admin') {
-            return redirect()->back()->with('error', 'You are not authorized to delete this property.');
+    public function destroy($hash)
+    {
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
         }
 
-        // Delete the property
-        $property->delete();
+        // Decode the hash to get actual ID
+        $id = Propritie::decodeHash($hash);
 
-        return redirect()->route('dashboard')->with('success', 'Property and all associated data have been deleted successfully!');
-    } catch (\Exception $e) {
-        // Log the error
-        \Log::error('Error deleting property: ' . $e->getMessage());
+        if (!$id) {
+            abort(404);
+        }
 
-        return redirect()->back()->with('error', 'An error occurred while deleting the property. Please try again.');
+        try {
+            $property = Propritie::findOrFail($id);
+            $user = Auth::user();
+
+            // Check ownership or admin status
+            if ($property->user_id !== $user->id && $user->role !== 'admin') {
+                return redirect()->back()->with('error', 'You are not authorized to delete this property.');
+            }
+
+            // Delete the property
+            $property->delete();
+
+            return redirect()->route('dashboard')->with('success', 'Property and all associated data have been deleted successfully!');
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error deleting property: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'An error occurred while deleting the property. Please try again.');
+        }
     }
-}
 
 
 
