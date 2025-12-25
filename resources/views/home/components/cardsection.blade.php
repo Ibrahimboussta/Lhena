@@ -37,7 +37,7 @@
                         <div class="flex justify-between items-start">
                             <div>
                                 <p class="text-sm font-medium text-gray-500">{{ $property->property_type }}</p>
-                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition">
+                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition line-clamp-1">
                                     {{ $property->title }}
                                 </h4>
                                 <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
