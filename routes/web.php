@@ -22,9 +22,6 @@ Route::get('/', [HomeController::class, 'index']);
 Route::middleware(['authRegister'])->group(function () {
 
     Route::get('/dashboard', [ProprieteController::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard/edit/{hash}', [ProprieteController::class, 'edit'])->name('properties.edit');
-    Route::put('/dashboard/update/{hash}', [ProprieteController::class, 'update'])
-    ->name('properties.update');
     Route::delete('/dashboard/delete/{hash}', [ProprieteController::class, 'destroy'])->name('properties.destroy');
 });
 
