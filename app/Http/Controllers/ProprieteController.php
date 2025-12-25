@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Propritie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 
 class ProprieteController extends Controller
@@ -139,21 +138,12 @@ class ProprieteController extends Controller
 
  public function destroy($hash)
 {
-    if (!Auth::check()) {
-        return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
-    }
-
     $id = Propritie::decodeHash($hash);
     if (!$id) abort(404);
 
     $property = Propritie::findOrFail($id);
-    $user = Auth::user();
-
-    if ($property->user_id !== $user->id && $user->role !== 'admin') {
-        return redirect()->back()->with('error', 'You are not authorized to delete this property.');
-    }
-
     $property->delete();
+
     return redirect()->route('dashboard')->with('success', 'Property deleted successfully!');
 }
 

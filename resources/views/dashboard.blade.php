@@ -80,6 +80,7 @@
                                                 <form action="{{ route('properties.destroy', $property->hashed_id) }}"
                                                     method="POST" class="inline">
                                                     @csrf
+                                                    @method('DELETE')
                                                     <button type="submit"
                                                         class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                                                         <span class="sr-only">Supprimer</span>
