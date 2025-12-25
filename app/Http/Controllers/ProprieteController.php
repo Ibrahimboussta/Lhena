@@ -138,6 +138,11 @@ class ProprieteController extends Controller
 
 public function destroy($hash)
 {
+    // Ensure user is authenticated
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'You must be logged in to perform this action.');
+    }
+
     // Decode the hash to get actual ID
     $id = Propritie::decodeHash($hash);
 
@@ -145,10 +150,25 @@ public function destroy($hash)
         abort(404);
     }
 
-    $property = Propritie::findOrFail($id);
-    $property->delete();
+    try {
+        $property = Propritie::findOrFail($id);
+        $user = Auth::user();
 
-    return redirect()->back()->with('success', 'Property supprimé avec succès');
+        // Check ownership or admin status
+        if ($property->user_id !== $user->id && $user->role !== 'admin') {
+            return redirect()->back()->with('error', 'You are not authorized to delete this property.');
+        }
+
+        // Delete the property
+        $property->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Property and all associated data have been deleted successfully!');
+    } catch (\Exception $e) {
+        // Log the error
+        \Log::error('Error deleting property: ' . $e->getMessage());
+
+        return redirect()->back()->with('error', 'An error occurred while deleting the property. Please try again.');
+    }
 }
 
 

@@ -22,7 +22,7 @@ Route::get('/', [HomeController::class, 'index']);
 Route::middleware(['authRegister'])->group(function () {
 
     Route::get('/dashboard', [ProprieteController::class, 'dashboard'])->name('dashboard');
-    Route::delete('/dashboard/delete/{hash}', [ProprieteController::class, 'destroy'])->name('properties.destroy');
+    Route::post('/dashboard/delete/{hash}', [ProprieteController::class, 'destroy'])->name('properties.destroy');
 });
 
 Route::middleware('auth')->group(function () {
