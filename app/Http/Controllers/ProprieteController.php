@@ -136,12 +136,20 @@ class ProprieteController extends Controller
         // Create a new property entry and associate it with the authenticated user
     }
 
- public function destroy(Request $request, Propritie $property, $id){
-        $property = Propritie::findOrFail($id);
-        $property->delete();
+public function destroy($hash)
+{
+    // Decode the hash to get actual ID
+    $id = Propritie::decodeHash($hash);
 
-        return redirect()->back()->with('success', 'Property supprimé avec succès');
+    if (!$id) {
+        abort(404);
     }
+
+    $property = Propritie::findOrFail($id);
+    $property->delete();
+
+    return redirect()->back()->with('success', 'Property supprimé avec succès');
+}
 
 
 
