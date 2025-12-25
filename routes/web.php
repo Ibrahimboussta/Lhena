@@ -7,7 +7,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MailingController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProprieteContoller;
+use App\Http\Controllers\ProprieteController;
 use App\Http\Controllers\PublishController;
 use App\Http\Controllers\ReviewController;
 use App\Models\Propritie;
@@ -21,19 +21,17 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware(['authRegister'])->group(function () {
 
-    Route::get('/dashboard', [ProprieteContoller::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard/edit/{hash}', [ProprieteContoller::class, 'edit'])->name('properties.edit');
-    Route::put('/dashboard/update/{hash}', [ProprieteContoller::class, 'update'])->name('properties.update');
-    Route::delete('/dashboard/delete/{hash}', [ProprieteContoller::class, 'destroy'])->name('properties.destroy');
-
-
+    Route::get('/dashboard', [ProprieteController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/edit/{hash}', [ProprieteController::class, 'edit'])->name('properties.edit');
+    Route::put('/dashboard/update/{hash}', [ProprieteController::class, 'update'])
+    ->name('properties.update');
+    Route::delete('/dashboard/delete/{hash}', [ProprieteController::class, 'destroy'])->name('properties.destroy');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
 });
 
 
@@ -72,17 +70,17 @@ Route::fallback(function (Request $request) {
 
 
 
-Route::get('/propriete', [ProprieteContoller::class, 'index' ])->name('proprites');
-Route::get('/propriete/{slug}', [ProprieteContoller::class, 'details'])->name('proprites.details');
-Route::get('/contact', [ContactController::class, 'index' ])->name('contact');
-Route::get('/publier-annonce', [PublishController::class, 'index' ])->name('publish');
-Route::get('/a-propos', [HomeController::class, 'about' ])->name('a-propos');
+Route::get('/propriete', [ProprieteController::class, 'index'])->name('proprites');
+Route::get('/propriete/{slug}', [ProprieteController::class, 'details'])->name('proprites.details');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::get('/publier-annonce', [PublishController::class, 'index'])->name('publish');
+Route::get('/a-propos', [HomeController::class, 'about'])->name('a-propos');
 
 
 
 // Route::post('/proprtie/post', [ProprieteContoller::class, 'store' ])->name('proprites.store');
-Route::post('/contact/post', [ContactController::class, 'store' ])->name('contact.store');
-Route::get('/search', [ProprieteContoller::class, 'search'])->name('properties.search');
+Route::post('/contact/post', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/search', [ProprieteController::class, 'search'])->name('properties.search');
 
 
 Route::post('/emails/post', [MailingController::class, 'store'])->name('mailing.store');
@@ -96,7 +94,7 @@ Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')-
 
 
 
-Route::patch('/admin/properties/{hash}/toggle', [ProprieteContoller::class, 'togglePublish'])
+Route::patch('/admin/properties/{hash}/toggle', [ProprieteController::class, 'togglePublish'])
     ->name('properties.toggle.publish');
 
 
@@ -185,4 +183,4 @@ Route::post('/proprtie/post', function (Request $request) {
 })->name('proprites.store');
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

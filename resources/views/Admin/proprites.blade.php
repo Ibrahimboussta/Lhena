@@ -241,7 +241,7 @@
             </button>
 
             <!-- Main Image View -->
-            <div id="mainImageView" class="flex items-center justify-center h-full p-4 hidden">
+            <div id="mainImageView" class="items-center justify-center h-full p-4 hidden">
                 <img id="mainImage" class="max-h-[85vh] max-w-full object-contain" src="" alt="Property image">
             </div>
 
@@ -315,6 +315,7 @@
             modal.classList.add('flex');
             thumbnailsGrid.classList.remove('hidden');
             mainImageView.classList.add('hidden');
+            mainImageView.classList.remove('flex');
             imageCounter.classList.add('hidden');
             prevBtn.classList.add('hidden');
             nextBtn.classList.add('hidden');
@@ -359,6 +360,7 @@
 
             // Show the main image view and hide thumbnails
             mainImageView.classList.remove('hidden');
+            mainImageView.classList.add('flex');
             thumbnailsGrid.classList.add('hidden');
             imageCounter.classList.remove('hidden');
 

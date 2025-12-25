@@ -1,11 +1,11 @@
 <x-guest-layout>
     <!-- Simple Terms Modal -->
-    <div id="termsModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div id="termsModal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg w-full max-w-2xl max-h-[80vh] flex flex-col">
             <!-- Header -->
             <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white">Conditions d'utilisation</h3>
-                <button onclick="document.getElementById('termsModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                <button onclick="document.getElementById('termsModal').classList.add('hidden'); document.getElementById('termsModal').classList.remove('flex')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                     ×
                 </button>
             </div>
@@ -59,7 +59,7 @@
 
             <!-- Footer -->
             <div class="p-4 border-t border-gray-200 dark:border-gray-700 flex justify-end">
-                <button onclick="document.getElementById('termsModal').classList.add('hidden')" class="px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800">
+                <button onclick="document.getElementById('termsModal').classList.add('hidden'); document.getElementById('termsModal').classList.remove('flex')" class="px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800">
                     Fermer
                 </button>
             </div>
@@ -133,7 +133,7 @@
                     <label for="terms" class="text-gray-700 dark:text-gray-300">
                         J'accepte les
                         <button type="button"
-                                onclick="document.getElementById('termsModal').classList.remove('hidden')"
+                                onclick="document.getElementById('termsModal').classList.remove('hidden'); document.getElementById('termsModal').classList.add('flex')"
                                 class="text-green-600 hover:underline">
                             conditions d'utilisation
                         </button>

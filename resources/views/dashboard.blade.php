@@ -74,7 +74,7 @@
 
                                         <td class="p-3 text-center border">
                                             <div class="flex justify-center space-x-2">
-                                                <form action="{{ route('properties.edit', $property->hashed_id) }}" method="GET" class="inline">
+                                                <form action="{{ route('properties.edit', $property->hashed_id) }}" method="PUT" class="inline">
                                                     <button
                                                         class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                                                         type="submit"
@@ -122,7 +122,7 @@
             </button>
 
             <!-- Main Image View -->
-            <div id="mainImageView" class="flex items-center justify-center h-full p-4 hidden">
+            <div id="mainImageView" class="items-center justify-center h-full p-4 hidden">
                 <img id="mainImage" class="max-h-[85vh] max-w-full object-contain" src="" alt="Property image">
             </div>
 
@@ -376,6 +376,7 @@
             modal.classList.remove("hidden");
             modal.classList.add("flex");
             mainImageView.classList.add("hidden");
+            mainImageView.classList.remove("flex");
             thumbnailsGrid.classList.remove("hidden");
             imageCounter.classList.add("hidden");
         }
@@ -397,6 +398,7 @@
             // Toggle views
             thumbnailsGrid.classList.add("hidden");
             mainImageView.classList.remove("hidden");
+            mainImageView.classList.add("flex");
             prevBtn.classList.remove("hidden");
             nextBtn.classList.remove("hidden");
             imageCounter.classList.remove("hidden");
