@@ -141,7 +141,7 @@
                                             <div>
                                                 <p class="font-medium text-[#8b8b8b] text-[15px]">
                                                     {{ $property->property_type }}</p>
-                                                <p class="font-semibold text-[#1A1A1A] text-xl">{{ $property->title }}</p>
+                                                <p class="font-semibold text-[#1A1A1A] text-xl line-clamp-1">{{ $property->title }}</p>
                                                 <div class="flex items-center space-x-0.5 pt-1">
                                                     <img src="{{ asset('images/local.svg') }}" alt=""
                                                         class="w-4 h-4" loading="lazy">
