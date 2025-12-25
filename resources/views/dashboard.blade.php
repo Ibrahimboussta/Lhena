@@ -33,13 +33,15 @@
                                             @if ($property->photos)
                                                 @php $photos = json_decode($property->photos); @endphp
                                                 <div class="relative group">
-                                                    <button onclick="openGalleryModal({{ $property->id }}, '{{ $property->photos }}'); event.stopPropagation();">
+                                                    <button
+                                                        onclick="openGalleryModal({{ $property->id }}, '{{ $property->photos }}'); event.stopPropagation();">
                                                         <img src="{{ asset('storage/' . $photos[0]) }}"
                                                             alt="Property image"
                                                             class="w-16 h-16 object-cover rounded cursor-pointer">
                                                     </button>
                                                     @if (count($photos) > 1)
-                                                        <span class="absolute -top-1 -right-1 bg-black/70 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                                        <span
+                                                            class="absolute -top-1 -right-1 bg-black/70 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                                                             {{ count($photos) }}
                                                         </span>
                                                     @endif
@@ -52,7 +54,8 @@
                                         <td class="p-3 border text-sm">{{ $property->title }}</td>
                                         <td class="p-3 border text-sm">{{ $property->address }}</td>
                                         <td class="p-3 border text-sm">{{ $property->surface }} m²</td>
-                                        <td class="p-3 border text-sm text-[#25D366]">{{ number_format($property->price, 2) }}
+                                        <td class="p-3 border text-sm text-[#25D366]">
+                                            {{ number_format($property->price, 2) }}
                                             DH</td>
 
 
@@ -77,14 +80,13 @@
                                                 <form action="{{ route('properties.destroy', $property->hashed_id) }}"
                                                     method="POST" class="inline">
                                                     @csrf
-                                                    @method('DELETE')
-                                                    <button
-                                                        class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                                                        type="submit">
+                                                    <button type="submit"
+                                                        class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                                                         <span class="sr-only">Supprimer</span>
                                                         🗑
                                                     </button>
                                                 </form>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -104,9 +106,10 @@
         <div class="relative w-full max-w-6xl max-h-[90vh] bg-black rounded-lg overflow-hidden">
             <!-- Close Button -->
             <button onclick="closeGalleryModal()"
-                    class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 bg-black/50 rounded-full p-2"
-                    aria-label="Close gallery">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 bg-black/50 rounded-full p-2"
+                aria-label="Close gallery">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
@@ -119,24 +122,33 @@
             <!-- Thumbnails Grid -->
             <div id="thumbnailsGrid" class="p-4">
                 <h3 class="text-white text-lg font-semibold mb-4">Gallery</h3>
-                <div id="galleryContent" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto max-h-[70vh] custom-scrollbar"></div>
+                <div id="galleryContent"
+                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto max-h-[70vh] custom-scrollbar">
+                </div>
             </div>
 
             <!-- Navigation Buttons -->
-            <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden" aria-label="Previous image">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button id="prevBtn"
+                class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden"
+                aria-label="Previous image">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
 
-            <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden" aria-label="Next image">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button id="nextBtn"
+                class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden"
+                aria-label="Next image">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </button>
 
             <!-- Image Counter -->
-            <div id="imageCounter" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm hidden">
+            <div id="imageCounter"
+                class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm hidden">
                 <span id="currentImage">1</span> / <span id="totalImages">0</span>
             </div>
         </div>
@@ -150,7 +162,8 @@
                     <h3 class="text-xl font-semibold text-gray-900">Modifier la propriété</h3>
                     <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
@@ -164,13 +177,17 @@
                         <!-- Title -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Titre</label>
-                            <input type="text" name="title" id="editTitle" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="text" name="title" id="editTitle"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Property Type -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type de propriété</label>
-                            <select name="property_type" id="editPropertyType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <select name="property_type" id="editPropertyType"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                                 <option value="">Sélectionnez</option>
                                 <option value="appartement">Appartement</option>
                                 <option value="studio">Studio</option>
@@ -193,49 +210,64 @@
                         <!-- City -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Ville</label>
-                            <input type="text" name="city" id="editCity" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="text" name="city" id="editCity"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Neighborhood -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Quartier</label>
-                            <input type="text" name="neighborhood" id="editNeighborhood" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="text" name="neighborhood" id="editNeighborhood"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Address -->
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Adresse</label>
-                            <input type="text" name="address" id="editAddress" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="text" name="address" id="editAddress"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Surface -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Surface (m²)</label>
-                            <input type="number" name="surface" id="editSurface" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="number" name="surface" id="editSurface" step="0.01"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Bedrooms -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Chambres</label>
-                            <input type="number" name="bedrooms" id="editBedrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="number" name="bedrooms" id="editBedrooms"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Bathrooms -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Salles de bain</label>
-                            <input type="number" name="bathrooms" id="editBathrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="number" name="bathrooms" id="editBathrooms"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Price -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Prix</label>
-                            <input type="number" name="price" id="editPrice" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="number" name="price" id="editPrice" step="0.01"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Price Type -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type de prix</label>
-                            <select name="price_type" id="editPriceType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <select name="price_type" id="editPriceType"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="">Sélectionner</option>
                                 <option value="nuit">Par nuit</option>
                                 <option value="mois">Par mois</option>
@@ -246,19 +278,24 @@
                         <!-- Contact Phone -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone de contact</label>
-                            <input type="text" name="contact_phone" id="editContactPhone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="text" name="contact_phone" id="editContactPhone"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Available From -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Disponible à partir de</label>
-                            <input type="date" name="available_from" id="editAvailableFrom" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <input type="date" name="available_from" id="editAvailableFrom"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required>
                         </div>
 
                         <!-- Available Until -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Disponible jusqu'à</label>
-                            <input type="date" name="available_until" id="editAvailableUntil" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="date" name="available_until" id="editAvailableUntil"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
 
                         <!-- Listing Type -->
@@ -266,11 +303,13 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type d'annonce</label>
                             <div class="flex space-x-4">
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="listing_type[]" value="À-vendre" id="editListingVendre" class="mr-2">
+                                    <input type="checkbox" name="listing_type[]" value="À-vendre"
+                                        id="editListingVendre" class="mr-2">
                                     À vendre
                                 </label>
                                 <label class="flex items-center">
-                                    <input type="checkbox" name="listing_type[]" value="À-louer" id="editListingLouer" class="mr-2">
+                                    <input type="checkbox" name="listing_type[]" value="À-louer"
+                                        id="editListingLouer" class="mr-2">
                                     À louer
                                 </label>
                             </div>
@@ -279,22 +318,27 @@
                         <!-- Description -->
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea name="description" id="editDescription" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            <textarea name="description" id="editDescription" rows="4"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                         </div>
 
                         <!-- Photos -->
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Photos (optionnel - remplacera les photos existantes)</label>
-                            <input type="file" name="photos[]" id="editPhotos" multiple accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Photos (optionnel - remplacera
+                                les photos existantes)</label>
+                            <input type="file" name="photos[]" id="editPhotos" multiple accept="image/*"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <p class="text-sm text-gray-500 mt-1">Maximum 10 images, 20MB chacune</p>
                         </div>
                     </div>
 
                     <div class="flex justify-end space-x-3 mt-6">
-                        <button type="button" onclick="closeEditModal()" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                        <button type="button" onclick="closeEditModal()"
+                            class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             Annuler
                         </button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             Mettre à jour
                         </button>
                     </div>
@@ -351,7 +395,8 @@
             currentPhotos.forEach((photo, index) => {
                 const img = document.createElement('img');
                 img.src = `/storage/${photo}`;
-                img.className = 'w-full h-48 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer';
+                img.className =
+                    'w-full h-48 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer';
                 img.alt = `Property image ${index + 1}`;
                 img.onclick = () => openImageView(index);
                 content.appendChild(img);
@@ -425,7 +470,7 @@
             const modal = document.getElementById("galleryModal");
             if (modal.classList.contains('hidden')) return;
 
-            switch(e.key) {
+            switch (e.key) {
                 case 'Escape':
                     closeGalleryModal();
                     break;
@@ -444,7 +489,8 @@
             }
         });
 
-        function openEditModal(id, hashedId, title, propertyType, city, neighborhood, address, surface, bedrooms, bathrooms, price, priceType, contactPhone, description, availableFrom, availableUntil, listingType) {
+        function openEditModal(id, hashedId, title, propertyType, city, neighborhood, address, surface, bedrooms, bathrooms,
+            price, priceType, contactPhone, description, availableFrom, availableUntil, listingType) {
 
             // Populate form fields directly
             document.getElementById('editTitle').value = title || '';
