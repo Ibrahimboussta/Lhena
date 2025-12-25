@@ -44,52 +44,6 @@
                                                             </span>
                                                         @endif
                                                     </button>
-
-                                                    <!-- Modal -->
-                                                    <div
-                                                        x-show="open"
-                                                        x-transition
-                                                        x-cloak
-                                                        class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
-                                                        @click.self="open = false"
-                                                        x-on:keydown.escape.window="open = false">
-                                                        <div class="bg-white rounded-lg shadow-xl w-full max-w-5xl max-h-[90vh] flex flex-col">
-                                                            <!-- Header with close button -->
-                                                            <div class="flex justify-between items-center p-4 border-b">
-                                                                <h3 class="text-lg font-semibold">Gallery</h3>
-                                                                <button
-                                                                    class="text-gray-500 hover:text-gray-700 transition-colors p-2 -mr-2"
-                                                                    @click="open = false"
-                                                                    aria-label="Close gallery">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                                                    </svg>
-                                                                </button>
-                                                            </div>
-
-                                                            <!-- Gallery with scrollable content -->
-                                                            <div class="overflow-y-auto p-4">
-                                                                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                                                                    @foreach ($photos as $index => $photo)
-                                                                        <div class="relative group">
-                                                                            <img
-                                                                                src="{{ asset('storage/' . $photo) }}"
-                                                                                class="w-full h-48 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                                                                                alt="Property image {{ $index + 1 }}"
-                                                                                @click="open = true; currentImage = {{ $index }}"
-                                                                            >
-                                                                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                                                <span class="text-white bg-black bg-opacity-50 rounded-full p-2">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                                                                    </svg>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
-                                                                </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             @else
                                                 No Image
