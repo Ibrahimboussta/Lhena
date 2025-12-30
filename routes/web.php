@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
+
 Route::get('/', [HomeController::class, 'index']);
 
 
@@ -75,7 +76,7 @@ Route::get('/a-propos', [HomeController::class, 'about'])->name('a-propos');
 
 
 
-// Route::post('/proprtie/post', [ProprieteContoller::class, 'store' ])->name('proprites.store');
+// Route::post('/proprtie/post', [ProprieteController::class, 'store' ])->name('proprites.store');
 Route::post('/contact/post', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/search', [ProprieteController::class, 'search'])->name('properties.search');
 
@@ -89,6 +90,10 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name
 
 Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
 
+
+
+Route::patch('/admin/properties/{id}/toggle', [ProprieteController::class, 'togglePublish'])
+    ->name('properties.toggle.publish');
 
 
 Route::post('/proprtie/post', function (Request $request) {

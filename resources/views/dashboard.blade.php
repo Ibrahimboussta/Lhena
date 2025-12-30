@@ -87,7 +87,6 @@
                                                         🗑
                                                     </button>
                                                 </form>
-
                                             </div>
                                         </td>
                                     </tr>
@@ -380,6 +379,49 @@
         let currentIndex = 0;
         let currentPhotos = [];
 
+        // Initialize modal state on page load
+        function initializeModalState() {
+            // Handle gallery modal
+            const galleryModal = document.getElementById("galleryModal");
+            if (galleryModal) {
+                galleryModal.classList.add('hidden');
+                galleryModal.classList.remove('flex');
+                // Reset any inline styles that might have been applied
+                galleryModal.style.display = '';
+            }
+
+            // Handle edit modal
+            const editModal = document.getElementById("editModal");
+            if (editModal) {
+                editModal.classList.add('hidden');
+                editModal.classList.remove('flex');
+                // Reset any inline styles that might have been applied
+                editModal.style.display = '';
+            }
+
+            // Reset global variables
+            currentProperty = null;
+            currentIndex = 0;
+            currentPhotos = [];
+            // Reset body overflow
+            document.body.style.overflow = '';
+        }
+
+        // Single DOMContentLoaded handler for all initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeModalState();
+        });
+
+        window.addEventListener('load', initializeModalState);
+
+        // Handle clicking outside modal to close it
+        function handleModalClickOutside(e) {
+            const modal = document.getElementById("galleryModal");
+            if (e.target === modal) {
+                closeGalleryModal();
+            }
+        }
+
         function openGalleryModal(id, photosJson) {
             const modal = document.getElementById("galleryModal");
             const content = document.getElementById("galleryContent");
@@ -411,6 +453,10 @@
             // Show modal and grid view
             modal.classList.remove("hidden");
             modal.classList.add("flex");
+            document.body.style.overflow = 'hidden';
+
+            // Add click outside handler
+            modal.addEventListener('click', handleModalClickOutside);
             mainImageView.classList.add("hidden");
             mainImageView.classList.remove("flex");
             thumbnailsGrid.classList.remove("hidden");
@@ -448,7 +494,13 @@
         }
 
         function closeGalleryModal() {
-            document.getElementById("galleryModal").classList.add("hidden");
+            const modal = document.getElementById("galleryModal");
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+
+            // Remove click outside handler
+            modal.removeEventListener('click', handleModalClickOutside);
         }
 
         // Event listeners for navigation

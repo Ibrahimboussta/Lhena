@@ -6,18 +6,17 @@ use App\Models\Propritie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 class ProprieteController extends Controller
 {
-    public function index()
-    {
-        // Show ONLY published properties on the website
-        $properties = Propritie::where('published', true)
-            ->latest()
-            ->paginate(12);
+public function index()
+{
+    // Show ONLY published properties on the website
+    $properties = Propritie::where('published', true)
+        ->latest()
+        ->paginate(12);
 
-        return view('pages.proprietes', compact('properties'));
-    }
+    return view('pages.proprietes', compact('properties'));
+}
 
 
     public function details($slug)
@@ -33,9 +32,9 @@ class ProprieteController extends Controller
         }
 
         // Fetch exact property with its reviews + user
-        $property = Propritie::with('reviews.user')
-            ->where('published', true)
-            ->findOrFail($id);
+$property = Propritie::with('reviews.user')
+    ->where('published', true)
+    ->findOrFail($id);
 
         // Verify the slug matches to prevent URL manipulation
         if ($property->slug !== $slug) {
@@ -57,7 +56,7 @@ class ProprieteController extends Controller
 
     public function dashboard()
     {
-        $properties = Propritie::where('user_id', Auth::id())->latest()->get();
+        $properties = Propritie::latest()->get();
         return view('dashboard', compact('properties'));
     }
 
@@ -136,15 +135,25 @@ class ProprieteController extends Controller
         // Create a new property entry and associate it with the authenticated user
     }
 
- public function destroy($id)
-{
-    $property = Propritie::findOrFail($id);
-    $property->delete();
 
-    return redirect()->route('dashboard')->with('success', 'Property deleted successfully!');
-}
+    public function destroy($id)
+    {
+        // Find the property by ID
+        $propritie = Propritie::findOrFail($id);
 
+        // Check ownership or if the user is an admin
+        $user = Auth::user();
 
+        if ($propritie->user_id === $user->id || $user->role === 'admin') {
+            // Only delete the property that matches the ID
+            $propritie->delete();
+
+            return redirect()->route('dashboard')->with('success', 'Property deleted successfully!');
+        }
+
+        // Unauthorized action if not the owner or admin
+        abort(403, 'Unauthorized action.');
+    }
 
 
     public function search(Request $request)
@@ -216,5 +225,17 @@ class ProprieteController extends Controller
         $properties = $properties->paginate(12);
 
         return view('pages.proprietes', compact('properties'));
+    }
+
+
+    public function togglePublish($id)
+    {
+        $property = Propritie::findOrFail($id);
+
+        // Toggle publish status
+        $property->published = !$property->published;
+        $property->save();
+
+        return redirect()->back()->with('success', 'Statut mis à jour !');
     }
 }
