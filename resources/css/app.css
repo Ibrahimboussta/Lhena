@@ -24,11 +24,12 @@ p, span, li {
 }
 
 .hero-section {
-    background: url('../../public/images/logo3-png.png') no-repeat center center/cover;
+    background: url('../../public/images/logo3-png.webp') no-repeat center center/cover;
     height: 100vh; /* ارتفاع كامل الشاشة */
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
 
