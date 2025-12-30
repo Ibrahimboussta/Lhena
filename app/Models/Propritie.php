@@ -61,8 +61,7 @@ class Propritie extends Model
         'available_until',
         'date_available',
         'amenities',
-        'slug',
-        'published'
+        'slug'
     ];
 
     public function user()

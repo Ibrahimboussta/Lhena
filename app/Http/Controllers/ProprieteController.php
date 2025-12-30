@@ -217,22 +217,4 @@ class ProprieteController extends Controller
 
         return view('pages.proprietes', compact('properties'));
     }
-
-    public function togglePublish($hash)
-    {
-        // Decode the hash to get the actual ID
-        $id = Propritie::decodeHash($hash);
-        if (!$id) {
-            abort(404);
-        }
-
-        // Find the property
-        $property = Propritie::findOrFail($id);
-
-        // Toggle the published status
-        $property->published = !$property->published;
-        $property->save();
-
-        return redirect()->back()->with('success', 'Property publish status updated successfully!');
-    }
 }
