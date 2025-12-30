@@ -93,7 +93,7 @@
                                                 @endif
 
                                                 <!-- Publish / Unpublish -->
-                                                <form action="{{ route('properties.toggle.publish', $property->id) }}" method="POST">
+                                                <form action="{{ route('properties.toggle.publish', $property->hashed_id) }}" method="POST">
                                                     @csrf
                                                     @method('PATCH')
                                                     @if ($property->published)

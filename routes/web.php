@@ -92,6 +92,7 @@ Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')-
 
 
 Route::patch('/admin/properties/{hash}/toggle', [ProprieteController::class, 'togglePublish'])
+    ->middleware('admin')
     ->name('properties.toggle.publish');
 
 
