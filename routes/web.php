@@ -54,6 +54,9 @@ Route::prefix('9x2k8p5q1r7s3t6v0w4y9z2a8b5c1d7e3f6g0h4i9j2k8l5m1n7o3p6q0r4s9t2u8
         Route::get('/health', function () {
             return response()->json(['status' => 'ok']);
         })->withoutMiddleware(['admin']);
+
+        Route::patch('/properties/{hash}/toggle', [ProprieteController::class, 'togglePublish'])
+            ->name('properties.toggle.publish');
     });
 
 // Custom 404 for admin routes to prevent URL guessing
@@ -88,12 +91,6 @@ Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
 Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
-
-
-
-Route::patch('/admin/properties/{hash}/toggle', [ProprieteController::class, 'togglePublish'])
-    ->middleware('admin')
-    ->name('properties.toggle.publish');
 
 
 
