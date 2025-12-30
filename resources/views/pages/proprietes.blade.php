@@ -142,7 +142,7 @@
                                                 <p class="font-medium text-[#8b8b8b] text-[15px]">
                                                     {{ $property->property_type }}</p>
                                                 <h4
-                                                    class=" text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition line-clamp-1">
+                                                    class=" text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate max-w-[200px]">
                                                     {{ $property->title }}
                                                 </h4>
                                                 <div class="flex items-center space-x-0.5 pt-1">

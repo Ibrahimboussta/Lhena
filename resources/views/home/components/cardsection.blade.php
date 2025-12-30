@@ -42,7 +42,7 @@
                                     <p class="text-sm font-medium text-gray-500 truncate">{{ $property->property_type }}
                                     </p>
                                     <h4
-                                        class=" text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition line-clamp-1">
+                                        class=" text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate max-w-[200px]">
                                         {{ $property->title }}
                                     </h4>
 
