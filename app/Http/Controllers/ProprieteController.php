@@ -44,7 +44,8 @@ $property = Propritie::with('reviews.user')
         $photos = json_decode($property->photos);
 
         // ✅ Fetch latest properties but exclude the current one
-        $properties = Propritie::where('id', '!=', $id)
+        $properties = Propritie::where('published', true)
+            ->where('id', '!=', $id)
             ->latest()
             ->paginate(6);
 
