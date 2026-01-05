@@ -19,43 +19,38 @@ class ProprieteController extends Controller
     }
 
 
-  public function details($slug)
-{
-    // Extract hash from slug
-    $parts = explode('-', $slug);
-    $hash = end($parts);
+    public function details($slug)
+    {
+        // Extract the hashed ID from the slug (it's the last part after the last dash)
+        $parts = explode('-', $slug);
+        $hash = end($parts);
 
-    $id = Propritie::decodeHash($hash);
-    if (!$id) {
-        abort(404);
+        // Decode the hash to get the actual ID
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
+        }
+
+        // Fetch exact property with its reviews + user
+        $property = Propritie::with('reviews.user')
+            ->where('published', true)
+            ->findOrFail($id);
+
+        // Verify the slug matches to prevent URL manipulation
+        if ($property->slug !== $slug) {
+            return redirect()->route('proprites.details', $property->slug);
+        }
+
+        $photos = json_decode($property->photos);
+
+        // ✅ Fetch latest properties but exclude the current one
+        $properties = Propritie::where('published', true)
+            ->where('id', '!=', $id)
+            ->latest()
+            ->paginate(6);
+
+        return view('pages.proprietesDetails', compact('property', 'photos', 'properties'));
     }
-
-    // Current property (ONLY published)
-    $property = Propritie::with('reviews.user')
-        ->where('published', true)
-        ->findOrFail($id);
-
-    // Slug security
-    if ($property->slug !== $slug) {
-        return redirect()->route('proprites.details', $property->slug);
-    }
-
-    $photos = json_decode($property->photos, true);
-
-    // ✅ Similar properties (NO pagination)
-    $similarProperties = Propritie::where('published', true)
-        ->where('id', '!=', $property->id)
-        ->latest()
-        ->limit(9)
-        ->get();
-
-    return view('pages.proprietesDetails', compact(
-        'property',
-        'photos',
-        'similarProperties'
-    ));
-}
-
 
 
 
