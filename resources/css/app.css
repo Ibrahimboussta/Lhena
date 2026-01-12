@@ -33,3 +33,9 @@ p, span, li {
 }
 
 
+nav, nav * {
+  z-index: 99999 !important;
+}
+
+
+
