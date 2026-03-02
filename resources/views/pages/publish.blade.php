@@ -2,38 +2,136 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<section class="px-6">
-    <h1 class="text-4xl font-bold pt-24">Publier une annonce</h1>
+<!-- Progress Steps -->
+<div class="px-6 pt-24">
+    <h1 class="text-4xl font-bold mb-8">Publier une annonce</h1>
 
-    <div class="py-8">
-        <div class="container mx-auto border border-red-700 rounded-lg shadow-md">
-            <div class="bg-white shadow rounded-lg p-6">
+    <div class="w-full mb-8">
+        <div class="flex justify-between items-center">
+            @php
+                $steps = [
+                    'Type d\'annonce',
+                    'Détails du bien',
+                    'Localisation',
+                    'Équipements',
+                    'Photos & Description',
+                    'Vérification'
+                ];
+            @endphp
 
-                <!-- Header -->
-                <h2 class="text-xl font-semibold mb-2 text-gray-900">Informations personnelles</h2>
-                <p class="text-gray-600 mb-4">Utilisez une adresse permanente où vous pouvez recevoir du courrier.</p>
+            @foreach($steps as $index => $step)
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center mb-2 step-indicator {{ $index === 0 ? 'bg-green-600 text-white' : 'bg-gray-200' }}"
+                         data-step="{{ $index + 1 }}">
+                        {{ $index + 1 }}
+                    </div>
+                    <span class="text-sm text-center {{ $index === 0 ? 'text-green-600 font-medium' : 'text-gray-500' }}">
+                        {{ $step }}
+                    </span>
+                </div>
+                @if(!$loop->last)
+                    <div class="flex-1 h-1 mx-2 bg-gray-200 rounded-full">
+                        <div class="h-1 bg-green-600 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+</div>
 
-                @if ($errors->any())
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                        <ul class="list-disc list-inside">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+<!-- Form Container -->
+<div class="px-6 pb-12">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+        @if ($errors->any())
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 m-6 rounded">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">Veuillez corriger les erreurs suivantes :</h3>
+                        <div class="mt-2 text-sm text-red-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 m-6 rounded">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700">{{ session('error') }}</p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <form action="{{ route('proprites.store') }}" method="POST" enctype="multipart/form-data" id="propertyForm" class="divide-y divide-gray-200">
+            @csrf
+
+            <!-- Hidden field to track current step -->
+            <input type="hidden" name="current_step" id="current_step" value="1">
+
+            <!-- Step 1: Listing Type -->
+            <div class="step-content p-6" data-step="1">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Type d'annonce</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-3">Type d'annonce *</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <label class="relative block cursor-pointer">
+                                <input type="checkbox" name="listing_type[]" value="À-vendre" class="peer hidden" />
+                                <div class="p-4 border-2 rounded-lg hover:border-green-500 peer-checked:border-green-500 peer-checked:bg-green-50 transition-colors">
+                                    <div class="flex items-center">
+                                        <div class="text-lg font-medium">À vendre</div>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="relative block cursor-pointer">
+                                <input type="checkbox" name="listing_type[]" value="À-louer" class="peer hidden" />
+                                <div class="p-4 border-2 rounded-lg hover:border-green-500 peer-checked:border-green-500 peer-checked:bg-green-50 transition-colors">
+                                    <div class="flex items-center">
+                                        <div class="text-lg font-medium">À louer</div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900 mb-3">Période de location *</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            @foreach (['nuit' => 'Par nuit', 'mois' => 'Par mois', 'an' => 'Par an'] as $val => $label)
+                                <label class="relative block cursor-pointer">
+                                    <input type="radio" name="price_type" value="{{ $val }}" class="peer hidden" {{ $val === 'mois' ? 'checked' : '' }}>
+                                    <div class="p-4 border-2 rounded-lg hover:border-green-500 peer-checked:border-green-500 peer-checked:bg-green-50 transition-colors text-center">
+                                        <div class="text-sm font-medium">{{ $label }}</div>
+                                    </div>
+                                </label>
                             @endforeach
-                        </ul>
+                        </div>
                     </div>
-                @endif
+                </div>
 
-                @if(session('error'))
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-                <form action="{{ route('proprites.store') }}"
-                      method="POST"
-                      enctype="multipart/form-data"
-                      id="propertyForm">
-                    @csrf
+                <div class="mt-8 flex justify-end">
+                    <button type="button" class="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors next-step">
+                        Suivant →
+                    </button>
+                </div>
+            </div>
 
 
 
@@ -79,7 +177,14 @@
                                 <option value="villa">Villa</option>
                                 <option value="maison">Maison</option>
                                 <option value="immeuble">Immeuble</option>
+                                <option value="duplex">Duplex</option>
+                                <option value="triplex">Triplex</option>
+                                <option value="penthouse">Penthouse</option>
+                                <option value="loft">Loft</option>
                                 <option value="bureau">Bureau</option>
+                                <option value="commerce">Commerce</option>
+                                <option value="terrain">Terrain</option>
+                                <option value="garage_parking">Garage/Parking</option>
                                 <option value="local_commercial">Local commercial</option>
                                 <option value="terrain_urbain">Terrain urbain</option>
                                 <option value="terrain_industriel">Terrain industriel</option>
@@ -88,6 +193,10 @@
                                 <option value="residence_balneaire">Résidence balnéaire</option>
                                 <option value="residence_etudiante">Résidence étudiante</option>
                                 <option value="location_vacances">Location vacances</option>
+                                <option value="entrepot">Entrepôt</option>
+                                <option value="riad">Riad</option>
+                                <option value="chambre">Chambre</option>
+                                <option value="colocation">Colocation</option>
                                 <option value="autre">Autre</option>
                             </select>
                         </div>
