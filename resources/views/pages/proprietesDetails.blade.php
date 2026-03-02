@@ -15,9 +15,15 @@
             0% {
                 background-position: 100% 0;
             }
+
             100% {
                 background-position: 0 0;
             }
+        }
+
+        /* Prevent body scroll when modal is open */
+        .overflow-hidden {
+            overflow: hidden !important;
         }
 
         /* Enhanced Fullscreen Image Viewer */
@@ -47,7 +53,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 20px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
             position: absolute;
             top: 0;
             left: 0;
@@ -60,7 +66,7 @@
             color: white;
             font-size: 1.1rem;
             font-weight: 500;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .viewer-close-btn {
@@ -144,7 +150,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
             padding: 20px 15px 15px;
             overflow-x: auto;
             white-space: nowrap;
@@ -153,7 +159,7 @@
             justify-content: center;
             z-index: 5;
             scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.3) transparent;
+            scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
         }
 
         .thumbnail-container::-webkit-scrollbar {
@@ -161,7 +167,7 @@
         }
 
         .thumbnail-container::-webkit-scrollbar-thumb {
-            background-color: rgba(255,255,255,0.3);
+            background-color: rgba(255, 255, 255, 0.3);
             border-radius: 3px;
         }
 
@@ -180,20 +186,20 @@
             cursor: pointer;
             opacity: 0.7;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .thumbnail:hover {
             opacity: 0.9;
             transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .thumbnail.active {
             opacity: 1;
             border-color: #fff;
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
 
         .image-counter {
@@ -208,7 +214,7 @@
             z-index: 15;
             backdrop-filter: blur(5px);
             font-weight: 500;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 
@@ -252,21 +258,20 @@
                     <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow">
                         @foreach ($photos as $index => $photo)
                             <img src="{{ asset('storage/' . $photo) }}" alt="Property image {{ $index + 1 }}"
-                                 loading="lazy"
-                                 data-index="{{ $index }}"
-                                 class="absolute w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in
+                                loading="lazy" data-index="{{ $index }}"
+                                class="absolute w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in
                                  {{ $index !== 0 ? 'opacity-0' : '' }}"
-                                 onclick="openFullscreenViewer({{ $index }})">
+                                onclick="openFullscreenViewer({{ $index }})">
                         @endforeach
 
                         <!-- Nav buttons -->
                         <button id="prev"
-                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-10"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-0"
                             aria-label="Previous image">
                             ❮
                         </button>
                         <button id="next"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-10"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-0"
                             aria-label="Next image">
                             ❯
                         </button>
@@ -274,9 +279,9 @@
                         <!-- Indicators -->
                         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                             @foreach ($photos as $index => $photo)
-                                <button class="indicator w-3 h-3 rounded-full transition-all {{ $index === 0 ? 'bg-white w-6' : 'bg-gray-400' }}"
-                                        data-index="{{ $index }}"
-                                        aria-label="Go to image {{ $index + 1 }}">
+                                <button
+                                    class="indicator w-3 h-3 rounded-full transition-all {{ $index === 0 ? 'bg-white w-6' : 'bg-gray-400' }}"
+                                    data-index="{{ $index }}" aria-label="Go to image {{ $index + 1 }}">
                                 </button>
                             @endforeach
                         </div>
@@ -304,12 +309,11 @@
 
                         <div class="thumbnail-container">
                             <div class="thumbnail-scroll" id="thumbnail-scroll">
-                                @foreach($photos as $index => $photo)
+                                @foreach ($photos as $index => $photo)
                                     <img src="{{ asset('storage/' . $photo) }}"
-                                         class="thumbnail {{ $index === 0 ? 'active' : '' }}"
-                                         data-index="{{ $index }}"
-                                         onclick="goToImage({{ $index }})"
-                                         alt="Thumbnail {{ $index + 1 }}">
+                                        class="thumbnail {{ $index === 0 ? 'active' : '' }}"
+                                        data-index="{{ $index }}" onclick="goToImage({{ $index }})"
+                                        alt="Thumbnail {{ $index + 1 }}">
                                 @endforeach
                             </div>
                         </div>
@@ -453,7 +457,17 @@
                         </h2>
 
                         <!-- Booking -->
-                        <div class="space-y-2" x-data="{ showAgentModal: false, showReserveModal: false }">
+                        <div class="space-y-2" x-data="{
+                            showAgentModal: false,
+                            showReserveModal: false,
+                            updateBodyScroll() {
+                                if (this.showAgentModal || this.showReserveModal) {
+                                    document.body.classList.add('overflow-hidden');
+                                } else {
+                                    document.body.classList.remove('overflow-hidden');
+                                }
+                            }
+                        }" x-init="updateBodyScroll()" x-effect="updateBodyScroll()">
 
                             <!-- Réserver Button (opens modal showing publisher phone) -->
                             <button @click="showReserveModal = true" class="w-full">
@@ -465,7 +479,7 @@
 
                             <!-- Reserve Modal -->
                             <div x-show="showReserveModal"
-                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                                class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[99999]"
                                 @click.self="showReserveModal = false" x-cloak>
                                 <div class="bg-white p-6 rounded-lg max-w-md w-full">
                                     <h2 class="text-lg font-bold mb-4">Réserver cette propriété</h2>
@@ -488,7 +502,7 @@
 
                             <!-- Agent Modal -->
                             <div x-show="showAgentModal"
-                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99999]"
                                 @click.self="showAgentModal = false" x-cloak>
                                 <div class="bg-white p-6 rounded-lg max-w-md w-full">
                                     <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
@@ -505,7 +519,7 @@
                         </div>
 
                         <!-- Login Modal -->
-                        <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50"
+                        <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-[99999]"
                             :class="{ 'hidden': !modalOpen, 'flex': modalOpen }" x-data="{ modalOpen: false }"
                             x-show="modalOpen" x-cloak>
                             <div class="bg-white p-6 rounded-lg max-w-md w-full">
@@ -558,14 +572,14 @@
                                             :class="i <= rating ? 'text-yellow-400' : 'text-gray-300'" viewBox="0 0 20 20"
                                             fill="currentColor">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921
-                                                                        1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
-                                                                        0 1.371 1.24.588 1.81l-2.8
-                                                                        2.034a1 1 0 00-.364 1.118l1.07
-                                                                        3.292c.3.921-.755 1.688-1.54
-                                                                        1.118l-2.8-2.034a1 1 0
-                                                                        00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1
-                                                                        1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1
-                                                                        1 0 00.951-.69l1.07-3.292z" />
+                                                                                1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
+                                                                                0 1.371 1.24.588 1.81l-2.8
+                                                                                2.034a1 1 0 00-.364 1.118l1.07
+                                                                                3.292c.3.921-.755 1.688-1.54
+                                                                                1.118l-2.8-2.034a1 1 0
+                                                                                00-1.176 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1
+                                                                                1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1
+                                                                                1 0 00.951-.69l1.07-3.292z" />
                                         </svg>
                                     </label>
                                 </template>
@@ -678,7 +692,7 @@
             Des Propriétés Similaires
         </h2>
 
-        <div class="w-full pb-12 px-6 sm:px-16">
+        <div class="w-full pb-12 px-6 sm:px-16 ">
             @if ($properties->isEmpty())
                 <!-- ✅ Message if no properties -->
                 <div class="flex justify-center">
@@ -693,15 +707,15 @@
                 </div>
             @else
                 <!-- ✅ Property Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
                     @foreach ($properties->take(9) as $property)
                         <a href="{{ route('proprites.details', $property->slug) }}" class="group">
                             <div
-                                class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col">
+                                class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col z-0">
 
                                 <!-- Image -->
-                                <div class="relative w-full h-64 overflow-hidden">
-                                    <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                <div class="relative w-full h-64 overflow-hidden z-0">
+                                    <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500 z-0"
                                         src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt=""
                                         loading="lazy">
                                     <div class="absolute top-3 flex justify-between w-full px-3">
@@ -863,7 +877,7 @@
         document.addEventListener('keydown', (e) => {
             if (!fullscreenViewer.classList.contains('active')) return;
 
-            switch(e.key) {
+            switch (e.key) {
                 case 'Escape':
                     closeFullscreenViewer();
                     break;

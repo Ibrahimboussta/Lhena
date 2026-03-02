@@ -16,7 +16,7 @@
                 enrichissante !</p>
 
             <!-- Features Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-2 gap-6 pt-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10">
                 <div class="space-y-6">
                     <div class="flex items-center space-x-3 group">
                         <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">

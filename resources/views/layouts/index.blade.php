@@ -226,18 +226,14 @@
 
             <!-- Bottom -->
             <div class="mt-10 pt-5 border-t border-gray-200 text-sm text-gray-500">
-                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0">
 
                     <div class="text-center md:text-left">
                         © {{ now()->year }} <a href="/" class="font-semibold text-gray-700">lhena</a>. Tous
                         droits réservés.
                     </div>
 
-                    <div class="flex items-center space-x-4">
-                        <img class="w-6 h-6 text-red-400" src="{{ asset('images/visa.svg') }}" alt="">
-                        <img class="w-6 h-6" src="{{ asset('images/mastercard.svg') }}" alt="">
-                        <img class="w-6 h-6" src="{{ asset('images/paypal.svg') }}" alt="">
-                    </div>
+
 
                 </div>
             </div>

@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-@if (config('services.google_analytics.measurement_id'))
-    <!-- Google tag (gtag.js) -->
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
 
-        // Load the GA script
-        (function() {
-            var script = document.createElement('script');
-            script.src = 'https://www.googletagmanager.com/gtag/js?id={{ config('services.google_analytics.measurement_id') }}';
-            script.async = false; // Load synchronously
-            document.head.appendChild(script);
-        })();
-
-        // Configuration
-        gtag('config', '{{ config('services.google_analytics.measurement_id') }}', {
-            'debug_mode': {{ app()->environment('local') ? 'true' : 'false' }},
-            'transport_url': 'https://' + window.location.hostname
-        });
-    </script>
-@endif
 
 <head>
     <meta charset="utf-8">
@@ -38,7 +17,27 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    @if (app()->environment(['local', 'production']))
+        <!-- Google Analytics -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZCJW7JMYTJ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-ZCJW7JMYTJ');
+        </script>
+    @endif
+
 </head>
+
+
+
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">

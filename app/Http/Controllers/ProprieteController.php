@@ -6,17 +6,17 @@ use App\Models\Propritie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ProprieteContoller extends Controller
+class ProprieteController extends Controller
 {
-public function index()
-{
-    // Show ONLY published properties on the website
-    $properties = Propritie::where('published', true)
-        ->latest()
-        ->paginate(12);
+    public function index()
+    {
+        // Show ONLY published properties on the website
+        $properties = Propritie::where('published', true)
+            ->latest()
+            ->paginate(12);
 
-    return view('pages.proprietes', compact('properties'));
-}
+        return view('pages.proprietes', compact('properties'));
+    }
 
 
     public function details($slug)
@@ -32,9 +32,9 @@ public function index()
         }
 
         // Fetch exact property with its reviews + user
-$property = Propritie::with('reviews.user')
-    ->where('published', true)
-    ->findOrFail($id);
+        $property = Propritie::with('reviews.user')
+            ->where('published', true)
+            ->findOrFail($id);
 
         // Verify the slug matches to prevent URL manipulation
         if ($property->slug !== $slug) {
@@ -44,7 +44,8 @@ $property = Propritie::with('reviews.user')
         $photos = json_decode($property->photos);
 
         // ✅ Fetch latest properties but exclude the current one
-        $properties = Propritie::where('id', '!=', $id)
+        $properties = Propritie::where('published', true)
+            ->where('id', '!=', $id)
             ->latest()
             ->paginate(6);
 

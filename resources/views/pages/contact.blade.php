@@ -15,60 +15,60 @@
 
                 <!-- FORM -->
                 <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
-                    <form method="POST" action="{{ route('contact.store') }}"
-                        x-data="{
-                            loading: false,
-                            formData: {
-                                name: '',
-                                email: '',
-                                phone: '',
-                                message: ''
-                            },
-                            trackFormSubmit() {
-                                if (typeof gtag === 'function') {
-                                    gtag('event', 'form_submit', {
-                                        'event_category': 'Contact',
-                                        'event_label': 'Contact Form Submission',
-                                        'form_id': 'contact_form',
-                                        'form_name': 'Contact Form',
-                                        'form_location': window.location.pathname,
-                                        'form_fields': Object.keys(this.formData).filter(key => this.formData[key] !== '').join(','),
-                                        'value': 1
-                                    });
+                    <form method="POST" action="{{ route('contact.store') }}" x-data="{
+                        loading: false,
+                        formData: {
+                            name: '',
+                            email: '',
+                            phone: '',
+                            message: ''
+                        },
+                        trackFormSubmit() {
+                            if (typeof gtag === 'function') {
+                                gtag('event', 'form_submit', {
+                                    event_category: 'Contact',
+                                    event_label: 'Contact Form Submission',
+                                    form_id: 'contact_form',
+                                    form_name: 'Contact Form',
+                                    form_location: window.location.pathname,
+                                    form_fields: Object.keys(this.formData)
+                                        .filter(key => this.formData[key] !== '')
+                                        .join(','),
+                                    value: 1
+                                });
 
-                                    // Track form field interactions
-                                    Object.keys(this.formData).forEach(field => {
-                                        if (this.formData[field]) {
-                                            gtag('event', 'form_field_complete', {
-                                                'event_category': 'Form Interaction',
-                                                'event_label': `Contact Form - ${field} completed`,
-                                                'form_id': 'contact_form',
-                                                'field_name': field,
-                                                'field_type': field === 'email' ? 'email' : 'text',
-                                                'value': 1
-                                            });
-                                        }
-                                    });
-                                }
-                                this.loading = true;
-                                return true;
+                                Object.keys(this.formData).forEach(field => {
+                                    if (this.formData[field]) {
+                                        gtag('event', 'form_field_complete', {
+                                            event_category: 'Form Interaction',
+                                            event_label: `Contact Form - ${field} completed`,
+                                            form_id: 'contact_form',
+                                            field_name: field,
+                                            field_type: field === 'email' ? 'email' : 'text',
+                                            value: 1
+                                        });
+                                    }
+                                });
                             }
-                        }"
+
+                            this.loading = true;
+                            return true;
+                        }
+                    }"
                         @submit.prevent="
-                            // Collect form data
-                            const form = $event.target;
-                            const formData = new FormData(form);
-                            formData.forEach((value, key) => {
-                                if (this.formData.hasOwnProperty(key)) {
-                                    this.formData[key] = value;
-                                }
-                            });
+            const form = $event.target;
+            const formData = new FormData(form);
 
-                            // Track form submission
-                            if (this.trackFormSubmit()) {
-                                form.submit();
-                            }
-                        "
+            formData.forEach((value, key) => {
+                if ($data.formData.hasOwnProperty(key)) {
+                    $data.formData[key] = value;
+                }
+            });
+
+            if (trackFormSubmit()) {
+                form.submit();
+            }
+        "
                         class="space-y-4">
                         @csrf
 
@@ -78,8 +78,8 @@
                             <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Adresse email"
                                 type="email" name="email" required>
 
-                            <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="+212 612345678"
-                                name="phone" required>
+                            <input id="phone" class="w-full bg-gray-100 rounded-lg p-3 text-sm"
+                                placeholder="+212 612345678" name="phone" required>
                         </div>
 
                         <textarea class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Message" rows="8" name="message"
@@ -95,6 +95,7 @@
                         <p class="text-green-600 text-sm mt-3">{{ session('success') }}</p>
                     @endif
                 </div>
+
 
                 <!-- CALL US -->
                 <div class="lg:col-span-2">
@@ -115,17 +116,10 @@
         </div>
     </section>
 
-    <section>
-        <div class="mx-auto max-w-screen-xl px-6 sm:px-16">
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.239194318649!2d-7.585934225661413!3d33.599097741524126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd78482484c5%3A0xd904b09fb0a54766!2zUGxhdGVmb3JtZSBkZXMgamV1bmVzIHJvY2hlcyBub2lyZXMgLSDZhdmG2LXYqSDYp9mE2LTYqNin2Kgg2KfZhNi12K7ZiNixINin2YTYs9mI2K_Yp9ih!5e0!3m2!1sfr!2sma!4v1741740364019!5m2!1sfr!2sma"
-                width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-    </section>
+
 
     <section class="px-6 sm:px-16">
-        <div class="pt-20 pb-5  mx-auto flex flex-col md:flex-row gap-12">
+        <div class="pt-5 pb-5  mx-auto flex flex-col md:flex-row gap-12">
             <div class="flex flex-col text-left basis-1/2">
                 <p class="sm:text-4xl text-3xl font-extrabold text-base-content">Questions fréquemment posées</p>
             </div>
@@ -212,11 +206,12 @@
             button.setAttribute("aria-expanded", button.getAttribute("aria-expanded") === "false" ? "true" : "false");
             content.style.maxHeight = button.getAttribute("aria-expanded") === "true" ? content.scrollHeight + "px" : "0";
         }
-    </script>
 
-    <script>
-        document.getElementById('phone').addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/[^0-9+]/g, ''); // Allow only numbers and +
-        });
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', e => {
+                e.target.value = e.target.value.replace(/[^0-9+]/g, '');
+            });
+        }
     </script>
 @endsection
