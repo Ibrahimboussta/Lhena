@@ -53,13 +53,12 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 20px;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+            background: transparent;
             position: absolute;
             top: 64px;
             left: 0;
             right: 0;
             z-index: 30;
-            backdrop-filter: blur(8px);
         }
 
         .viewer-title {
