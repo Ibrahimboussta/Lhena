@@ -2,11 +2,11 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<section class="px-6 pb-24">
+<section class="px-3 sm:px-6 pb-24">
     <h1 class="text-4xl font-bold pt-24 mb-10">Publier une annonce</h1>
 
     <div class="max-w-6xl mx-auto">
-        <div class="bg-white border rounded-xl shadow-lg p-8">
+        <div class="bg-white border rounded-xl shadow-lg p-4 sm:p-8">
 
             @if ($errors->any())
                     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-8">
@@ -130,6 +130,92 @@
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">Nombre de salles de bain *</label>
                                     <input type="number" name="bathrooms" value="{{ old('bathrooms') }}" placeholder="Ex: 2" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-gray-800">Équipements et services</h3>
+
+                            @php
+                                $selectedAmenities = old('amenities', []);
+                            @endphp
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div class="space-y-2">
+                                        <h4 class="text-sm font-semibold text-gray-700">Confort intérieur</h4>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                            @foreach (['Climatisation', 'Chauffage', 'Meublé', 'Cuisine équipée', 'Cheminée', 'Double vitrage', 'Eau chaude'] as $label)
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
+                                                    <span class="text-gray-700">{{ $label }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <h4 class="text-sm font-semibold text-gray-700">Extérieur</h4>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                            @foreach (['Balcon', 'Terrasse', 'Jardin', 'Piscine', 'Vue panoramique', 'Barbecue'] as $label)
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
+                                                    <span class="text-gray-700">{{ $label }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <h4 class="text-sm font-semibold text-gray-700">Sécurité</h4>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                            @foreach (['Sécurité 24/7', 'Caméras de surveillance', 'Interphone', 'Gardien'] as $label)
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
+                                                    <span class="text-gray-700">{{ $label }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="space-y-2">
+                                        <h4 class="text-sm font-semibold text-gray-700">Immeuble</h4>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                            @foreach (['Ascenseur', 'Parking', 'Garage', 'Cave / Débarras', 'Accès PMR', 'Concierge'] as $label)
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
+                                                    <span class="text-gray-700">{{ $label }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <h4 class="text-sm font-semibold text-gray-700">Internet & divertissement</h4>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                            @foreach (['WiFi', 'Fibre optique', 'TV', 'Satellite'] as $label)
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
+                                                    <span class="text-gray-700">{{ $label }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <h4 class="text-sm font-semibold text-gray-700">Loisirs & services</h4>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                            @foreach (['Salle de sport', 'Aire de jeux', 'Spa / Hammam', 'Laverie', 'Animaux acceptés'] as $label)
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
+                                                    <span class="text-gray-700">{{ $label }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
