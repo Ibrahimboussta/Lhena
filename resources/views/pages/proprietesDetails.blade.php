@@ -35,7 +35,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.97);
-            z-index: 1000;
+            z-index: 9999;
             flex-direction: column;
             opacity: 0;
             transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -55,10 +55,10 @@
             padding: 12px 20px;
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
             position: absolute;
-            top: 0;
+            top: 64px;
             left: 0;
             right: 0;
-            z-index: 10;
+            z-index: 30;
             backdrop-filter: blur(8px);
         }
 
@@ -70,23 +70,25 @@
         }
 
         .viewer-close-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.35);
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 2rem;
+            font-weight: 700;
             transition: all 0.2s ease;
             backdrop-filter: blur(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
         }
 
         .viewer-close-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.35);
             transform: rotate(90deg);
         }
 
@@ -204,7 +206,7 @@
 
         .image-counter {
             position: fixed;
-            top: 20px;
+            top: 84px;
             right: 20px;
             background: rgba(0, 0, 0, 0.7);
             color: white;
@@ -216,32 +218,33 @@
             font-weight: 500;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
+
     </style>
 
 
-    <section class="px-6 py-20">
-        <div class="flex flex-col items-center min-h-screen py-6 bg-gray-50 ">
+    <section class="px-3 sm:px-6 py-20">
+            <div class="flex flex-col items-center min-h-screen py-6 bg-gray-50 ">
 
-            <!-- Main Content -->
-            <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Main Content -->
+                <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <!-- Left: Carousel + Description -->
-                <div class="md:col-span-2 bg-white rounded-2xl shadow p-4 space-y-4">
+                    <!-- Left: Carousel + Description -->
+                    <div class="md:col-span-2 bg-white rounded-2xl shadow p-3 sm:p-4 space-y-4">
 
-                    <!-- Title & Tags -->
-                    <div class="flex justify-between items-start">
-                        <div class="space-y-1">
-                            <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ $property->title }}</h1>
-                            <p class="text-sm text-gray-500">{{ $property->created_at->diffForHumans() }}</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span
-                                class="px-3 py-1 text-xs font-semibold rounded-full
+                        <!-- Title & Tags -->
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ $property->title }}</h1>
+                                <p class="text-sm text-gray-500">{{ $property->created_at->diffForHumans() }}</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span
+                                    class="px-3 py-1 text-xs font-semibold rounded-full
                         {{ $property->listing_type == 'À-vendre' ? 'bg-emerald-100 text-emerald-700' : 'bg-yellow-100 text-yellow-700' }}">
-                                {{ $property->listing_type }}
-                            </span>
+                                    {{ $property->listing_type }}
+                                </span>
+                            </div>
                         </div>
-                    </div>
 
                     <!-- Rating -->
                     @php
@@ -260,18 +263,23 @@
                             <img src="{{ asset('storage/' . $photo) }}" alt="Property image {{ $index + 1 }}"
                                 loading="lazy" data-index="{{ $index }}"
                                 class="absolute w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in
-                                 {{ $index !== 0 ? 'opacity-0' : '' }}"
+                                    {{ $index !== 0 ? 'opacity-0' : '' }}"
                                 onclick="openFullscreenViewer({{ $index }})">
                         @endforeach
 
+                        <div id="carousel-counter"
+                            class="absolute top-3 right-3 bg-black/50 text-white text-xs sm:text-sm px-3 py-1 rounded-full backdrop-blur z-20">
+                            1 / {{ count($photos) }}
+                        </div>
+
                         <!-- Nav buttons -->
                         <button id="prev"
-                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-0"
+                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-20"
                             aria-label="Previous image">
                             ❮
                         </button>
                         <button id="next"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-0"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-20"
                             aria-label="Next image">
                             ❯
                         </button>
@@ -945,7 +953,9 @@
         // ==========================
         let currentSlide = 0;
         const slides = document.querySelectorAll('#carousel-container img');
-        const indicators = document.querySelectorAll('.absolute.bottom-4 button');
+        const indicators = document.querySelectorAll('#carousel-container .indicator');
+        const carouselCounter = document.getElementById('carousel-counter');
+        const carouselContainer = document.getElementById('carousel-container');
 
         function showSlide(index) {
             slides.forEach((slide, idx) => {
@@ -957,6 +967,10 @@
             slides[index].classList.remove('opacity-0');
             indicators[index].classList.remove('bg-gray-400');
             indicators[index].classList.add('bg-white');
+
+            if (carouselCounter) {
+                carouselCounter.textContent = `${index + 1} / ${slides.length}`;
+            }
         }
 
         // Show initial slide on load
@@ -984,6 +998,44 @@
                 currentSlide = index;
                 showSlide(currentSlide);
             });
+        });
+
+        if (carouselContainer) {
+            let carouselTouchStartX = 0;
+            let carouselTouchEndX = 0;
+
+            carouselContainer.addEventListener('touchstart', (e) => {
+                carouselTouchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            carouselContainer.addEventListener('touchend', (e) => {
+                carouselTouchEndX = e.changedTouches[0].screenX;
+                const swipeThreshold = 50;
+                const difference = carouselTouchStartX - carouselTouchEndX;
+
+                if (Math.abs(difference) > swipeThreshold) {
+                    if (difference > 0) {
+                        currentSlide = (currentSlide + 1) % slides.length;
+                    } else {
+                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                    }
+                    showSlide(currentSlide);
+                }
+            }, { passive: true });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (fullscreenViewer && fullscreenViewer.classList.contains('active')) return;
+            if (slides.length === 0) return;
+
+            if (e.key === 'ArrowLeft') {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+            if (e.key === 'ArrowRight') {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
         });
     </script>
 @endsection

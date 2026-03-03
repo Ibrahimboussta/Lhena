@@ -21,14 +21,8 @@ Route::get('/', [HomeController::class, 'index']);
 
 
 Route::middleware(['authRegister'])->group(function () {
-
-<<<<<<< HEAD
-    Route::get('/dashboard', [ProprieteContoller::class, 'dashboard'])->name('dashboard');
-    Route::delete('/dashboard/delete/{id}', [ProprieteContoller::class, 'destroy'])->name('properties.destroy');
-=======
     Route::get('/dashboard', [ProprieteController::class, 'dashboard'])->name('dashboard');
     Route::delete('/dashboard/delete/{id}', [ProprieteController::class, 'destroy'])->name('properties.destroy');
->>>>>>> f72e2cb024c5bfd855b08808446d557c0ad84bc6
 });
 
 Route::middleware('auth')->group(function () {
@@ -71,30 +65,15 @@ Route::fallback(function (Request $request) {
     abort(404);
 });
 
-
-
-<<<<<<< HEAD
-Route::get('/propriete', [ProprieteContoller::class, 'index'])->name('proprites');
-Route::get('/propriete/{slug}', [ProprieteContoller::class, 'details'])->name('proprites.details');
-=======
 Route::get('/propriete', [ProprieteController::class, 'index'])->name('proprites');
 Route::get('/propriete/{slug}', [ProprieteController::class, 'details'])->name('proprites.details');
->>>>>>> f72e2cb024c5bfd855b08808446d557c0ad84bc6
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::get('/publier-annonce', [PublishController::class, 'index'])->name('publish');
 Route::get('/a-propos', [HomeController::class, 'about'])->name('a-propos');
 
-
-
-<<<<<<< HEAD
-// Route::post('/proprtie/post', [ProprieteContoller::class, 'store' ])->name('proprites.store');
-Route::post('/contact/post', [ContactController::class, 'store'])->name('contact.store');
-Route::get('/search', [ProprieteContoller::class, 'search'])->name('properties.search');
-=======
 // Route::post('/proprtie/post', [ProprieteController::class, 'store' ])->name('proprites.store');
 Route::post('/contact/post', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/search', [ProprieteController::class, 'search'])->name('properties.search');
->>>>>>> f72e2cb024c5bfd855b08808446d557c0ad84bc6
 
 
 Route::post('/emails/post', [MailingController::class, 'store'])->name('mailing.store');
