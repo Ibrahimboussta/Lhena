@@ -8,6 +8,78 @@ use Illuminate\Support\Facades\Auth;
 
 class ProprieteController extends Controller
 {
+    public function edit($slug)
+    {
+        // Extract the hashed ID from the slug
+        $parts = explode('-', $slug);
+        $hash = end($parts);
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
+        }
+
+        $property = Propritie::findOrFail($id);
+        $user = Auth::user();
+        // Allow owner or admin to edit
+        if ($property->user_id !== $user->id && $user->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
+        return view('edit-propriete', compact('property'));
+    }
+
+    public function update(Request $request, $slug)
+    {
+        // Extract the hashed ID from the slug
+        $parts = explode('-', $slug);
+        $hash = end($parts);
+        $id = Propritie::decodeHash($hash);
+        if (!$id) {
+            abort(404);
+        }
+
+        $property = Propritie::findOrFail($id);
+        $user = Auth::user();
+        // Allow owner or admin to update
+        if ($property->user_id !== $user->id && $user->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'property_type' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'neighborhood' => 'required|string|max:100',
+            'address' => 'required|string|max:255',
+            'surface' => 'required|numeric|min:0',
+            'bedrooms' => 'required|integer|min:0',
+            'bathrooms' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+            'price_type' => 'nullable|string|in:nuit,mois,an',
+            'contact_phone' => 'required|string|max:20',
+            'description' => 'nullable|string',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp,ico,bmp,tiff,webm|max:20480',
+        ]);
+
+        $data = $request->only([
+            'title', 'property_type', 'city', 'neighborhood', 'address', 'surface', 'bedrooms', 'bathrooms', 'price', 'price_type', 'contact_phone', 'description'
+        ]);
+
+        // Handle new photos if uploaded
+        if ($request->hasFile('photos')) {
+            $photos = [];
+            foreach ($request->file('photos') as $photo) {
+                $path = $photo->store('properties', 'public');
+                $photos[] = $path;
+            }
+            $data['photos'] = json_encode($photos);
+        }
+
+        $property->update($data);
+
+        // Redirect to admin panel if admin, otherwise to user dashboard
+        $redirectRoute = Auth::user()->role === 'admin' ? 'proprites.admin' : 'dashboard';
+        return redirect()->route($redirectRoute)->with('success', 'Propriété mise à jour avec succès!');
+    }
     public function index()
     {
         // Show ONLY published properties on the website

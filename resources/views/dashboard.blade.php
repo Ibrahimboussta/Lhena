@@ -76,14 +76,16 @@
 
 
                                         <td class="p-3 text-center border">
-                                            <div class="flex justify-center space-x-2">
-                                                <form action="{{ route('properties.destroy', $property->id) }}"
-                                                    method="POST" class="inline">
+                                            <div class="flex justify-center gap-2">
+                                                <a href="{{ route('dashboard.edit', $property->slug) }}" class="inline-flex items-center justify-center rounded-full bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-800 transition h-8 w-8" title="Modifier">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 5.487a2.25 2.25 0 113.182 3.182L8.75 19.963l-4.182.545.545-4.182 10.749-10.84z" />
+                                                    </svg>
+                                                </a>
+                                                <form action="{{ route('properties.destroy', $property->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit"
-                                                        class="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-md hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                                                        <span class="sr-only">Supprimer</span>
+                                                    <button class="inline-flex items-center justify-center rounded-full bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-700 transition h-8 w-8" type="submit" title="Supprimer">
                                                         🗑
                                                     </button>
                                                 </form>

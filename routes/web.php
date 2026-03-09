@@ -1,4 +1,8 @@
+
+
 <?php
+
+
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CheckoutController;
@@ -15,13 +19,18 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/users/{id}/edit', [\App\Http\Controllers\ProfileController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{id}', [\App\Http\Controllers\ProfileController::class, 'updateUser'])->name('users.update');
+});
 
 Route::get('/', [HomeController::class, 'index']);
 
 
 Route::middleware(['authRegister'])->group(function () {
     Route::get('/dashboard', [ProprieteController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/edit/{slug}', [ProprieteController::class, 'edit'])->name('dashboard.edit');
+    Route::put('/dashboard/update/{slug}', [ProprieteController::class, 'update'])->name('dashboard.update');
     Route::delete('/dashboard/delete/{id}', [ProprieteController::class, 'destroy'])->name('properties.destroy');
 });
 
@@ -39,11 +48,13 @@ Route::get('/lhenadmin', function () {
 
 // Secure admin routes with extremely complex URL
 // The admin URL is now: /9x2k8p5q1r7s3t6v0w4y9z2a8b5c1d7e3f6g0h4i9j2k8l5m1n7o3p6q0r4s9t2u8v5w1x7y3z6a0b4c9d2e8f5g1h7i3j6k0l4m9n2o8p5q1r7s3t6v0w4y9z2
-Route::prefix('9x2k8p5q1r7s3t6v0w4y9z2a8b5c1d7e3f6g0h4i9j2k8l5m1n7o3p6q0r4s9t2u8v5w1x7y3z6a0b4c9d2e8f5g1h7i3j6k0l4m9n2o8p5q1r7s3t6v0w4y9z2')
+Route::prefix('9x2k8p5q1r7s3t6v0w4y9z2a8b5c1d7e3f6g0h4i9j2k8l5m1n7o3p6q0r4s9t2u8v5w1x7y3z6a')
     ->middleware(['admin', 'throttle:60,1']) // 60 requests per minute
     ->group(function () {
         Route::get('/', [HomeController::class, 'users'])->name('users');
         Route::get('/proprites', [HomeController::class, 'proprites'])->name('proprites.admin');
+        Route::get('/proprites/{slug}/edit', [\App\Http\Controllers\ProprieteController::class, 'edit'])->name('proprites.edit');
+        Route::put('/proprites/{slug}', [\App\Http\Controllers\ProprieteController::class, 'update'])->name('proprites.update');
         Route::get('/contacts', [ContactController::class, 'contact'])->name('contacts.admin');
         Route::delete('/contacts/delete/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
         Route::delete('/proprites/delete/{id}', [HomeController::class, 'destroy'])->name('properties.admin.destroy');
