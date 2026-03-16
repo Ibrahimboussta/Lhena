@@ -699,102 +699,127 @@
             Des Propriétés Similaires
         </h2>
 
-        <div class="w-full pb-12 px-6 sm:px-16 ">
-            @if ($properties->isEmpty())
-                <!-- ✅ Message if no properties -->
-                <div class="flex justify-center">
-                    <div class="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto w-12 h-12 text-gray-400 mb-3"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9.75 17L4.5 12.75l5.25-4.25M14.25 7l5.25 4.25-5.25 4.25" />
-                        </svg>
-                        <p class="text-gray-600 font-medium">Aucune propriété similaire trouvée</p>
-                    </div>
-                </div>
-            @else
-                <!-- ✅ Property Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
-                    @foreach ($properties->take(9) as $property)
-                        <a href="{{ route('proprites.details', $property->slug) }}" class="group">
-                            <div
-                                class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col z-0">
+      <div class="w-full pb-12 px-6 sm:px-16 ">
+    @if ($properties->isEmpty())
+        <!-- Message if no properties -->
+        <div class="flex justify-center">
+            <div class="bg-white border border-gray-200 rounded-xl p-6 text-center shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto w-12 h-12 text-gray-400 mb-3"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9.75 17L4.5 12.75l5.25-4.25M14.25 7l5.25 4.25-5.25 4.25" />
+                </svg>
+                <p class="text-gray-600 font-medium">Aucune propriété similaire trouvée</p>
+            </div>
+        </div>
+    @else
+        <!-- Property Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
+            @foreach ($properties->take(9) as $property)
+                <a href="{{ route('proprites.details', $property->slug) }}" class="group">
+                    <div
+                        class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col">
 
-                                <!-- Image -->
-                                <div class="relative w-full h-64 overflow-hidden z-0">
-                                    <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500 z-0"
-                                        src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt=""
-                                        loading="lazy">
-                                    <div class="absolute top-3 flex justify-between w-full px-3">
-                                        <div class="flex space-x-2">
-                                            @if (strpos($property->listing_type, 'À-vendre') !== false)
-                                                <span
-                                                    class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                                    À vendre
-                                                </span>
-                                            @endif
-                                            @if (strpos($property->listing_type, 'À-louer') !== false)
-                                                <span
-                                                    class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                                    À louer
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                        <!-- Image -->
+                        <div class="relative w-full h-64 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                src="{{ asset('storage/' . json_decode($property->photos)[0]) }}"
+                                alt="" loading="lazy">
 
-                                <!-- Content -->
-                                <div class="flex-1 flex flex-col p-4">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <p class="text-sm font-medium text-gray-500">{{ $property->property_type }}
-                                            </p>
-                                            <h4
-                                                class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition">
-                                                {{ $property->title }}
-                                            </h4>
-                                            <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-4 h-4 opacity-70 text-gray-500" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                </svg>
-                                                <p class="truncate max-w-[180px]">{{ $property->address }}</p>
-                                            </div>
-                                        </div>
-                                        <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
-                                            {{ number_format($property->price, 0, ',', ' ') }} DH
-                                        </p>
-                                    </div>
+                            <div class="absolute top-3 flex justify-between w-full px-3">
+                                <div class="flex space-x-2">
+                                    @if (strpos($property->listing_type, 'À-vendre') !== false)
+                                        <span
+                                            class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
+                                            À vendre
+                                        </span>
+                                    @endif
 
-                                    <!-- Features -->
-                                    <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}"
-                                                alt="" loading="lazy">
-                                            <span>{{ $property->bedrooms }}</span>
-                                        </div>
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}"
-                                                alt="" loading="lazy">
-                                            <span>{{ $property->bathrooms }}</span>
-                                        </div>
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}"
-                                                alt="" loading="lazy">
-                                            <span>{{ $property->surface }} m²</span>
-                                        </div>
-                                    </div>
+                                    @if (strpos($property->listing_type, 'À-louer') !== false)
+                                        <span
+                                            class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
+                                            À louer
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
-                        </a>
-                    @endforeach
-                </div>
-            @endif
+                        </div>
+
+                        <!-- Content -->
+                        <div class="flex-1 flex flex-col p-4">
+
+                            <div class="flex justify-between items-start gap-2">
+
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-500 truncate">
+                                        {{ $property->property_type }}
+                                    </p>
+
+                                    <h4
+                                        class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate">
+                                        {{ $property->title }}
+                                    </h4>
+
+                                    <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="w-4 h-4 opacity-70 text-gray-500"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+
+                                        <p class="truncate max-w-[180px]">
+                                            {{ $property->address }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
+                                    {{ number_format($property->price, 0, ',', ' ') }} DH
+                                </p>
+
+                            </div>
+
+                            <!-- Features -->
+                            <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
+
+                                <div class="flex items-center space-x-1">
+                                    <img class="w-4 h-4 opacity-70"
+                                        src="{{ asset('images/beds.svg') }}"
+                                        alt=""
+                                        loading="lazy">
+                                    <span>{{ $property->bedrooms }}</span>
+                                </div>
+
+                                <div class="flex items-center space-x-1">
+                                    <img class="w-4 h-4 opacity-70"
+                                        src="{{ asset('images/dosh.svg') }}"
+                                        alt=""
+                                        loading="lazy">
+                                    <span>{{ $property->bathrooms }}</span>
+                                </div>
+
+                                <div class="flex items-center space-x-1">
+                                    <img class="w-4 h-4 opacity-70"
+                                        src="{{ asset('images/space.svg') }}"
+                                        alt=""
+                                        loading="lazy">
+                                    <span>{{ $property->surface }} m²</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </a>
+            @endforeach
         </div>
+    @endif
+</div>
 
 
 

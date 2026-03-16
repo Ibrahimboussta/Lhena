@@ -257,102 +257,95 @@
 
 
                 <!-- Property Cards -->
-                <div class="flex justify-between pt-6 w-full">
-                    @if ($properties->isEmpty())
-                        <!-- Check if properties are empty -->
-                        <div class="flex justify-center items-center w-full h-[20vh]">
-                            <p class="text-[#1A1A1A] text-2xl">Aucune propriété trouvée</p>
-                        </div>
-                    @else
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
-                            @foreach ($properties as $property)
-                                <a href="{{ route('proprites.details', $property->slug) }}" class="w-full">
-                                    <div
-                                        class="w-full rounded-2xl border border-[#e0dede] p-2 hover:shadow duration-400 relative z-0">
-                                        <!-- Image Section with Positioned Labels -->
-                                        <div class="relative">
-                                        <div class="relative overflow-hidden rounded-2xl">
-                                            <div class="absolute inset-0 skeleton skeleton-animate rounded-2xl"></div>
-                                            <img class="w-full h-80 object-cover rounded-2xl opacity-0 transition-[opacity,transform] duration-300 hover:scale-[1.02]"
-                                                src="{{ asset('storage/' . json_decode($property->photos)[0]) }}"
-                                                alt="" loading="lazy" decoding="async"
-                                                onload="this.classList.remove('opacity-0'); this.previousElementSibling.classList.add('opacity-0'); this.previousElementSibling.classList.remove('skeleton-animate');">
-                                        </div>
+        <div class="flex justify-between pt-6 w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
+                @foreach ($properties->take(9) as $property)
+                    <a href="{{ route('proprites.details', $property->slug) }}" class="w-full group">
+                        <div class="w-full rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
 
-                                            <!-- Labels -->
-                                            <div class="absolute top-4 left-4 flex space-x-2">
-                                                @if (strpos($property->listing_type, 'À-vendre') !== false)
-                                                    <span
-                                                        class="text-white bg-[#25D366] rounded-lg px-3 py-1 uppercase font-medium text-xs">
-                                                        À vendre
-                                                    </span>
-                                                @endif
-                                                @if (strpos($property->listing_type, 'À-louer') !== false)
-                                                    <span
-                                                        class="text-white bg-[#E7C873] rounded-lg px-3 py-1 uppercase font-medium text-xs">
-                                                        À louer
-                                                    </span>
-                                                @endif
-                                            </div>
-                                        </div>
+                            <!-- Image Section -->
+                            <div class="relative w-full h-64 overflow-hidden">
+                                @php
+                                    $photos = json_decode($property->photos);
+                                    $firstPhoto = is_array($photos) && count($photos) > 0 ? $photos[0] : 'images/default-property.jpg';
+                                @endphp
 
-                                        <!-- Property Details -->
-                                        <div class="flex justify-between items-start pt-2 px-1">
-                                            <div>
-                                                <p class="font-medium text-[#8b8b8b] text-[15px]">
-                                                    {{ $property->property_type }}</p>
-                                                <p class="font-semibold text-[#1A1A1A] text-xl">{{ $property->title }}</p>
-                                                <div class="flex items-center space-x-0.5 pt-1">
-                                                    <img src="{{ asset('images/local.svg') }}" alt=""
-                                                        class="w-4 h-4" loading="lazy">
-                                                    <p>{{ $property->address }}</p>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <p class="font-semibold text-xl text-[#25D366]">{{ $property->price }} DH
-                                                </p>
-                                            </div>
-                                        </div>
+                                <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                    src="{{ asset('storage/' . $firstPhoto) }}" alt="">
 
-                                        <!-- Property Features -->
-                                        <div class="flex items-center py-2 px-1 gap-x-4">
-                                            <div class="flex items-center space-x-0.5">
-                                                <img class="w-4 h-4" src="{{ asset('images/beds.svg') }}" alt="" loading="lazy">
-                                                <p>{{ $property->bedrooms }}</p>
-                                            </div>
-                                            <div class="flex items-center space-x-0.5">
-                                                <img class="w-4 h-4" src="{{ asset('images/dosh.svg') }}"
-                                                    alt="" loading="lazy">
-                                                <p>{{ $property->bathrooms }}</p>
-                                            </div>
-                                            <div class="flex items-center space-x-0.5">
-                                                <img class="w-4 h-4" src="{{ asset('images/space.svg') }}"
-                                                    alt="" loading="lazy">
-                                                <p>{{ $property->surface }} m²</p>
-                                            </div>
-                                        </div>
+                                <!-- Labels -->
+                                <div class="absolute top-3 left-3 flex space-x-2">
+                                    @if(strpos($property->listing_type, 'À-vendre') !== false)
+                                        <span class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
+                                            À vendre
+                                        </span>
+                                    @endif
 
-                                        <!-- Availability Date -->
-                                        @if ($property->date_available)
-                                            <div class="flex items-center px-1 pb-2">
-                                                <div class="flex items-center space-x-2 text-sm text-gray-600">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                    </svg>
-                                                    <span>Disponible à partir du
-                                                        {{ \Carbon\Carbon::parse($property->date_available)->format('d/m/Y') }}</span>
-                                                </div>
-                                            </div>
-                                        @endif
+                                    @if(strpos($property->listing_type, 'À-louer') !== false)
+                                        <span class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
+                                            À louer
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <!-- Property Content -->
+                            <div class="flex-1 flex flex-col p-4">
+
+                                <div class="flex justify-between items-center gap-2">
+
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-medium text-gray-500 truncate">
+                                            {{ $property->property_type }}
+                                        </p>
+
+                                        <h4 class="text-l font-semibold text-gray-900
+                                                group-hover:text-emerald-600 transition
+                                                truncate">
+                                            {{ $property->title }}
+                                        </h4>
+
+                                        <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
+                                            <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
+                                            <p class="truncate max-w-[180px]">
+                                                {{ $property->address }}
+                                            </p>
+                                        </div>
                                     </div>
-                                </a>
-                            @endforeach
+
+                                    <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
+                                        {{ number_format($property->price, 0, ',', ' ') }} DH
+                                    </p>
+
+                                </div>
+
+                                <!-- Property Features -->
+                                <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
+
+                                    <div class="flex items-center space-x-1">
+                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
+                                        <span>{{ $property->bedrooms }}</span>
+                                    </div>
+
+                                    <div class="flex items-center space-x-1">
+                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
+                                        <span>{{ $property->bathrooms }}</span>
+                                    </div>
+
+                                    <div class="flex items-center space-x-1">
+                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
+                                        <span>{{ $property->surface }} m²</span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
-                    @endif
-                </div>
+                    </a>
+                @endforeach
+            </div>
+        </div>
 
                 <!-- Pagination -->
                 <div class="flex justify-center pt-6">

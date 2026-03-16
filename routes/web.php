@@ -29,8 +29,6 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware(['authRegister'])->group(function () {
     Route::get('/dashboard', [ProprieteController::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard/edit/{slug}', [ProprieteController::class, 'edit'])->name('dashboard.edit');
-    Route::put('/dashboard/update/{slug}', [ProprieteController::class, 'update'])->name('dashboard.update');
     Route::delete('/dashboard/delete/{id}', [ProprieteController::class, 'destroy'])->name('properties.destroy');
 });
 
@@ -53,8 +51,6 @@ Route::prefix('9x2k8p5q1r7s3t6v0w4y9z2a8b5c1d7e3f6g0h4i9j2k8l5m1n7o3p6q0r4s9t2u8
     ->group(function () {
         Route::get('/', [HomeController::class, 'users'])->name('users');
         Route::get('/proprites', [HomeController::class, 'proprites'])->name('proprites.admin');
-        Route::get('/proprites/{slug}/edit', [\App\Http\Controllers\ProprieteController::class, 'edit'])->name('proprites.edit');
-        Route::put('/proprites/{slug}', [\App\Http\Controllers\ProprieteController::class, 'update'])->name('proprites.update');
         Route::get('/contacts', [ContactController::class, 'contact'])->name('contacts.admin');
         Route::delete('/contacts/delete/{id}', [ContactController::class, 'destroy'])->name('contacts.destroy');
         Route::delete('/proprites/delete/{id}', [HomeController::class, 'destroy'])->name('properties.admin.destroy');
