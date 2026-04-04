@@ -74,7 +74,7 @@ class ProprieteController extends Controller
             'city' => 'required|string|max:100',
             'neighborhood' => 'required|string|max:100',
             'address' => 'required|string|max:255',
-            'surface' => 'required|numeric|min:0',
+            'surface' => 'nullable|numeric|min:0',
             'bedrooms' => 'required|integer|min:0',
             'bathrooms' => 'required|integer|min:0',
             'price' => 'required|numeric|min:0',
@@ -85,7 +85,7 @@ class ProprieteController extends Controller
             'photos' => 'required|array|max:10', // Max 10 images
             'listing_type' => 'required|array',
             'listing_type.*' => 'in:À-vendre,À-louer',
-            'available_from' => 'required|date|after_or_equal:today',
+            'available_from' => 'nullable|date|after_or_equal:today',
             'available_until' => 'nullable|date|after_or_equal:available_from',
         ]);
 
@@ -122,8 +122,8 @@ class ProprieteController extends Controller
             'description' => $request->description,
             'photos' => json_encode($photos),
             'listing_type' => implode(',', $request->listing_type),
-            'available_from' => $request->available_from,
-            'available_until' => $request->available_until,
+            'available_from' => $request->available_from ?: null,
+            'available_until' => $request->available_until ?: null,
             'amenities' => $request->amenities ? json_encode($request->amenities) : null,
             'slug' => $tempSlug
         ]);

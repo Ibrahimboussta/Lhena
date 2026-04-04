@@ -82,10 +82,12 @@
                                     <span>{{ $property->bathrooms }}</span>
                                 </div>
 
+                                @if(!is_null($property->surface))
                                 <div class="flex items-center space-x-1">
                                     <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
                                     <span>{{ $property->surface }} m²</span>
                                 </div>
+                                @endif
 
                             </div>
 

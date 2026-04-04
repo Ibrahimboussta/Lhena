@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('neighborhood');
             $table->string('address');
-            $table->integer('surface');
+            $table->integer('surface')->nullable();
             $table->integer('bedrooms');
             $table->integer('bathrooms');
             $table->decimal('price', 10, 2);

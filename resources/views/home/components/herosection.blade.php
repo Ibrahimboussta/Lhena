@@ -15,23 +15,22 @@
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 md:mt-4">
                     @auth
                     <a href="{{ route('publish') }}" class="inline-flex items-center justify-center
-              bg-green-600 text-white px-6 py-2.5 text-sm font-medium
-              rounded-lg hover:bg-green-700 transition-all duration-200">
+                bg-green-600 text-white px-6 py-2.5 text-sm font-medium
+                rounded-lg hover:bg-green-700 transition-all duration-200">
                         Publier une annonce
                     </a>
                     @else
                     <a href="{{ route('register') }}" class="inline-flex items-center justify-center
-              bg-green-600 text-white px-6 py-2.5 text-sm font-medium
-              rounded-lg hover:bg-green-700 transition-all duration-200">
+                bg-green-600 text-white px-6 py-2.5 text-sm font-medium
+                rounded-lg hover:bg-green-700 transition-all duration-200">
                         Publier une annonce
                     </a>
                     @endauth
-                    <a href="{{ route('contact') }}" class="inline-flex items-center justify-center bg-white text-black px-6 py-2.5 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-all duration-200">
+                    <a href="{{ route('contact') }}" class="inline-flex items-center justify-center bg-white text-black px-6 py-2.5 text-xs font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-all duration-200">
                         Contactez-nous
                     </a>
                 </div>
             </div>
-
 
             <!-- Search Form -->
             <div class="mt-8 md:mt-12">
