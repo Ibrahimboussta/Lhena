@@ -41,7 +41,7 @@
                     <!-- Property Content -->
                     <div class="flex-1 flex flex-col p-4">
 
-                        <div class="flex justify-between items-center gap-2">
+                        <div class="flex justify-between items-start gap-2">
 
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-medium text-gray-500 truncate">
@@ -49,8 +49,8 @@
                                 </p>
 
                                 <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate">
-                                            {{ $property->title }}
-                                        </h4>
+                                    {{ $property->title }}
+                                </h4>
 
                                 <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
                                     <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
 
-                            <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
+                            <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap flex-shrink-0 mt-5">
                                 {{ number_format($property->price, 0, ',', ' ') }} DH
                             </p>
 
