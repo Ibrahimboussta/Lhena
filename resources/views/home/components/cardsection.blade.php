@@ -48,9 +48,9 @@
                                     {{ $property->property_type }}
                                 </p>
 
-                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition line-clamp-1 min-h-[56px]">
-                                    {{ $property->title }}
-                                </h4>
+                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate">
+                                            {{ $property->title }}
+                                        </h4>
 
                                 <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
                                     <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
