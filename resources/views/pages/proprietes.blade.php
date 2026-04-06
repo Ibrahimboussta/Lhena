@@ -279,7 +279,7 @@
                             <!-- Property Content -->
                             <div class="flex-1 flex flex-col p-4">
 
-                                <div class="flex justify-between items-start gap-2">
+                                <div class="flex justify-between items-center gap-2">
 
                                     <div class="flex-1 min-w-0">
                                         <p class="text-sm font-medium text-gray-500 truncate">
@@ -298,7 +298,7 @@
                                         </div>
                                     </div>
 
-                                    <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap flex-shrink-0 mt-5">
+                                    <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap flex-shrink-0">
                                         {{ number_format($property->price, 0, ',', ' ') }} DH
                                     </p>
 
