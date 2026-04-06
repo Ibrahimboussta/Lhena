@@ -41,52 +41,47 @@
                     <!-- Property Content -->
                     <div class="flex-1 flex flex-col p-4">
 
-                        <div class="flex justify-between items-center gap-2">
-
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium text-gray-500 truncate">
-                                    {{ $property->property_type }}
-                                </p>
-
-                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate">
-                                    {{ $property->title }}
-                                </h4>
-
-                                <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
-                                    <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
-                                    <p class="truncate max-w-[180px]">
-                                        {{ $property->address }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap flex-shrink-0">
-                                {{ number_format($property->price, 0, ',', ' ') }} DH
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-500 truncate">
+                                {{ $property->property_type }}
                             </p>
 
+                            <h4 class="text-base font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate mt-1">
+                                {{ $property->title }}
+                            </h4>
+
+                            <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
+                                <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
+                                <p class="truncate max-w-[180px]">
+                                    {{ $property->address }}
+                                </p>
+                            </div>
                         </div>
 
                         <!-- Property Features -->
-                        <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
-
+                        <div class="flex items-center mt-3 text-gray-600 text-sm gap-x-6">
                             <div class="flex items-center space-x-1">
                                 <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
                                 <span>{{ $property->bedrooms }}</span>
                             </div>
-
                             <div class="flex items-center space-x-1">
                                 <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
                                 <span>{{ $property->bathrooms }}</span>
                             </div>
-
                             @if(!is_null($property->surface))
                             <div class="flex items-center space-x-1">
                                 <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
                                 <span>{{ $property->surface }} m²</span>
                             </div>
                             @endif
-
                         </div>
+
+                        
+                            <p class="w-fit inline-flex items-center gap-1 font-bold text-white bg-emerald-500 px-4 py-2 rounded-full shadow-md mt-3">
+                            <span>{{ number_format($property->price, 0, ',', ' ') }}</span>
+                            <span class="text-sm">DH</span>
+                        </p>
+                            
 
                     </div>
 
