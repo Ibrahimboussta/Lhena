@@ -48,7 +48,7 @@
                                     {{ $property->property_type }}
                                 </p>
 
-                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition line-clamp-2 min-h-[56px]">
+                                <h4 class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition line-clamp-1 min-h-[56px]">
                                     {{ $property->title }}
                                 </h4>
 
