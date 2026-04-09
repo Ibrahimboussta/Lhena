@@ -34,7 +34,7 @@
                     id="password"
                     name="password"
                     type="password"
-                    class="mt-1 block w-3/4"
+                    class="mt-1 block w-3/4 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                     placeholder="{{ __('Password') }}"
                 />
 

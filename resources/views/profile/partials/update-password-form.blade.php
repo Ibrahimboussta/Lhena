@@ -1,10 +1,10 @@
-<section class="bg-white border border-green-200 rounded-xl p-6 shadow-sm">
+<section class="bg-white border border-green-200 rounded-xl p-6 shadow-sm dark:bg-gray-800 dark:border-gray-700">
     <header>
-        <h2 class="text-xl font-semibold text-green-700">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
             {{ __('Mettre à jour le mot de passe') }}
         </h2>
 
-        <p class="mt-1 text-sm text-green-600">
+        <p class="mt-1 text-sm text-gray-600 dark:text-white">
             {{ __('Assurez-vous d’utiliser un mot de passe long, unique et sécurisé pour protéger votre compte.') }}
         </p>
     </header>
@@ -15,36 +15,36 @@
 
         <!-- Current Password -->
         <div>
-            <x-input-label for="update_password_current_password" :value="__('Mot de passe actuel')" class="text-green-700"/>
+            <x-input-label for="update_password_current_password" :value="__('Mot de passe actuel')" class="text-gray-700 dark:text-white"/>
             <x-text-input
                 id="update_password_current_password"
                 name="current_password"
                 type="password"
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg"
+                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 autocomplete="current-password" />
             <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
         </div>
 
         <!-- New Password -->
         <div>
-            <x-input-label for="update_password_password" :value="__('Nouveau mot de passe')" class="text-green-700"/>
+            <x-input-label for="update_password_password" :value="__('Nouveau mot de passe')" class="text-gray-700 dark:text-white"/>
             <x-text-input
                 id="update_password_password"
                 name="password"
                 type="password"
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg"
+                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 autocomplete="new-password" />
             <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div>
-            <x-input-label for="update_password_password_confirmation" :value="__('Confirmer le mot de passe')" class="text-green-700"/>
+            <x-input-label for="update_password_password_confirmation" :value="__('Confirmer le mot de passe')" class="text-gray-700 dark:text-white"/>
             <x-text-input
                 id="update_password_password_confirmation"
                 name="password_confirmation"
                 type="password"
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg"
+                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 autocomplete="new-password" />
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
         </div>
@@ -61,7 +61,7 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2500)"
-                    class="text-sm text-green-600 font-medium"
+                    class="text-sm text-gray-900 font-medium dark:text-white"
                 >
                     {{ __('Mot de passe mis à jour !') }}
                 </p>
