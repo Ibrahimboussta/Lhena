@@ -46,6 +46,7 @@
         transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 0;
         overflow: hidden;
+        pointer-events: auto;
     }
 
     .fullscreen-viewer.active {
@@ -132,9 +133,10 @@
         cursor: pointer;
         font-size: 1.5rem;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 5;
+        z-index: 9010;
         backdrop-filter: blur(5px);
         opacity: 0.8;
+        pointer-events: auto;
     }
 
     .nav-btn:hover {
@@ -259,61 +261,75 @@
                     <span class="text-sm text-gray-600">({{ $reviewsCount }} avis)</span>
                 </div>
 
-                <!-- Carousel -->
-                <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow">
-                    @foreach ($photos as $index => $photo)
-                    <img src="{{ asset('storage/' . $photo) }}" alt="Property image {{ $index + 1 }}" loading="lazy" data-index="{{ $index }}" class="absolute w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in
-                                    {{ $index !== 0 ? 'opacity-0' : '' }}" onclick="openFullscreenViewer({{ $index }})">
-                    @endforeach
+                <!-- Carousel - Alpine.js Component (React-like) -->
+                <div x-data="{
+                    currentSlide: 0,
+                    photos: {{ json_encode($photos) }},
+                    fullscreenOpen: false,
+                    fullscreenIndex: 0,
+                    touchStartX: 0,
+                    touchEndX: 0,
+                    next() { this.currentSlide = (this.currentSlide + 1) % this.photos.length; },
+                    prev() { this.currentSlide = (this.currentSlide - 1 + this.photos.length) % this.photos.length; },
+                    goTo(index) { this.currentSlide = index; },
+                    openFullscreen(index) { this.fullscreenIndex = index; this.fullscreenOpen = true; document.body.style.overflow = 'hidden'; },
+                    closeFullscreen() { this.fullscreenOpen = false; document.body.style.overflow = ''; },
+                    nextFullscreen() { this.fullscreenIndex = (this.fullscreenIndex + 1) % this.photos.length; },
+                    prevFullscreen() { this.fullscreenIndex = (this.fullscreenIndex - 1 + this.photos.length) % this.photos.length; },
+                    handleSwipe() {
+                        const diff = this.touchStartX - this.touchEndX;
+                        if (Math.abs(diff) > 50) {
+                            diff > 0 ? this.next() : this.prev();
+                        }
+                    }
+                }" @keydown.arrow-left.window="fullscreenOpen ? prevFullscreen() : prev()" @keydown.arrow-right.window="fullscreenOpen ? nextFullscreen() : next()" @keydown.escape.window="closeFullscreen()" class="relative w-full h-96 rounded-lg overflow-hidden shadow select-none" @touchstart="touchStartX = $event.changedTouches[0].screenX" @touchend="touchEndX = $event.changedTouches[0].screenX; handleSwipe()">
 
-                    <div id="carousel-counter" class="absolute top-3 right-3 bg-black/50 text-white text-xs sm:text-sm px-3 py-1 rounded-full backdrop-blur z-20">
-                        1 / {{ count($photos) }}
-                    </div>
+                    <!-- Slides - Fade only for smooth wrap-around -->
+                    <template x-for="(photo, index) in photos" :key="index">
+                        <img :src="'{{ asset('storage') }}/' + photo" :alt="'Property image ' + (index + 1)" loading="lazy" class="absolute w-full h-full object-cover transition-opacity duration-500 ease-out cursor-zoom-in" :class="currentSlide === index ? 'opacity-100 z-10' : 'opacity-0 z-0'" @click="openFullscreen(index)">
+                    </template>
 
-                    <!-- Nav buttons -->
-                    <button id="prev" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-20" aria-label="Previous image">
-                        ❮
+                    <!-- Counter -->
+                    <div class="absolute top-3 right-3 bg-black/50 text-white text-xs sm:text-sm px-3 py-1 rounded-full backdrop-blur z-20" x-text="(currentSlide + 1) + ' / ' + photos.length"></div>
+
+                    <!-- Nav Buttons -->
+                    <button @click="prev" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 flex items-center justify-center rounded-full transition-all z-30" aria-label="Previous">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                     </button>
-                    <button id="next" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-20" aria-label="Next image">
-                        ❯
+                    <button @click="next" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 flex items-center justify-center rounded-full transition-all z-30" aria-label="Next">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </button>
 
                     <!-- Indicators -->
-                    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                        @foreach ($photos as $index => $photo)
-                        <button class="indicator w-3 h-3 rounded-full transition-all {{ $index === 0 ? 'bg-white w-6' : 'bg-gray-400' }}" data-index="{{ $index }}" aria-label="Go to image {{ $index + 1 }}">
-                        </button>
-                        @endforeach
-                    </div>
-                </div>
-
-                <!-- Fullscreen Image Viewer -->
-                <div id="fullscreen-viewer" class="fullscreen-viewer">
-                    <div class="viewer-header">
-                        <div class="viewer-title">Gallery</div>
-                        <button class="viewer-close-btn" onclick="closeFullscreenViewer()" aria-label="Close">
-                            &times;
-                        </button>
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                        <template x-for="(photo, index) in photos" :key="index">
+                            <button @click="goTo(index)" class="h-2 rounded-full transition-all" :class="currentSlide === index ? 'bg-white w-6' : 'bg-white/50 w-2 hover:bg-white/70'"></button>
+                        </template>
                     </div>
 
-                    <div class="main-image-container">
-                        <button class="nav-btn prev-btn" onclick="navigateInViewer(-1)" aria-label="Previous image">
-                            ❮
+                    <!-- Fullscreen Modal -->
+                    <div x-show="fullscreenOpen" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-[99999] bg-black/95 flex items-center justify-center" @click.self="closeFullscreen">
+
+                        <!-- Close Button -->
+                        <button @click="closeFullscreen" class="absolute top-4 right-4 text-white hover:text-gray-300 z-50 p-2" aria-label="Close">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
-                        <img id="fullscreen-image" class="main-image" src="" alt="Fullscreen property image">
-                        <button class="nav-btn next-btn" onclick="navigateInViewer(1)" aria-label="Next image">
-                            ❯
+
+                        <!-- Fullscreen Nav -->
+                        <button @click="prevFullscreen" class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/10 p-3 rounded-full transition z-50" aria-label="Previous">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                         </button>
-                        <div class="image-counter" id="image-counter">1 / {{ count($photos) }}</div>
+                        <button @click="nextFullscreen" class="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/10 p-3 rounded-full transition z-50" aria-label="Next">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+
+                        <!-- Fullscreen Image -->
+                        <img :src="'{{ asset('storage') }}/' + photos[fullscreenIndex]" class="max-h-[85vh] max-w-[90vw] object-contain rounded-lg shadow-2xl" @click.stop>
+
+                        <!-- Fullscreen Counter -->
+                        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white bg-black/50 px-4 py-2 rounded-full text-sm" x-text="(fullscreenIndex + 1) + ' / ' + photos.length"></div>
                     </div>
 
-                    <div class="thumbnail-container">
-                        <div class="thumbnail-scroll" id="thumbnail-scroll">
-                            @foreach ($photos as $index => $photo)
-                            <img src="{{ asset('storage/' . $photo) }}" class="thumbnail {{ $index === 0 ? 'active' : '' }}" data-index="{{ $index }}" onclick="goToImage({{ $index }})" alt="Thumbnail {{ $index + 1 }}">
-                            @endforeach
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Description (under carousel) -->
@@ -447,7 +463,7 @@
                     </h2>
 
                     <!-- Booking -->
-                    <div class="space-y-2" x-data="{}" @click="">
+                    <div class="space-y-2">
 
                         <!-- Réserver Button -->
                         <button onclick="window.dispatchEvent(new CustomEvent('open-reserve-modal'))" class="w-full">
@@ -915,11 +931,15 @@
         function showSlide(index) {
             slides.forEach((slide, idx) => {
                 slide.classList.add('opacity-0');
+                slide.classList.remove('pointer-events-auto');
+                slide.classList.add('pointer-events-none');
                 indicators[idx].classList.add('bg-gray-400');
                 indicators[idx].classList.remove('bg-white');
             });
 
             slides[index].classList.remove('opacity-0');
+            slides[index].classList.remove('pointer-events-none');
+            slides[index].classList.add('pointer-events-auto');
             indicators[index].classList.remove('bg-gray-400');
             indicators[index].classList.add('bg-white');
 
