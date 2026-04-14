@@ -308,26 +308,26 @@
                     </div>
 
                     <!-- Fullscreen Modal -->
-                    <div x-show="fullscreenOpen" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-[99999] bg-black/95 flex items-center justify-center" @click.self="closeFullscreen">
+                    <div x-show="fullscreenOpen" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen z-[99999] bg-black/95 flex flex-col items-center justify-center p-4" @click.self="closeFullscreen">
 
                         <!-- Close Button -->
-                        <button @click="closeFullscreen" class="absolute top-4 right-4 text-white hover:text-gray-300 z-50 p-2" aria-label="Close">
+                        <button @click="closeFullscreen" class="fixed top-4 right-4 text-white hover:text-gray-300 z-[100000] p-2 bg-black/50 rounded-full" aria-label="Close">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>
 
                         <!-- Fullscreen Nav -->
-                        <button @click="prevFullscreen" class="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/10 p-3 rounded-full transition z-50" aria-label="Previous">
+                        <button @click="prevFullscreen" class="fixed left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 p-3 rounded-full transition z-[100000] bg-black/30" aria-label="Previous">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                         </button>
-                        <button @click="nextFullscreen" class="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/10 p-3 rounded-full transition z-50" aria-label="Next">
+                        <button @click="nextFullscreen" class="fixed right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 p-3 rounded-full transition z-[100000] bg-black/30" aria-label="Next">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </button>
 
                         <!-- Fullscreen Image -->
-                        <img :src="'{{ asset('storage') }}/' + photos[fullscreenIndex]" class="max-h-[85vh] max-w-[90vw] object-contain rounded-lg shadow-2xl" @click.stop>
+                        <img :src="'{{ asset('storage') }}/' + photos[fullscreenIndex]" class="max-h-[80vh] max-w-[90vw] object-contain rounded-lg shadow-2xl" @click.stop>
 
                         <!-- Fullscreen Counter -->
-                        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white bg-black/50 px-4 py-2 rounded-full text-sm" x-text="(fullscreenIndex + 1) + ' / ' + photos.length"></div>
+                        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 text-white bg-black/50 px-4 py-2 rounded-full text-sm z-[100000]" x-text="(fullscreenIndex + 1) + ' / ' + photos.length"></div>
                     </div>
 
                 </div>
