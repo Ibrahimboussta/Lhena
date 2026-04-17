@@ -9,7 +9,7 @@
 
     <div class="flex justify-between pt-6 w-full">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
-            @foreach ($properties->filter(fn($p) => str_contains($p->listing_type, 'À-louer'))->sortByDesc('created_at')->take(9) as $property)
+            @foreach ($properties->filter(fn($p) => str_contains($p->listing_type, 'À-louer'))->take(9) as $property)
             <a href="{{ route('proprites.details', $property->slug) }}" class="w-full group">
                 <div class="w-full rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
 
