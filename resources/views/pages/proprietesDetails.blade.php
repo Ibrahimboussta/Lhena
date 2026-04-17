@@ -478,7 +478,7 @@
                     <div class="space-y-2">
 
                         <!-- Appeler l'agent Button -->
-                        <button onclick="openAgentModal()" class="inline-flex items-center justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
+                        <button onclick="openAgentModal()" class="inline-flex items-center justify-center w-full border-2 border-emerald-600 text-emerald-600 px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-50 transition-all duration-200">
                             <span>📞</span>
                             <span class="ml-2">Appeler l'agent</span>
                         </button>
