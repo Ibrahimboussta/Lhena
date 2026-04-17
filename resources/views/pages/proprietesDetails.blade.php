@@ -294,10 +294,14 @@
 
                     <!-- Nav Buttons -->
                     <button @click="prev" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 flex items-center justify-center rounded-full transition-all z-30" aria-label="Previous">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
                     </button>
                     <button @click="next" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-10 h-10 flex items-center justify-center rounded-full transition-all z-30" aria-label="Next">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
                     </button>
 
                     <!-- Indicators -->
@@ -312,15 +316,21 @@
 
                         <!-- Close Button -->
                         <button @click="closeFullscreen" class="absolute top-4 right-4 text-white hover:text-gray-300 z-[100001] p-2 bg-black/60 rounded-full border border-white/20" aria-label="Close">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
                         </button>
 
                         <!-- Fullscreen Nav -->
                         <button @click="prevFullscreen" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 p-2 md:p-3 rounded-full transition z-[100001] bg-black/50 border border-white/20" aria-label="Previous">
-                            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
                         </button>
                         <button @click="nextFullscreen" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white hover:bg-white/20 p-2 md:p-3 rounded-full transition z-[100001] bg-black/50 border border-white/20" aria-label="Next">
-                            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
                         </button>
 
                         <!-- Fullscreen Image Container -->
@@ -467,15 +477,8 @@
                     <!-- Booking -->
                     <div class="space-y-2">
 
-                        <!-- Réserver Button -->
-                        <button onclick="window.dispatchEvent(new CustomEvent('open-reserve-modal'))" class="w-full">
-                            <span class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
-                                Réserver
-                            </span>
-                        </button>
-
                         <!-- Appeler l'agent Button -->
-                        <button onclick="window.dispatchEvent(new CustomEvent('open-agent-modal'))" class="inline-flex items-center justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
+                        <button onclick="openAgentModal()" class="inline-flex items-center justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
                             <span>📞</span>
                             <span class="ml-2">Appeler l'agent</span>
                         </button>
@@ -578,7 +581,7 @@
             </div>
             @endguest
 
-            <!-- (Old guest reserve modal removed — now using Alpine modal near booking buttons) -->
+            <!-- (Old guest reserve modal removed) -->
 
             {{-- ✅ Comments Section --}}
             <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 max-h-96 overflow-y-auto space-y-4">
@@ -736,47 +739,52 @@
 
 
 
+
     {{-- ✅ Alpine.js for star rating --}}
     <script src="//unpkg.com/alpinejs" defer></script>
 
 
-    <!-- Global Modals -->
-    <div x-data="{ showAgentModal: false, showReserveModal: false }" x-init="$watch('showAgentModal', value => document.body.classList.toggle('overflow-hidden', value)); $watch('showReserveModal', value => document.body.classList.toggle('overflow-hidden', value))" @open-reserve-modal.window="showReserveModal = true" @open-agent-modal.window="showAgentModal = true">
 
-        <!-- RESERVE MODAL -->
-        <div x-show="showReserveModal" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm" style="z-index:100000" @click.self="showReserveModal = false">
-            <div class="bg-white p-6 rounded-xl max-w-md w-full shadow-2xl">
-                <h2 class="text-lg font-bold mb-4">Réserver cette propriété</h2>
-                <p class="mb-4">📞 {{ $property->contact_phone }}</p>
 
-                <div class="flex justify-end gap-2">
-                    <a href="tel:{{ $property->contact_phone }}" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
-                        Appeler
+    <!-- AGENT MODAL (Vanilla JS) -->
+    <div id="agentModal" class="fixed inset-0 z-[100000] hidden" aria-modal="true" role="dialog">
+        <!-- Backdrop -->
+        <div id="agentModalBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+
+        <!-- Modal Content -->
+        <div class="relative flex items-center justify-center min-h-screen p-4">
+            <div id="agentModalContent" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-5 transform scale-95 opacity-0 transition-all duration-300">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">Contacter l'agent</h2>
+                    <p class="text-sm text-gray-500 mt-1">Disponible 7j/7 de 9h à 19h</p>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="bg-gray-50 rounded-xl p-4 mb-4 text-center">
+                    <p class="text-xs text-gray-500 mb-1">Numéro de téléphone</p>
+                    <p class="text-2xl font-bold text-emerald-600 tracking-wide">0634262436</p>
+                </div>
+
+                <!-- Buttons -->
+                <div class="space-y-2">
+                    <a href="tel:0634262436" class="flex items-center justify-center w-full bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-emerald-700 transition-colors text-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                        Appeler maintenant
                     </a>
-                    <button @click="showReserveModal = false" class="px-4 py-2 border rounded-lg hover:bg-gray-100 transition">
+                    <button onclick="closeAgentModal()" class="flex items-center justify-center w-full border border-gray-300 text-gray-700 px-4 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition-colors text-sm">
                         Fermer
                     </button>
                 </div>
             </div>
         </div>
-
-        <!-- AGENT MODAL -->
-        <div x-show="showAgentModal" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm" style="z-index:100000" @click.self="showAgentModal = false">
-            <div class="bg-white p-6 rounded-xl max-w-md w-full shadow-2xl">
-                <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
-                <p class="mb-4">📞 0634262436</p>
-
-                <div class="flex justify-end gap-2">
-                    <a href="tel:0634262436" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition">
-                        Appeler
-                    </a>
-                    <button @click="showAgentModal = false" class="px-4 py-2 border rounded-lg hover:bg-gray-100 transition">
-                        Fermer
-                    </button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
 
@@ -824,8 +832,7 @@
         function updateFullscreenImage() {
             fullscreenImage.style.opacity = 0;
             setTimeout(() => {
-                fullscreenImage.src = '{{ asset('
-                storage / ') }}/' + photos[currentPhotoIndex];
+                fullscreenImage.src = "{{ asset('storage') }}/" + photos[currentPhotoIndex];
                 fullscreenImage.onload = () => {
                     fullscreenImage.style.opacity = 1;
                 };
@@ -856,7 +863,7 @@
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
-            if (!fullscreenViewer.classList.contains('active')) return;
+            if (!fullscreenViewer || !fullscreenViewer.classList.contains('active')) return;
 
             switch (e.key) {
                 case 'Escape':
@@ -875,14 +882,16 @@
         let touchStartX = 0;
         let touchEndX = 0;
 
-        fullscreenViewer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
+        if (fullscreenViewer) {
+            fullscreenViewer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
 
-        fullscreenViewer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
+            fullscreenViewer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+        }
 
         function handleSwipe() {
             const swipeThreshold = 50; // Minimum distance to trigger navigation
@@ -916,10 +925,6 @@
             const modal = document.getElementById('loginModal').__x.$data;
             modal.modalOpen = false;
         }
-
-        // Reserve modal is handled by Alpine.js within the booking section
-
-
 
         // ==========================
         // Carousel Handling
@@ -1016,6 +1021,56 @@
             if (e.key === 'ArrowRight') {
                 currentSlide = (currentSlide + 1) % slides.length;
                 showSlide(currentSlide);
+            }
+        });
+
+        // ==========================
+        // Agent Modal (Vanilla JS)
+        // ==========================
+        function openAgentModal() {
+            const modal = document.getElementById('agentModal');
+            const backdrop = document.getElementById('agentModalBackdrop');
+            const content = document.getElementById('agentModalContent');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                if (backdrop) backdrop.classList.remove('opacity-0');
+                if (content) {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }
+            }, 10);
+        }
+
+        function closeAgentModal() {
+            const modal = document.getElementById('agentModal');
+            const backdrop = document.getElementById('agentModalBackdrop');
+            const content = document.getElementById('agentModalContent');
+            if (!modal) return;
+            if (backdrop) backdrop.classList.add('opacity-0');
+            if (content) {
+                content.classList.remove('scale-100', 'opacity-100');
+                content.classList.add('scale-95', 'opacity-0');
+            }
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Close on outside click
+        document.getElementById('agentModal').addEventListener('click', function(e) {
+            if (e.target === this || e.target === document.getElementById('agentModalBackdrop')) {
+                closeAgentModal();
+            }
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('agentModal');
+            if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+                closeAgentModal();
             }
         });
 
