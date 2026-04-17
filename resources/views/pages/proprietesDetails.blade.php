@@ -475,10 +475,10 @@
                     </h2>
 
                     <!-- Booking -->
-                    <div class="space-y-2">
+                    <div class="space-y-2 bg-emerald-50 rounded-lg p-3">
 
                         <!-- Appeler l'agent Button -->
-                        <button onclick="openAgentModal()" class="inline-flex items-center justify-center w-full border-2 border-emerald-600 text-emerald-600 px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-50 transition-all duration-200">
+                        <button onclick="openAgentModal()" class="inline-flex items-center justify-center w-full border-2 border-emerald-600 text-emerald-600 px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-100 transition-all duration-200">
                             <span>📞</span>
                             <span class="ml-2">Appeler l'agent</span>
                         </button>
