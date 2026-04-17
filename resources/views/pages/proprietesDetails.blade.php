@@ -747,12 +747,12 @@
 
 
     <!-- AGENT MODAL (Vanilla JS) -->
-    <div id="agentModal" class="fixed inset-0 z-[100000] hidden" aria-modal="true" role="dialog">
+    <div id="agentModal" class="fixed inset-0 z-[999999] hidden" aria-modal="true" role="dialog">
         <!-- Backdrop -->
-        <div id="agentModalBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+        <div id="agentModalBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0 z-0"></div>
 
         <!-- Modal Content -->
-        <div class="relative flex items-center justify-center min-h-screen p-4">
+        <div class="relative flex items-center justify-center min-h-screen p-4 z-10">
             <div id="agentModalContent" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-5 transform scale-95 opacity-0 transition-all duration-300">
                 <!-- Header -->
                 <div class="text-center mb-4">
