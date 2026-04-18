@@ -747,22 +747,42 @@
 
 
     <!-- AGENT MODAL (Vanilla JS) -->
-    <div id="agentModal" class="fixed inset-0 z-[999999] hidden flex items-center justify-center" aria-modal="true" role="dialog">
+    <div id="agentModal" class="fixed inset-0 z-[999999] hidden" aria-modal="true" role="dialog">
         <!-- Backdrop -->
-        <div id="agentModalBackdrop" class="absolute inset-0 bg-black/50"></div>
+        <div id="agentModalBackdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 opacity-0 z-0"></div>
 
         <!-- Modal Content -->
-        <div id="agentModalContent" class="relative bg-white rounded-lg shadow-lg w-full max-w-xs p-6 text-center">
-            <h2 class="text-lg font-bold text-gray-900 mb-4">Contacter l'agent</h2>
-            <p class="text-2xl font-bold text-emerald-600 mb-4">0634262436</p>
+        <div class="relative flex items-center justify-center min-h-screen p-4 z-10">
+            <div id="agentModalContent" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-5 transform scale-95 opacity-0 transition-all duration-300">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="text-lg font-bold text-gray-900">Contacter l'agent</h2>
+                    <p class="text-sm text-gray-500 mt-1">Disponible 7j/7 de 9h à 19h</p>
+                </div>
 
-            <div class="space-y-2">
-                <a href="tel:0634262436" class="block w-full bg-emerald-600 text-white py-2 rounded-lg hover:bg-emerald-700 transition">
-                    Appeler
-                </a>
-                <button onclick="closeAgentModal()" class="w-full border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition">
-                    Fermer
-                </button>
+                <!-- Phone Number -->
+                <div class="bg-gray-50 rounded-xl p-4 mb-4 text-center">
+                    <p class="text-xs text-gray-500 mb-1">Numéro de téléphone</p>
+                    <p class="text-2xl font-bold text-emerald-600 tracking-wide">0634262436</p>
+                </div>
+
+                <!-- Buttons -->
+                <div class="space-y-2">
+                    <a href="tel:0634262436" class="flex items-center justify-center w-full bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-emerald-700 transition-colors text-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                        Appeler maintenant
+                    </a>
+                    <button onclick="closeAgentModal()" class="flex items-center justify-center w-full border border-gray-300 text-gray-700 px-4 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition-colors text-sm">
+                        Fermer
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1009,25 +1029,47 @@
         // ==========================
         function openAgentModal() {
             const modal = document.getElementById('agentModal');
-            if (modal) modal.classList.remove('hidden');
+            const backdrop = document.getElementById('agentModalBackdrop');
+            const content = document.getElementById('agentModalContent');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                if (backdrop) backdrop.classList.remove('opacity-0');
+                if (content) {
+                    content.classList.remove('scale-95', 'opacity-0');
+                    content.classList.add('scale-100', 'opacity-100');
+                }
+            }, 10);
         }
 
         function closeAgentModal() {
             const modal = document.getElementById('agentModal');
-            if (modal) modal.classList.add('hidden');
+            const backdrop = document.getElementById('agentModalBackdrop');
+            const content = document.getElementById('agentModalContent');
+            if (!modal) return;
+            if (backdrop) backdrop.classList.add('opacity-0');
+            if (content) {
+                content.classList.remove('scale-100', 'opacity-100');
+                content.classList.add('scale-95', 'opacity-0');
+            }
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
         }
 
-        // Close on backdrop click
-        document.addEventListener('click', function(e) {
-            const modal = document.getElementById('agentModal');
-            if (e.target.id === 'agentModalBackdrop') {
+        // Close on outside click
+        document.getElementById('agentModal').addEventListener('click', function(e) {
+            if (e.target === this || e.target === document.getElementById('agentModalBackdrop')) {
                 closeAgentModal();
             }
         });
 
         // Close on ESC key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
+            const modal = document.getElementById('agentModal');
+            if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
                 closeAgentModal();
             }
         });
