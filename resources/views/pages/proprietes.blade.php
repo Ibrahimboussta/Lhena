@@ -1,4 +1,5 @@
 @extends('layouts.index')
+@section('title', 'Lhena.ma - Propriétés')
 @section('content')
 <section>
     <div class="px-6 sm:px-16 pt-24 pb-10 flex flex-col md:flex-row gap-6">

@@ -1,4 +1,5 @@
 <x-app-layout>
+@section('title', 'Lhena.ma - Admin Users')
     <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
             <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">

@@ -1,4 +1,5 @@
 <x-guest-layout>
+@section('title', 'Lhena.ma - Forgot Password')
     <div class="max-w-md mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 space-y-6">
         
         <!-- Title -->

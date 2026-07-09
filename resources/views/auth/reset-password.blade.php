@@ -1,4 +1,5 @@
 <x-guest-layout>
+@section('title', 'Lhena.ma - Reset Password')
     <form method="POST" action="{{ route('password.store') }}" class="space-y-6 max-w-md mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
         @csrf
 

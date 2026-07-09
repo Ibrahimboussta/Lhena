@@ -1,4 +1,5 @@
 @extends('layouts.index')
+@section('title', 'Lhena.ma - Contact')
 @section('content')
     <section class="px-6 sm:px-16 py-20">
         <h1 class="text-4xl font-bold pt-8">Contactez-nous</h1>

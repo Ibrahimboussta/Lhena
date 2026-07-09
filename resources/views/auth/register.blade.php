@@ -1,4 +1,5 @@
 <x-guest-layout>
+    @section('title', 'Lhena.ma - Register')
     <!-- Simple Terms Modal -->
     <div id="termsModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white dark:bg-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col">
@@ -16,45 +17,74 @@
             <div class="p-6 overflow-y-auto flex-1">
                 <div class="space-y-6 text-sm text-gray-600 dark:text-gray-300">
                     <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">1. Acceptation des conditions générales</h4>
-                        <p class="mb-2">En créant un compte sur notre plateforme, vous reconnaissez avoir pris connaissance et accepté sans réserve l'ensemble des présentes conditions générales d'utilisation.</p>
-                        <p>Ces conditions s'appliquent à tous les utilisateurs, qu'ils soient propriétaires, locataires ou simples visiteurs de la plateforme.</p>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">1. Acceptation des conditions</h4>
+                        <p class="mb-2">En créant un compte sur LHENA.ma, vous acceptez les présentes Conditions d'utilisation ainsi que notre Politique de confidentialité.</p>
+                        <p>L'utilisation de la plateforme est réservée aux personnes âgées de 18 ans ou plus.</p>
                     </div>
 
                     <div>
                         <h4 class="font-medium text-gray-900 dark:text-white mb-2">2. Compte utilisateur</h4>
+                        <p class="mb-2">En créant un compte, vous vous engagez à :</p>
                         <ul class="list-disc pl-5 space-y-1 mb-2">
-                            <li>Vous devez être âgé d'au moins 18 ans pour créer un compte</li>
-                            <li>Vous êtes responsable de la confidentialité de vos identifiants de connexion</li>
-                            <li>Vous vous engagez à fournir des informations exactes et à jour</li>
-                            <li>Toute activité sur votre compte est de votre responsabilité</li>
+                            <li>Fournir des informations exactes et à jour.</li>
+                            <li>Protéger vos identifiants de connexion.</li>
+                            <li>Utiliser la plateforme de manière responsable.</li>
+                            <li>Ne pas créer de faux comptes ou fournir de fausses informations.</li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">3. Publication de biens immobiliers</h4>
-                        <p class="mb-2">En tant que propriétaire ou gestionnaire de biens, vous vous engagez à :</p>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">3. Publication des biens</h4>
+                        <p class="mb-2">LHENA.ma est une plateforme spécialisée dans la mise en avant d'appartements, studios et hébergements premium.</p>
+                        <p class="mb-2">En publiant un bien, vous confirmez que :</p>
                         <ul class="list-disc pl-5 space-y-1 mb-2">
-                            <li>Fournir des informations complètes et exactes sur les biens proposés</li>
-                            <li>Mettre à jour régulièrement la disponibilité des logements</li>
-                            <li>Respecter les lois et réglementations en vigueur</li>
-                            <li>Ne pas publier de contenu trompeur ou inexact</li>
+                            <li>Vous êtes autorisé à publier ce bien.</li>
+                            <li>Les informations, photos et descriptions sont exactes.</li>
+                            <li>Le logement respecte les normes de sécurité, de qualité et de conformité.</li>
+                            <li>Vous maintenez les disponibilités et les informations à jour.</li>
+                        </ul>
+                        <p class="mb-2 font-medium text-gray-900 dark:text-white">Important :</p>
+                        <p class="mb-2">La soumission d'une annonce ne signifie pas sa publication immédiate.</p>
+                        <p class="mb-2">Chaque annonce est vérifiée manuellement par l'équipe de LHENA.ma afin de garantir la qualité, la fiabilité et le respect des standards de la plateforme.</p>
+                        <p class="mb-2">LHENA.ma se réserve le droit :</p>
+                        <ul class="list-disc pl-5 space-y-1 mb-2">
+                            <li>D'approuver ou de refuser une annonce.</li>
+                            <li>De demander des informations ou des photos complémentaires.</li>
+                            <li>De modifier certains éléments de présentation afin d'assurer une expérience utilisateur cohérente.</li>
+                            <li>De supprimer toute annonce ne respectant pas les standards de qualité de la plateforme.</li>
+                        </ul>
+                        <p>Notre objectif est de proposer uniquement des hébergements offrant une expérience premium à nos voyageurs.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">4. Réservations</h4>
+                        <p class="mb-2">Les demandes de réservation sont traitées selon la disponibilité du logement.</p>
+                        <p>La confirmation d'une réservation reste soumise à la validation du propriétaire ou du gestionnaire concerné.</p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">5. Utilisation de la plateforme</h4>
+                        <p class="mb-2">Il est interdit de :</p>
+                        <ul class="list-disc pl-5 space-y-1 mb-2">
+                            <li>Publier des informations fausses ou trompeuses.</li>
+                            <li>Utiliser la plateforme à des fins frauduleuses.</li>
+                            <li>Diffuser un contenu illégal, offensant ou portant atteinte aux droits d'autrui.</li>
+                            <li>Contourner les services proposés par LHENA.ma.</li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">4. Réservations et paiements</h4>
-                        <p class="mb-2">Les réservations sont soumises aux conditions suivantes :</p>
-                        <ul class="list-disc pl-5 space-y-1 mb-2">
-                            <li>Le paiement est sécurisé via notre plateforme</li>
-                            <li>Les conditions d'annulation sont définies par chaque propriétaire</li>
-                            <li>Les frais de service sont clairement indiqués avant la réservation</li>
-                        </ul>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">6. Données personnelles</h4>
+                        <p>Vos données personnelles sont traitées de manière confidentielle et sécurisée conformément à notre Politique de confidentialité et à la réglementation en vigueur.</p>
                     </div>
 
                     <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">5. Données personnelles</h4>
-                        <p>Nous nous engageons à protéger vos données personnelles conformément au RGPD. En utilisant nos services, vous acceptez notre politique de confidentialité concernant le traitement de vos données.</p>
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">7. Modification des conditions</h4>
+                        <p>LHENA.ma se réserve le droit de modifier les présentes Conditions d'utilisation à tout moment. Les utilisateurs seront informés des mises à jour importantes.</p>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <p class="text-emerald-600 dark:text-emerald-400 font-medium">⭐ Chez LHENA.ma, nous privilégions la qualité plutôt que la quantité. Notre équipe sélectionne avec soin chaque appartement et chaque studio afin de proposer une expérience fiable, sécurisée et premium à l'ensemble de nos utilisateurs.</p>
                     </div>
                 </div>
             </div>

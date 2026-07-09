@@ -1,4 +1,5 @@
 @extends('layouts.index')
+@section('title', 'Lhena.ma | ' . $property->title)
 @section('content')
 
     <style>
@@ -466,9 +467,8 @@
                         <!-- Booking -->
                         <div class="space-y-2" x-data="{
                             showAgentModal: false,
-                            showReserveModal: false,
                             updateBodyScroll() {
-                                if (this.showAgentModal || this.showReserveModal) {
+                                if (this.showAgentModal) {
                                     document.body.classList.add('overflow-hidden');
                                 } else {
                                     document.body.classList.remove('overflow-hidden');
@@ -476,33 +476,9 @@
                             }
                         }" x-init="updateBodyScroll()" x-effect="updateBodyScroll()">
 
-                            <!-- Réserver Button (opens modal showing publisher phone) -->
-                            <button @click="showReserveModal = true" class="w-full">
-                                <span
-                                    class="inline-flex items-center justify-center w-full bg-emerald-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-emerald-700 transition-all duration-200">
-                                    Réserver
-                                </span>
-                            </button>
-
-                            <!-- Reserve Modal -->
-                            <div x-show="showReserveModal"
-                                class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-[99999]"
-                                @click.self="showReserveModal = false" x-cloak>
-                                <div class="bg-white p-6 rounded-lg max-w-md w-full">
-                                    <h2 class="text-lg font-bold mb-4">Réserver cette propriété</h2>
-                                    <p class="mb-4">📞 Numéro de tel : {{ $property->contact_phone }}</p>
-                                    <div class="flex justify-end">
-                                        <a href="tel:{{ $property->contact_phone }}"
-                                            class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg">Appeler</a>
-                                        <button @click="showReserveModal = false"
-                                            class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- Appeler l'agent Button -->
                             <button @click="showAgentModal = true"
-                                class="inline-flex items-center justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-gray-100 transition">
+                                class="inline-flex items-center bg-emerald-600 text-white justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-emerald-700 transition">
                                 <span>📞</span>
                                 <span class="ml-2">Appeler l'agent</span>
                             </button>

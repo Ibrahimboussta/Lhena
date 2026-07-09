@@ -1,4 +1,5 @@
 @extends('layouts.index')
+@section('title', 'Lhena.ma - À propos')
 @section('content')
     <section class="px-6 sm:px-16 py-20">
         <div class="sm:flex items-center max-w-screen-xl">

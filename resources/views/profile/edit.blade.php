@@ -1,4 +1,5 @@
 <x-app-layout class="dark:bg-gray-800">
+@section('title', 'Lhena.ma - Profile')
     <x-slot name="header">
         <h2 class="font-semibold text-2xl text-gray-900 leading-tight dark:text-white">
             {{ __('Mon Profil') }}
