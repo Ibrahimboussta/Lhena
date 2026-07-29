@@ -58,13 +58,13 @@
   get filtered() {
     return this.types.filter(o => o.label.toLowerCase().includes(this.search.toLowerCase()));
   }
-}" class="relative">
-                            <div @click="open = !open" class="border border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm bg-white cursor-pointer flex items-center justify-between">
+}" @click.away="open = false" @keydown.escape.window="open = false" class="relative">
+                            <div @click.stop="open = !open" class="border border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm bg-white cursor-pointer flex items-center justify-between">
                                 <span x-text="types.find(o => o.value === selected)?.label || 'Type'"></span>
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
-                            <div x-show="open" @click.away="open = false" class="absolute  w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg">
+                            <div x-show="open" x-cloak class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg">
                                 <input type="text" x-model="search" placeholder="Rechercher un type..." class="w-full px-3 py-2 border-b border-gray-100 text-sm focus:outline-none">
                                 <ul class="max-h-48 overflow-y-auto">
                                     <template x-for="option in filtered" :key="option.value">
@@ -143,13 +143,13 @@
   get filtered() {
     return this.villes.filter(o => o.label.toLowerCase().includes(this.search.toLowerCase()));
   }
-}" class="relative">
-                            <div @click="open = !open" class="border border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm bg-white cursor-pointer flex items-center justify-between">
+}" @keydown.escape.window="open = false" class="relative">
+                            <div @click.stop="open = !open" class="border border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm bg-white cursor-pointer flex items-center justify-between">
                                 <span x-text="villes.find(o => o.value === selected)?.label || 'Ville'"></span>
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
-                            <div x-show="open" @click.away="open = false" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg">
+                            <div x-show="open" x-cloak @click.away="open = false" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg">
                                 <input type="text" x-model="search" placeholder="Rechercher une ville..." class="w-full px-3 py-2 border-b border-gray-100 text-sm focus:outline-none">
                                 <ul class="max-h-48 overflow-y-auto">
                                     <template x-for="option in filtered" :key="option.value">
@@ -203,13 +203,13 @@
   get filtered() {
     return this.quartiers.filter(o => o.label.toLowerCase().includes(this.search.toLowerCase()));
   }
-}" class="relative">
-                            <div @click="open = !open" class="border border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm bg-white cursor-pointer flex items-center justify-between">
+}" @keydown.escape.window="open = false" class="relative">
+                            <div @click.stop="open = !open" class="border border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm bg-white cursor-pointer flex items-center justify-between">
                                 <span x-text="quartiers.find(o => o.value === selected)?.label || 'Quartier'"></span>
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
-                            <div x-show="open" @click.away="open = false" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg">
+                            <div x-show="open" x-cloak @click.away="open = false" class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg">
                                 <input type="text" x-model="search" placeholder="Rechercher un quartier..." class="w-full px-3 py-2 border-b border-gray-100 text-sm focus:outline-none">
                                 <ul class="max-h-48 overflow-y-auto">
                                     <template x-for="option in filtered" :key="option.value">
