@@ -77,10 +77,10 @@
                         </div>
 
 
-                            <p class="w-fit inline-flex items-center gap-1 font-bold text-white bg-emerald-500 px-4 py-2 rounded-full shadow-md mt-3">
-                            <span>{{ number_format($property->price, 0, ',', ' ') }}</span>
-                            <span class="text-sm">DH</span>
-                        </p>
+                            <p class="inline-flex items-center gap-1 font-bold text-white bg-emerald-500 px-4 py-2 rounded-full shadow-md mt-3">
+                                    <span>{{ number_format($property->price, 0, ',', ' ') }}</span>
+                                    <span class="text-sm">DH</span>
+                                </p>
 
 
                     </div>

@@ -721,50 +721,48 @@
 
                                 <!-- Content -->
                                 <div class="flex-1 flex flex-col p-4">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <p class="text-sm font-medium text-gray-500">{{ $property->property_type }}
-                                            </p>
-                                            <h4
-                                                class="text-lg font-semibold text-gray-900 group-hover:text-emerald-600 transition">
-                                                {{ $property->title }}
-                                            </h4>
-                                            <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-4 h-4 opacity-70 text-gray-500" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                </svg>
-                                                <p class="truncate max-w-[180px]">{{ $property->address }}</p>
-                                            </div>
-                                        </div>
-                                        <p class="font-semibold text-lg text-emerald-600 whitespace-nowrap">
-                                            {{ number_format($property->price, 0, ',', ' ') }} DH
+
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-500 truncate">
+                                        {{ $property->property_type }}
+                                    </p>
+
+                                    <h4 class="text-base font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate mt-1">
+                                        {{ $property->title }}
+                                    </h4>
+
+                                    <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
+                                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
+                                        <p class="truncate max-w-[180px]">
+                                            {{ $property->address }}
                                         </p>
                                     </div>
-
-                                    <!-- Features -->
-                                    <div class="flex items-center mt-4 text-gray-600 text-sm gap-x-6">
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}"
-                                                alt="" loading="lazy">
-                                            <span>{{ $property->bedrooms }}</span>
-                                        </div>
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}"
-                                                alt="" loading="lazy">
-                                            <span>{{ $property->bathrooms }}</span>
-                                        </div>
-                                        <div class="flex items-center space-x-1">
-                                            <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}"
-                                                alt="" loading="lazy">
-                                            <span>{{ $property->surface }} m²</span>
-                                        </div>
-                                    </div>
                                 </div>
+
+                                <!-- Property Features -->
+                                <div class="flex items-center mt-3 text-gray-600 text-sm gap-x-6">
+                                    <div class="flex items-center space-x-1">
+                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
+                                        <span>{{ $property->bedrooms }}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-1">
+                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
+                                        <span>{{ $property->bathrooms }}</span>
+                                    </div>
+                                    @if(!is_null($property->surface))
+                                    <div class="flex items-center space-x-1">
+                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
+                                        <span>{{ $property->surface }} m²</span>
+                                    </div>
+                                    @endif
+                                </div>
+
+                                <p class="inline-flex items-center gap-1 font-bold text-white bg-emerald-500 px-4 py-2 rounded-full shadow-md mt-3">
+                                    <span>{{ number_format($property->price, 0, ',', ' ') }}</span>
+                                    <span class="text-sm">DH</span>
+                                </p>
+
+                            </div>  
                             </div>
                         </a>
                     @endforeach
