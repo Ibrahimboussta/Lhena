@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Lhena.ma - Votre plateforme immobilière de confiance')</title>
+    @yield('meta')
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     <link rel="icon" href="{{ asset('images/lhena-logo.png') }}">

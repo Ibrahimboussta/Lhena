@@ -1,5 +1,27 @@
 @extends('layouts.index')
 @section('title', 'Lhena.ma | ' . $property->title)
+@section('meta')
+    @php
+        $defaultImage = asset('images/lhena-logo.png');
+        $photos = json_decode($property->photos, true) ?: [];
+        $mainImage = isset($photos[0]) && $photos[0] ? asset('storage/' . $photos[0]) : $defaultImage;
+        $description = $property->description ? Str::limit(strip_tags($property->description), 160, '...') : 'Découvrez cette propriété sur Lhena.ma.';
+        $currentUrl = url()->current();
+    @endphp
+
+    <link rel="canonical" href="{{ $currentUrl }}">
+    <meta name="description" content="{{ $description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ $property->title }}">
+    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:image" content="{{ $mainImage }}">
+    <meta property="og:url" content="{{ $currentUrl }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $property->title }}">
+    <meta name="twitter:description" content="{{ $description }}">
+    <meta name="twitter:image" content="{{ $mainImage }}">
+@endsection
 @section('content')
 
     <style>
@@ -762,7 +784,7 @@
                                     <span class="text-sm">DH</span>
                                 </p>
 
-                            </div>  
+                            </div>
                             </div>
                         </a>
                     @endforeach
