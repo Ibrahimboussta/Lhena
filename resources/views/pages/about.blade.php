@@ -14,8 +14,8 @@
                     <h2 class="my-4 font-bold text-3xl sm:text-4xl">À propos de <span class="text-[#25D366]">nous</span></h2>
                     <p class="text-gray-700">
                         Nous sommes une agence immobilière dédiée à l’accompagnement personnalisé dans la recherche de biens
-                        immobiliers. Notre équipe passionnée et expérimentée vous aide à trouver la maison, l’appartement ou
-                        le terrain idéal pour vos projets.
+                        immobiliers. Notre équipe passionnée et expérimentée vous aide à trouver une maison, un duplex ou
+                        un appartement à louer.
                     </p>
                 </div>
             </div>
@@ -32,10 +32,8 @@
                                 d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <h2 class="text-xl font-semibold mb-3 text-gray-900 lg:px-14">Achat Immobilier</h2>
-                    <p class="px-4 text-gray-600">Trouvez facilement votre futur bien immobilier. Nos experts vous
-                        accompagnent tout au long du processus d'achat. Que vous soyez primo-accédant ou investisseur, nous
-                        avons des solutions adaptées à votre budget et vos besoins.</p>
+                    <h2 class="text-xl font-semibold mb-3 text-gray-900 lg:px-14">Location de logements</h2>
+                    <p class="px-4 text-gray-600">Trouvez une maison, un duplex ou un appartement à louer selon votre budget et vos besoins.</p>
                 </div>
 
                 <!-- Deuxième partie -->

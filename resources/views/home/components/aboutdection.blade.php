@@ -1,83 +1,46 @@
-<section class="px-6 sm:px-16 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <!-- Image Section -->
-        <div class="relative group">
-            <div class="absolute -inset-2.5 bg-gray-100 rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-            <div class="relative">
-                <img class="w-full rounded-2xl shadow-sm" src="{{ asset('images/house.jpg') }}" alt="House showcase"
-                    srcset="">
+<section class="bg-white px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
+    <div class="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div class="relative">
+            <div class="absolute -bottom-5 -left-5 h-2/3 w-2/3 rounded-[2rem] bg-[#f1f5f2]"></div>
+            <img class="relative h-[330px] w-full rounded-[2rem] object-cover shadow-xl sm:h-[440px]" src="{{ asset('images/about.png') }}" alt="Une maison contemporaine au Maroc" loading="lazy">
+            <div class="absolute bottom-5 right-5 rounded-2xl bg-white/95 px-5 py-4 shadow-lg backdrop-blur sm:bottom-8 sm:right-8">
+                <p class="text-xs font-medium uppercase tracking-wide text-[#90764b]">À vos côtés</p>
+                <p class="mt-1 text-sm font-semibold text-[#28332c]">Du premier clic aux clés</p>
             </div>
         </div>
 
-        <!-- Text Section -->
         <div>
-            <h2 class="text-3xl font-semibold text-gray-900 pt-0 sm:pt-6">Pourquoi devriez-vous travailler avec nous?</h2>
-            <p class="pt-6 text-gray-600 text-[15px]">Rejoignez-nous pour une aventure professionnelle unique et
-                enrichissante !</p>
+            <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#90764b]">L’expérience Lhena</p>
+            <h2 class="mt-3 text-3xl font-semibold leading-tight tracking-tight text-[#242923] sm:text-4xl">
+                Votre projet mérite une attention particulière.
+            </h2>
+            <p class="mt-5 text-sm leading-7 text-[#68736d] sm:text-base">
+                Acheter, louer ou mettre un bien en valeur : nous facilitons chaque étape avec une sélection claire et un accompagnement humain.
+            </p>
 
-            <!-- Features Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10">
-                <div class="space-y-6">
-                    <div class="flex items-center space-x-3 group">
-                        <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor"
-                                class="size-5 text-red-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg>
+            <div class="mt-8 grid gap-3 sm:grid-cols-2">
+                @foreach ([
+                    ['title' => 'Recherche simplifiée', 'text' => 'Des filtres pratiques pour trouver plus facilement.'],
+                    ['title' => 'Biens sélectionnés', 'text' => 'Des annonces détaillées pour choisir sereinement.'],
+                    ['title' => 'Conseil immobilier', 'text' => 'Une équipe à l’écoute de vos besoins.'],
+                    ['title' => 'Un parcours fluide', 'text' => 'Les informations utiles, réunies au même endroit.'],
+                ] as $feature)
+                    <div class="rounded-2xl bg-[#f1f5f2] p-4">
+                        <div class="flex items-center gap-2 text-sm font-semibold text-[#34443c]">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-[#f5dfb9] text-[#826943]" aria-hidden="true">✓</span>
+                            {{ $feature['title'] }}
                         </div>
-                        <p class="text-gray-700 font-medium">Propriétés de qualité</p>
+                        <p class="mt-2 text-xs leading-5 text-[#68736d]">{{ $feature['text'] }}</p>
                     </div>
-
-                    <div class="flex items-center space-x-3 group">
-                        <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor"
-                                class="size-5 text-red-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-700 font-medium">Transactions sécurisées</p>
-                    </div>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="flex items-center space-x-3 group">
-                        <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor"
-                                class="size-5 text-red-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-700 font-medium">Rendement garanti</p>
-                    </div>
-
-                    <div class="flex items-center space-x-3 group">
-                        <div class="bg-gray-900/5 rounded-lg p-2 group-hover:bg-gray-900/10 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="2" stroke="currentColor"
-                                class="size-5 text-red-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                            </svg>
-                        </div>
-                        <p class="text-gray-700 font-medium">Accompagnement sur mesure</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
-            <!-- See More Button -->
-            <div class="flex justify-start pt-8">
-                <a href="{{route('a-propos')}}" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200 group">
-                    Voir plus
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke-width="1.5" stroke="currentColor"
-                        class="size-5 ml-2 group-hover:translate-x-0.5 transition-transform">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                    </svg>
-                </a>
-            </div>
+            <a href="{{ route('a-propos') }}" class="mt-8 inline-flex items-center gap-2 rounded-full bg-[#0b3b31] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0b4b3e]">
+                En savoir plus
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+                </svg>
+            </a>
         </div>
     </div>
 </section>

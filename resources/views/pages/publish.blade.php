@@ -11,6 +11,7 @@
 
             @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-8">
+                <p class="mb-2 font-semibold">Votre annonce n’a pas été publiée. Corrigez les erreurs suivantes :</p>
                 <ul class="list-disc list-inside">
                     @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -19,7 +20,7 @@
             </div>
             @endif
 
-            <form action="{{ route('proprites.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+            <form id="property-publish-form" action="{{ route('proprites.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
 
                 <div class="flex justify-between mb-12">
@@ -31,18 +32,10 @@
                 <div class="form-section active space-y-6">
 
                     <div class="bg-gray-50 p-6 rounded-lg">
-                        <h3 class="text-lg font-semibold mb-4 text-gray-800">Type d'annonce et tarification (نوع الإعلان والتسعير)</h3>
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800">Location et tarification (الكراء والتسعير)</h3>
                         <div class="flex flex-col gap-4 pb-4">
-                            <div class="flex items-center gap-6">
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="checkbox" name="listing_type[]" value="À-vendre" {{ in_array('À-vendre', old('listing_type', [])) ? 'checked' : '' }}>
-                                    <span>À vendre (للبيع)</span>
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="checkbox" name="listing_type[]" value="À-louer" {{ in_array('À-louer', old('listing_type', [])) ? 'checked' : '' }}>
-                                    <span>À louer (للكراء)</span>
-                                </label>
-                            </div>
+                            <input type="hidden" name="listing_type[]" value="À-louer">
+                            <p class="text-sm text-gray-700">Toutes les annonces sont proposées à la location (جميع الإعلانات للكراء).</p>
 
                             <hr class="border-t border-gray-500">
 
@@ -69,22 +62,9 @@
                                 <select name="property_type" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                                     <option value="">Sélectionnez un type (اختر نوعاً)</option>
                                     <option value="appartement" {{ old('property_type') === 'appartement' ? 'selected' : '' }}>Appartement</option>
-                                    <option value="villa" {{ old('property_type') === 'villa' ? 'selected' : '' }}>Villa</option>
                                     <option value="maison" {{ old('property_type') === 'maison' ? 'selected' : '' }}>Maison</option>
-                                    <option value="immeuble" {{ old('property_type') === 'immeuble' ? 'selected' : '' }}>Immeuble</option>
-                                    <option value="studio" {{ old('property_type') === 'studio' ? 'selected' : '' }}>Studio</option>
                                     <option value="duplex" {{ old('property_type') === 'duplex' ? 'selected' : '' }}>Duplex</option>
-                                    <option value="triplex" {{ old('property_type') === 'triplex' ? 'selected' : '' }}>Triplex</option>
-                                    <option value="penthouse" {{ old('property_type') === 'penthouse' ? 'selected' : '' }}>Penthouse</option>
-                                    <option value="loft" {{ old('property_type') === 'loft' ? 'selected' : '' }}>Loft</option>
-                                    <option value="bureau" {{ old('property_type') === 'bureau' ? 'selected' : '' }}>Bureau</option>
-                                    <option value="commerce" {{ old('property_type') === 'commerce' ? 'selected' : '' }}>Commerce</option>
-                                    <option value="terrain" {{ old('property_type') === 'terrain' ? 'selected' : '' }}>Terrain</option>
-                                    <option value="garage" {{ old('property_type') === 'garage' ? 'selected' : '' }}>Garage/Parking</option>
-                                    <option value="entrepot" {{ old('property_type') === 'entrepot' ? 'selected' : '' }}>Entrepôt</option>
-                                    <option value="riad" {{ old('property_type') === 'riad' ? 'selected' : '' }}>Riad</option>
-                                    <option value="chambre" {{ old('property_type') === 'chambre' ? 'selected' : '' }}>Chambre</option>
-                                    <option value="colocation" {{ old('property_type') === 'colocation' ? 'selected' : '' }}>Colocation</option>
+                                    <option value="studio" {{ old('property_type') === 'studio' ? 'selected' : '' }}>Studio</option>
                                 </select>
                             </div>
                         </div>
@@ -253,7 +233,7 @@
 
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-gray-700">Photos de la propriété (صور العقار) *</label>
-                            <input type="file" name="photos[]" multiple accept="image/*" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                            <input type="file" name="photos[]" multiple accept="image/*" required class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
                             <p class="text-sm text-gray-500 mt-1">Sélectionnez plusieurs photos (اختر عدة صور) - max 10 images (10 صور كحد أقصى), 20MB chacune (20 ميغابايت للصورة)</p>
                         </div>
                     </div>
@@ -266,8 +246,8 @@
                     <button type="button" class="btn next bg-green-600 text-white hover:bg-green-700 px-6 py-3 rounded-lg font-medium transition-colors">
                         Suivant (التالي) →
                     </button>
-                    <button type="submit" class="btn submit hidden bg-green-600 text-white hover:bg-green-700 px-8 py-3 rounded-lg font-medium transition-colors">
-                        📤 Soumettre (نشر)
+                    <button type="submit" form="property-publish-form" class="btn submit hidden bg-green-600 text-white hover:bg-green-700 px-8 py-3 rounded-lg font-medium transition-colors">
+                        📤 Publier et voir mon tableau de bord (نشر)
                     </button>
                 </div>
 

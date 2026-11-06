@@ -12,10 +12,9 @@
                 <select id="property_type" name="property_type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                     <option value="">Sélectionnez un type</option>
                     <option value="appartement">Appartement</option>
-                    <option value="studio">Studio</option>
-                    <option value="villa">Villa</option>
                     <option value="maison">Maison</option>
-                    <option value="immeuble">Immeuble</option>
+                    <option value="duplex">Duplex</option>
+                    <option value="studio">Studio</option>
                 </select>
             </div>
 

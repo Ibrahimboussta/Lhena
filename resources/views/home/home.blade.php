@@ -1,6 +1,7 @@
 
 
         @include('home.components.herosection')
+        @include('home.components.trustsection')
         {{-- @include('home.components.typesection') --}}
         @include('home.components.cardsection')
         @include('home.components.pubsection')

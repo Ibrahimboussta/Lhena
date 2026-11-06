@@ -12,6 +12,7 @@ class HomeController extends Controller
     public function index()
 {
     $properties = Propritie::where('published', true)
+        ->residentialRental()
         ->latest()
         ->take(9)
         ->get();
@@ -43,4 +44,3 @@ class HomeController extends Controller
         return redirect()->back()->with('success', 'Property supprimé avec succès');
     }
 }
-

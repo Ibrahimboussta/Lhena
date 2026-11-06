@@ -26,11 +26,7 @@
                 <div class="space-y-4">
                     <!-- Part 1: Basic Filters -->
                     <div x-show="active === 1" x-transition class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                        <select name="listing_type" class="border-gray-200 rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
-                            <option value="">Statut</option>
-                            <option value="À-vendre">À vendre</option>
-                            <option value="À-louer">À louer</option>
-                        </select>
+                        <input type="hidden" name="listing_type" value="À-louer">
 
                         <div x-data="{
   open: false,
@@ -39,21 +35,9 @@
   types: [
     { value: '', label: 'Type' },
     { value: 'appartement', label: 'Appartement' },
-    { value: 'villa', label: 'Villa' },
     { value: 'maison', label: 'Maison' },
-    { value: 'studio', label: 'Studio' },
     { value: 'duplex', label: 'Duplex' },
-    { value: 'triplex', label: 'Triplex' },
-    { value: 'penthouse', label: 'Penthouse' },
-    { value: 'loft', label: 'Loft' },
-    { value: 'bureau', label: 'Bureau' },
-    { value: 'commerce', label: 'Commerce' },
-    { value: 'terrain', label: 'Terrain' },
-    { value: 'garage', label: 'Garage/Parking' },
-    { value: 'entrepot', label: 'Entrepôt' },
-    { value: 'riad', label: 'Riad' },
-    { value: 'chambre', label: 'Chambre' },
-    { value: 'colocation', label: 'Colocation' }
+    { value: 'studio', label: 'Studio' }
   ],
   get filtered() {
     return this.types.filter(o => o.label.toLowerCase().includes(this.search.toLowerCase()));
@@ -263,12 +247,6 @@
 
                                 <!-- Labels -->
                                 <div class="absolute top-3 left-3 flex space-x-2">
-                                    @if(strpos($property->listing_type, 'À-vendre') !== false)
-                                    <span class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                        À vendre
-                                    </span>
-                                    @endif
-
                                     @if(strpos($property->listing_type, 'À-louer') !== false)
                                     <span class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
                                         À louer

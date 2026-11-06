@@ -3,6 +3,11 @@
     <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
             <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
+                @if (session('success'))
+                    <div class="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800" role="status">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="flex justify-between items-center ">
                     <h2 class="text-2xl font-semibold mb-4 dark:text-white">Propriétés</h2>
                     <a href="{{ route('publish') }}"
@@ -188,20 +193,9 @@
                                 required>
                                 <option value="">Sélectionnez</option>
                                 <option value="appartement">Appartement</option>
-                                <option value="studio">Studio</option>
-                                <option value="villa">Villa</option>
                                 <option value="maison">Maison</option>
-                                <option value="immeuble">Immeuble</option>
-                                <option value="bureau">Bureau</option>
-                                <option value="local_commercial">Local commercial</option>
-                                <option value="terrain_urbain">Terrain urbain</option>
-                                <option value="terrain_industriel">Terrain industriel</option>
-                                <option value="ferme_terrain_agricole">Ferme/Terrain agricole</option>
-                                <option value="hotel_cafe_restaurant">Hôtel/Café-Restaurant</option>
-                                <option value="residence_balneaire">Résidence balnéaire</option>
-                                <option value="residence_etudiante">Résidence étudiante</option>
-                                <option value="location_vacances">Location vacances</option>
-                                <option value="autre">Autre</option>
+                                <option value="duplex">Duplex</option>
+                                <option value="studio">Studio</option>
                             </select>
                         </div>
 
@@ -299,18 +293,8 @@
                         <!-- Listing Type -->
                         <div class="md:col-span-2">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type d'annonce</label>
-                            <div class="flex space-x-4">
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="listing_type[]" value="À-vendre"
-                                        id="editListingVendre" class="mr-2">
-                                    À vendre
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="listing_type[]" value="À-louer"
-                                        id="editListingLouer" class="mr-2">
-                                    À louer
-                                </label>
-                            </div>
+                            <input type="hidden" name="listing_type[]" value="À-louer">
+                            <p class="text-sm text-gray-600">À louer</p>
                         </div>
 
                         <!-- Description -->
@@ -545,7 +529,7 @@
 
             // Populate form fields directly
             document.getElementById('editTitle').value = title || '';
-            document.getElementById('editPropertyType').value = propertyType || '';
+            document.getElementById('editPropertyType').value = propertyType ? propertyType.toLowerCase() : '';
             document.getElementById('editCity').value = city || '';
             document.getElementById('editNeighborhood').value = neighborhood || '';
             document.getElementById('editAddress').value = address || '';
@@ -566,11 +550,6 @@
                 const availableUntilDate = new Date(availableUntil);
                 document.getElementById('editAvailableUntil').value = availableUntilDate.toISOString().split('T')[0];
             }
-
-            // Handle listing type checkboxes
-            const listingTypes = listingType ? listingType.split(',') : [];
-            document.getElementById('editListingVendre').checked = listingTypes.includes('À-vendre');
-            document.getElementById('editListingLouer').checked = listingTypes.includes('À-louer');
 
             // Set form action and hidden input
             document.getElementById('editForm').action = `/dashboard/update/${hashedId}`;

@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ProprieteController extends Controller
 {
-
     public function index()
     {
-        // Show ONLY published properties on the website
+        // Show only published rental homes on the website.
         $properties = Propritie::where('published', true)
+            ->residentialRental()
             ->latest()
             ->paginate(12);
 
@@ -35,6 +35,7 @@ class ProprieteController extends Controller
         // Fetch exact property with its reviews + user
         $property = Propritie::with('reviews.user')
             ->where('published', true)
+            ->residentialRental()
             ->findOrFail($id);
 
         // Verify the slug matches to prevent URL manipulation
@@ -46,6 +47,7 @@ class ProprieteController extends Controller
 
         // ✅ Fetch latest properties but exclude the current one
         $properties = Propritie::where('published', true)
+            ->residentialRental()
             ->where('id', '!=', $id)
             ->latest()
             ->paginate(6);
@@ -70,7 +72,7 @@ class ProprieteController extends Controller
         // Validate the form fields
         $request->validate([
             'title' => 'required|string|max:255',
-            'property_type' => 'required|string|max:100',
+            'property_type' => 'required|in:appartement,maison,duplex,studio',
             'city' => 'required|string|max:100',
             'neighborhood' => 'required|string|max:100',
             'address' => 'required|string|max:255',
@@ -83,8 +85,8 @@ class ProprieteController extends Controller
             'description' => 'nullable|string',
             'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp,ico,bmp,tiff,webm|max:20480', // Max 20MB per image
             'photos' => 'required|array|max:10', // Max 10 images
-            'listing_type' => 'required|array',
-            'listing_type.*' => 'in:À-vendre,À-louer',
+            'listing_type' => 'required|array|size:1',
+            'listing_type.*' => 'required|in:À-louer',
             'available_from' => 'nullable|date|after_or_equal:today',
             'available_until' => 'nullable|date|after_or_equal:available_from',
         ]);
@@ -164,9 +166,10 @@ class ProprieteController extends Controller
         $propertyType = $request->input('property_type');
         $quartier = $request->input('quartier');
         $ville = $request->input('ville');
-        $listingType = $request->input('listing_type');
 
-        $properties = Propritie::query();
+        $properties = Propritie::query()
+            ->where('published', true)
+            ->residentialRental();
 
         // 🔍 Search by title/address
         if ($query) {
@@ -189,11 +192,6 @@ class ProprieteController extends Controller
         // 🏙 Ville
         if ($ville) {
             $properties->where('city', $ville);
-        }
-
-        // 📌 Listing type
-        if ($listingType) {
-            $properties->where('listing_type', 'like', "%$listingType%");
         }
 
         $minPrice = $request->input('min_price');

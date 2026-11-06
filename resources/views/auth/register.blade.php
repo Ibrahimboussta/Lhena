@@ -35,7 +35,7 @@
 
                     <div>
                         <h4 class="font-medium text-gray-900 dark:text-white mb-2">3. Publication des biens</h4>
-                        <p class="mb-2">LHENA.ma est une plateforme spécialisée dans la mise en avant d'appartements, studios et hébergements premium.</p>
+                        <p class="mb-2">LHENA.ma est une plateforme spécialisée dans la location de maisons, duplex et appartements.</p>
                         <p class="mb-2">En publiant un bien, vous confirmez que :</p>
                         <ul class="list-disc pl-5 space-y-1 mb-2">
                             <li>Vous êtes autorisé à publier ce bien.</li>
@@ -84,7 +84,7 @@
                     </div>
 
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <p class="text-emerald-600 dark:text-emerald-400 font-medium">⭐ Chez LHENA.ma, nous privilégions la qualité plutôt que la quantité. Notre équipe sélectionne avec soin chaque appartement et chaque studio afin de proposer une expérience fiable, sécurisée et premium à l'ensemble de nos utilisateurs.</p>
+                        <p class="text-emerald-600 dark:text-emerald-400 font-medium">⭐ Chez LHENA.ma, nous privilégions la qualité plutôt que la quantité. Notre équipe sélectionne avec soin chaque maison, duplex et appartement afin de proposer une expérience fiable et sécurisée à l'ensemble de nos utilisateurs.</p>
                     </div>
                 </div>
             </div>

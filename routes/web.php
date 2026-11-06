@@ -101,9 +101,9 @@ Route::patch('/admin/properties/{id}/toggle', [ProprieteController::class, 'togg
 Route::post('/proprtie/post', function (Request $request) {
     $request->validate([
         'title' => 'required|string|max:255',
-        'property_type' => 'required|string|max:100',
+        'property_type' => 'required|in:appartement,maison,duplex,studio',
         'city' => 'required|string|max:100',
-        'neighborhood' => 'required|string|max:100',
+        'neighborhood' => 'nullable|string|max:100',
         'address' => 'required|string|max:255',
         'surface' => 'nullable|numeric|min:0',
         'bedrooms' => 'required|integer|min:0',
@@ -114,8 +114,8 @@ Route::post('/proprtie/post', function (Request $request) {
         'description' => 'nullable|string',
         'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp,ico,bmp,tiff,webm|max:20480', // Max 20MB per image
         'photos' => 'required|array|max:10', // Max 10 images
-        'listing_type' => 'required|array',
-        'listing_type.*' => 'in:À-vendre,À-louer',
+        'listing_type' => 'required|array|size:1',
+        'listing_type.*' => 'required|in:À-louer',
         'available_from' => 'nullable|date|after_or_equal:today',
         'available_until' => 'nullable|date|after_or_equal:available_from',
     ]);
@@ -163,23 +163,8 @@ Route::post('/proprtie/post', function (Request $request) {
     $finalSlug = \Illuminate\Support\Str::slug($request->city . '-' . $request->title) . '-' . $property->hashed_id;
     $property->update(['slug' => $finalSlug]);
 
-    $target = '/home/lhena4ki/repositories/Lhena/storage/app/public';
-    $link = '/home/lhena4ki/public_html/storage';
-    $files = new \Illuminate\Filesystem\Filesystem;
-
-    // Fallback: Copy directory
-
-
-    if (!$files->isDirectory($link)) {
-        $files->makeDirectory($link, 0755, true);
-    }
-
-    $files->copyDirectory($target, $link);
-
-    // dd('');
-
     return redirect()->route('dashboard')->with('success', 'Property added successfully!');
-})->name('proprites.store');
+})->middleware('auth')->name('proprites.store');
 
 
 require __DIR__ . '/auth.php';

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HashId;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -12,6 +13,8 @@ class Propritie extends Model
 {
     use HashId;
     use HasFactory;
+
+    public const RENTAL_TYPES = ['appartement', 'maison', 'duplex', 'studio'];
 
     protected $appends = ['hashed_id'];
 
@@ -74,5 +77,11 @@ class Propritie extends Model
         return $this->hasMany(Review::class, 'proprity_id');
     }
 
+    public function scopeResidentialRental(Builder $query): Builder
+    {
+        return $query
+            ->whereRaw('LOWER(property_type) IN (?, ?, ?, ?)', self::RENTAL_TYPES)
+            ->where('listing_type', 'À-louer');
+    }
 
 }

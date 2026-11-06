@@ -1,32 +1,32 @@
-<section class="px-6 py-14 sm:px-16 ">
-    <div
-        class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50 py-6 sm:py-16 px-6 sm:px-18 w-full rounded-2xl border border-gray-200">
-        <div>
-            <h2 class="text-3xl font-semibold text-gray-900">Devenir agent immobilier</h2>
-            <p class="text-gray-600 pt-2 text-[15px] font-medium">Nous collaborons avec les meilleures entreprises </p>
-        </div>
-        <div class="flex justify-start pt-6">
-            @auth
-                <a href="{{ route('publish') }}" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200 group">
-                    publier une annonce
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5 ml-2 group-hover:translate-x-0.5 transition-transform">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+<section class="bg-[#f4f8f5] px-5 py-14 sm:px-8 lg:px-10 lg:py-20">
+    <div class="mx-auto grid max-w-7xl overflow-hidden rounded-[2rem] bg-[#073a30] shadow-xl shadow-[#073a30]/10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div class="px-7 py-10 sm:px-12 sm:py-14">
+            <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#e2c48f]">Votre projet immobilier</p>
+            <h2 class="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl">
+                Nous sommes là pour vous aider à trouver votre place.
+            </h2>
+            <p class="mt-5 max-w-lg text-sm leading-7 text-white/70 sm:text-base">
+                Vous avez une question ou souhaitez être accompagné dans votre recherche ? Échangeons sur vos envies et vos critères.
+            </p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href="{{ route('contact') }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-[#e2c48f] px-6 py-3.5 text-sm font-semibold text-[#26342d] transition hover:bg-[#efd6a9]">
+                    Contacter notre équipe
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
                     </svg>
                 </a>
-            @endauth
-            @guest
-                <a href="{{ route('register') }}" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-2.5 text-sm font-medium rounded-lg hover:bg-green-700 transition-all duration-200 group">
-                    publier une annonce
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5 ml-2 group-hover:translate-x-0.5 transition-transform">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                    </svg>
+                <a href="{{ route('proprites') }}" class="inline-flex items-center justify-center rounded-full border border-white/25 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10">
+                    Explorer les annonces
                 </a>
-            @endguest
+            </div>
         </div>
-
+        <div class="relative hidden min-h-[300px] overflow-hidden lg:block">
+            <img src="{{ asset('images/appart1.jpg') }}" alt="Intérieur lumineux d’un appartement" class="absolute inset-0 h-full w-full object-cover opacity-80" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#073a30] via-[#073a30]/30 to-transparent"></div>
+            <div class="absolute bottom-8 right-8 rounded-2xl border border-white/20 bg-[#073a30]/70 px-5 py-4 text-white backdrop-blur">
+                <p class="text-xs uppercase tracking-wide text-[#e2c48f]">Lhena</p>
+                <p class="mt-1 text-sm font-medium">Un nouveau regard sur l’immobilier.</p>
+            </div>
+        </div>
     </div>
 </section>

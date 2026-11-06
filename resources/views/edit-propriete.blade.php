@@ -39,7 +39,12 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Type de propriété *</label>
-                                <input type="text" name="property_type" value="{{ old('property_type', $property->property_type) }}" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition" required>
+                                <select name="property_type" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition" required>
+                                    <option value="appartement" {{ strtolower(old('property_type', $property->property_type)) === 'appartement' ? 'selected' : '' }}>Appartement</option>
+                                    <option value="maison" {{ strtolower(old('property_type', $property->property_type)) === 'maison' ? 'selected' : '' }}>Maison</option>
+                                    <option value="duplex" {{ strtolower(old('property_type', $property->property_type)) === 'duplex' ? 'selected' : '' }}>Duplex</option>
+                                    <option value="studio" {{ strtolower(old('property_type', $property->property_type)) === 'studio' ? 'selected' : '' }}>Studio</option>
+                                </select>
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-2">Ville *</label>

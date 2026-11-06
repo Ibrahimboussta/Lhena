@@ -234,318 +234,564 @@
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             z-index: 15;
             backdrop-filter: blur(5px);
             font-weight: 500;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
+        .property-page {
+            background: #f8f6f0;
+        }
+
+        .property-shell {
+            width: min(100%, 1200px);
+            margin: 0 auto;
+        }
+
+        .property-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 32px;
+            margin-bottom: 30px;
+        }
+
+        .property-heading h1 {
+            color: #173f36;
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            font-weight: 700;
+            letter-spacing: -0.045em;
+            line-height: 1.05;
+            text-transform: uppercase;
+        }
+
+        .property-rating {
+            color: #c5a15b;
+            letter-spacing: 0.08em;
+        }
+
+        .property-gallery {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+            grid-template-rows: repeat(2, minmax(140px, 1fr));
+            gap: 14px;
+            height: clamp(360px, 45vw, 540px);
+            margin-bottom: 58px;
+        }
+
+        .property-gallery__primary {
+            position: relative;
+            grid-row: 1 / span 2;
+            min-width: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f3f4f6;
+        }
+
+        .property-gallery__side {
+            display: grid;
+            grid-column: 2;
+            grid-row: 1 / span 2;
+            grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 14px;
+            min-width: 0;
+            min-height: 0;
+        }
+
+        .property-gallery__side--single > .property-gallery__tile {
+            grid-row: 1 / span 2;
+        }
+
+        .property-gallery__lower {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            min-height: 0;
+        }
+
+        .property-gallery__lower--single > .property-gallery__tile {
+            grid-column: 1 / -1;
+        }
+
+        .property-gallery--single {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .property-gallery--single .property-gallery__primary {
+            grid-column: 1 / -1;
+        }
+
+        .property-gallery__tile {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            min-height: 0;
+            overflow: hidden;
+            border: 0;
+            border-radius: 10px;
+            background: #f3f4f6;
+            padding: 0;
+            cursor: zoom-in;
+        }
+
+        .property-gallery__tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 350ms ease;
+        }
+
+        .property-gallery__tile:hover img {
+            transform: scale(1.035);
+        }
+
+        .property-gallery__primary .property-gallery__tile {
+            border-radius: 12px;
+        }
+
+        .property-gallery__more {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            background: rgba(0, 0, 0, 0.56);
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .property-gallery__empty {
+            grid-column: 1 / -1;
+            grid-row: 1 / span 2;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .property-detail-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(280px, 350px);
+            align-items: start;
+            gap: 36px;
+        }
+
+        .property-detail-section + .property-detail-section {
+            margin-top: 42px;
+            border-top: 1px solid #e8e1d4;
+            padding-top: 30px;
+        }
+
+        .property-detail-section h2 {
+            color: #173f36;
+        }
+
+        .property-spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px 28px;
+        }
+
+        .property-spec {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+
+        .property-spec img {
+            width: 18px;
+            height: 18px;
+            opacity: 0.72;
+        }
+
+        .property-booking-card {
+            position: sticky;
+            top: 88px;
+            border: 1px solid #e9e3d8;
+            border-radius: 20px;
+            background: #fff;
+            padding: 28px;
+            box-shadow: 0 14px 40px rgba(39, 49, 42, 0.08);
+        }
+
+        .property-booking-card__intro {
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .property-booking-card__intro h2 {
+            color: #173f36;
+            font-size: 1.1rem;
+            letter-spacing: 0.04em;
+        }
+
+        .property-booking-card__availability {
+            margin-top: 12px;
+            border: 1px solid #e9e3d8;
+            border-radius: 12px;
+            background: #f8f6f0;
+            padding: 14px 16px;
+            color: #173f36;
+            font-weight: 600;
+        }
+
+        @media (max-width: 767px) {
+            .property-heading {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .property-gallery {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 0.78fr);
+                grid-template-rows: repeat(2, minmax(100px, 1fr));
+                height: 360px;
+                gap: 8px;
+                margin-bottom: 38px;
+            }
+
+            .property-gallery__side,
+            .property-gallery__lower {
+                gap: 8px;
+            }
+
+            .property-detail-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 28px;
+            }
+
+            .property-booking-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .property-gallery {
+                grid-template-columns: minmax(0, 1fr);
+                grid-template-rows: 260px 130px;
+                height: auto;
+            }
+
+            .property-gallery--single {
+                grid-template-rows: 300px;
+            }
+
+            .property-gallery__primary {
+                grid-row: auto;
+            }
+
+            .property-gallery__side {
+                grid-column: auto;
+                grid-row: auto;
+                grid-template-rows: minmax(0, 1fr);
+            }
+
+            .property-gallery__side--single > .property-gallery__tile {
+                grid-row: 1;
+            }
+
+            .property-gallery__side:not(.property-gallery__side--single) > .property-gallery__tile {
+                display: none;
+            }
+
+            .property-gallery__lower {
+                grid-column: 1;
+            }
+
+            .property-spec-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
     </style>
 
 
-    <section class="px-3 sm:px-6 py-20">
-            <div class="flex flex-col items-center min-h-screen py-6 bg-gray-50 ">
+    <section class="property-page px-5 pb-12 pt-28 sm:px-8 sm:pt-32 lg:px-10 lg:pb-16">
+        <div class="property-shell">
+            @php
+                $avgRating = (int) round($property->reviews->avg('rating') ?? 0);
+                $reviewsCount = $property->reviews->count();
+                $photoCount = count($photos);
+            @endphp
 
-                <!-- Main Content -->
-                <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
+            <header class="property-heading">
+                <div class="min-w-0">
+                    <div class="property-rating mb-1 text-sm" aria-label="{{ $avgRating }} sur 5 étoiles">
+                        {{ str_repeat('★', $avgRating) }}<span class="text-gray-300">{{ str_repeat('☆', 5 - $avgRating) }}</span>
+                        <span class="ml-2 align-middle text-xs font-normal tracking-normal text-gray-500">({{ $reviewsCount }} avis)</span>
+                    </div>
+                    <h1>{{ $property->title }}</h1>
+                    <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank"
+                        rel="noopener noreferrer"
+                        class="mt-1 inline-flex items-center gap-1.5 text-sm text-gray-500 transition hover:text-[#0b3b31]">
+                        <img src="{{ asset('images/local.svg') }}" class="h-4 w-4 opacity-70" alt="" loading="lazy">
+                        <span>{{ $property->address }}</span>
+                    </a>
+                </div>
+                <div class="shrink-0 sm:text-right">
+                    <span class="inline-flex rounded-full border border-[#e5ddcd] bg-[#eee9df] px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#173f36]">
+                        {{ $property->listing_type == 'À-louer' ? 'Location exclusive' : 'Vente privée' }}
+                    </span>
+                    <p class="mt-3 text-xs font-medium uppercase tracking-[0.14em] text-gray-500">
+                        Disponibilité
+                    </p>
+                    <p class="mt-1 text-lg font-semibold text-[#173f36]">Sur demande privée</p>
+                </div>
+            </header>
 
-                    <!-- Left: Carousel + Description -->
-                    <div class="md:col-span-2 bg-white rounded-2xl shadow p-3 sm:p-4 space-y-4">
-
-                        <!-- Title & Tags -->
-                        <div class="flex justify-between items-start">
-                            <div class="space-y-1">
-                                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">{{ $property->title }}</h1>
-                                <p class="text-sm text-gray-500">{{ $property->created_at->diffForHumans() }}</p>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <span
-                                    class="px-3 py-1 text-xs font-semibold rounded-full
-                        {{ $property->listing_type == 'À-vendre' ? 'bg-emerald-100 text-emerald-700' : 'bg-yellow-100 text-yellow-700' }}">
-                                    {{ $property->listing_type }}
-                                </span>
-                            </div>
-                        </div>
-
-                    <!-- Rating -->
-                    @php
-                        $avgRating = (int) round($property->reviews->avg('rating') ?? 0);
-                        $reviewsCount = $property->reviews->count();
-                    @endphp
-                    <div class="flex items-center gap-2">
-                        <span class="text-yellow-400 text-lg">{{ str_repeat('★', $avgRating) }}<span
-                                class="text-gray-300">{{ str_repeat('☆', 5 - $avgRating) }}</span></span>
-                        <span class="text-sm text-gray-600">({{ $reviewsCount }} avis)</span>
+            <div class="property-gallery {{ $photoCount <= 1 ? 'property-gallery--single' : '' }}">
+                @if ($photoCount === 0)
+                    <div class="property-gallery__empty">Aucune photo disponible</div>
+                @else
+                    <div class="property-gallery__primary">
+                        <button type="button" class="property-gallery__tile"
+                            onclick="openFullscreenViewer(0)" aria-label="Ouvrir la photo 1 en plein écran">
+                            <img src="{{ asset('storage/' . $photos[0]) }}" alt="Photo principale de {{ $property->title }}"
+                                loading="eager">
+                        </button>
                     </div>
 
-                    <!-- Carousel -->
-                    <div id="carousel-container" class="relative w-full h-96 rounded-lg overflow-hidden shadow">
+                    @if ($photoCount > 1)
+                        <div class="property-gallery__side {{ $photoCount === 2 ? 'property-gallery__side--single' : '' }}">
+                            <button type="button" class="property-gallery__tile"
+                                onclick="openFullscreenViewer(1)" aria-label="Ouvrir la photo 2 en plein écran">
+                                <img src="{{ asset('storage/' . $photos[1]) }}" alt="Photo 2 de {{ $property->title }}"
+                                    loading="lazy">
+                            </button>
+                            @if ($photoCount > 2)
+                                <div class="property-gallery__lower {{ $photoCount === 3 ? 'property-gallery__lower--single' : '' }}">
+                                    <button type="button" class="property-gallery__tile"
+                                        onclick="openFullscreenViewer(2)" aria-label="Ouvrir la photo 3 en plein écran">
+                                        <img src="{{ asset('storage/' . $photos[2]) }}" alt="Photo 3 de {{ $property->title }}"
+                                            loading="lazy">
+                                    </button>
+                                    @if ($photoCount > 3)
+                                        <button type="button" class="property-gallery__tile"
+                                            onclick="openFullscreenViewer(3)" aria-label="Ouvrir la photo 4 et les autres en plein écran">
+                                            <img src="{{ asset('storage/' . $photos[3]) }}" alt="Photo 4 de {{ $property->title }}"
+                                                loading="lazy">
+                                            @if ($photoCount > 4)
+                                                <span class="property-gallery__more">+{{ $photoCount - 3 }}</span>
+                                            @endif
+                                        </button>
+                                    @else
+                                        <button type="button" class="property-gallery__tile"
+                                            onclick="openFullscreenViewer(2)" aria-label="Ouvrir la photo 3 en plein écran">
+                                            <img src="{{ asset('storage/' . $photos[2]) }}" alt="Photo 3 de {{ $property->title }}"
+                                                loading="lazy">
+                                        </button>
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                @endif
+            </div>
+
+            <div id="fullscreen-viewer" class="fullscreen-viewer">
+                <div class="viewer-header">
+                    <div class="viewer-title">Galerie photos</div>
+                    <button class="viewer-close-btn" onclick="closeFullscreenViewer()" aria-label="Fermer la galerie">
+                        &times;
+                    </button>
+                </div>
+
+                <div class="main-image-container">
+                    <button class="nav-btn prev-btn" onclick="navigateInViewer(-1)" aria-label="Photo précédente">
+                        ❮
+                    </button>
+                    <img id="fullscreen-image" class="main-image" src="" alt="Photo du bien en plein écran">
+                    <button class="nav-btn next-btn" onclick="navigateInViewer(1)" aria-label="Photo suivante">
+                        ❯
+                    </button>
+                    <div class="image-counter" id="image-counter">1 / {{ $photoCount }}</div>
+                </div>
+
+                <div class="thumbnail-container">
+                    <div class="thumbnail-scroll" id="thumbnail-scroll">
                         @foreach ($photos as $index => $photo)
-                            <img src="{{ asset('storage/' . $photo) }}" alt="Property image {{ $index + 1 }}"
-                                loading="lazy" data-index="{{ $index }}"
-                                class="absolute w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in
-                                    {{ $index !== 0 ? 'opacity-0' : '' }}"
-                                onclick="openFullscreenViewer({{ $index }})">
+                            <img src="{{ asset('storage/' . $photo) }}"
+                                class="thumbnail {{ $index === 0 ? 'active' : '' }}"
+                                data-index="{{ $index }}" onclick="goToImage({{ $index }})"
+                                alt="Miniature {{ $index + 1 }}">
                         @endforeach
-
-                        <div id="carousel-counter"
-                            class="absolute top-3 right-3 bg-black/50 text-white text-xs sm:text-sm px-3 py-1 rounded-full backdrop-blur z-20">
-                            1 / {{ count($photos) }}
-                        </div>
-
-                        <!-- Nav buttons -->
-                        <button id="prev"
-                            class="absolute left-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-20"
-                            aria-label="Previous image">
-                            ❮
-                        </button>
-                        <button id="next"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 bg-black bg-opacity-40 text-white w-10 h-10 flex items-center justify-center rounded-full hover:bg-opacity-60 transition-all z-20"
-                            aria-label="Next image">
-                            ❯
-                        </button>
-
-                        <!-- Indicators -->
-                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                            @foreach ($photos as $index => $photo)
-                                <button
-                                    class="indicator w-3 h-3 rounded-full transition-all {{ $index === 0 ? 'bg-white w-6' : 'bg-gray-400' }}"
-                                    data-index="{{ $index }}" aria-label="Go to image {{ $index + 1 }}">
-                                </button>
-                            @endforeach
-                        </div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Fullscreen Image Viewer -->
-                    <div id="fullscreen-viewer" class="fullscreen-viewer">
-                        <div class="viewer-header">
-                            <div class="viewer-title">Gallery</div>
-                            <button class="viewer-close-btn" onclick="closeFullscreenViewer()" aria-label="Close">
-                                &times;
-                            </button>
+            <div class="property-detail-grid">
+                <div class="min-w-0">
+                    <section class="property-detail-section">
+                        <h2 class="mb-3 text-xl font-semibold text-gray-900">Description</h2>
+                        <p class="text-base leading-8 text-gray-600">{!! nl2br(e($property->description)) !!}</p>
+                    </section>
+
+                    <section class="property-detail-section">
+                        <h2 class="mb-4 text-xl font-semibold text-gray-900">Caractéristiques</h2>
+                        <div class="property-spec-grid">
+                            <div class="property-spec">
+                                <img src="{{ asset('images/local.svg') }}" alt="" loading="lazy">
+                                <span>{{ ucfirst($property->property_type) }}</span>
+                            </div>
+                            <div class="property-spec">
+                                <img src="{{ asset('images/space.svg') }}" alt="" loading="lazy">
+                                <span>{{ $property->surface }} m²</span>
+                            </div>
+                            <div class="property-spec">
+                                <img src="{{ asset('images/beds.svg') }}" alt="" loading="lazy">
+                                <span>{{ $property->bedrooms }} Chambres</span>
+                            </div>
+                            <div class="property-spec">
+                                <img src="{{ asset('images/dosh.svg') }}" alt="" loading="lazy">
+                                <span>{{ $property->bathrooms }} Salles de bain</span>
+                            </div>
                         </div>
+                    </section>
 
-                        <div class="main-image-container">
-                            <button class="nav-btn prev-btn" onclick="navigateInViewer(-1)" aria-label="Previous image">
-                                ❮
-                            </button>
-                            <img id="fullscreen-image" class="main-image" src="" alt="Fullscreen property image">
-                            <button class="nav-btn next-btn" onclick="navigateInViewer(1)" aria-label="Next image">
-                                ❯
-                            </button>
-                            <div class="image-counter" id="image-counter">1 / {{ count($photos) }}</div>
-                        </div>
-
-                        <div class="thumbnail-container">
-                            <div class="thumbnail-scroll" id="thumbnail-scroll">
-                                @foreach ($photos as $index => $photo)
-                                    <img src="{{ asset('storage/' . $photo) }}"
-                                        class="thumbnail {{ $index === 0 ? 'active' : '' }}"
-                                        data-index="{{ $index }}" onclick="goToImage({{ $index }})"
-                                        alt="Thumbnail {{ $index + 1 }}">
+                    @if ($property->amenities)
+                        <section class="property-detail-section">
+                            <h2 class="mb-4 text-xl font-semibold text-gray-900">Équipements et services</h2>
+                            <div class="property-spec-grid">
+                                @foreach (json_decode($property->amenities) as $amenity)
+                                    <div class="property-spec">
+                                        <svg class="h-5 w-5 shrink-0 text-[#0b3b31]" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        @switch($amenity)
+                                            @case('wifi')
+                                                <span>WiFi</span>
+                                                @break
+                                            @case('parking')
+                                                <span>Parking</span>
+                                                @break
+                                            @case('elevator')
+                                                <span>Ascenseur</span>
+                                                @break
+                                            @case('security')
+                                                <span>Sécurité 24/7</span>
+                                                @break
+                                            @case('ac')
+                                                <span>Climatisation</span>
+                                                @break
+                                            @case('heating')
+                                                <span>Chauffage</span>
+                                                @break
+                                            @case('furnished')
+                                                <span>Meublé</span>
+                                                @break
+                                            @case('equipped_kitchen')
+                                                <span>Cuisine équipée</span>
+                                                @break
+                                            @case('balcony')
+                                                <span>Balcon</span>
+                                                @break
+                                            @case('terrace')
+                                                <span>Terrasse</span>
+                                                @break
+                                            @case('garden')
+                                                <span>Jardin</span>
+                                                @break
+                                            @case('pool')
+                                                <span>Piscine</span>
+                                                @break
+                                            @case('gym')
+                                                <span>Salle de sport</span>
+                                                @break
+                                            @case('concierge')
+                                                <span>Concierge</span>
+                                                @break
+                                            @case('storage')
+                                                <span>Cave/Storage</span>
+                                                @break
+                                            @case('panoramic_view')
+                                                <span>Vue panoramique</span>
+                                                @break
+                                            @default
+                                                <span>{{ ucfirst(str_replace('_', ' ', $amenity)) }}</span>
+                                        @endswitch
+                                    </div>
                                 @endforeach
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Description (under carousel) -->
-                    <div class="mt-4">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-2">Description du bien</h2>
-                        <p class="text-gray-600 leading-relaxed text-sm">{!! nl2br(e($property->description)) !!}</p>
-                    </div>
+                        </section>
+                    @endif
                 </div>
 
-                <!-- Right: Details + Price + Booking -->
-                <div class="md:col-span-1">
-                    <div class="sticky top-16 bg-white rounded-2xl shadow p-6 space-y-4">
-
-                        <!-- Address -->
-                        <div class="flex items-center gap-2">
-                            <img src="{{ asset('images/local.svg') }}" class="w-5 h-5 opacity-70" alt=""
-                                loading="lazy">
-                            <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank"
-                                class="text-gray-700 hover:text-emerald-600">
-                                {{ $property->address }}
-                            </a>
+                <aside class="property-booking-card">
+                    <div class="property-booking-card__intro">
+                        <h2 class="font-semibold uppercase">Réserver / demande de séjour</h2>
+                        <div class="property-booking-card__availability text-left">
+                            <span class="block text-xs font-normal text-gray-500">Tarif &amp; disponibilité</span>
+                            <span class="mt-1 block">Sur demande / devis personnalisé</span>
                         </div>
+                    </div>
+                    <div class="mb-5 flex items-start gap-2 text-sm text-gray-600">
+                        <img src="{{ asset('images/local.svg') }}" class="mt-0.5 h-4 w-4 shrink-0 opacity-70" alt=""
+                            loading="lazy">
+                        <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank"
+                            rel="noopener noreferrer" class="transition hover:text-[#0b3b31]">
+                            {{ $property->address }}
+                        </a>
+                    </div>
 
-                        <!-- Features & Amenities -->
-                        <div class="space-y-6">
-                            <!-- Basic Features -->
-                            <div class="flex flex-col gap-2 text-gray-600 text-sm">
-                                <div class="flex items-center gap-2">
-                                    <img src="{{ asset('images/beds.svg') }}" class="w-5 h-5 opacity-70" alt=""
-                                        loading="lazy">
-                                    {{ $property->bedrooms }} Chambres
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <img src="{{ asset('images/dosh.svg') }}" class="w-5 h-5 opacity-70" alt=""
-                                        loading="lazy">
-                                    {{ $property->bathrooms }} Salles de bain
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <img src="{{ asset('images/space.svg') }}" class="w-5 h-5 opacity-70" alt=""
-                                        loading="lazy">
-                                    {{ $property->surface }} m²
-                                </div>
-                            </div>
-
-                            <!-- Amenities -->
-                            @if ($property->amenities)
-                                <div class="border-t pt-4">
-                                    <h3 class="text-gray-900 font-semibold mb-3">Équipements et services</h3>
-                                    <div class="grid grid-cols-1 gap-2 text-sm">
-                                        @foreach (json_decode($property->amenities) as $amenity)
-                                            <div class="flex items-center gap-2 text-gray-600">
-                                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 13l4 4L19 7"></path>
-                                                </svg>
-                                                @switch($amenity)
-                                                    @case('wifi')
-                                                        <span>WiFi</span>
-                                                    @break
-
-                                                    @case('parking')
-                                                        <span>Parking</span>
-                                                    @break
-
-                                                    @case('elevator')
-                                                        <span>Ascenseur</span>
-                                                    @break
-
-                                                    @case('security')
-                                                        <span>Sécurité 24/7</span>
-                                                    @break
-
-                                                    @case('ac')
-                                                        <span>Climatisation</span>
-                                                    @break
-
-                                                    @case('heating')
-                                                        <span>Chauffage</span>
-                                                    @break
-
-                                                    @case('furnished')
-                                                        <span>Meublé</span>
-                                                    @break
-
-                                                    @case('equipped_kitchen')
-                                                        <span>Cuisine équipée</span>
-                                                    @break
-
-                                                    @case('balcony')
-                                                        <span>Balcon</span>
-                                                    @break
-
-                                                    @case('terrace')
-                                                        <span>Terrasse</span>
-                                                    @break
-
-                                                    @case('garden')
-                                                        <span>Jardin</span>
-                                                    @break
-
-                                                    @case('pool')
-                                                        <span>Piscine</span>
-                                                    @break
-
-                                                    @case('gym')
-                                                        <span>Salle de sport</span>
-                                                    @break
-
-                                                    @case('concierge')
-                                                        <span>Concierge</span>
-                                                    @break
-
-                                                    @case('storage')
-                                                        <span>Cave/Storage</span>
-                                                    @break
-
-                                                    @case('panoramic_view')
-                                                        <span>Vue panoramique</span>
-                                                    @break
-
-                                                    @default
-                                                        <span>{{ ucfirst(str_replace('_', ' ', $amenity)) }}</span>
-                                                @endswitch
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-
-                        <!-- Price -->
-                        <h2 class="text-2xl font-bold text-emerald-600">
-                            {{ $property->price }} MAD
-                            @if ($property->listing_type == 'À-louer')
-                                <span class="text-sm text-gray-500">/{{ $property->price_type }}</span>
-                            @endif
-                        </h2>
-
-                        <!-- Booking -->
-                        <div class="space-y-2" x-data="{
-                            showAgentModal: false,
-                            updateBodyScroll() {
-                                if (this.showAgentModal) {
-                                    document.body.classList.add('overflow-hidden');
-                                } else {
-                                    document.body.classList.remove('overflow-hidden');
-                                }
+                    <div class="space-y-2" x-data="{
+                        showAgentModal: false,
+                        updateBodyScroll() {
+                            if (this.showAgentModal) {
+                                document.body.classList.add('overflow-hidden');
+                            } else {
+                                document.body.classList.remove('overflow-hidden');
                             }
-                        }" x-init="updateBodyScroll()" x-effect="updateBodyScroll()">
+                        }
+                    }" x-init="updateBodyScroll()" x-effect="updateBodyScroll()">
+                        <button @click="showAgentModal = true"
+                            class="inline-flex w-full items-center justify-center rounded-lg bg-[#173f36] px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-md transition hover:bg-[#0b4b3e]">
+                            <span aria-hidden="true">☎</span>
+                            <span class="ml-2">Demander les disponibilités</span>
+                        </button>
 
-                            <!-- Appeler l'agent Button -->
-                            <button @click="showAgentModal = true"
-                                class="inline-flex items-center bg-emerald-600 text-white justify-center w-full border border-gray-300 py-2 px-4 rounded-lg hover:bg-emerald-700 transition">
-                                <span>📞</span>
-                                <span class="ml-2">Appeler l'agent</span>
-                            </button>
-
-                            <!-- Agent Modal -->
-                            <div x-show="showAgentModal"
-                                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99999]"
-                                @click.self="showAgentModal = false" x-cloak>
-                                <div class="bg-white p-6 rounded-lg max-w-md w-full">
-                                    <h2 class="text-lg font-bold mb-4">Contacter l'agent</h2>
-                                    <p class="mb-4">📞 Numéro de tel : 0634262436</p>
-                                    <div class="flex justify-end">
-                                        <a href="tel:0634262436"
-                                            class="mr-2 px-4 py-2 bg-emerald-600 text-white rounded-lg">Appeler</a>
-                                        <button @click="showAgentModal = false"
-                                            class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Fermer</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- Login Modal -->
-                        <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-[99999]"
-                            :class="{ 'hidden': !modalOpen, 'flex': modalOpen }" x-data="{ modalOpen: false }"
-                            x-show="modalOpen" x-cloak>
-                            <div class="bg-white p-6 rounded-lg max-w-md w-full">
-                                <h2 class="text-lg font-bold mb-4">Veuillez vous connecter</h2>
-                                <p class="mb-4">Vous devez être connecté pour réserver ce bien.</p>
-                                <div class="flex justify-end space-x-2">
-                                    <a href="{{ route('register') }}"
-                                        class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">Se
-                                        connecter</a>
-                                    <button @click="modalOpen = false"
-                                        class="px-4 py-2 rounded-lg border hover:bg-gray-100 transition">Annuler</button>
+                        <div x-show="showAgentModal"
+                            class="fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 p-4"
+                            @click.self="showAgentModal = false" x-cloak>
+                            <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+                                <h2 class="mb-4 text-lg font-bold">Contacter l'agent</h2>
+                                <p class="mb-4 text-sm text-gray-600">☎ Numéro de téléphone : 0634262436</p>
+                                <div class="flex justify-end">
+                                    <a href="tel:0634262436"
+                                        class="mr-2 rounded-lg bg-[#0b3b31] px-4 py-2 text-white">Appeler</a>
+                                    <button @click="showAgentModal = false"
+                                        class="rounded-lg border px-4 py-2 transition hover:bg-gray-100">Fermer</button>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Agent Modal -->
-
-
                     </div>
-                </div>
 
+                    <div id="loginModal" class="fixed inset-0 z-[99999] items-center justify-center bg-black/50 p-4"
+                        :class="{ 'hidden': !modalOpen, 'flex': modalOpen }" x-data="{ modalOpen: false }"
+                        x-show="modalOpen" x-cloak>
+                        <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+                            <h2 class="mb-4 text-lg font-bold">Veuillez vous connecter</h2>
+                            <p class="mb-4 text-sm text-gray-600">Vous devez être connecté pour réserver ce bien.</p>
+                            <div class="flex justify-end space-x-2">
+                                <a href="{{ route('register') }}"
+                                    class="rounded-lg bg-[#0b3b31] px-4 py-2 text-white transition hover:bg-[#0b4b3e]">Se connecter</a>
+                                <button @click="modalOpen = false"
+                                    class="rounded-lg border px-4 py-2 transition hover:bg-gray-100">Annuler</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-5 border-t border-[#e9e3d8] pt-4 text-center text-xs leading-6 text-gray-500">
+                        Réponse personnalisée · Disponibilité confirmée par notre équipe
+                    </p>
+                </aside>
             </div>
         </div>
         <div class="mt-10 border-t border-gray-200 pt-8 max-w-6xl mx-auto">
@@ -725,12 +971,6 @@
                                         loading="lazy">
                                     <div class="absolute top-3 flex justify-between w-full px-3">
                                         <div class="flex space-x-2">
-                                            @if (strpos($property->listing_type, 'À-vendre') !== false)
-                                                <span
-                                                    class="text-white bg-emerald-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                                    À vendre
-                                                </span>
-                                            @endif
                                             @if (strpos($property->listing_type, 'À-louer') !== false)
                                                 <span
                                                     class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
@@ -778,11 +1018,6 @@
                                     </div>
                                     @endif
                                 </div>
-
-                                <p class="inline-flex items-center gap-1 font-bold text-white bg-emerald-500 px-4 py-2 rounded-full shadow-md mt-3">
-                                    <span>{{ number_format($property->price, 0, ',', ' ') }}</span>
-                                    <span class="text-sm">DH</span>
-                                </p>
 
                             </div>
                             </div>
@@ -919,13 +1154,6 @@
             }
         }
 
-        // Click on indicators to navigate
-        thumbnails.forEach((thumbnail, index) => {
-            thumbnail.addEventListener('click', () => {
-                goToImage(index);
-            });
-        });
-
         // ==========================
         // Modal Handling
         // ==========================
@@ -943,94 +1171,5 @@
 
 
 
-        // ==========================
-        // Carousel Handling
-        // ==========================
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('#carousel-container img');
-        const indicators = document.querySelectorAll('#carousel-container .indicator');
-        const carouselCounter = document.getElementById('carousel-counter');
-        const carouselContainer = document.getElementById('carousel-container');
-
-        function showSlide(index) {
-            slides.forEach((slide, idx) => {
-                slide.classList.add('opacity-0');
-                indicators[idx].classList.add('bg-gray-400');
-                indicators[idx].classList.remove('bg-white');
-            });
-
-            slides[index].classList.remove('opacity-0');
-            indicators[index].classList.remove('bg-gray-400');
-            indicators[index].classList.add('bg-white');
-
-            if (carouselCounter) {
-                carouselCounter.textContent = `${index + 1} / ${slides.length}`;
-            }
-        }
-
-        // Show initial slide on load
-        if (slides.length > 0) {
-            showSlide(currentSlide);
-        }
-
-        const prevBtn = document.getElementById('prev');
-        const nextBtn = document.getElementById('next');
-
-        if (prevBtn && nextBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                showSlide(currentSlide);
-            });
-
-            nextBtn.addEventListener('click', () => {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            });
-        }
-
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                currentSlide = index;
-                showSlide(currentSlide);
-            });
-        });
-
-        if (carouselContainer) {
-            let carouselTouchStartX = 0;
-            let carouselTouchEndX = 0;
-
-            carouselContainer.addEventListener('touchstart', (e) => {
-                carouselTouchStartX = e.changedTouches[0].screenX;
-            }, { passive: true });
-
-            carouselContainer.addEventListener('touchend', (e) => {
-                carouselTouchEndX = e.changedTouches[0].screenX;
-                const swipeThreshold = 50;
-                const difference = carouselTouchStartX - carouselTouchEndX;
-
-                if (Math.abs(difference) > swipeThreshold) {
-                    if (difference > 0) {
-                        currentSlide = (currentSlide + 1) % slides.length;
-                    } else {
-                        currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                    }
-                    showSlide(currentSlide);
-                }
-            }, { passive: true });
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (fullscreenViewer && fullscreenViewer.classList.contains('active')) return;
-            if (slides.length === 0) return;
-
-            if (e.key === 'ArrowLeft') {
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                showSlide(currentSlide);
-            }
-            if (e.key === 'ArrowRight') {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
-            }
-        });
     </script>
 @endsection
