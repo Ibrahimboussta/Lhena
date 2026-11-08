@@ -1,110 +1,288 @@
 <x-app-layout>
-@section('title', 'Lhena.ma - Admin Properties')
-    <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
-            <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-semibold mb-4 dark:text-white">Propriétés</h2>
-                    <h2 class="text-xl font-semibold mb-4 dark:text-white">
-                        {{ $properties->total() }} <span class="text-[#25D366] text-[15px]">Propriétés</span>
-                    </h2>
-                </div>
+    @section('title', 'Lhena.ma - Propriétés')
 
-                <div class="overflow-x-auto">
-                    <table class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
-                        <thead class="bg-gray-100 dark:bg-gray-800">
-                            <tr>
-                                <th class="p-3 text-left border">Image</th>
-                                <th class="p-3 text-left border">Nom</th>
-                                <th class="p-3 text-left border">Adresse</th>
-                                <th class="p-3 text-left border">Métrage</th>
-                                <th class="p-3 text-left border">Téléphone</th>
-                                <th class="p-3 text-left border">Prix</th>
-                                <th class="p-3 text-center border">Statut</th>
-                                <th class="p-3 text-center border">Action</th>
-                            </tr>
-                        </thead>
+    <style>
+        .admin-property-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
 
-                        <tbody>
-                            @foreach ($properties as $property)
-                                @if (Auth::user()->id == $property->user_id || Auth::user()->role == 'admin')
-                                    <tr class="border-t hover:bg-gray-50" data-property-id="{{ $property->id }}" data-photos="{{ $property->photos }}">
-                                        <!-- IMAGE -->
-                                        <td class="p-3 border text-center">
-                                            @if ($property->photos)
-                                                @php $photos = json_decode($property->photos); @endphp
-                                                <button type="button" onclick="openGalleryModal({{ $property->id }});">
-                                                    <img src="{{ asset('storage/' . $photos[0]) }}" class="property-image w-16 h-16 object-cover rounded" alt="Property image">
-                                                    @if (count($photos) > 1)
-                                                        <span class="absolute -top-1 -right-1 bg-black/70 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                                            {{ count($photos) }}
-                                                        </span>
-                                                    @endif
-                                                </button>
-                                            @else
-                                                No Image
-                                            @endif
-                                        </td>
+        .admin-property-card {
+            overflow: hidden;
+            border: 1px solid #e4e9e5;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 3px 12px rgba(32, 54, 43, 0.04);
+        }
 
-                                        <td class="p-3 border text-sm">{{ $property->title }}</td>
+        .admin-property-card__image {
+            position: relative;
+            height: 190px;
+            background: #edf2ee;
+        }
 
-                                        <td class="p-3 border">
-                                            <a href="https://www.google.com/maps/search/?api=1&query={{ urlencode($property->address) }}" target="_blank" class="hover:underline text-sm">
-                                                {{ $property->address }}
-                                            </a>
-                                        </td>
+        .admin-property-card__image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-                                        <td class="p-3 border text-sm">{{ $property->surface }} m²</td>
-                                        <td class="p-3 border text-sm">
-                                            <a href="tel:{{ $property->contact_phone }}" class="hover:underline">{{ $property->contact_phone }}</a>
-                                        </td>
-                                        <td class="p-3 border text-[#25D366]">{{ number_format($property->price, 2) }} DH</td>
+        .admin-property-card__photo-count {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            border-radius: 9999px;
+            background: rgba(22, 38, 31, 0.78);
+            padding: 5px 9px;
+            color: #fff;
+            font-size: 10px;
+        }
 
-                                        <!-- STATUS -->
-                                        <td class="p-3 text-center border">
-                                            <div class="flex items-center justify-center space-x-3">
-                                                @if ($property->published)
-                                                    <span class="px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">Publié</span>
-                                                @else
-                                                    <span class="px-2 py-1 text-xs font-medium text-yellow-800 bg-yellow-100 rounded-full">En attente</span>
-                                                @endif
+        .admin-property-card__body {
+            padding: 16px;
+        }
 
-                                                <!-- Publish / Unpublish -->
-                                                <form action="{{ route('properties.toggle.publish', $property->id) }}" method="POST" class="inline">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    @if ($property->published)
-                                                        <button class="text-yellow-600 hover:text-yellow-800 transition ml-2" type="submit" title="Dépublier">👁️‍🗨️</button>
-                                                    @else
-                                                        <button class="text-green-600 hover:text-green-800 transition ml-2" type="submit" title="Publier">✅</button>
-                                                    @endif
-                                                </form>
-                                            </div>
-                                        </td>
+        .admin-property-card__title {
+            overflow: hidden;
+            color: #24352d;
+            font-size: 15px;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-                                        <!-- ACTIONS -->
-                                        <td class="p-3 text-center border">
-                                            <div class="flex items-center justify-center gap-3">
-                                                <form action="{{ route('properties.admin.destroy', $property->id) }}" method="POST" class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="inline-flex items-center justify-center rounded-full bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-700 transition h-8 w-8" type="submit" title="Supprimer">
-                                                        🗑
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+        .admin-property-card__location {
+            overflow: hidden;
+            margin-top: 5px;
+            color: #7a857e;
+            font-size: 11px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-                {{-- Pagination --}}
-                <div class="mt-4">{{ $properties->links('pagination::tailwind') }}</div>
+        .admin-property-card__owner {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            border-top: 1px solid #edf0ed;
+            padding-top: 12px;
+        }
+
+        .admin-property-card__owner-avatar {
+            display: inline-flex;
+            width: 28px;
+            height: 28px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e7f0e9;
+            color: #315d4e;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .admin-property-card__owner-label {
+            color: #89928c;
+            font-size: 9px;
+        }
+
+        .admin-property-card__owner-name {
+            margin-top: 2px;
+            color: #34443b;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .admin-property-card__details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 13px;
+        }
+
+        .admin-property-card__detail {
+            border-radius: 6px;
+            background: #f4f7f4;
+            padding: 5px 7px;
+            color: #5d6b62;
+            font-size: 10px;
+        }
+
+        .admin-property-card__footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 14px;
+            border-top: 1px solid #edf0ed;
+            padding-top: 12px;
+        }
+
+        .admin-property-card__price {
+            color: #173f36;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .admin-property-card__price small {
+            color: #89928c;
+            font-size: 10px;
+            font-weight: 400;
+        }
+
+        .admin-property-card__actions {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .admin-property-card__action {
+            display: inline-flex;
+            min-height: 30px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e4e9e5;
+            border-radius: 7px;
+            background: #fff;
+            padding: 5px 8px;
+            color: #526057;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .admin-property-card__action:hover {
+            background: #f5f8f5;
+        }
+
+        .admin-property-card__action--delete {
+            border-color: #f0dfda;
+            background: #fff8f6;
+            color: #a64e3c;
+        }
+
+        .admin-property-card__action--delete:hover {
+            background: #fcece7;
+        }
+
+        @media (max-width: 1050px) {
+            .admin-property-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 620px) {
+            .admin-property-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .admin-property-card__image {
+                height: 220px;
+            }
+        }
+    </style>
+
+    <div class="admin-page">
+        <header class="admin-page-header">
+            <div>
+                <h1 class="admin-page-title">Propriétés</h1>
+                <p class="admin-page-subtitle">Gérez les annonces et les propriétaires qui les ont publiées.</p>
             </div>
-        </div>
+            <span class="admin-count-badge"><strong>{{ $properties->total() }}</strong> propriétés</span>
+        </header>
+
+        @if ($properties->isEmpty())
+            <div class="admin-panel admin-empty">Aucune propriété à afficher.</div>
+        @else
+            <div class="admin-property-grid">
+                @foreach ($properties as $property)
+                    @php
+                        $photos = json_decode($property->photos, true) ?: [];
+                    @endphp
+                    <article class="admin-property-card" data-property-id="{{ $property->id }}"
+                        data-photos="{{ json_encode($photos) }}">
+                        <div class="admin-property-card__image">
+                            @if (!empty($photos))
+                                <button type="button" class="h-full w-full text-left"
+                                    onclick="openGalleryModal({{ $property->id }})"
+                                    aria-label="Voir les photos de {{ $property->title }}">
+                                    <img src="{{ asset('storage/' . $photos[0]) }}" alt="{{ $property->title }}" loading="lazy">
+                                </button>
+                            @else
+                                <div class="flex h-full items-center justify-center text-sm text-gray-400">Aucune photo</div>
+                            @endif
+                            @if (count($photos) > 1)
+                                <span class="admin-property-card__photo-count">{{ count($photos) }} photos</span>
+                            @endif
+                        </div>
+
+                        <div class="admin-property-card__body">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="min-w-0">
+                                    <h2 class="admin-property-card__title" title="{{ $property->title }}">{{ $property->title }}</h2>
+                                    <p class="admin-property-card__location" title="{{ $property->address }}">
+                                        {{ $property->city }} · {{ $property->address }}
+                                    </p>
+                                </div>
+                                <span class="admin-status {{ $property->published ? 'admin-status--success' : 'admin-status--pending' }}">
+                                    {{ $property->published ? 'Publié' : 'En attente' }}
+                                </span>
+                            </div>
+
+                            <div class="admin-property-card__owner">
+                                <span class="admin-property-card__owner-avatar" aria-hidden="true">
+                                    {{ mb_strtoupper(mb_substr($property->user?->name ?? '?', 0, 1)) }}
+                                </span>
+                                <span>
+                                    <span class="admin-property-card__owner-label block">Publié par</span>
+                                    <span class="admin-property-card__owner-name block">{{ $property->user?->name ?? 'Propriétaire indisponible' }}</span>
+                                </span>
+                            </div>
+
+                            <div class="admin-property-card__details">
+                                <span class="admin-property-card__detail">{{ ucfirst($property->property_type) }}</span>
+                                @if ($property->surface)
+                                    <span class="admin-property-card__detail">{{ $property->surface }} m²</span>
+                                @endif
+                                <span class="admin-property-card__detail">{{ $property->bedrooms }} chambres</span>
+                                <span class="admin-property-card__detail">{{ $property->bathrooms }} salles de bain</span>
+                            </div>
+
+                            <div class="admin-property-card__footer">
+                                <p class="admin-property-card__price">
+                                    {{ number_format($property->price, 0, ',', ' ') }} DH
+                                    @if ($property->price_type)
+                                        <small>/ {{ $property->price_type }}</small>
+                                    @endif
+                                </p>
+                                <div class="admin-property-card__actions">
+                                    <form action="{{ route('properties.toggle.publish', $property->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button class="admin-property-card__action" type="submit">
+                                            {{ $property->published ? 'Dépublier' : 'Publier' }}
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('properties.admin.destroy', $property->id) }}" method="POST"
+                                        onsubmit="return confirm('Supprimer cette propriété ?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="admin-property-card__action admin-property-card__action--delete"
+                                            type="submit" aria-label="Supprimer {{ $property->title }}">
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+            @if ($properties->hasPages())
+                <div class="mt-5">{{ $properties->links('pagination::tailwind') }}</div>
+            @endif
+        @endif
     </div>
 
     <!-- Gallery Modal -->
@@ -171,7 +349,7 @@
             const prevBtn = document.getElementById("prevBtn");
             const nextBtn = document.getElementById("nextBtn");
 
-            const row = document.querySelector(`tr[data-property-id="${propertyId}"]`);
+            const row = document.querySelector(`.admin-property-card[data-property-id="${propertyId}"]`);
             if (!row) return;
 
             const photos = JSON.parse(row.getAttribute('data-photos') || '[]');

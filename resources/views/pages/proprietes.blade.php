@@ -261,7 +261,7 @@
     .properties-card__badge,
     .properties-card__photo-count {
         position: absolute;
-        z-index: 1;
+        z-index: 2;
         border-radius: 9999px;
         background: rgba(255, 255, 255, 0.95);
         padding: 0.45rem 0.8rem;
@@ -274,8 +274,49 @@
     }
 
     .properties-card__badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
         top: 1rem;
         left: 1rem;
+    }
+
+    .properties-card__badge svg {
+        width: 0.85rem;
+        height: 0.85rem;
+    }
+
+    .properties-card__favorite {
+        position: absolute;
+        z-index: 2;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        width: 2.75rem;
+        height: 2.75rem;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.96);
+        color: #29332d;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
+        transition: color 180ms ease, transform 180ms ease;
+    }
+
+    .properties-card__favorite:hover {
+        transform: scale(1.05);
+        color: #a34c3f;
+    }
+
+    .properties-card__favorite:focus-visible {
+        outline: 2px solid #0b3b31;
+        outline-offset: 3px;
+    }
+
+    .properties-card__favorite svg {
+        width: 1.3rem;
+        height: 1.3rem;
     }
 
     .properties-card__photo-count {
@@ -731,8 +772,21 @@
                                 <img src="{{ $firstPhoto }}" alt="{{ $property->title }}" loading="lazy">
                             </a>
                             <span class="properties-card__badge">
-                                {{ strpos($property->listing_type, 'À-louer') !== false ? 'À louer' : $property->listing_type }}
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="m12 2.8 2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.36l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93L12 2.8Z" />
+                                </svg>
+                                Sélection signature
                             </span>
+                            <button type="button" x-data="{ favorite: false }" @click="favorite = !favorite"
+                                :aria-pressed="favorite.toString()"
+                                :aria-label="favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
+                                class="properties-card__favorite">
+                                <svg viewBox="0 0 24 24" :fill="favorite ? 'currentColor' : 'none'"
+                                    stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z" />
+                                </svg>
+                            </button>
                             <span class="properties-card__photo-count">1 / {{ $photoCount }} photos</span>
                         </div>
 

@@ -1,49 +1,62 @@
 <x-app-layout>
-@section('title', 'Lhena.ma - Admin Emails')
-    <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
-            <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
-                <div class="flex justify-between items-center ">
-                    <h2 class="text-2xl font-semibold mb-4 dark:text-white">Emails</h2>
-                    <h2 class="text-xl font-semibold mb-4 dark:text-white">
-                        {{ $emails->total() }} <span class="text-[#25D366] text-[15px]">Emails</span>
-                    </h2>
-                </div>
-                <div class="overflow-x-auto">
-                    <table
-                        class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
-                        <thead class="bg-gray-100 dark:bg-gray-800">
-                            <tr>
-                                <th class="p-3 text-left border">Emails</th>
-                                <th class="p-3 text-center border">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($emails as $email)
-                                @if (Auth::user()->id == $email->user_id || Auth::user()->role == 'admin')
-                                    <tr class="border-t hover:bg-gray-50">
-                                        <td class="p-3 border">{{ $email->email }}</td>
-                                        <td class="p-3 text-center border">
-                                            <form action="{{ route('mailing.destroy', $email->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE') <!-- Laravel uses this directive to simulate a DELETE request -->
-                                                <button class="text-red-500 hover:text-red-700 transition" type="submit">
-                                                    🗑
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+    @section('title', 'Lhena.ma - Emails')
 
-                {{-- Pagination Links --}}
-                <div class="mt-4">
-                    {{ $emails->links('pagination::tailwind') }}
-                </div>
+    <div class="admin-page">
+        <header class="admin-page-header">
+            <div>
+                <h1 class="admin-page-title">Emails</h1>
+                <p class="admin-page-subtitle">Adresses inscrites aux actualités et communications.</p>
             </div>
-        </div>
+            <span class="admin-count-badge"><strong>{{ $emails->total() }}</strong> adresses</span>
+        </header>
+
+        <section class="admin-panel" aria-label="Liste des adresses email">
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Inscription</th>
+                            <th><span class="sr-only">Action</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($emails as $email)
+                            @if (Auth::user()->id == $email->user_id || Auth::user()->role == 'admin')
+                                <tr>
+                                    <td>
+                                        <a class="admin-table__link admin-table__primary" href="mailto:{{ $email->email }}">
+                                            {{ $email->email }}
+                                        </a>
+                                    </td>
+                                    <td>{{ $email->created_at?->format('d/m/Y') ?? '—' }}</td>
+                                    <td>
+                                        <form action="{{ route('mailing.destroy', $email->id) }}" method="POST"
+                                            onsubmit="return confirm('Supprimer cette adresse email ?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="admin-icon-button" type="submit" aria-label="Supprimer l’adresse email">
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="1.8" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M4 7h16M10 11v6m4-6v6M5 7l1 14h12l1-14M9 7V4h6v3" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endif
+                        @empty
+                            <tr>
+                                <td class="admin-empty" colspan="3">Aucune adresse email à afficher.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            @if ($emails->hasPages())
+                <div class="admin-pagination">{{ $emails->links('pagination::tailwind') }}</div>
+            @endif
+        </section>
     </div>
 </x-app-layout>

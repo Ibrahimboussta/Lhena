@@ -60,8 +60,34 @@ class ProprieteController extends Controller
 
     public function dashboard()
     {
-        $properties = Propritie::latest()->get();
-        return view('dashboard', compact('properties'));
+        $userProperties = Propritie::where('user_id', Auth::id());
+        $stats = [
+            'all' => (clone $userProperties)->count(),
+            'published' => (clone $userProperties)->where('published', true)->count(),
+            'pending' => (clone $userProperties)->where('published', false)->count(),
+        ];
+        $properties = $userProperties
+            ->with('user:id,name')
+            ->latest()
+            ->paginate(9);
+
+        return view('dashboard', compact('properties', 'stats'));
+    }
+
+    public function agencyOverview()
+    {
+        $userId = Auth::id();
+        $stats = [
+            'properties' => Propritie::where('user_id', $userId)->count(),
+            'published' => Propritie::where('user_id', $userId)->where('published', true)->count(),
+            'pending' => Propritie::where('user_id', $userId)->where('published', false)->count(),
+        ];
+        $recentProperties = Propritie::where('user_id', $userId)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('agency.overview', compact('stats', 'recentProperties'));
     }
 
     public function store(Request $request)

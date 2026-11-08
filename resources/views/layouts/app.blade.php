@@ -40,23 +40,47 @@
 
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        @include('layouts.navigation')
+    @if (Auth::check() && in_array(Auth::user()->role, ['admin', 'user'], true))
+        <div class="admin-shell">
+            @include('layouts.admin-navigation')
+            <div class="admin-main">
+                <header class="admin-topbar">
+                    <input class="admin-search" type="search" placeholder="Rechercher un utilisateur, bien, contact…"
+                        aria-label="Rechercher dans l’administration">
+                    <div class="admin-topbar__right">
+                        <span class="admin-live">
+                            {{ Auth::user()->role === 'admin' ? 'Administration' : 'Espace agence' }}
+                        </span>
+                        <span class="admin-currency">Lhena · Gestion privée</span>
+                    </div>
+                </header>
+                @isset($header)
+                    <header class="bg-white shadow-sm">
+                        <div class="px-7 py-5">{{ $header }}</div>
+                    </header>
+                @endisset
+                <main class="admin-content">
+                    {{ $slot }}
+                </main>
+            </div>
+        </div>
+    @else
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+            @include('layouts.navigation')
 
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
+            @isset($header)
+                <header class="bg-white dark:bg-gray-800 shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endisset
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
+            <main>
+                {{ $slot }}
+            </main>
+        </div>
+    @endif
 
 
     <script src="https://kit.fontawesome.com/b0a71770e1.js" crossorigin="anonymous"></script>

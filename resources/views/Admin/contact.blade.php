@@ -1,63 +1,62 @@
 <x-app-layout>
-@section('title', 'Lhena.ma - Admin Contacts')
-    <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
-            <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
-                <div class="flex justify-between items-center ">
-                    <h2 class="text-2xl font-semibold mb-4 dark:text-white">Contacts</h2>
-                    <h2 class="text-xl font-semibold mb-4 dark:text-white">
-                        {{ $contacts->total() }} <span class="text-[#25D366] text-[15px]">Contacts</span>
-                    </h2>
-                </div>
-                <div class="overflow-x-auto">
-                    <table
-                        class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
-                        <thead class="bg-gray-100 dark:bg-gray-800">
-                            <tr>
-                                <th class="p-3 text-left border">Nom</th>
-                                <th class="p-3 text-left border">Email</th>
-                                <th class="p-3 text-left border">Téléphone</th>
-                                <th class="p-3 text-left border">Message</th>
-                                <th class="p-3 text-center border">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($contacts as $contact)
-                                <tr class="border-t hover:bg-gray-50">
-                                    <td class="p-3 border">{{ $contact->name }}</td>
-                                    <td class="p-3 border">
-                                        <a href="mailto:{{ $contact->email }}" class=" hover:underline">
-                                            {{ $contact->email }}
-                                        </a>
-                                    </td>
+    @section('title', 'Lhena.ma - Contacts')
 
-                                    <td class="p-3 border">
-                                        <a href="tel:{{ $contact->phone }}" class=" hover:underline">
-                                            {{ $contact->phone }}
-                                        </a>
-                                    </td>
-                                    <td class="p-3 border">{{ $contact->message }}</td>
-                                    <td class="p-3 text-center border">
-                                        <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE') <!-- This makes the POST request act as a DELETE -->
-
-                                            <button class="text-red-500 hover:text-red-700 transition" type="submit">
-                                                🗑
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                {{-- Pagination Links --}}
-                <div class="mt-4">
-                    {{ $contacts->links('pagination::tailwind') }}
-                </div>
+    <div class="admin-page">
+        <header class="admin-page-header">
+            <div>
+                <h1 class="admin-page-title">Contacts</h1>
+                <p class="admin-page-subtitle">Messages envoyés depuis le formulaire de contact.</p>
             </div>
-        </div>
+            <span class="admin-count-badge"><strong>{{ $contacts->total() }}</strong> contacts</span>
+        </header>
+
+        <section class="admin-panel" aria-label="Liste des demandes de contact">
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Message</th>
+                            <th><span class="sr-only">Action</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($contacts as $contact)
+                            <tr>
+                                <td class="admin-table__primary">{{ $contact->name }}</td>
+                                <td><a class="admin-table__link" href="mailto:{{ $contact->email }}">{{ $contact->email }}</a></td>
+                                <td><a class="admin-table__link" href="tel:{{ $contact->phone }}">{{ $contact->phone }}</a></td>
+                                <td style="min-width: 240px; max-width: 420px; white-space: normal; line-height: 1.5;">
+                                    {{ $contact->message }}
+                                </td>
+                                <td>
+                                    <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST"
+                                        onsubmit="return confirm('Supprimer ce message de contact ?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="admin-icon-button" type="submit" aria-label="Supprimer le contact">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="1.8" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M4 7h16M10 11v6m4-6v6M5 7l1 14h12l1-14M9 7V4h6v3" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="admin-empty" colspan="5">Aucun message de contact pour le moment.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            @if ($contacts->hasPages())
+                <div class="admin-pagination">{{ $contacts->links('pagination::tailwind') }}</div>
+            @endif
+        </section>
     </div>
 </x-app-layout>

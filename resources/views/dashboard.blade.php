@@ -1,583 +1,365 @@
 <x-app-layout>
-@section('title', 'Lhena.ma - Dashboard')
-    <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
-            <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
-                @if (session('success'))
-                    <div class="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800" role="status">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                <div class="flex justify-between items-center ">
-                    <h2 class="text-2xl font-semibold mb-4 dark:text-white">Propriétés</h2>
-                    <a href="{{ route('publish') }}"
-                        class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-300">
-                        Ajouter une propriété
-                    </a>
-                </div>
-                <div class="overflow-x-auto pt-2">
-                    <table
-                        class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
-                        <thead class="bg-gray-100 dark:bg-gray-800">
-                            <tr>
-                                <th class="p-3 text-left border">Image</th>
-                                <th class="p-3 text-left border">Nom</th>
-                                <th class="p-3 text-left border">Adresse</th>
-                                <th class="p-3 text-left border">Métrage</th>
-                                <th class="p-3 text-left border">Prix</th>
-                                <th class="p-3 text-left border">Statut</th>
-                                <th class="p-3 text-center border">Action</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach ($properties as $property)
-                                @if (Auth::user()->id == $property->user_id)
-                                    <tr class="border-t">
-                                        <td class="p-3 border">
-                                            @if ($property->photos)
-                                                @php $photos = json_decode($property->photos); @endphp
-                                                <div class="relative group">
-                                                    <button
-                                                        onclick="openGalleryModal({{ $property->id }}, '{{ $property->photos }}'); event.stopPropagation();">
-                                                        <img src="{{ asset('storage/' . $photos[0]) }}"
-                                                            alt="Property image"
-                                                            class="w-16 h-16 object-cover rounded cursor-pointer">
-                                                    </button>
-                                                    @if (count($photos) > 1)
-                                                        <span
-                                                            class="absolute -top-1 -right-1 bg-black/70 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                                            {{ count($photos) }}
-                                                        </span>
-                                                    @endif
-                                                </div>
-                                            @else
-                                                No Image
-                                            @endif
-                                        </td>
-
-                                        <td class="p-3 border text-sm">{{ $property->title }}</td>
-                                        <td class="p-3 border text-sm">{{ $property->address }}</td>
-                                        <td class="p-3 border text-sm">{{ $property->surface }} m²</td>
-                                        <td class="p-3 border text-sm text-[#25D366]">
-                                            {{ number_format($property->price, 2) }}
-                                            DH</td>
-
-
-                                        <td class="p-3 border">
-                                            @if ($property->published)
-                                                <span
-                                                    class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                                                    ● Publié
-                                                </span>
-                                            @else
-                                                <span
-                                                    class="px-3 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded-full">
-                                                    ● Non Publié
-                                                </span>
-                                            @endif
-                                        </td>
-
-
-
-                                        <td class="p-3 text-center border">
-                                            <div class="flex justify-center gap-2">
-                                                <form action="{{ route('properties.destroy', $property->id) }}" method="POST" class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="inline-flex items-center justify-center rounded-full bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-700 transition h-8 w-8" type="submit" title="Supprimer">
-                                                        🗑
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="galleryModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-        <div class="relative w-full max-w-6xl max-h-[90vh] bg-black rounded-lg overflow-hidden">
-            <!-- Close Button -->
-            <button onclick="closeGalleryModal()"
-                class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 bg-black/50 rounded-full p-2"
-                aria-label="Close gallery">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-
-            <!-- Main Image View -->
-            <div id="mainImageView" class="items-center justify-center h-full p-4 hidden">
-                <img id="mainImage" class="max-h-[85vh] max-w-full object-contain" src="" alt="Property image">
-            </div>
-
-            <!-- Thumbnails Grid -->
-            <div id="thumbnailsGrid" class="p-4">
-                <h3 class="text-white text-lg font-semibold mb-4">Gallery</h3>
-                <div id="galleryContent"
-                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto max-h-[70vh] custom-scrollbar">
-                </div>
-            </div>
-
-            <!-- Navigation Buttons -->
-            <button id="prevBtn"
-                class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden"
-                aria-label="Previous image">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
-
-            <button id="nextBtn"
-                class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden"
-                aria-label="Next image">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
-
-            <!-- Image Counter -->
-            <div id="imageCounter"
-                class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm hidden">
-                <span id="currentImage">1</span> / <span id="totalImages">0</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Property Modal -->
-    <div id="editModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-xl font-semibold text-gray-900">Modifier la propriété</h3>
-                    <button onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
-                </div>
-
-                <form id="editForm" action="" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" id="editPropertyHash" name="property_hash" value="">
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Title -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Titre</label>
-                            <input type="text" name="title" id="editTitle"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Property Type -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Type de propriété</label>
-                            <select name="property_type" id="editPropertyType"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                                <option value="">Sélectionnez</option>
-                                <option value="appartement">Appartement</option>
-                                <option value="maison">Maison</option>
-                                <option value="duplex">Duplex</option>
-                                <option value="studio">Studio</option>
-                            </select>
-                        </div>
-
-                        <!-- City -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Ville</label>
-                            <input type="text" name="city" id="editCity"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Neighborhood -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Quartier</label>
-                            <input type="text" name="neighborhood" id="editNeighborhood"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Address -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Adresse</label>
-                            <input type="text" name="address" id="editAddress"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Surface -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Surface (m²)</label>
-                            <input type="number" name="surface" id="editSurface" step="0.01"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Bedrooms -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Chambres</label>
-                            <input type="number" name="bedrooms" id="editBedrooms"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Bathrooms -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Salles de bain</label>
-                            <input type="number" name="bathrooms" id="editBathrooms"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Price -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Prix</label>
-                            <input type="number" name="price" id="editPrice" step="0.01"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Price Type -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Type de prix</label>
-                            <select name="price_type" id="editPriceType"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="">Sélectionner</option>
-                                <option value="nuit">Par nuit</option>
-                                <option value="mois">Par mois</option>
-                                <option value="an">Par an</option>
-                            </select>
-                        </div>
-
-                        <!-- Contact Phone -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone de contact</label>
-                            <input type="text" name="contact_phone" id="editContactPhone"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Available From -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Disponible à partir de</label>
-                            <input type="date" name="available_from" id="editAvailableFrom"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>
-                        </div>
-
-                        <!-- Available Until -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Disponible jusqu'à</label>
-                            <input type="date" name="available_until" id="editAvailableUntil"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-
-                        <!-- Listing Type -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Type d'annonce</label>
-                            <input type="hidden" name="listing_type[]" value="À-louer">
-                            <p class="text-sm text-gray-600">À louer</p>
-                        </div>
-
-                        <!-- Description -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea name="description" id="editDescription" rows="4"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                        </div>
-
-                        <!-- Photos -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Photos (optionnel - remplacera
-                                les photos existantes)</label>
-                            <input type="file" name="photos[]" id="editPhotos" multiple accept="image/*"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <p class="text-sm text-gray-500 mt-1">Maximum 10 images, 20MB chacune</p>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end space-x-3 mt-6">
-                        <button type="button" onclick="closeEditModal()"
-                            class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
-                            Annuler
-                        </button>
-                        <button type="submit"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            Mettre à jour
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    @section('title', 'Lhena.ma - Mes propriétés')
 
     <style>
-        /* Custom scrollbar for the gallery */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+        .agency-property-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #e4e9e5;
+            border-radius: 12px;
+            background: #fff;
+            padding: 12px 14px;
         }
 
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+        .agency-property-search {
+            width: min(100%, 340px);
+            min-height: 38px;
+            border: 1px solid #e4e9e5;
+            border-radius: 8px;
+            background: #f7f9f7;
+            padding: 8px 11px;
+            color: #26332e;
+            font-size: 11px;
         }
 
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
+        .agency-filter-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        .agency-filter {
+            min-height: 32px;
+            border-radius: 7px;
+            background: #f0f4f0;
+            padding: 7px 10px;
+            color: #536159;
+            font-size: 10px;
+            font-weight: 600;
         }
 
-        /* Smooth transitions */
-        .image-transition {
-            transition: opacity 0.3s ease-in-out;
+        .agency-filter.is-active {
+            background: #123f35;
+            color: #fff;
+        }
+
+        .agency-properties-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .agency-property-card {
+            display: grid;
+            min-width: 0;
+            grid-template-columns: minmax(130px, 0.72fr) minmax(0, 1.28fr);
+            overflow: hidden;
+            border: 1px solid #e4e9e5;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 3px 12px rgba(32, 54, 43, 0.04);
+        }
+
+        .agency-property-card__image {
+            position: relative;
+            min-height: 220px;
+            background: #edf2ee;
+        }
+
+        .agency-property-card__image img {
+            width: 100%;
+            height: 100%;
+            min-height: 220px;
+            object-fit: cover;
+        }
+
+        .agency-property-card__body {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            padding: 16px;
+        }
+
+        .agency-property-card__location {
+            margin-top: 8px;
+            color: #8a7957;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+        }
+
+        .agency-property-card__title {
+            margin-top: 6px;
+            color: #173f36;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.35;
+        }
+
+        .agency-property-card__address {
+            overflow: hidden;
+            margin-top: 5px;
+            color: #7a857e;
+            font-size: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .agency-property-card__description {
+            display: -webkit-box;
+            overflow: hidden;
+            margin-top: 10px;
+            color: #68756d;
+            font-size: 11px;
+            line-height: 1.5;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .agency-property-card__details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .agency-property-card__detail {
+            border-radius: 6px;
+            background: #f1f5f1;
+            padding: 5px 7px;
+            color: #526057;
+            font-size: 9px;
+        }
+
+        .agency-property-card__footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 14px;
+        }
+
+        .agency-property-card__price {
+            color: #173f36;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .agency-property-card__price small {
+            color: #89928c;
+            font-size: 9px;
+            font-weight: 400;
+        }
+
+        .agency-property-card__delete {
+            min-height: 30px;
+            border: 1px solid #f0dfda;
+            border-radius: 7px;
+            background: #fff8f6;
+            padding: 6px 9px;
+            color: #a64e3c;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .agency-property-card__delete:hover {
+            background: #fcece7;
+        }
+
+        .agency-property-empty {
+            grid-column: 1 / -1;
+            border: 1px dashed #d7e0d8;
+            border-radius: 12px;
+            background: #fff;
+            padding: 46px 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 1100px) {
+            .agency-properties-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .agency-property-card {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .agency-property-card__image,
+            .agency-property-card__image img {
+                height: 200px;
+                min-height: 200px;
+            }
         }
     </style>
 
+    <div class="admin-page" x-data="{
+        search: '',
+        filter: 'all',
+        matches(card) {
+            const matchesSearch = card.dataset.search.includes(this.search.toLowerCase());
+            const matchesStatus = this.filter === 'all' || card.dataset.status === this.filter;
+            return matchesSearch && matchesStatus;
+        }
+    }">
+        @if (session('success'))
+            <div class="mb-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-xs font-medium text-green-800"
+                role="status">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <header class="admin-page-header">
+            <div>
+                <span class="admin-status admin-status--success">Espace agence partenaire</span>
+                <h1 class="admin-page-title mt-3">Mes propriétés listées</h1>
+                <p class="admin-page-subtitle">Gérez vos annonces et suivez leur statut depuis votre espace agence.</p>
+            </div>
+            <a href="{{ route('publish') }}"
+                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-[#123f35] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#0c3028]">
+                <span aria-hidden="true">＋</span> Ajouter une propriété
+            </a>
+        </header>
+
+        <div class="agency-property-toolbar">
+            <input class="agency-property-search" type="search" x-model="search"
+                placeholder="Rechercher par nom, ville ou adresse…" aria-label="Rechercher dans mes propriétés">
+            <div class="agency-filter-list" aria-label="Filtrer les propriétés">
+                <button type="button" class="agency-filter" :class="{ 'is-active': filter === 'all' }"
+                    @click="filter = 'all'">Toutes ({{ $stats['all'] }})</button>
+                <button type="button" class="agency-filter" :class="{ 'is-active': filter === 'published' }"
+                    @click="filter = 'published'">En ligne ({{ $stats['published'] }})</button>
+                <button type="button" class="agency-filter" :class="{ 'is-active': filter === 'pending' }"
+                    @click="filter = 'pending'">En attente ({{ $stats['pending'] }})</button>
+            </div>
+        </div>
+
+        <div class="agency-properties-grid">
+            @forelse ($properties as $property)
+                @php
+                    $photos = json_decode($property->photos, true) ?: [];
+                    $searchText = mb_strtolower($property->title . ' ' . $property->city . ' ' . $property->address);
+                @endphp
+                <article class="agency-property-card"
+                    data-property-id="{{ $property->id }}"
+                    data-photos="{{ json_encode($photos) }}"
+                    data-search="{{ $searchText }}"
+                    data-status="{{ $property->published ? 'published' : 'pending' }}"
+                    x-show="matches($el)">
+                    <div class="agency-property-card__image">
+                        @if ($photos)
+                            <button type="button" class="h-full w-full" onclick="openGalleryModal({{ $property->id }})"
+                                aria-label="Voir les photos de {{ $property->title }}">
+                                <img src="{{ asset('storage/' . $photos[0]) }}" alt="{{ $property->title }}" loading="lazy">
+                            </button>
+                        @else
+                            <div class="flex h-full items-center justify-center text-xs text-gray-400">Aucune photo</div>
+                        @endif
+                    </div>
+
+                    <div class="agency-property-card__body">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="admin-status {{ $property->published ? 'admin-status--success' : 'admin-status--pending' }}">
+                                {{ $property->published ? '● En ligne' : '● En attente' }}
+                            </span>
+                            <span class="agency-property-card__location">{{ $property->city }}</span>
+                        </div>
+
+                        <h2 class="agency-property-card__title">{{ $property->title }}</h2>
+                        <p class="agency-property-card__address">{{ $property->address }}</p>
+                        @if ($property->description)
+                            <p class="agency-property-card__description">{{ strip_tags($property->description) }}</p>
+                        @endif
+
+                        <div class="agency-property-card__details">
+                            <span class="agency-property-card__detail">{{ ucfirst($property->property_type) }}</span>
+                            @if ($property->surface)
+                                <span class="agency-property-card__detail">{{ $property->surface }} m²</span>
+                            @endif
+                            <span class="agency-property-card__detail">{{ $property->bedrooms }} chambres</span>
+                            <span class="agency-property-card__detail">{{ $property->bathrooms }} salles de bain</span>
+                        </div>
+
+                        <div class="agency-property-card__footer">
+                            <p class="agency-property-card__price">
+                                {{ number_format($property->price, 0, ',', ' ') }} DH
+                                @if ($property->price_type)
+                                    <small>/ {{ $property->price_type }}</small>
+                                @endif
+                            </p>
+                            <form action="{{ route('properties.destroy', $property->id) }}" method="POST"
+                                onsubmit="return confirm('Supprimer cette propriété ?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="agency-property-card__delete" type="submit">Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+            @empty
+                <div class="agency-property-empty">
+                    <p class="text-sm font-semibold text-[#26332e]">Aucune propriété pour le moment</p>
+                    <p class="mt-2 text-xs text-[#78827d]">Ajoutez votre première annonce pour la voir apparaître ici.</p>
+                    <a href="{{ route('publish') }}"
+                        class="mt-5 inline-flex rounded-lg bg-[#123f35] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0c3028]">
+                        Ajouter une propriété
+                    </a>
+                </div>
+            @endforelse
+        </div>
+
+        @if ($properties->hasPages())
+            <div class="mt-5">{{ $properties->links('pagination::tailwind') }}</div>
+        @endif
+    </div>
+
+    <div id="galleryModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4"
+        onclick="if (event.target === this) closeGalleryModal()">
+        <div class="relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-xl bg-[#101512]">
+            <div class="flex items-center justify-between px-5 py-4">
+                <p class="text-sm font-semibold text-white">Galerie de la propriété</p>
+                <button type="button" onclick="closeGalleryModal()" class="rounded-full bg-white/10 px-3 py-1 text-sm text-white"
+                    aria-label="Fermer la galerie">✕</button>
+            </div>
+            <div id="galleryContent" class="grid grid-cols-2 gap-3 overflow-y-auto p-4 sm:grid-cols-3"></div>
+        </div>
+    </div>
+
     <script>
-        let currentProperty = null;
-        let currentIndex = 0;
-        let currentPhotos = [];
+        function openGalleryModal(propertyId) {
+            const card = document.querySelector(`.agency-property-card[data-property-id="${propertyId}"]`);
+            if (!card) return;
 
-        // Initialize modal state on page load
-        function initializeModalState() {
-            // Handle gallery modal
-            const galleryModal = document.getElementById("galleryModal");
-            if (galleryModal) {
-                galleryModal.classList.add('hidden');
-                galleryModal.classList.remove('flex');
-                // Reset any inline styles that might have been applied
-                galleryModal.style.display = '';
-            }
+            const photos = JSON.parse(card.dataset.photos || '[]');
+            const gallery = document.getElementById('galleryContent');
+            gallery.replaceChildren();
 
-            // Handle edit modal
-            const editModal = document.getElementById("editModal");
-            if (editModal) {
-                editModal.classList.add('hidden');
-                editModal.classList.remove('flex');
-                // Reset any inline styles that might have been applied
-                editModal.style.display = '';
-            }
-
-            // Reset global variables
-            currentProperty = null;
-            currentIndex = 0;
-            currentPhotos = [];
-            // Reset body overflow
-            document.body.style.overflow = '';
-        }
-
-        // Single DOMContentLoaded handler for all initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeModalState();
-        });
-
-        window.addEventListener('load', initializeModalState);
-
-        // Handle clicking outside modal to close it
-        function handleModalClickOutside(e) {
-            const modal = document.getElementById("galleryModal");
-            if (e.target === modal) {
-                closeGalleryModal();
-            }
-        }
-
-        function openGalleryModal(id, photosJson) {
-            const modal = document.getElementById("galleryModal");
-            const content = document.getElementById("galleryContent");
-            const mainImageView = document.getElementById("mainImageView");
-            const thumbnailsGrid = document.getElementById("thumbnailsGrid");
-            const imageCounter = document.getElementById("imageCounter");
-            const currentImageSpan = document.getElementById("currentImage");
-            const totalImagesSpan = document.getElementById("totalImages");
-
-            currentPhotos = JSON.parse(photosJson);
-
-            // Clear old images and set up new ones
-            content.innerHTML = "";
-            currentPhotos.forEach((photo, index) => {
-                const img = document.createElement('img');
-                img.src = `/storage/${photo}`;
-                img.className =
-                    'w-full h-48 object-cover rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer';
-                img.alt = `Property image ${index + 1}`;
-                img.onclick = () => openImageView(index);
-                content.appendChild(img);
+            photos.forEach((photo, index) => {
+                const image = document.createElement('img');
+                image.src = `/storage/${photo}`;
+                image.alt = `Photo ${index + 1} de la propriété`;
+                image.className = 'h-40 w-full rounded-lg object-cover sm:h-52';
+                gallery.appendChild(image);
             });
 
-            // Update counters
-            totalImagesSpan.textContent = currentPhotos.length;
-            currentIndex = 0;
-            updateCounter();
-
-            // Show modal and grid view
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
+            document.getElementById('galleryModal').classList.replace('hidden', 'flex');
             document.body.style.overflow = 'hidden';
-
-            // Add click outside handler
-            modal.addEventListener('click', handleModalClickOutside);
-            mainImageView.classList.add("hidden");
-            mainImageView.classList.remove("flex");
-            thumbnailsGrid.classList.remove("hidden");
-            imageCounter.classList.add("hidden");
-        }
-
-        function openImageView(index) {
-            const mainImageView = document.getElementById("mainImageView");
-            const thumbnailsGrid = document.getElementById("thumbnailsGrid");
-            const mainImage = document.getElementById("mainImage");
-            const prevBtn = document.getElementById("prevBtn");
-            const nextBtn = document.getElementById("nextBtn");
-            const imageCounter = document.getElementById("imageCounter");
-
-            currentIndex = index;
-
-            // Update main image
-            mainImage.src = `/storage/${currentPhotos[currentIndex]}`;
-            mainImage.alt = `Property image ${currentIndex + 1}`;
-
-            // Toggle views
-            thumbnailsGrid.classList.add("hidden");
-            mainImageView.classList.remove("hidden");
-            mainImageView.classList.add("flex");
-            prevBtn.classList.remove("hidden");
-            nextBtn.classList.remove("hidden");
-            imageCounter.classList.remove("hidden");
-
-            updateCounter();
-        }
-
-        function updateCounter() {
-            const currentImageSpan = document.getElementById("currentImage");
-            currentImageSpan.textContent = currentIndex + 1;
         }
 
         function closeGalleryModal() {
-            const modal = document.getElementById("galleryModal");
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            document.getElementById('galleryModal').classList.replace('flex', 'hidden');
             document.body.style.overflow = '';
-
-            // Remove click outside handler
-            modal.removeEventListener('click', handleModalClickOutside);
         }
 
-        // Event listeners for navigation
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                openImageView(currentIndex);
-            }
-        });
-
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            if (currentIndex < currentPhotos.length - 1) {
-                currentIndex++;
-                openImageView(currentIndex);
-            }
-        });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById("galleryModal");
-            if (modal.classList.contains('hidden')) return;
-
-            switch (e.key) {
-                case 'Escape':
-                    closeGalleryModal();
-                    break;
-                case 'ArrowLeft':
-                    if (currentIndex > 0) {
-                        currentIndex--;
-                        openImageView(currentIndex);
-                    }
-                    break;
-                case 'ArrowRight':
-                    if (currentIndex < currentPhotos.length - 1) {
-                        currentIndex++;
-                        openImageView(currentIndex);
-                    }
-                    break;
-            }
-        });
-
-        function openEditModal(id, hashedId, title, propertyType, city, neighborhood, address, surface, bedrooms, bathrooms,
-            price, priceType, contactPhone, description, availableFrom, availableUntil, listingType) {
-
-            // Populate form fields directly
-            document.getElementById('editTitle').value = title || '';
-            document.getElementById('editPropertyType').value = propertyType ? propertyType.toLowerCase() : '';
-            document.getElementById('editCity').value = city || '';
-            document.getElementById('editNeighborhood').value = neighborhood || '';
-            document.getElementById('editAddress').value = address || '';
-            document.getElementById('editSurface').value = surface || '';
-            document.getElementById('editBedrooms').value = bedrooms || '';
-            document.getElementById('editBathrooms').value = bathrooms || '';
-            document.getElementById('editPrice').value = price || '';
-            document.getElementById('editPriceType').value = priceType || '';
-            document.getElementById('editContactPhone').value = contactPhone || '';
-            document.getElementById('editDescription').value = description || '';
-
-            // Handle dates
-            if (availableFrom) {
-                const availableFromDate = new Date(availableFrom);
-                document.getElementById('editAvailableFrom').value = availableFromDate.toISOString().split('T')[0];
-            }
-            if (availableUntil) {
-                const availableUntilDate = new Date(availableUntil);
-                document.getElementById('editAvailableUntil').value = availableUntilDate.toISOString().split('T')[0];
-            }
-
-            // Set form action and hidden input
-            document.getElementById('editForm').action = `/dashboard/update/${hashedId}`;
-            document.getElementById('editPropertyHash').value = hashedId;
-
-            // Show modal
-            document.getElementById('editModal').classList.remove('hidden');
-            document.getElementById('editModal').classList.add('flex');
-        }
-
-        function closeEditModal() {
-            document.getElementById('editModal').classList.add('hidden');
-            document.getElementById('editModal').classList.remove('flex');
-        }
-
-        // Close edit modal when clicking outside
-        document.getElementById('editModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('editModal')) {
-                closeEditModal();
-            }
-        });
-
-        // Close edit modal on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !document.getElementById('editModal').classList.contains('hidden')) {
-                closeEditModal();
-            }
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeGalleryModal();
         });
     </script>
-
 </x-app-layout>

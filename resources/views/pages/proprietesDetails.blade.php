@@ -1338,68 +1338,84 @@
                 <!-- ✅ Property Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 w-full">
                     @foreach ($properties->take(9) as $property)
-                        <a href="{{ route('proprites.details', $property->slug) }}" class="group">
-                            <div
-                                class="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm hover:shadow-lg transition duration-300 flex flex-col z-0">
+                        @php
+                            $similarPhotos = json_decode($property->photos, true) ?: [];
+                            $similarPhotoCount = max(count($similarPhotos), 1);
+                            $similarImage = count($similarPhotos) > 0
+                                ? asset('storage/' . $similarPhotos[0])
+                                : asset('images/appart1.jpg');
+                            $similarUrl = route('proprites.details', $property->slug);
+                            $similarWhatsappMessage = 'Bonjour, je souhaite en savoir plus sur le bien « ' . $property->title . ' ». ' . $similarUrl;
+                            $similarWhatsappUrl = 'https://wa.me/212634262436?text=' . urlencode($similarWhatsappMessage);
+                        @endphp
+                        <article class="group flex h-full flex-col overflow-hidden rounded-[1.4rem] border border-[#e7ece8] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#173c2e]/10">
+                            <div class="relative h-60 overflow-hidden sm:h-64">
+                                <a href="{{ $similarUrl }}" class="absolute inset-0" aria-label="Voir {{ $property->title }}">
+                                    <img class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                                        src="{{ $similarImage }}" alt="{{ $property->title }}" loading="lazy">
+                                </a>
+                                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/5"></div>
+                                <span class="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3.5 py-2 text-[10px] font-semibold uppercase tracking-wide text-[#796341] shadow-sm">
+                                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                        <path d="m12 2.8 2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.36l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93L12 2.8Z" />
+                                    </svg>
+                                    Sélection signature
+                                </span>
+                                <button type="button" x-data="{ favorite: false }" @click="favorite = !favorite"
+                                    :aria-pressed="favorite.toString()"
+                                    :aria-label="favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
+                                    class="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-[#29332d] shadow-md transition hover:scale-105 hover:text-[#a34c3f] focus:outline-none focus:ring-2 focus:ring-[#0b3b31] focus:ring-offset-2">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" :fill="favorite ? 'currentColor' : 'none'"
+                                        stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z" />
+                                    </svg>
+                                </button>
+                                <span class="absolute bottom-4 right-4 rounded-lg bg-[#28332c]/85 px-3 py-1.5 text-xs font-semibold text-white shadow-sm backdrop-blur-sm">
+                                    1 / {{ $similarPhotoCount }} photos
+                                </span>
+                            </div>
 
-                                <!-- Image -->
-                                <div class="relative w-full h-64 overflow-hidden z-0">
-                                    <img class="w-full h-full object-cover group-hover:scale-105 transition duration-500 z-0"
-                                        src="{{ asset('storage/' . json_decode($property->photos)[0]) }}" alt=""
-                                        loading="lazy">
-                                    <div class="absolute top-3 flex justify-between w-full px-3">
-                                        <div class="flex space-x-2">
-                                            @if (strpos($property->listing_type, 'À-louer') !== false)
-                                                <span
-                                                    class="text-white bg-yellow-500 rounded-full px-3 py-1 uppercase font-semibold text-xs shadow">
-                                                    À louer
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
+                            <div class="flex flex-1 flex-col p-5">
+                                <p class="text-xs font-medium text-[#90764b]">{{ $property->property_type }}</p>
+                                <h3 class="mt-1 truncate text-xl font-semibold text-[#28332c] transition group-hover:text-[#0b3b31]">
+                                    <a href="{{ $similarUrl }}">{{ $property->title }}</a>
+                                </h3>
+                                <div class="mt-2 flex items-center gap-1.5 text-sm text-[#68736d]">
+                                    <img src="{{ asset('images/local.svg') }}" alt="" class="h-4 w-4 opacity-70">
+                                    <span class="truncate">{{ $property->address }}</span>
                                 </div>
 
-                                <!-- Content -->
-                                <div class="flex-1 flex flex-col p-4">
-
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-500 truncate">
-                                        {{ $property->property_type }}
-                                    </p>
-
-                                    <h4 class="text-base font-semibold text-gray-900 group-hover:text-emerald-600 transition truncate mt-1">
-                                        {{ $property->title }}
-                                    </h4>
-
-                                    <div class="flex items-center space-x-1 text-gray-600 text-sm mt-1">
-                                        <img src="{{ asset('images/local.svg') }}" alt="" class="w-4 h-4 opacity-70">
-                                        <p class="truncate max-w-[180px]">
-                                            {{ $property->address }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Property Features -->
-                                <div class="flex items-center mt-3 text-gray-600 text-sm gap-x-6">
-                                    <div class="flex items-center space-x-1">
-                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
-                                        <span>{{ $property->bedrooms }}</span>
-                                    </div>
-                                    <div class="flex items-center space-x-1">
-                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
-                                        <span>{{ $property->bathrooms }}</span>
-                                    </div>
-                                    @if(!is_null($property->surface))
-                                    <div class="flex items-center space-x-1">
-                                        <img class="w-4 h-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
-                                        <span>{{ $property->surface }} m²</span>
-                                    </div>
+                                <div class="mt-5 flex flex-nowrap gap-1.5 overflow-x-auto">
+                                    <span class="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#f1f5f2] px-2 py-2 text-xs whitespace-nowrap text-[#52645a]">
+                                        <img class="h-4 w-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
+                                        {{ $property->bedrooms }} chambres
+                                    </span>
+                                    <span class="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#f1f5f2] px-2 py-2 text-xs whitespace-nowrap text-[#52645a]">
+                                        <img class="h-4 w-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
+                                        {{ $property->bathrooms }} salles de bain
+                                    </span>
+                                    @if (!is_null($property->surface))
+                                        <span class="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#f1f5f2] px-2 py-2 text-xs whitespace-nowrap text-[#52645a]">
+                                            <img class="h-4 w-4 opacity-70" src="{{ asset('images/space.svg') }}" alt="">
+                                            {{ $property->surface }} m²
+                                        </span>
                                     @endif
                                 </div>
 
+                                <div class="mt-5 border-t border-[#edf0ed] pt-4">
+                                    <a href="{{ $similarWhatsappUrl }}" target="_blank" rel="noopener noreferrer"
+                                        class="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#003b31] px-4 py-3.5 text-center text-sm font-semibold leading-tight text-white shadow-md shadow-[#003b31]/15 transition hover:bg-[#075344] focus:outline-none focus:ring-2 focus:ring-[#0b3b31] focus:ring-offset-2">
+                                        <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z" />
+                                        </svg>
+                                        <span>Consulter sur WhatsApp</span>
+                                    </a>
+                                </div>
                             </div>
-                            </div>
-                        </a>
+                        </article>
                     @endforeach
                 </div>
             @endif

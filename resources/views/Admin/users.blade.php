@@ -1,43 +1,58 @@
 <x-app-layout>
-@section('title', 'Lhena.ma - Admin Users')
-    <div class="max-w-7xl mx-auto pt-10 sm:px-6 lg:px-8 dark:bg-gray-800">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg dark:bg-gray-800">
-            <div class="p-6 bg-white border-b border-gray-200 dark:bg-gray-800">
-                <div class="flex justify-between items-center ">
-                    <h2 class="text-2xl font-semibold mb-4 dark:text-white">Users</h2>
-                    <h2 class="text-xl font-semibold mb-4 dark:text-white">
-                        {{ $users->total() }} <span class="text-[#25D366] text-[15px]">Users</span>
-                    </h2>
-                </div>
-                <div class="overflow-x-auto">
-                    <table
-                        class="w-full border-collapse border border-gray-200 shadow-md rounded-lg dark:border-gray-700 dark:text-white">
-                        <thead class="bg-gray-100 dark:bg-gray-800">
-                            <tr>
-                                <th class="p-3 text-left border">ID</th>
-                                <th class="p-3 text-left border">Nom</th>
-                                <th class="p-3 text-left border">Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($users as $user)
-                                <tr class="border-t hover:bg-gray-50">
-                                    <td class="p-3 border">
-                                        {{ $user->id }}
-                                    </td>
-                                    <td class="p-3 border">{{ $user->name }}</td>
-                                    <td class="p-3 border">{{ $user->email }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+    @section('title', 'Lhena.ma - Utilisateurs')
 
-                {{-- Pagination Links --}}
-                <div class="mt-4">
-                    {{ $users->links('pagination::tailwind') }}
-                </div>
+    <div class="admin-page">
+        <header class="admin-page-header">
+            <div>
+                <h1 class="admin-page-title">Utilisateurs</h1>
+                <p class="admin-page-subtitle">Consultez les comptes inscrits sur la plateforme.</p>
             </div>
-        </div>
+            <span class="admin-count-badge"><strong>{{ $users->total() }}</strong> utilisateurs</span>
+        </header>
+
+        <section class="admin-panel" aria-label="Liste des utilisateurs">
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Utilisateur</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th>Date d’inscription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($users as $user)
+                            <tr>
+                                <td>
+                                    <div class="admin-user-cell">
+                                        <span class="admin-user-avatar" aria-hidden="true">
+                                            {{ mb_strtoupper(mb_substr($user->name, 0, 1)) }}
+                                        </span>
+                                        <span class="admin-table__primary">{{ $user->name }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a class="admin-table__link" href="mailto:{{ $user->email }}">{{ $user->email }}</a>
+                                </td>
+                                <td>
+                                    <span class="admin-status {{ $user->role === 'admin' ? 'admin-status--success' : 'admin-status--pending' }}">
+                                        {{ $user->role === 'admin' ? 'Admin' : 'Utilisateur' }}
+                                    </span>
+                                </td>
+                                <td>{{ $user->created_at?->format('d/m/Y') ?? '—' }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td class="admin-empty" colspan="4">Aucun utilisateur à afficher.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            @if ($users->hasPages())
+                <div class="admin-pagination">{{ $users->links('pagination::tailwind') }}</div>
+            @endif
+        </section>
     </div>
 </x-app-layout>
