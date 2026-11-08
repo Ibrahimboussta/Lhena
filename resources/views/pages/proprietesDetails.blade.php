@@ -246,7 +246,7 @@
         }
 
         .property-shell {
-            width: min(100%, 1200px);
+            width: min(100%, 1600px);
             margin: 0 auto;
         }
 
@@ -376,9 +376,9 @@
 
         .property-detail-grid {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(280px, 350px);
+            grid-template-columns: minmax(0, 1.4fr) minmax(340px, 0.85fr);
             align-items: start;
-            gap: 36px;
+            gap: 64px;
         }
 
         .property-detail-section + .property-detail-section {
@@ -389,36 +389,69 @@
 
         .property-detail-section h2 {
             color: #173f36;
+            margin-bottom: 22px;
+            font-size: clamp(1.7rem, 2.1vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.035em;
+            line-height: 1.2;
+        }
+
+        .property-detail-section--specifications h2 {
+            font-size: clamp(1.8rem, 2.2vw, 2.1rem);
         }
 
         .property-spec-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 14px 28px;
+            gap: 22px 32px;
         }
 
         .property-spec {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: #4b5563;
-            font-size: 0.9rem;
+            gap: 14px;
+            color: #25352f;
+            font-size: 1.125rem;
+            line-height: 1.5;
         }
 
         .property-spec img {
-            width: 18px;
-            height: 18px;
-            opacity: 0.72;
+            width: 24px;
+            height: 24px;
+            opacity: 0.9;
+        }
+
+        .property-amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px 28px;
+        }
+
+        .property-amenity {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            color: #25352f;
+            font-size: 1.125rem;
+            line-height: 1.5;
+        }
+
+        .property-amenity__number {
+            flex: 0 0 auto;
+            color: #68756f;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
         }
 
         .property-booking-card {
             position: sticky;
             top: 88px;
             border: 1px solid #e9e3d8;
-            border-radius: 20px;
+            border-radius: 22px;
             background: #fff;
             padding: 28px;
-            box-shadow: 0 14px 40px rgba(39, 49, 42, 0.08);
+            box-shadow: 0 14px 40px rgba(39, 49, 42, 0.06);
         }
 
         .property-booking-card__intro {
@@ -428,21 +461,316 @@
 
         .property-booking-card__intro h2 {
             color: #173f36;
-            font-size: 1.1rem;
-            letter-spacing: 0.04em;
+            font-size: clamp(1rem, 1.2vw, 1.2rem);
+            font-weight: 700;
+            letter-spacing: 0.025em;
+            line-height: 1.3;
         }
 
         .property-booking-card__availability {
-            margin-top: 12px;
+            display: flex;
+            min-height: 60px;
+            flex-direction: column;
+            justify-content: center;
+            margin-top: 0;
             border: 1px solid #e9e3d8;
             border-radius: 12px;
             background: #f8f6f0;
-            padding: 14px 16px;
+            padding: 10px 12px;
             color: #173f36;
             font-weight: 600;
         }
 
-        @media (max-width: 767px) {
+        .property-booking-card__dates {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .property-booking-card__field {
+            min-width: 0;
+        }
+
+        .property-booking-card__label {
+            display: block;
+            margin-bottom: 6px;
+            color: #68756f;
+            font-size: 0.76rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .property-booking-card__value {
+            display: flex;
+            min-height: 48px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            border: 1px solid #e9e3d8;
+            border-radius: 10px;
+            background: #f8f6f0;
+            padding: 10px 12px;
+            color: #34413b;
+            font-size: 0.88rem;
+        }
+
+        input.property-booking-card__value {
+            width: 100%;
+            min-width: 0;
+            color-scheme: light;
+            cursor: pointer;
+        }
+
+        .property-booking-card__select {
+            display: block;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .property-booking-card__rate-label {
+            margin-bottom: 4px;
+            color: #68756f;
+            font-size: 0.82rem;
+            font-weight: 400;
+        }
+
+        .property-booking-card__availability > span:last-child {
+            font-size: 0.88rem;
+        }
+
+        .property-booking-card__cta {
+            display: inline-flex;
+            min-height: 54px;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 0;
+            border-radius: 10px;
+            background: #173f36;
+            padding: 12px 14px;
+            color: #fff;
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.025em;
+            text-align: center;
+            text-transform: uppercase;
+            box-shadow: 0 4px 8px rgba(23, 63, 54, 0.16);
+            transition: background-color 180ms ease, transform 180ms ease;
+        }
+
+        .property-booking-card__cta:hover {
+            background: #0b4b3e;
+            transform: translateY(-1px);
+        }
+
+        .property-booking-card__cta svg {
+            flex: 0 0 auto;
+        }
+
+        .property-booking-card__concierge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 16px;
+            border: 1px solid #e9e3d8;
+            border-radius: 11px;
+            background: #f8f6f0;
+            padding: 12px 14px;
+            color: #173f36;
+            font-size: 0.82rem;
+        }
+
+        .property-booking-card__concierge-mark {
+            display: grid;
+            width: 36px;
+            height: 36px;
+            flex: 0 0 auto;
+            place-items: center;
+            border-radius: 9999px;
+            background: #173f36;
+            color: #fff;
+        }
+
+        .property-booking-card > p {
+            font-size: 0.72rem;
+            line-height: 1.55;
+        }
+
+        .property-reviews {
+            width: min(100%, 1600px);
+            margin: 40px auto 0;
+            border-top: 1px solid #e8e3d9;
+            padding: 40px 0 0;
+        }
+
+        .property-reviews__heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 42px;
+            color: #142238;
+            font-size: clamp(1.75rem, 3vw, 2.65rem);
+            font-weight: 700;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .property-reviews__heading svg {
+            width: 28px;
+            height: 28px;
+            flex: 0 0 auto;
+            color: #059669;
+        }
+
+        .property-reviews__grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: stretch;
+            gap: 36px;
+        }
+
+        .property-reviews__panel {
+            min-width: 0;
+            min-height: 182px;
+            border: 1px solid #e2e5e9;
+            border-radius: 18px;
+            background: #fff;
+            padding: 32px;
+            box-shadow: 0 2px 5px rgba(20, 34, 56, 0.06);
+        }
+
+        .property-reviews__guest {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+            text-align: center;
+        }
+
+        .property-reviews__guest p,
+        .property-reviews__empty {
+            color: #59677a;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .property-reviews__actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .property-reviews__button {
+            display: inline-flex;
+            min-height: 46px;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+            border-radius: 9999px;
+            padding: 10px 24px;
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 180ms ease, transform 180ms ease;
+        }
+
+        .property-reviews__button:hover {
+            transform: translateY(-1px);
+        }
+
+        .property-reviews__button--login {
+            border: 1px solid #173f36;
+            background: #173f36;
+            color: #fff;
+        }
+
+        .property-reviews__button--login:hover {
+            border-color: #0b4b3e;
+            background: #0b4b3e;
+        }
+
+        .property-reviews__button--register {
+            background: #ead2a3;
+            color: #26332e;
+        }
+
+        .property-reviews__button--register:hover {
+            background: #dfc28b;
+        }
+
+        .property-reviews__form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .property-reviews__form label {
+            color: #344255;
+        }
+
+        .property-reviews__form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .property-reviews__list {
+            display: flex;
+            max-height: 384px;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .property-reviews__empty {
+            display: flex;
+            min-height: 116px;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .property-reviews__item {
+            border: 1px solid #e8eaf0;
+            border-radius: 12px;
+            background: #fff;
+            padding: 18px;
+        }
+
+        @media (max-width: 700px) {
+            .property-reviews {
+                margin-top: 32px;
+                padding-top: 30px;
+            }
+
+            .property-reviews__heading {
+                gap: 10px;
+                margin-bottom: 26px;
+            }
+
+            .property-reviews__grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 18px;
+            }
+
+            .property-reviews__panel {
+                min-height: 160px;
+                padding: 24px 20px;
+            }
+
+            .property-reviews__guest p,
+            .property-reviews__empty {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 900px) {
             .property-heading {
                 align-items: flex-start;
                 flex-direction: column;
@@ -470,9 +798,21 @@
             .property-booking-card {
                 position: static;
             }
+
+            .property-amenities-grid {
+                gap: 16px 24px;
+            }
         }
 
         @media (max-width: 480px) {
+            .property-booking-card {
+                padding: 20px;
+            }
+
+            .property-booking-card__dates {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
             .property-gallery {
                 grid-template-columns: minmax(0, 1fr);
                 grid-template-rows: 260px 130px;
@@ -508,6 +848,18 @@
             .property-spec-grid {
                 grid-template-columns: minmax(0, 1fr);
             }
+
+            .property-amenities-grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .property-detail-section--specifications h2 {
+                font-size: 1.6rem;
+            }
+
+            .property-spec {
+                font-size: 1.05rem;
+            }
         }
 
     </style>
@@ -527,7 +879,7 @@
                         {{ str_repeat('★', $avgRating) }}<span class="text-gray-300">{{ str_repeat('☆', 5 - $avgRating) }}</span>
                         <span class="ml-2 align-middle text-xs font-normal tracking-normal text-gray-500">({{ $reviewsCount }} avis)</span>
                     </div>
-                    <h1>{{ $property->title }}</h1>
+                    <h1 class="font-normal text-xl">{{ $property->title }}</h1>
                     <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank"
                         rel="noopener noreferrer"
                         class="mt-1 inline-flex items-center gap-1.5 text-sm text-gray-500 transition hover:text-[#0b3b31]">
@@ -542,7 +894,7 @@
                     <p class="mt-3 text-xs font-medium uppercase tracking-[0.14em] text-gray-500">
                         Disponibilité
                     </p>
-                    <p class="mt-1 text-lg font-semibold text-[#173f36]">Sur demande privée</p>
+                    <p class="mt-1 text-l font-semibold text-[#173f36]">Sur demande privée</p>
                 </div>
             </header>
 
@@ -633,42 +985,38 @@
                         <p class="text-base leading-8 text-gray-600">{!! nl2br(e($property->description)) !!}</p>
                     </section>
 
-                    <section class="property-detail-section">
-                        <h2 class="mb-4 text-xl font-semibold text-gray-900">Caractéristiques</h2>
+                    <section class="property-detail-section property-detail-section--specifications">
+                        <h2>Spécifications</h2>
                         <div class="property-spec-grid">
                             <div class="property-spec">
                                 <img src="{{ asset('images/local.svg') }}" alt="" loading="lazy">
-                                <span>{{ ucfirst($property->property_type) }}</span>
+                                <span class="text-base">{{ ucfirst($property->property_type) }}</span>
                             </div>
                             <div class="property-spec">
                                 <img src="{{ asset('images/space.svg') }}" alt="" loading="lazy">
-                                <span>{{ $property->surface }} m²</span>
+                                <span class="text-base">{{ $property->surface }} m²</span>
                             </div>
                             <div class="property-spec">
                                 <img src="{{ asset('images/beds.svg') }}" alt="" loading="lazy">
-                                <span>{{ $property->bedrooms }} Chambres</span>
+                                <span class="text-base">{{ $property->bedrooms }} Chambres</span>
                             </div>
                             <div class="property-spec">
                                 <img src="{{ asset('images/dosh.svg') }}" alt="" loading="lazy">
-                                <span>{{ $property->bathrooms }} Salles de bain</span>
+                                <span class="text-base">{{ $property->bathrooms }} Salles de bain</span>
                             </div>
                         </div>
                     </section>
 
                     @if ($property->amenities)
                         <section class="property-detail-section">
-                            <h2 class="mb-4 text-xl font-semibold text-gray-900">Équipements et services</h2>
-                            <div class="property-spec-grid">
+                            <h2>Équipements &amp; Services</h2>
+                            <div class="property-amenities-grid">
                                 @foreach (json_decode($property->amenities) as $amenity)
-                                    <div class="property-spec">
-                                        <svg class="h-5 w-5 shrink-0 text-[#0b3b31]" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M5 13l4 4L19 7"></path>
-                                        </svg>
+                                    <div class="property-amenity">
+                                        <span class="property-amenity__number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                         @switch($amenity)
                                             @case('wifi')
-                                                <span>WiFi</span>
+                                                <span >WiFi</span>
                                                 @break
                                             @case('parking')
                                                 <span>Parking</span>
@@ -725,53 +1073,71 @@
                     @endif
                 </div>
 
-                <aside class="property-booking-card">
+                <aside class="property-booking-card" x-data="{
+                    checkIn: @js($property->available_from ? \Carbon\Carbon::parse($property->available_from)->format('Y-m-d') : ''),
+                    checkOut: @js($property->available_until ? \Carbon\Carbon::parse($property->available_until)->format('Y-m-d') : ''),
+                    travelerCount: @js("Jusqu'à 12 Voyageurs (Privatisation Totale)"),
+                    formatDate(value) {
+                        if (!value) return 'À confirmer';
+                        const [year, month, day] = value.split('-');
+                        return `${day}/${month}/${year}`;
+                    },
+                    whatsappUrl() {
+                        const message = 'Bonjour, je souhaite réserver « ' + @js($property->title) +
+                            ' ». Arrivée : ' + this.formatDate(this.checkIn) +
+                            ' ; départ : ' + this.formatDate(this.checkOut) +
+                            ' ; voyageurs : ' + this.travelerCount +
+                            '. ' + window.location.href;
+                        return 'https://wa.me/212634262436?text=' + encodeURIComponent(message);
+                    }
+                }">
                     <div class="property-booking-card__intro">
                         <h2 class="font-semibold uppercase">Réserver / demande de séjour</h2>
-                        <div class="property-booking-card__availability text-left">
-                            <span class="block text-xs font-normal text-gray-500">Tarif &amp; disponibilité</span>
+                    </div>
+
+                    <div class="property-booking-card__dates">
+                        <div class="property-booking-card__field">
+                            <span class="property-booking-card__label">Arrivée (check in)</span>
+                            <input class="property-booking-card__value" type="date" name="check_in"
+                                aria-label="Date d'arrivée" x-model="checkIn"
+                                min="{{ now()->format('Y-m-d') }}"
+                                @change="if (checkOut && checkOut <= checkIn) checkOut = ''">
+                        </div>
+                        <div class="property-booking-card__field">
+                            <span class="property-booking-card__label">Départ (check out)</span>
+                            <input class="property-booking-card__value" type="date" name="check_out"
+                                aria-label="Date de départ" x-model="checkOut"
+                                :min="checkIn || '{{ now()->format('Y-m-d') }}'">
+                        </div>
+                    </div>
+
+                    <div class="property-booking-card__field mb-5">
+                        <span class="property-booking-card__label">Voyageurs</span>
+                        <select class="property-booking-card__value property-booking-card__select"
+                            name="traveler_count" aria-label="Nombre de voyageurs" x-model="travelerCount">
+                            <option value="Jusqu'à 12 Voyageurs (Privatisation Totale)">Jusqu'à 12 Voyageurs (Privatisation Totale)</option>
+                            <option value="2 à 4 Voyageurs">2 à 4 Voyageurs</option>
+                            <option value="5 à 8 Voyageurs">5 à 8 Voyageurs</option>
+                            <option value="8 à 12 Voyageurs">8 à 12 Voyageurs</option>
+                        </select>
+                    </div>
+
+                    <div class="property-booking-card__field mb-5">
+                        <span class="property-booking-card__label">Conditions tarifaires</span>
+                        <div class="property-booking-card__availability mt-0">
+                            <span class="property-booking-card__rate-label">Tarif &amp; disponibilité :</span>
                             <span class="mt-1 block">Sur demande / devis personnalisé</span>
                         </div>
                     </div>
-                    <div class="mb-5 flex items-start gap-2 text-sm text-gray-600">
-                        <img src="{{ asset('images/local.svg') }}" class="mt-0.5 h-4 w-4 shrink-0 opacity-70" alt=""
-                            loading="lazy">
-                        <a href="https://www.google.com/maps?q={{ urlencode($property->address) }}" target="_blank"
-                            rel="noopener noreferrer" class="transition hover:text-[#0b3b31]">
-                            {{ $property->address }}
+
+                    <div class="space-y-2">
+                        <a :href="whatsappUrl()"
+                            target="_blank" rel="noopener noreferrer" class="property-booking-card__cta">
+                            <span class="text-sm">Réserver / consulter les disponibilités</span>
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6" />
+                            </svg>
                         </a>
-                    </div>
-
-                    <div class="space-y-2" x-data="{
-                        showAgentModal: false,
-                        updateBodyScroll() {
-                            if (this.showAgentModal) {
-                                document.body.classList.add('overflow-hidden');
-                            } else {
-                                document.body.classList.remove('overflow-hidden');
-                            }
-                        }
-                    }" x-init="updateBodyScroll()" x-effect="updateBodyScroll()">
-                        <button @click="showAgentModal = true"
-                            class="inline-flex w-full items-center justify-center rounded-lg bg-[#173f36] px-4 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-md transition hover:bg-[#0b4b3e]">
-                            <span aria-hidden="true">☎</span>
-                            <span class="ml-2">Demander les disponibilités</span>
-                        </button>
-
-                        <div x-show="showAgentModal"
-                            class="fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 p-4"
-                            @click.self="showAgentModal = false" x-cloak>
-                            <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-                                <h2 class="mb-4 text-lg font-bold">Contacter l'agent</h2>
-                                <p class="mb-4 text-sm text-gray-600">☎ Numéro de téléphone : 0634262436</p>
-                                <div class="flex justify-end">
-                                    <a href="tel:0634262436"
-                                        class="mr-2 rounded-lg bg-[#0b3b31] px-4 py-2 text-white">Appeler</a>
-                                    <button @click="showAgentModal = false"
-                                        class="rounded-lg border px-4 py-2 transition hover:bg-gray-100">Fermer</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div id="loginModal" class="fixed inset-0 z-[99999] items-center justify-center bg-black/50 p-4"
@@ -791,11 +1157,23 @@
                     <p class="mt-5 border-t border-[#e9e3d8] pt-4 text-center text-xs leading-6 text-gray-500">
                         Réponse personnalisée · Disponibilité confirmée par notre équipe
                     </p>
+                    <div class="property-booking-card__concierge">
+                        <span class="property-booking-card__concierge-mark" aria-hidden="true">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                    d="M4 13v-1a8 8 0 0 1 16 0v1m-16 0v4h3v-6H4m16 2v4h-3v-6h3m-3 6a5 5 0 0 1-5 3h-1" />
+                            </svg>
+                        </span>
+                        <span>
+                            <strong class="block">Service de conciergerie</strong>
+                            <span class="text-gray-500">Un accompagnement personnalisé pour votre séjour</span>
+                        </span>
+                    </div>
                 </aside>
             </div>
         </div>
-        <div class="mt-10 border-t border-gray-200 pt-8 max-w-6xl mx-auto">
-            <h3 class="flex items-center justify-center text-3xl font-bold text-gray-900 mb-8 gap-3">
+        <div class="property-reviews">
+            <h3 class="property-reviews__heading">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -803,11 +1181,11 @@
                 </svg>
                 Avis et commentaires
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="property-reviews__grid">
                 {{-- ✅ Review Form (if logged in) --}}
                 @auth
                     <form x-data="{ loading: false }" @submit="loading = true" action="{{ route('reviews.store') }}"
-                        method="POST" class="space-y-4 bg-white shadow-md border border-gray-200 rounded-xl p-6 h-fit">
+                        method="POST" class="property-reviews__panel property-reviews__form">
                         @csrf
                         <input type="hidden" name="proprity_id" value="{{ $property->id }}">
 
@@ -866,17 +1244,17 @@
 
                 {{-- ✅ Guest Message (if not logged in) --}}
                 @guest
-                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm text-center h-fit">
-                        <p class="text-gray-600 text-sm mb-4">
+                    <div class="property-reviews__panel property-reviews__guest">
+                        <p>
                             Connectez-vous ou créez un compte pour laisser un avis.
                         </p>
-                        <div class="flex justify-center gap-3">
+                        <div class="property-reviews__actions">
                             <a href="{{ route('login') }}"
-                                class="px-4 py-2 rounded-md bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition">
+                                class="property-reviews__button property-reviews__button--login">
                                 Se connecter
                             </a>
                             <a href="{{ route('register') }}"
-                                class="px-4 py-2 rounded-md bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-700 transition">
+                                class="property-reviews__button property-reviews__button--register">
                                 S’inscrire
                             </a>
                         </div>
@@ -886,13 +1264,13 @@
                 <!-- (Old guest reserve modal removed — now using Alpine modal near booking buttons) -->
 
                 {{-- ✅ Comments Section --}}
-                <div class="bg-white shadow-md border border-gray-200 rounded-xl p-6 max-h-96 overflow-y-auto space-y-4">
+                <div class="property-reviews__panel property-reviews__list">
                     @if ($property->reviews->isEmpty())
-                        <p class="text-sm text-gray-500 text-center">Aucun commentaire pour le moment. Soyez le premier à
+                        <p class="property-reviews__empty">Aucun commentaire pour le moment. Soyez le premier à
                             donner votre avis.</p>
                     @else
                         @foreach ($property->reviews as $review)
-                            <div class="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
+                            <div class="property-reviews__item">
                                 <div class="flex items-start gap-3">
                                     <div
                                         class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-semibold">
