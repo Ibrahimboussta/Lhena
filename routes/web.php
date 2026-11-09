@@ -26,6 +26,24 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/cgu', function () {
+    return view('pages.legal', [
+        'title' => 'Conditions générales d’utilisation',
+        'documentPath' => resource_path('legal/cgu.md'),
+        'otherDocumentRoute' => 'legal.privacy',
+        'otherDocumentLabel' => 'Politique de confidentialité',
+    ]);
+})->name('legal.cgu');
+
+Route::get('/politique-de-confidentialite', function () {
+    return view('pages.legal', [
+        'title' => 'Politique de confidentialité',
+        'documentPath' => resource_path('legal/politique-de-confidentialite.md'),
+        'otherDocumentRoute' => 'legal.cgu',
+        'otherDocumentLabel' => 'Conditions générales d’utilisation',
+    ]);
+})->name('legal.privacy');
+
 
 Route::middleware(['authRegister'])->group(function () {
     Route::get('/agency/overview', [ProprieteController::class, 'agencyOverview'])->name('agency.overview');

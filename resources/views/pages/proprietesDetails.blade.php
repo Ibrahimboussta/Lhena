@@ -612,7 +612,7 @@
             justify-content: center;
             gap: 16px;
             margin-bottom: 42px;
-            color: #142238;
+            color: #173f36;
             font-size: clamp(1.75rem, 3vw, 2.65rem);
             font-weight: 700;
             line-height: 1.2;
@@ -623,7 +623,7 @@
             width: 28px;
             height: 28px;
             flex: 0 0 auto;
-            color: #059669;
+            color: #947e55;
         }
 
         .property-reviews__grid {
@@ -636,11 +636,11 @@
         .property-reviews__panel {
             min-width: 0;
             min-height: 182px;
-            border: 1px solid #e2e5e9;
+            border: 1px solid #e8e3d9;
             border-radius: 18px;
-            background: #fff;
+            background: #fffefa;
             padding: 32px;
-            box-shadow: 0 2px 5px rgba(20, 34, 56, 0.06);
+            box-shadow: 0 2px 5px rgba(23, 63, 54, 0.06);
         }
 
         .property-reviews__guest {
@@ -654,7 +654,7 @@
 
         .property-reviews__guest p,
         .property-reviews__empty {
-            color: #59677a;
+            color: #65736b;
             font-size: 1rem;
             line-height: 1.5;
         }
@@ -712,12 +712,34 @@
         }
 
         .property-reviews__form label {
-            color: #344255;
+            color: #435149;
         }
 
         .property-reviews__form textarea {
             min-height: 100px;
             resize: vertical;
+            border-color: #d9dfd9;
+            background: #fffefa;
+            color: #26332e;
+        }
+
+        .property-reviews__form textarea:focus {
+            border-color: #8ba99a;
+            box-shadow: 0 0 0 2px rgba(23, 63, 54, 0.12);
+            outline: none;
+        }
+
+        .property-reviews__form textarea::placeholder {
+            color: #89938d;
+        }
+
+        .property-reviews__form button[type="submit"] {
+            background: #173f36;
+            color: #fff;
+        }
+
+        .property-reviews__form button[type="submit"]:hover:not(:disabled) {
+            background: #0b4b3e;
         }
 
         .property-reviews__list {
@@ -737,10 +759,15 @@
         }
 
         .property-reviews__item {
-            border: 1px solid #e8eaf0;
+            border: 1px solid #eee9df;
             border-radius: 12px;
-            background: #fff;
+            background: #fffefa;
             padding: 18px;
+        }
+
+        .property-reviews__item .property-reviews__avatar {
+            background: #edf2ed;
+            color: #173f36;
         }
 
         @media (max-width: 700px) {
@@ -1174,7 +1201,7 @@
         </div>
         <div class="property-reviews">
             <h3 class="property-reviews__heading">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" fill="none"
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 8h2a2 2 0 012 2v9a2 2 0 01-2 2h-6l-4 4v-4H7a2 2 0 01-2-2v-1" />
@@ -1198,7 +1225,7 @@
                                         <input type="radio" name="rating" :value="i" x-model="rating"
                                             class="hidden" />
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 transition-colors duration-200"
-                                            :class="i <= rating ? 'text-yellow-400' : 'text-gray-300'" viewBox="0 0 20 20"
+                                            :class="i <= rating ? 'text-[#b18a3d]' : 'text-[#e7e1d5]'" viewBox="0 0 20 20"
                                             fill="currentColor">
                                             <path d="M9.049 2.927c.3-.921 1.603-.921
                                                                                 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969
@@ -1224,7 +1251,7 @@
 
                         <div class="flex justify-end">
                             <button type="submit"
-                                class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                class="inline-flex items-center gap-2 text-white text-sm font-medium px-5 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
                                 :disabled="loading">
                                 <template x-if="loading">
                                     <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg"
@@ -1273,7 +1300,7 @@
                             <div class="property-reviews__item">
                                 <div class="flex items-start gap-3">
                                     <div
-                                        class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-semibold">
+                                        class="property-reviews__avatar w-10 h-10 rounded-full flex items-center justify-center font-semibold">
                                         {{ strtoupper(mb_substr($review->user->name, 0, 1)) }}
                                     </div>
                                     <div class="flex-1">
@@ -1283,9 +1310,9 @@
                                             </p>
                                         </div>
                                         <div class="text-sm">
-                                            <span class="text-yellow-400">{{ str_repeat('★', $review->rating) }}</span>
+                                            <span class="text-[#b18a3d]">{{ str_repeat('★', $review->rating) }}</span>
 
-                                            <span class="text-gray-300">{{ str_repeat('☆', 5 - $review->rating) }}</span>
+                                            <span class="text-[#e7e1d5]">{{ str_repeat('☆', 5 - $review->rating) }}</span>
                                         </div>
                                         <p class="mt-2 text-sm text-gray-700 leading-relaxed">
                                             @if ($review->comment && !empty(trim($review->comment)))

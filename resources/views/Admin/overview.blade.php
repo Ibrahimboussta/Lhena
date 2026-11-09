@@ -12,6 +12,7 @@
             position: relative;
             overflow: hidden;
             border: 1px solid #e4e9e5;
+            border-top: 3px solid var(--admin-accent);
             border-radius: 12px;
             background: #fff;
             padding: 18px;
@@ -25,8 +26,16 @@
             width: 88px;
             height: 88px;
             border-radius: 50%;
-            background: #f0f5f0;
+            background: rgba(217, 193, 140, 0.24);
             content: "";
+        }
+
+        .overview-stat:nth-child(even) {
+            border-top-color: var(--admin-green);
+        }
+
+        .overview-stat:nth-child(even)::after {
+            background: rgba(18, 63, 53, 0.08);
         }
 
         .overview-stat__label {
@@ -41,7 +50,7 @@
             position: relative;
             z-index: 1;
             margin-top: 12px;
-            color: #173f36;
+            color: var(--admin-green);
             font-size: 28px;
             font-weight: 700;
             letter-spacing: -0.04em;
@@ -86,7 +95,7 @@
         }
 
         .overview-panel__link {
-            color: #315d4e;
+            color: var(--admin-green);
             font-size: 10px;
             font-weight: 600;
             text-decoration: none;
@@ -94,6 +103,36 @@
 
         .overview-panel__link:hover {
             text-decoration: underline;
+        }
+
+        .overview-home-link {
+            display: inline-flex;
+            min-height: 38px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: 1px solid #173f36;
+            border-radius: 8px;
+            background: #173f36;
+            padding: 8px 13px;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 150ms ease, transform 150ms ease;
+        }
+
+        .overview-home-link:hover {
+            background: #0b4b3e;
+            transform: translateY(-1px);
+        }
+
+        .overview-header-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         .overview-recent {
@@ -111,7 +150,7 @@
 
         .overview-recent__title {
             overflow: hidden;
-            color: #34443b;
+            color: #3d433f;
             font-size: 11px;
             font-weight: 600;
             text-overflow: ellipsis;
@@ -148,8 +187,8 @@
         }
 
         .overview-shortcut:hover {
-            border-color: #cbd9ce;
-            background: #f4f8f4;
+            border-color: #dfd1b3;
+            background: #faf7ef;
         }
 
         .overview-shortcut span:last-child {
@@ -188,7 +227,17 @@
                 <h1 class="admin-page-title">Aperçu global</h1>
                 <p class="admin-page-subtitle">Vue d’ensemble de l’activité de votre plateforme.</p>
             </div>
-            <span class="admin-count-badge">{{ now()->translatedFormat('l d F Y') }}</span>
+            <div class="overview-header-actions">
+                <span class="admin-count-badge">{{ now()->translatedFormat('l d F Y') }}</span>
+                <a class="overview-home-link" href="{{ url('/') }}">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6" />
+                    </svg>
+                    <span>Page d’accueil</span>
+                </a>
+            </div>
         </header>
 
         <section class="overview-stats" aria-label="Statistiques globales">

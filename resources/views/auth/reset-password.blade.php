@@ -49,9 +49,9 @@
         <!-- Submit -->
         <div class="flex items-center justify-center pt-4">
             <x-primary-button
-                class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg 
+                class="px-6 py-2 bg-[#d9c18c] hover:bg-[#e6d2a5] text-[#26332e] font-semibold rounded-lg
                        transition-all duration-300 ease-in-out focus:outline-none 
-                       focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
+                       focus:ring-2 focus:ring-[#8a7957] focus:ring-offset-2 dark:focus:ring-offset-gray-900">
                 {{ __('Réinitialiser le mot de passe') }}
             </x-primary-button>
         </div>

@@ -267,20 +267,147 @@
 
         <div class="voucher-layout" x-data="{
             code: '',
-            kind: 'percentage',
-            amount: '',
             client: '',
-            property: '',
             startDate: '',
             endDate: '',
             maxUses: '1',
             generated: false,
+            downloadError: '',
             generateCode() {
                 this.code = 'LHENA-' + Math.random().toString(36).slice(2, 8).toUpperCase();
             },
-            formatDiscount() {
-                if (!this.amount) return '—';
-                return this.kind === 'percentage' ? this.amount + ' %' : this.amount + ' MAD';
+            async downloadVoucher() {
+                try {
+                    const pdf = new window.jsPDF({ unit: 'mm', format: 'a4' });
+                    const pageWidth = pdf.internal.pageSize.getWidth();
+                    const pageHeight = pdf.internal.pageSize.getHeight();
+                    const margin = 16;
+                    const cardWidth = pageWidth - margin * 2;
+                    const cardX = margin;
+                    const logoResponse = await fetch('{{ asset('images/lhena-logo.png') }}');
+                    if (!logoResponse.ok) throw new Error('Logo LHENA introuvable.');
+                    const logoBlob = await logoResponse.blob();
+                    const logoData = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = () => reject(new Error('Impossible de lire le logo LHENA.'));
+                        reader.readAsDataURL(logoBlob);
+                    });
+
+                    pdf.setProperties({
+                        title: 'Voucher promotionnel ' + (this.code || 'LHENA'),
+                        subject: 'Voucher promotionnel LHENA',
+                        creator: 'LHENA'
+                    });
+                    pdf.setFillColor(247, 248, 246);
+                    pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+                    pdf.setFillColor(255, 255, 255);
+                    pdf.setDrawColor(226, 233, 228);
+                    pdf.roundedRect(cardX, 14, cardWidth, pageHeight - 28, 5, 5, 'FD');
+
+                    const headerY = 14;
+                    const headerHeight = 91;
+                    pdf.setFillColor(23, 63, 54);
+                    pdf.roundedRect(cardX, headerY, cardWidth, headerHeight, 5, 5, 'F');
+                    pdf.rect(cardX, headerY + headerHeight - 5, cardWidth, 5, 'F');
+
+                    pdf.setFillColor(255, 255, 255);
+                    pdf.circle(cardX + 25, headerY + 27, 15, 'F');
+                    pdf.addImage(logoData, 'PNG', cardX + 14, headerY + 16, 22, 22);
+
+                    pdf.setTextColor(217, 199, 159);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.setFontSize(9);
+                    pdf.text('LHENA  |  SÉJOUR D’EXCEPTION', cardX + 48, headerY + 21);
+                    pdf.setTextColor(255, 255, 255);
+                    pdf.setFontSize(20);
+                    pdf.text('Voucher promotionnel', cardX + 48, headerY + 34);
+                    pdf.setTextColor(223, 233, 227);
+                    pdf.setFont('helvetica', 'normal');
+                    pdf.setFontSize(9);
+                    pdf.text('Une attention spéciale pour votre prochain séjour', cardX + 48, headerY + 42);
+
+                    const codeBoxX = cardX + 12;
+                    const codeBoxY = headerY + 56;
+                    const codeBoxWidth = cardWidth - 24;
+                    pdf.setDrawColor(217, 199, 159);
+                    pdf.setLineWidth(0.35);
+                    pdf.setLineDash([1.5, 1.5], 0);
+                    pdf.roundedRect(codeBoxX, codeBoxY, codeBoxWidth, 24, 2.5, 2.5, 'S');
+                    pdf.setLineDash([], 0);
+                    pdf.setTextColor(255, 255, 255);
+                    pdf.setFont('helvetica', 'bold');
+                    const code = this.code.trim() || 'CODE-VOUCHER';
+                    let codeFontSize = 17;
+                    while (codeFontSize > 10 && pdf.getTextWidth(code) * (codeFontSize / 17) > codeBoxWidth - 16) {
+                        codeFontSize -= 1;
+                    }
+                    pdf.setFontSize(codeFontSize);
+                    pdf.text(code, pageWidth / 2, codeBoxY + 15, { align: 'center' });
+
+                    let y = headerY + headerHeight + 20;
+                    const left = cardX + 13;
+                    const right = cardX + cardWidth - 13;
+                    pdf.setTextColor(148, 126, 85);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.setFontSize(9);
+                    pdf.text('DÉTAILS DU VOUCHER', left, y);
+                    y += 11;
+
+                    const formatDate = value => {
+                        if (!value) return '—';
+                        const [year, month, day] = value.split('-');
+                        return day + '/' + month + '/' + year;
+                    };
+                    const rows = [
+                        ['Bénéficiaire', this.client.trim() || 'Non attribué'],
+                        ['Valable du', formatDate(this.startDate)],
+                        ['Valable jusqu’au', formatDate(this.endDate)],
+                        ['Nombre d’utilisations', this.maxUses || '—']
+                    ];
+
+                    rows.forEach(([label, value], index) => {
+                        const maxValueWidth = right - left - 52;
+                        const valueLines = pdf.splitTextToSize(String(value), maxValueWidth);
+                        const rowHeight = Math.max(19, valueLines.length * 5 + 9);
+                        if (index % 2 === 0) {
+                            pdf.setFillColor(248, 249, 247);
+                            pdf.roundedRect(left - 3, y - 5, right - left + 6, rowHeight, 2, 2, 'F');
+                        }
+                        pdf.setFont('helvetica', 'normal');
+                        pdf.setFontSize(10);
+                        pdf.setTextColor(120, 130, 125);
+                        pdf.text(label, left, y + 3);
+                        pdf.setFont('helvetica', 'bold');
+                        pdf.setTextColor(52, 68, 59);
+                        pdf.setFontSize(10);
+                        pdf.text(valueLines, right, y + 3, { align: 'right' });
+                        y += rowHeight;
+                    });
+
+                    const footerY = pageHeight - 51;
+                    pdf.setDrawColor(226, 233, 228);
+                    pdf.setLineWidth(0.4);
+                    pdf.line(left, footerY, right, footerY);
+                    pdf.setTextColor(23, 63, 54);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.setFontSize(10);
+                    pdf.text('Merci de choisir LHENA', pageWidth / 2, footerY + 12, { align: 'center' });
+                    pdf.setTextColor(120, 130, 125);
+                    pdf.setFont('helvetica', 'normal');
+                    pdf.setFontSize(8);
+                    pdf.text('Présentez ce code lors de votre réservation.', pageWidth / 2, footerY + 19, { align: 'center' });
+                    pdf.setTextColor(148, 126, 85);
+                    pdf.setFont('helvetica', 'bold');
+                    pdf.setFontSize(8);
+                    pdf.text('LHENA.MA', pageWidth / 2, footerY + 27, { align: 'center' });
+
+                    pdf.save((this.code.trim() || 'LHENA-VOUCHER') + '.pdf');
+                    this.downloadError = '';
+                } catch (error) {
+                    console.error('Impossible de télécharger le voucher PDF.', error);
+                    this.downloadError = 'Le téléchargement du voucher a échoué. Veuillez réessayer.';
+                }
             }
         }">
             <section class="voucher-panel">
@@ -298,18 +425,6 @@
                         </div>
 
                         <div class="voucher-field">
-                            <label for="voucher-type">Type de réduction</label>
-                            <select id="voucher-type" x-model="kind">
-                                <option value="percentage">Pourcentage (%)</option>
-                                <option value="fixed">Montant fixe (MAD)</option>
-                            </select>
-                        </div>
-                        <div class="voucher-field">
-                            <label for="voucher-amount">Valeur de la réduction</label>
-                            <input id="voucher-amount" type="number" min="1" x-model="amount" placeholder="Ex. 10">
-                        </div>
-
-                        <div class="voucher-field">
                             <label for="voucher-start">Valable à partir du</label>
                             <input id="voucher-start" type="date" x-model="startDate">
                         </div>
@@ -322,13 +437,6 @@
                             <label for="voucher-client">Client (facultatif)</label>
                             <input id="voucher-client" type="text" x-model="client" placeholder="Nom du client">
                         </div>
-                        <div class="voucher-field">
-                            <label for="voucher-property">Propriété concernée</label>
-                            <select id="voucher-property" x-model="property">
-                                <option value="">Toutes les propriétés</option>
-                            </select>
-                        </div>
-
                         <div class="voucher-field">
                             <label for="voucher-uses">Nombre maximum d’utilisations</label>
                             <input id="voucher-uses" type="number" min="1" x-model="maxUses">
@@ -363,18 +471,13 @@
             <aside class="voucher-preview" aria-label="Aperçu du voucher">
                 <div class="voucher-preview__top">
                     <p class="voucher-preview__label">Lhena · Séjour d’exception</p>
-                    <p class="voucher-preview__value" x-text="formatDiscount()">—</p>
-                    <p class="text-xs text-white/75">de réduction</p>
+                    <p class="voucher-preview__value">Voucher promotionnel</p>
                     <p class="voucher-preview__code" x-text="code || 'CODE-VOUCHER'"></p>
                 </div>
                 <div class="voucher-preview__body">
                     <div class="voucher-preview__row">
                         <span>Bénéficiaire</span>
                         <span x-text="client || 'Non attribué'"></span>
-                    </div>
-                    <div class="voucher-preview__row">
-                        <span>Propriété</span>
-                        <span x-text="property || 'Toutes les propriétés'"></span>
                     </div>
                     <div class="voucher-preview__row">
                         <span>Validité</span>
@@ -384,6 +487,12 @@
                         <span>Utilisations</span>
                         <span x-text="maxUses || '—'"></span>
                     </div>
+                    <div class="voucher-actions">
+                        <button class="voucher-button voucher-button--primary" type="button" @click="downloadVoucher()">
+                            Télécharger en PDF
+                        </button>
+                    </div>
+                    <p x-cloak x-show="downloadError" class="mt-3 text-right text-xs text-red-700" role="alert" x-text="downloadError"></p>
                 </div>
             </aside>
         </div>

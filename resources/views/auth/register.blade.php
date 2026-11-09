@@ -1,226 +1,153 @@
 <x-guest-layout>
-    @section('title', 'Lhena.ma - Register')
-    <!-- Simple Terms Modal -->
-    <div id="termsModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white dark:bg-gray-800 rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col">
-            <!-- Header -->
-            <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-white">Conditions d'utilisation</h3>
-                    <button onclick="document.getElementById('termsModal').classList.add('hidden'); document.body.classList.remove('overflow-hidden')" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl leading-none">
-                        &times;
-                    </button>
-                </div>
+    @section('title', 'Lhena.ma - Créer un compte')
+
+    <div class="mx-auto w-full max-w-lg">
+        <x-auth-session-status class="mb-4" :status="session('status')" />
+
+        <div class="mb-5 flex items-start justify-between gap-3">
+            <div>
+                <h1 class="text-2xl font-semibold tracking-tight text-[#171b18]">
+                    {{ __('Créer un compte') }}
+                </h1>
+                <p class="mt-1 text-xs leading-5 text-[#85837f]">
+                    Renseignez vos coordonnées pour rejoindre Lhena.ma
+                </p>
             </div>
-
-            <!-- Content -->
-            <div class="p-6 overflow-y-auto flex-1">
-                <div class="space-y-6 text-sm text-gray-600 dark:text-gray-300">
-                    <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">1. Acceptation des conditions</h4>
-                        <p class="mb-2">En créant un compte sur LHENA.ma, vous acceptez les présentes Conditions d'utilisation ainsi que notre Politique de confidentialité.</p>
-                        <p>L'utilisation de la plateforme est réservée aux personnes âgées de 18 ans ou plus.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">2. Compte utilisateur</h4>
-                        <p class="mb-2">En créant un compte, vous vous engagez à :</p>
-                        <ul class="list-disc pl-5 space-y-1 mb-2">
-                            <li>Fournir des informations exactes et à jour.</li>
-                            <li>Protéger vos identifiants de connexion.</li>
-                            <li>Utiliser la plateforme de manière responsable.</li>
-                            <li>Ne pas créer de faux comptes ou fournir de fausses informations.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">3. Publication des biens</h4>
-                        <p class="mb-2">LHENA.ma est une plateforme spécialisée dans la location de maisons, duplex et appartements.</p>
-                        <p class="mb-2">En publiant un bien, vous confirmez que :</p>
-                        <ul class="list-disc pl-5 space-y-1 mb-2">
-                            <li>Vous êtes autorisé à publier ce bien.</li>
-                            <li>Les informations, photos et descriptions sont exactes.</li>
-                            <li>Le logement respecte les normes de sécurité, de qualité et de conformité.</li>
-                            <li>Vous maintenez les disponibilités et les informations à jour.</li>
-                        </ul>
-                        <p class="mb-2 font-medium text-gray-900 dark:text-white">Important :</p>
-                        <p class="mb-2">La soumission d'une annonce ne signifie pas sa publication immédiate.</p>
-                        <p class="mb-2">Chaque annonce est vérifiée manuellement par l'équipe de LHENA.ma afin de garantir la qualité, la fiabilité et le respect des standards de la plateforme.</p>
-                        <p class="mb-2">LHENA.ma se réserve le droit :</p>
-                        <ul class="list-disc pl-5 space-y-1 mb-2">
-                            <li>D'approuver ou de refuser une annonce.</li>
-                            <li>De demander des informations ou des photos complémentaires.</li>
-                            <li>De modifier certains éléments de présentation afin d'assurer une expérience utilisateur cohérente.</li>
-                            <li>De supprimer toute annonce ne respectant pas les standards de qualité de la plateforme.</li>
-                        </ul>
-                        <p>Notre objectif est de proposer uniquement des hébergements offrant une expérience premium à nos voyageurs.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">4. Réservations</h4>
-                        <p class="mb-2">Les demandes de réservation sont traitées selon la disponibilité du logement.</p>
-                        <p>La confirmation d'une réservation reste soumise à la validation du propriétaire ou du gestionnaire concerné.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">5. Utilisation de la plateforme</h4>
-                        <p class="mb-2">Il est interdit de :</p>
-                        <ul class="list-disc pl-5 space-y-1 mb-2">
-                            <li>Publier des informations fausses ou trompeuses.</li>
-                            <li>Utiliser la plateforme à des fins frauduleuses.</li>
-                            <li>Diffuser un contenu illégal, offensant ou portant atteinte aux droits d'autrui.</li>
-                            <li>Contourner les services proposés par LHENA.ma.</li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">6. Données personnelles</h4>
-                        <p>Vos données personnelles sont traitées de manière confidentielle et sécurisée conformément à notre Politique de confidentialité et à la réglementation en vigueur.</p>
-                    </div>
-
-                    <div>
-                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">7. Modification des conditions</h4>
-                        <p>LHENA.ma se réserve le droit de modifier les présentes Conditions d'utilisation à tout moment. Les utilisateurs seront informés des mises à jour importantes.</p>
-                    </div>
-
-                    <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <p class="text-emerald-600 dark:text-emerald-400 font-medium">⭐ Chez LHENA.ma, nous privilégions la qualité plutôt que la quantité. Notre équipe sélectionne avec soin chaque maison, duplex et appartement afin de proposer une expérience fiable et sécurisée à l'ensemble de nos utilisateurs.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="p-4 border-t border-gray-200 dark:border-gray-700 flex justify-end">
-                <button onclick="document.getElementById('termsModal').classList.add('hidden'); document.getElementById('termsModal').classList.remove('flex')" class="px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800">
-                    Fermer
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <form method="POST" action="{{ route('register') }}" class="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg p-6 space-y-4">
-        @csrf
-
-
-        <!-- Nom -->
-        <div>
-            <!-- Title -->
-            <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white">
-                {{ __('Créer un compte') }}
-            </h2>
-            <x-input-label for="name" :value="__('Nom')" class="text-gray-700 dark:text-gray-300 font-semibold" />
-            <x-text-input id="name"
-                class="block mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700
-                   bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white
-                   focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Adresse e-mail -->
-        <div>
-            <x-input-label for="email" :value="__('Adresse e-mail')" class="text-gray-700 dark:text-gray-300 font-semibold" />
-            <x-text-input id="email"
-                class="block mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700
-                   bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white
-                   focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Mot de passe -->
-        <div>
-            <x-input-label for="password" :value="__('Mot de passe')" class="text-gray-700 dark:text-gray-300 font-semibold" />
-            <x-text-input id="password"
-                class="block mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700
-                   bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white
-                   focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirmer le mot de passe -->
-        <div>
-            <x-input-label for="password_confirmation" :value="__('Confirmer le mot de passe')"
-                class="text-gray-700 dark:text-gray-300 font-semibold" />
-            <x-text-input id="password_confirmation"
-                class="block mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700
-                   bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white
-                   focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                type="password" name="password_confirmation" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <!-- Terms and Conditions -->
-        <div class="pt-2">
-            <div class="flex items-start">
-                <div class="flex items-center h-5">
-                    <input id="terms"
-                           name="terms"
-                           type="checkbox"
-                           class="w-4 h-4 text-green-600 border-gray-300 rounded"
-                           required>
-                </div>
-                <div class="ml-2 text-sm">
-                    <label for="terms" class="text-gray-700 dark:text-gray-300">
-                        J'accepte les
-                        <button type="button"
-                                onclick="document.getElementById('termsModal').classList.remove('hidden'); document.getElementById('termsModal').classList.add('flex')"
-                                class="text-green-600 hover:underline">
-                            conditions d'utilisation
-                        </button>
-                        <span class="text-red-500">*</span>
-                    </label>
-                    @error('terms')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        <!-- Buttons Row -->
-        <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 pt-6">
-
-    <!-- Submit Button -->
-   <x-primary-button
-    class="w-full md:flex-1 px-6 py-4 md:py-3
-    flex items-center justify-center text-center
-    bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg
-    transition-all duration-300 ease-in-out focus:outline-none
-    focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
-    {{ __('S\'inscrire') }}
-</x-primary-button>
-
-
-    <!-- Google Signup Button -->
-    <a href="{{ route('google.redirect') }}"
-       class="w-full md:flex-2 flex items-center justify-center gap-2
-       px-4 py-4 md:py-3
-       bg-white border border-gray-300 rounded-lg
-       hover:bg-gray-100 transition-all duration-300 ease-in-out
-       focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
-
-        <img src="https://www.svgrepo.com/show/355037/google.svg"
-             alt="Google Icon"
-             class="w-5 h-5" />
-
-        <span class="text-sm font-medium text-gray-700">
-            Connect with Google
-        </span>
-    </a>
-
-</div>
-
-        <!-- Redirect to Login -->
-        <p class="text-sm text-center text-gray-600 dark:text-gray-400 pt-2">
-            {{ __('Déjà un compte ?') }}
-            <a href="{{ route('login') }}"
-                class="font-medium text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">
-                {{ __('Se connecter') }}
+            <a href="{{ route('login') }}" class="mt-1 shrink-0 text-right text-[10px] font-medium uppercase tracking-wide text-[#686660] transition hover:text-[#8b4d19]">
+                <span aria-hidden="true">‹</span> Nouveau<br>membre
             </a>
-        </p>
-    </form>
+        </div>
 
+        <form method="POST" action="{{ route('register') }}" class="space-y-3.5" x-data="{ showPassword: false, showConfirmation: false }">
+            @csrf
 
-    </form>
+            <div>
+                <label for="name" class="block text-[10px] font-medium text-[#686660]">
+                    {{ __('Nom complet') }}
+                </label>
+                <div class="relative mt-1">
+                    <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#777d85]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="9" cy="8" r="3.5" stroke-width="1.6" />
+                        <path d="M2.5 20v-1.2A5.8 5.8 0 0 1 8.3 13h1.4a5.8 5.8 0 0 1 5.8 5.8V20h-13ZM16 4.8a3.5 3.5 0 0 1 0 6.4M18 13.5a5 5 0 0 1 3.5 4.8V20" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    <input id="name" name="name" type="text" value="{{ old('name') }}" required autofocus autocomplete="name"
+                        placeholder="ex. Youssef Bennani"
+                        class="block w-full rounded-lg border border-[#d6d7da] bg-white py-2.5 pl-10 pr-3 text-xs text-[#292b29] placeholder:text-[#858b94] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
+                </div>
+                <x-input-error :messages="$errors->get('name')" class="mt-1" />
+            </div>
+
+            <div>
+                <label for="email" class="block text-[10px] font-medium text-[#686660]">
+                    {{ __('Adresse e-mail') }}
+                </label>
+                <div class="relative mt-1">
+                    <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#777d85]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke-width="1.6" />
+                        <path d="m4.5 7 7.5 6 7.5-6" stroke-width="1.6" />
+                    </svg>
+                    <input id="email" name="email" type="email" value="{{ old('email') }}" required autocomplete="username"
+                        placeholder="nom@exemple.ma"
+                        class="block w-full rounded-lg border border-[#d6d7da] bg-white py-2.5 pl-10 pr-3 text-xs text-[#292b29] placeholder:text-[#858b94] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
+                </div>
+                <x-input-error :messages="$errors->get('email')" class="mt-1" />
+            </div>
+
+            <div class="grid gap-3 sm:grid-cols-2">
+                <div>
+                    <label for="password" class="block text-[10px] font-medium text-[#686660]">
+                        {{ __('Mot de passe') }}
+                    </label>
+                    <div class="relative mt-1">
+                        <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#777d85]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="4" y="10" width="16" height="11" rx="2" stroke-width="1.6" />
+                            <path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3" stroke-width="1.6" stroke-linecap="round" />
+                        </svg>
+                        <input id="password" name="password" :type="showPassword ? 'text' : 'password'" required autocomplete="new-password"
+                            placeholder="••••••••"
+                            class="block w-full rounded-lg border border-[#d6d7da] bg-white py-2.5 pl-10 pr-10 text-xs text-[#292b29] placeholder:text-[#858b94] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
+                        <button type="button" @click="showPassword = !showPassword" :aria-label="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+                            class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#777d85] hover:text-[#333] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
+                            <svg aria-hidden="true" x-show="!showPassword" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke-width="1.6" />
+                                <circle cx="12" cy="12" r="2.5" stroke-width="1.6" />
+                            </svg>
+                            <svg aria-hidden="true" x-show="showPassword" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="m3 3 18 18M10.6 6.2A10.7 10.7 0 0 1 12 6c6.1 0 9.5 6 9.5 6a16 16 0 0 1-3.1 3.6M6.2 6.8C3.8 8.3 2.5 12 2.5 12s3.4 6 9.5 6c1.3 0 2.5-.3 3.5-.8" stroke-width="1.6" stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <x-input-error :messages="$errors->get('password')" class="mt-1" />
+                </div>
+
+                <div>
+                    <label for="password_confirmation" class="block text-[10px] font-medium text-[#686660]">
+                        {{ __('Confirmer') }}
+                    </label>
+                    <div class="relative mt-1">
+                        <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#777d85]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M20 11a8 8 0 1 0 1 4M20 4v7h-7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M8 12.5 11 15l5-5" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <input id="password_confirmation" name="password_confirmation" :type="showConfirmation ? 'text' : 'password'" required autocomplete="new-password"
+                            placeholder="••••••••"
+                            class="block w-full rounded-lg border border-[#d6d7da] bg-white py-2.5 pl-10 pr-10 text-xs text-[#292b29] placeholder:text-[#858b94] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
+                        <button type="button" @click="showConfirmation = !showConfirmation" :aria-label="showConfirmation ? 'Masquer la confirmation' : 'Afficher la confirmation'"
+                            class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#777d85] hover:text-[#333] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
+                            <svg aria-hidden="true" x-show="!showConfirmation" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke-width="1.6" />
+                                <circle cx="12" cy="12" r="2.5" stroke-width="1.6" />
+                            </svg>
+                            <svg aria-hidden="true" x-show="showConfirmation" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="m3 3 18 18M10.6 6.2A10.7 10.7 0 0 1 12 6c6.1 0 9.5 6 9.5 6a16 16 0 0 1-3.1 3.6M6.2 6.8C3.8 8.3 2.5 12 2.5 12s3.4 6 9.5 6c1.3 0 2.5-.3 3.5-.8" stroke-width="1.6" stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1" />
+                </div>
+            </div>
+
+            <div class="pt-1">
+                <div class="flex items-start gap-2">
+                    <input id="terms" name="terms" type="checkbox" required
+                        class="mt-0.5 h-4 w-4 shrink-0 rounded border-[#c9c8c5] text-[#9d6b36] focus:ring-[#9d6b36]/30">
+                    <label for="terms" class="text-[11px] leading-5 text-[#67645f]">
+                        J'accepte les
+                        <a href="{{ route('legal.cgu') }}" class="font-medium text-[#8b4d19] underline underline-offset-2 hover:text-[#62340f]">Conditions générales d’utilisation</a>
+                        et reconnais avoir pris connaissance de la
+                        <a href="{{ route('legal.privacy') }}" class="font-medium text-[#8b4d19] underline underline-offset-2 hover:text-[#62340f]">Politique de confidentialité</a>
+                        <span class="text-red-600">*</span>
+                    </label>
+                </div>
+                @error('terms')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <button type="submit"
+                class="flex w-full items-center justify-center gap-2 rounded-lg bg-[#a16e37] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_6px_12px_rgba(114,73,32,0.2)] transition hover:bg-[#8e5e2e] focus:outline-none focus:ring-2 focus:ring-[#a16e37] focus:ring-offset-2">
+                {{ __('S’inscrire') }}
+                <span aria-hidden="true">→</span>
+            </button>
+
+            <div class="flex items-center gap-3 text-[10px] uppercase tracking-wide text-[#a29e99]">
+                <span class="h-px flex-1 bg-[#e8e5e2]"></span>
+                <span>Ou continuer avec</span>
+                <span class="h-px flex-1 bg-[#e8e5e2]"></span>
+            </div>
+
+            <a href="{{ route('google.redirect') }}"
+                class="flex w-full items-center justify-center gap-2 rounded-lg border border-[#e7e5e2] bg-white px-4 py-2.5 text-xs font-medium text-[#333533] transition hover:bg-[#faf9f8] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
+                <img src="https://www.svgrepo.com/show/355037/google.svg" alt="" class="h-4 w-4">
+                <span>Continuer avec Google</span>
+            </a>
+
+            <p class="pt-1 text-center text-xs text-[#817d78]">
+                {{ __('Déjà un compte ?') }}
+                <a href="{{ route('login') }}" class="ml-1 font-medium text-[#8b4d19] transition hover:text-[#62340f]">
+                    {{ __('Se connecter') }}
+                </a>
+            </p>
+        </form>
+    </div>
 </x-guest-layout>

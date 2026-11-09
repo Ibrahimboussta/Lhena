@@ -1,218 +1,672 @@
 @extends('layouts.index')
 @section('title', 'Lhena.ma - Contact')
 @section('content')
-    <section class="px-6 sm:px-16 py-20">
-        <h1 class="text-4xl font-bold pt-8">Contactez-nous</h1>
+<style>
+    .contact-page {
+        min-height: 100vh;
+        background: #f3f8f5;
+        color: #17251f;
+    }
 
-        <div class="max-w-2xl flex flex-col gap-y-2 py-5">
-            <p class="font-bold text-[15px]">Envoyer un message</p>
-            <p class="text-sm font-medium">
-                Nous serions ravis de vous entendre et de répondre à toutes vos questions.
-            </p>
+    .contact-container {
+        width: min(100% - 3rem, 1200px);
+        margin: 0 auto;
+    }
+
+    .contact-main {
+        padding: 6rem 0 3.5rem;
+    }
+
+    .contact-heading {
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-eyebrow {
+        color: #806639;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+    }
+
+    .contact-heading h1 {
+        margin-top: 0.65rem;
+        color: #17251f;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 650;
+        letter-spacing: -0.045em;
+        line-height: 1.1;
+    }
+
+    .contact-heading p {
+        max-width: 43rem;
+        margin-top: 0.65rem;
+        color: #68746d;
+        font-size: 0.85rem;
+        line-height: 1.75;
+    }
+
+    .contact-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(17rem, 0.9fr);
+        align-items: start;
+        gap: 1.25rem;
+    }
+
+    .contact-card {
+        border: 1px solid #e4ebe5;
+        border-radius: 0.85rem;
+        background: #fff;
+        padding: clamp(1.15rem, 3vw, 1.75rem);
+        box-shadow: 0 8px 24px rgba(27, 55, 41, 0.06);
+    }
+
+    .contact-form-heading {
+        margin-bottom: 1.2rem;
+    }
+
+    .contact-form-heading h2 {
+        margin-top: 0.45rem;
+        color: #17251f;
+        font-size: 1.15rem;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+    }
+
+    .contact-form-heading p {
+        margin-top: 0.3rem;
+        color: #77817a;
+        font-size: 0.72rem;
+        line-height: 1.6;
+    }
+
+    .contact-form {
+        display: grid;
+        gap: 0.9rem;
+    }
+
+    .contact-field label {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: #4e5b53;
+        font-size: 0.66rem;
+        font-weight: 600;
+    }
+
+    .contact-field input,
+    .contact-field textarea {
+        display: block;
+        width: 100%;
+        border: 1px solid #dfe6e0;
+        border-radius: 0.55rem;
+        background: #f9fbf9;
+        padding: 0.7rem 0.8rem;
+        color: #29332d;
+        font: inherit;
+        font-size: 0.72rem;
+        transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .contact-field input {
+        min-height: 2.7rem;
+    }
+
+    .contact-field textarea {
+        min-height: 8rem;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    .contact-field input::placeholder,
+    .contact-field textarea::placeholder {
+        color: #9aa39c;
+    }
+
+    .contact-field input:focus,
+    .contact-field textarea:focus {
+        border-color: #9b7a46;
+        outline: none;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(155, 122, 70, 0.14);
+    }
+
+    .contact-field__control {
+        position: relative;
+    }
+
+    .contact-field__control svg {
+        position: absolute;
+        top: 50%;
+        left: 0.75rem;
+        width: 1rem;
+        height: 1rem;
+        color: #89938c;
+        pointer-events: none;
+        transform: translateY(-50%);
+    }
+
+    .contact-field__control input {
+        padding-left: 2.2rem;
+    }
+
+    .contact-fields-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+    }
+
+    .contact-submit {
+        display: inline-flex;
+        min-height: 2.75rem;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: 1px solid #6f5127;
+        border-radius: 0.55rem;
+        background: #76582d;
+        padding: 0.7rem 1rem;
+        color: #fff;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        box-shadow: 0 5px 12px rgba(80, 57, 25, 0.14);
+        transition: background-color 160ms ease, transform 160ms ease, opacity 160ms ease;
+    }
+
+    .contact-submit:hover {
+        transform: translateY(-1px);
+        background: #5f4522;
+    }
+
+    .contact-submit:disabled {
+        cursor: wait;
+        opacity: 0.7;
+    }
+
+    .contact-consent-note {
+        align-self: center;
+        color: #818a83;
+        font-size: 0.62rem;
+        line-height: 1.55;
+    }
+
+    .contact-form-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.85rem;
+        margin-top: 0.15rem;
+    }
+
+    .contact-success {
+        margin-bottom: 1rem;
+        border: 1px solid #cce4d3;
+        border-radius: 0.55rem;
+        background: #f0f8f2;
+        padding: 0.7rem 0.85rem;
+        color: #22623c;
+        font-size: 0.75rem;
+    }
+
+    .contact-side {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .contact-side-card {
+        border: 1px solid #e4ebe5;
+        border-radius: 0.8rem;
+        background: #fff;
+        padding: 1.2rem;
+        box-shadow: 0 6px 20px rgba(27, 55, 41, 0.05);
+    }
+
+    .contact-side-card__heading {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .contact-side-card__icon {
+        display: grid;
+        width: 2.25rem;
+        height: 2.25rem;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 0.6rem;
+        background: #f1e8d7;
+        color: #745a30;
+    }
+
+    .contact-side-card__icon svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .contact-side-card h2 {
+        color: #17251f;
+        font-size: 0.8rem;
+        font-weight: 650;
+    }
+
+    .contact-side-card p {
+        margin-top: 0.25rem;
+        color: #748078;
+        font-size: 0.66rem;
+        line-height: 1.6;
+    }
+
+    .contact-phone {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        margin-top: 0.7rem;
+        color: #183e32;
+        font-size: 0.83rem;
+        font-weight: 650;
+        text-decoration: none;
+    }
+
+    .contact-whatsapp {
+        border-color: #183f34;
+        background: #123d33;
+        color: #fff;
+    }
+
+    .contact-whatsapp .contact-side-card__icon {
+        background: rgba(255, 255, 255, 0.12);
+        color: #e8d5a5;
+    }
+
+    .contact-whatsapp h2 {
+        color: #fff;
+    }
+
+    .contact-whatsapp p {
+        color: rgba(255, 255, 255, 0.72);
+    }
+
+    .contact-whatsapp__link {
+        display: inline-flex;
+        min-height: 2.5rem;
+        align-items: center;
+        gap: 0.45rem;
+        margin-top: 0.85rem;
+        border: 1px solid rgba(233, 213, 165, 0.4);
+        border-radius: 0.5rem;
+        background: #94703b;
+        padding: 0.6rem 0.8rem;
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 160ms ease;
+    }
+
+    .contact-whatsapp__link:hover {
+        background: #7d5c30;
+        color: #fff;
+    }
+
+    .contact-faq {
+        padding: 2rem 0 4.5rem;
+    }
+
+    .contact-faq__heading {
+        max-width: 42rem;
+        margin: 0 auto 1.4rem;
+        text-align: center;
+    }
+
+    .contact-faq__heading h2 {
+        margin-top: 0.45rem;
+        color: #17251f;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+    }
+
+    .contact-faq__heading p {
+        margin-top: 0.45rem;
+        color: #748078;
+        font-size: 0.7rem;
+        line-height: 1.65;
+    }
+
+    .contact-faq__list {
+        max-width: 50rem;
+        margin: 0 auto;
+        display: grid;
+        gap: 0.45rem;
+    }
+
+    .contact-faq__item {
+        overflow: hidden;
+        border: 1px solid #e3ebe5;
+        border-radius: 0.65rem;
+        background: #fff;
+        box-shadow: 0 3px 10px rgba(27, 55, 41, 0.035);
+    }
+
+    .contact-faq__question {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border: 0;
+        background: transparent;
+        padding: 0.9rem 1rem;
+        color: #334139;
+        font-size: 0.72rem;
+        font-weight: 600;
+        text-align: left;
+    }
+
+    .contact-faq__plus {
+        display: grid;
+        width: 1.5rem;
+        height: 1.5rem;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 50%;
+        background: #eef4f0;
+        color: #365447;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: transform 180ms ease, background-color 180ms ease;
+    }
+
+    .contact-faq__question[aria-expanded="true"] .contact-faq__plus {
+        transform: rotate(45deg);
+        background: #f1e8d7;
+        color: #745a30;
+    }
+
+    .contact-faq__answer {
+        max-height: 0;
+        overflow: hidden;
+        color: #6d7871;
+        font-size: 0.7rem;
+        line-height: 1.7;
+        transition: max-height 240ms ease;
+    }
+
+    .contact-faq__answer-inner {
+        padding: 0 1rem 1rem;
+    }
+
+    .contact-faq__note {
+        max-width: 50rem;
+        margin: 1rem auto 0;
+        border: 1px solid #e3ebe5;
+        border-radius: 0.65rem;
+        background: #edf4f0;
+        padding: 0.85rem 1rem;
+        color: #647168;
+        font-size: 0.65rem;
+        line-height: 1.6;
+    }
+
+    .contact-faq__note strong {
+        display: block;
+        margin-bottom: 0.15rem;
+        color: #34443c;
+        font-size: 0.68rem;
+    }
+
+    @media (max-width: 760px) {
+        .contact-container {
+            width: min(100% - 2rem, 1200px);
+        }
+
+        .contact-layout {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .contact-side {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 520px) {
+        .contact-main {
+            padding-top: 5.5rem;
+        }
+
+        .contact-fields-row,
+        .contact-side {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .contact-form-footer {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .contact-submit {
+            width: 100%;
+        }
+
+        .contact-faq {
+            padding-bottom: 3rem;
+        }
+    }
+</style>
+
+<main class="contact-page">
+    <section class="contact-container contact-main" aria-labelledby="contact-title">
+        <div class="contact-heading">
+            <p class="contact-eyebrow">Échangeons sur votre projet</p>
+            <h1 id="contact-title">Contactez-nous</h1>
+            <p>Envoyez-nous un message : notre équipe est à votre écoute pour vous orienter et répondre à vos questions immobilières.</p>
         </div>
 
-        <div class="mx-auto max-w-screen-xl">
-            <div class="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
+        <div class="contact-layout">
+            <div class="contact-card">
+                <div class="contact-form-heading">
+                    <p class="contact-eyebrow">Service client &amp; expertise</p>
+                    <h2>Formulaire de mise en relation</h2>
+                    <p>Complétez les informations ci-dessous et nous reviendrons vers vous.</p>
+                </div>
 
-                <!-- FORM -->
-                <div class="rounded-lg p-8 shadow-md lg:col-span-3 border border-[#25D366]">
-                    <form method="POST" action="{{ route('contact.store') }}" x-data="{
-                        loading: false,
-                        formData: {
-                            name: '',
-                            email: '',
-                            phone: '',
-                            message: ''
-                        },
-                        trackFormSubmit() {
-                            if (typeof gtag === 'function') {
-                                gtag('event', 'form_submit', {
-                                    event_category: 'Contact',
-                                    event_label: 'Contact Form Submission',
-                                    form_id: 'contact_form',
-                                    form_name: 'Contact Form',
-                                    form_location: window.location.pathname,
-                                    form_fields: Object.keys(this.formData)
-                                        .filter(key => this.formData[key] !== '')
-                                        .join(','),
-                                    value: 1
-                                });
+                @if (session('success'))
+                    <p class="contact-success" role="status">{{ session('success') }}</p>
+                @endif
 
-                                Object.keys(this.formData).forEach(field => {
-                                    if (this.formData[field]) {
-                                        gtag('event', 'form_field_complete', {
-                                            event_category: 'Form Interaction',
-                                            event_label: `Contact Form - ${field} completed`,
-                                            form_id: 'contact_form',
-                                            field_name: field,
-                                            field_type: field === 'email' ? 'email' : 'text',
-                                            value: 1
-                                        });
-                                    }
-                                });
-                            }
+                <form method="POST" action="{{ route('contact.store') }}" class="contact-form" x-data="{
+                    loading: false,
+                    formData: { name: '', email: '', phone: '', message: '' },
+                    trackFormSubmit() {
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'form_submit', {
+                                event_category: 'Contact',
+                                event_label: 'Contact Form Submission',
+                                form_id: 'contact_form',
+                                form_name: 'Contact Form',
+                                form_location: window.location.pathname,
+                                form_fields: Object.keys(this.formData)
+                                    .filter(key => this.formData[key] !== '')
+                                    .join(','),
+                                value: 1
+                            });
 
-                            this.loading = true;
-                            return true;
+                            Object.keys(this.formData).forEach(field => {
+                                if (this.formData[field]) {
+                                    gtag('event', 'form_field_complete', {
+                                        event_category: 'Form Interaction',
+                                        event_label: `Contact Form - ${field} completed`,
+                                        form_id: 'contact_form',
+                                        field_name: field,
+                                        field_type: field === 'email' ? 'email' : 'text',
+                                        value: 1
+                                    });
+                                }
+                            });
                         }
-                    }"
-                        @submit.prevent="
-            const form = $event.target;
-            const formData = new FormData(form);
 
-            formData.forEach((value, key) => {
-                if ($data.formData.hasOwnProperty(key)) {
-                    $data.formData[key] = value;
-                }
-            });
+                        this.loading = true;
+                        return true;
+                    }
+                }" @submit.prevent="
+                    const form = $event.target;
+                    const formData = new FormData(form);
+                    formData.forEach((value, key) => {
+                        if (Object.prototype.hasOwnProperty.call($data.formData, key)) {
+                            $data.formData[key] = value;
+                        }
+                    });
+                    if (trackFormSubmit()) form.submit();
+                }">
+                    @csrf
 
-            if (trackFormSubmit()) {
-                form.submit();
-            }
-        "
-                        class="space-y-4">
-                        @csrf
+                    <div class="contact-field">
+                        <label for="contact-name">Nom complet</label>
+                        <input id="contact-name" name="name" type="text" value="{{ old('name') }}" autocomplete="name" placeholder="ex. Samira El Amrani" required>
+                        <x-input-error :messages="$errors->get('name')" class="mt-1" />
+                    </div>
 
-                        <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Nom" name="name" required>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <input class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Adresse email"
-                                type="email" name="email" required>
-
-                            <input id="phone" class="w-full bg-gray-100 rounded-lg p-3 text-sm"
-                                placeholder="+212 612345678" name="phone" required>
+                    <div class="contact-fields-row">
+                        <div class="contact-field">
+                            <label for="contact-email">Adresse e-mail</label>
+                            <div class="contact-field__control">
+                                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke-width="1.6" />
+                                    <path d="m4.5 7 7.5 6 7.5-6" stroke-width="1.6" />
+                                </svg>
+                                <input id="contact-email" name="email" type="email" value="{{ old('email') }}" autocomplete="email" placeholder="nom@exemple.ma" required>
+                            </div>
+                            <x-input-error :messages="$errors->get('email')" class="mt-1" />
                         </div>
 
-                        <textarea class="w-full bg-gray-100 rounded-lg p-3 text-sm" placeholder="Message" rows="8" name="message"
-                            required></textarea>
+                        <div class="contact-field">
+                            <label for="phone">Numéro de téléphone</label>
+                            <div class="contact-field__control">
+                                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 3.5h3l1.5 4-2 1.5a15 15 0 0 0 7.5 7.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3 5.7 2 2 0 0 1 5 3.5Z" />
+                                </svg>
+                                <input id="phone" name="phone" type="tel" value="{{ old('phone') }}" autocomplete="tel" placeholder="+212 6 12 34 56 78" required>
+                            </div>
+                            <x-input-error :messages="$errors->get('phone')" class="mt-1" />
+                        </div>
+                    </div>
 
-                        <button type="submit" class="px-6 py-2.5 bg-black text-white rounded-lg hover:bg-gray-800"
-                            :disabled="loading">
+                    <div class="contact-field">
+                        <label for="contact-message">Votre message</label>
+                        <textarea id="contact-message" name="message" rows="5" placeholder="Précisez votre demande, vos critères ou les disponibilités qui vous conviennent…" required>{{ old('message') }}</textarea>
+                        <x-input-error :messages="$errors->get('message')" class="mt-1" />
+                    </div>
+
+                    <div class="contact-form-footer">
+                        <button type="submit" class="contact-submit" :disabled="loading">
                             <span x-text="loading ? 'Envoi en cours…' : 'Envoyer la demande'"></span>
+                            <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+                            </svg>
                         </button>
-                    </form>
-
-                    @if (session('success'))
-                        <p class="text-green-600 text-sm mt-3">{{ session('success') }}</p>
-                    @endif
-                </div>
-
-
-                <!-- CALL US -->
-                <div class="lg:col-span-2">
-                    <p class="text-2xl font-bold">Appelez-nous</p>
-                    <p class="text-sm pt-3">
-                        Appelez-nous dès maintenant pour un accompagnement personnalisé.
-                    </p>
-
-                    <p class="text-2xl font-bold pt-4 flex items-center gap-2">
-                        📞
-                        <a href="tel:+212634262436" class="text-black">
-                            +212 634-262-436
-                        </a>
-                    </p>
-                </div>
-
+                        <p class="contact-consent-note">Vos informations sont utilisées pour répondre à votre demande.</p>
+                    </div>
+                </form>
             </div>
+
+            <aside class="contact-side" aria-label="Autres moyens de contact">
+                <section class="contact-side-card">
+                    <div class="contact-side-card__heading">
+                        <span class="contact-side-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 3.5h3l1.5 4-2 1.5a15 15 0 0 0 7.5 7.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3 5.7 2 2 0 0 1 5 3.5Z" />
+                            </svg>
+                        </span>
+                        <div>
+                            <h2>Une question ? Parlons-en.</h2>
+                            <p>Appelez-nous pour échanger sur votre recherche ou votre projet immobilier.</p>
+                            <a class="contact-phone" href="tel:+212634262436">+212 634-262-436</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="contact-side-card contact-whatsapp">
+                    <div class="contact-side-card__heading">
+                        <span class="contact-side-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.6a8.5 8.5 0 1 1 16.3-3.9Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.5 8.5c.4 2.3 2.7 4.6 5 5l1.1-1.1 2 .8c-.2 1.2-.9 1.8-2.1 1.8-3.4-.2-7.3-4.1-7.5-7.5 0-1.2.6-1.9 1.8-2.1l.8 2-1.1 1.1Z" />
+                            </svg>
+                        </span>
+                        <div>
+                            <h2>Échangez sur WhatsApp</h2>
+                            <p>Écrivez-nous pour nous parler de votre recherche et obtenir un premier accompagnement.</p>
+                            <a class="contact-whatsapp__link" href="https://wa.me/212634262436" target="_blank" rel="noopener noreferrer">
+                                Démarrer la conversation
+                                <span aria-hidden="true">↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </aside>
         </div>
     </section>
 
-
-
-    <section class="px-6 sm:px-16">
-        <div class="pt-5 pb-5  mx-auto flex flex-col md:flex-row gap-12">
-            <div class="flex flex-col text-left basis-1/2">
-                <p class="sm:text-4xl text-3xl font-extrabold text-base-content">Questions fréquemment posées</p>
-            </div>
-            <ul class="basis-1/2">
-                <li>
-                    <button
-                        class="relative flex gap-2 items-center w-full py-5 text-base font-semibold text-left border-t md:text-lg border-base-content/10"
-                        aria-expanded="false" onclick="toggleFAQ(this)">
-                        <span class="flex-1 text-base-content">Quels sont les critères pour acheter un bien immobilier
-                            ?</span>
-                        <svg class="flex-shrink-0 w-4 h-4 ml-auto fill-current" viewBox="0 0 16 16"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect y="7" width="16" height="2" rx="1"
-                                class="transform origin-center transition duration-200 ease-out false"></rect>
-                            <rect y="7" width="16" height="2" rx="1"
-                                class="transform origin-center rotate-90 transition duration-200 ease-out false"></rect>
-                        </svg>
-                    </button>
-                    <div class="transition-all duration-300 ease-in-out max-h-0 overflow-hidden"
-                        style="transition: max-height 0.3s ease-in-out 0s;">
-                        <div class="pb-5 leading-relaxed">
-                            <div class="space-y-2 leading-relaxed">Les critères varient selon le type de bien, la
-                                localisation et le budget. Il est essentiel de vérifier la conformité légale du bien, de
-                                prendre en compte la situation géographique, et de s’assurer que le financement est en
-                                place.</div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <button
-                        class="relative flex gap-2 items-center w-full py-5 text-base font-semibold text-left border-t md:text-lg border-base-content/10"
-                        aria-expanded="false" onclick="toggleFAQ(this)">
-                        <span class="flex-1 text-base-content">Comment évaluer la valeur d'un bien immobilier ?</span>
-                        <svg class="flex-shrink-0 w-4 h-4 ml-auto fill-current" viewBox="0 0 16 16"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect y="7" width="16" height="2" rx="1"
-                                class="transform origin-center transition duration-200 ease-out false"></rect>
-                            <rect y="7" width="16" height="2" rx="1"
-                                class="transform origin-center rotate-90 transition duration-200 ease-out false"></rect>
-                        </svg>
-                    </button>
-                    <div class="transition-all duration-300 ease-in-out max-h-0 overflow-hidden"
-                        style="transition: max-height 0.3s ease-in-out 0s;">
-                        <div class="pb-5 leading-relaxed">
-                            <div class="space-y-2 leading-relaxed">La valeur d’un bien immobilier dépend de plusieurs
-                                facteurs, notamment sa localisation, sa superficie, son état général, et les prix du marché
-                                local. Une estimation professionnelle est souvent recommandée pour obtenir une évaluation
-                                précise.</div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <button
-                        class="relative flex gap-2 items-center w-full py-5 text-base font-semibold text-left border-t md:text-lg border-base-content/10"
-                        aria-expanded="false" onclick="toggleFAQ(this)">
-                        <span class="flex-1 text-base-content">Quel est le processus d'achat d'une maison ?</span>
-                        <svg class="flex-shrink-0 w-4 h-4 ml-auto fill-current" viewBox="0 0 16 16"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <rect y="7" width="16" height="2" rx="1"
-                                class="transform origin-center transition duration-200 ease-out false"></rect>
-                            <rect y="7" width="16" height="2" rx="1"
-                                class="transform origin-center rotate-90 transition duration-200 ease-out false"></rect>
-                        </svg>
-                    </button>
-                    <div class="transition-all duration-300 ease-in-out max-h-0 overflow-hidden"
-                        style="transition: max-height 0.3s ease-in-out 0s;">
-                        <div class="pb-5 leading-relaxed">
-                            <div class="space-y-2 leading-relaxed">Le processus inclut la recherche du bien, la signature
-                                du contrat de vente, la demande de financement (si nécessaire), la signature de l'acte
-                                notarié, et enfin la remise des clés. Il est important de bien comprendre chaque étape et de
-                                s'assurer que tous les documents légaux sont en ordre.</div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+    <section class="contact-container contact-faq" aria-labelledby="contact-faq-title">
+        <div class="contact-faq__heading">
+            <p class="contact-eyebrow">Besoin d’un renseignement ?</p>
+            <h2 id="contact-faq-title">Questions fréquemment posées</h2>
+            <p>Quelques réponses pour vous aider à mieux préparer votre projet immobilier.</p>
         </div>
 
+        <div class="contact-faq__list">
+            <article class="contact-faq__item">
+                <button class="contact-faq__question" type="button" aria-expanded="false" onclick="toggleFAQ(this)">
+                    <span>Quels sont les critères pour acheter un bien immobilier ?</span>
+                    <span class="contact-faq__plus" aria-hidden="true">+</span>
+                </button>
+                <div class="contact-faq__answer">
+                    <div class="contact-faq__answer-inner">Les critères varient selon le type de bien, la localisation et le budget. Il est essentiel de vérifier la conformité légale du bien, de prendre en compte sa situation géographique et de s’assurer que le financement est en place.</div>
+                </div>
+            </article>
+
+            <article class="contact-faq__item">
+                <button class="contact-faq__question" type="button" aria-expanded="false" onclick="toggleFAQ(this)">
+                    <span>Comment évaluer la valeur d'un bien immobilier ?</span>
+                    <span class="contact-faq__plus" aria-hidden="true">+</span>
+                </button>
+                <div class="contact-faq__answer">
+                    <div class="contact-faq__answer-inner">La valeur d’un bien immobilier dépend de plusieurs facteurs, notamment sa localisation, sa superficie, son état général et les prix du marché local. Une estimation professionnelle est souvent recommandée pour obtenir une évaluation précise.</div>
+                </div>
+            </article>
+
+            <article class="contact-faq__item">
+                <button class="contact-faq__question" type="button" aria-expanded="false" onclick="toggleFAQ(this)">
+                    <span>Quel est le processus d'achat d'une maison ?</span>
+                    <span class="contact-faq__plus" aria-hidden="true">+</span>
+                </button>
+                <div class="contact-faq__answer">
+                    <div class="contact-faq__answer-inner">Le processus inclut la recherche du bien, la signature du contrat de vente, la demande de financement si nécessaire, la signature de l'acte notarié et enfin la remise des clés. Il est important de bien comprendre chaque étape et de s'assurer que tous les documents légaux sont en ordre.</div>
+                </div>
+            </article>
+        </div>
+
+        <p class="contact-faq__note">
+            <strong>Vous avez une question plus précise ?</strong>
+            Notre équipe est à votre écoute pour vous orienter selon votre projet et vos besoins.
+        </p>
     </section>
+</main>
 
+<script>
+    function toggleFAQ(button) {
+        const content = button.nextElementSibling;
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        content.style.maxHeight = expanded ? '0' : `${content.scrollHeight}px`;
+    }
 
-    <script>
-        function toggleFAQ(button) {
-            const content = button.nextElementSibling;
-            button.setAttribute("aria-expanded", button.getAttribute("aria-expanded") === "false" ? "true" : "false");
-            content.style.maxHeight = button.getAttribute("aria-expanded") === "true" ? content.scrollHeight + "px" : "0";
-        }
-
-        const phoneInput = document.getElementById('phone');
-        if (phoneInput) {
-            phoneInput.addEventListener('input', e => {
-                e.target.value = e.target.value.replace(/[^0-9+]/g, '');
-            });
-        }
-    </script>
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', event => {
+            event.target.value = event.target.value.replace(/[^0-9+]/g, '');
+        });
+    }
+</script>
 @endsection

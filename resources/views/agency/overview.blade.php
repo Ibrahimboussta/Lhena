@@ -12,6 +12,7 @@
             position: relative;
             overflow: hidden;
             border: 1px solid #e4e9e5;
+            border-top: 3px solid var(--admin-accent);
             border-radius: 12px;
             background: #fff;
             padding: 20px;
@@ -25,8 +26,16 @@
             width: 84px;
             height: 84px;
             border-radius: 50%;
-            background: #f0f5f0;
+            background: rgba(217, 193, 140, 0.24);
             content: "";
+        }
+
+        .agency-overview-stat:nth-child(even) {
+            border-top-color: var(--admin-green);
+        }
+
+        .agency-overview-stat:nth-child(even)::after {
+            background: rgba(18, 63, 53, 0.08);
         }
 
         .agency-overview-stat__label,
@@ -44,7 +53,7 @@
 
         .agency-overview-stat__value {
             margin-top: 12px;
-            color: #173f36;
+            color: var(--admin-green);
             font-size: 29px;
             font-weight: 700;
             letter-spacing: -0.04em;
@@ -87,7 +96,7 @@
         }
 
         .agency-overview-link {
-            color: #315d4e;
+            color: var(--admin-green);
             font-size: 10px;
             font-weight: 600;
             text-decoration: none;
@@ -104,30 +113,61 @@
             align-items: center;
             justify-content: center;
             gap: 9px;
-            border: 1px solid #123f35;
+            border: 1px solid #d9c18c;
             border-radius: 8px;
-            background: #123f35;
+            background: #d9c18c;
+            padding: 10px 16px;
+            color: #26332e;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.2;
+            text-decoration: none;
+            box-shadow: 0 3px 8px rgba(80, 65, 36, 0.12);
+            transition: background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+        }
+
+        .agency-overview-cta:hover {
+            border-color: #c7aa6b;
+            background: #e6d2a5;
+            color: #26332e;
+            box-shadow: 0 5px 12px rgba(80, 65, 36, 0.16);
+            transform: translateY(-1px);
+        }
+
+        .agency-overview-cta:focus-visible {
+            outline: 3px solid rgba(138, 121, 87, 0.35);
+            outline-offset: 3px;
+        }
+
+        .agency-overview-home-link {
+            display: inline-flex;
+            min-height: 42px;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            border: 1px solid #173f36;
+            border-radius: 8px;
+            background: #173f36;
             padding: 10px 16px;
             color: #fff;
             font-size: 12px;
             font-weight: 600;
             line-height: 1.2;
             text-decoration: none;
-            box-shadow: 0 3px 8px rgba(18, 63, 53, 0.14);
-            transition: background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+            transition: background-color 150ms ease, transform 150ms ease;
         }
 
-        .agency-overview-cta:hover {
-            border-color: #0c3028;
-            background: #0c3028;
+        .agency-overview-home-link:hover {
+            background: #0b4b3e;
             color: #fff;
-            box-shadow: 0 5px 12px rgba(18, 63, 53, 0.2);
             transform: translateY(-1px);
         }
 
-        .agency-overview-cta:focus-visible {
-            outline: 3px solid rgba(18, 63, 53, 0.25);
-            outline-offset: 3px;
+        .agency-overview-header__actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         .agency-overview-cta--small {
@@ -162,7 +202,7 @@
 
         .agency-overview-recent__title {
             overflow: hidden;
-            color: #34443b;
+            color: #3d433f;
             font-size: 11px;
             font-weight: 600;
             text-overflow: ellipsis;
@@ -200,7 +240,7 @@
 
         .agency-overview-shortcut:hover {
             border-color: #cbd9ce;
-            background: #f4f8f4;
+            background: #f3f7f3;
         }
 
         @media (max-width: 900px) {
@@ -224,18 +264,27 @@
     <div class="admin-page">
         <header class="admin-page-header agency-overview-header">
             <div>
-                <span class="admin-status admin-status--success">Espace agence partenaire</span>
+                <span class="admin-status admin-status--neutral">Espace agence partenaire</span>
                 <h1 class="admin-page-title mt-3">Aperçu global</h1>
                 <p class="admin-page-subtitle">Suivez vos annonces et gérez votre portefeuille immobilier.</p>
             </div>
-            <a href="{{ route('publish') }}"
-                class="agency-overview-cta">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2.2" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-7-7h14" />
-                </svg>
-                <span>Ajouter une propriété</span>
-            </a>
+            <div class="agency-overview-header__actions">
+                <a href="{{ route('publish') }}" class="agency-overview-cta">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-7-7h14" />
+                    </svg>
+                    <span>Ajouter une propriété</span>
+                </a>
+                <a href="{{ url('/') }}" class="agency-overview-home-link">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6" />
+                    </svg>
+                    <span>Page d’accueil</span>
+                </a>
+            </div>
         </header>
 
         <section class="agency-overview-stats" aria-label="Statistiques de vos propriétés">

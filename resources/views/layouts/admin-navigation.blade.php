@@ -2,11 +2,12 @@
     .admin-shell {
         --admin-green: #123f35;
         --admin-green-dark: #0c3028;
+        --admin-accent: #d9c18c;
         --admin-ink: #26332e;
         --admin-muted: #78827d;
         --admin-line: #e4e9e5;
         min-height: 100vh;
-        background: #f6f8f6;
+        background: #f8f7f3;
         color: var(--admin-ink);
     }
 
@@ -18,7 +19,7 @@
         width: 248px;
         flex-direction: column;
         border-right: 1px solid var(--admin-line);
-        background: #eef4f0;
+        background: #f4f1e8;
         padding: 18px 14px;
     }
 
@@ -72,9 +73,10 @@
         min-height: 38px;
         align-items: center;
         gap: 10px;
+        border-left: 3px solid transparent;
         border-radius: 8px;
         padding: 8px 10px;
-        color: #58665f;
+        color: #5e625f;
         font-size: 12px;
         font-weight: 500;
         text-decoration: none;
@@ -82,11 +84,12 @@
     }
 
     .admin-nav-link:hover {
-        background: #e2ebe5;
+        background: #e9eee9;
         color: var(--admin-green);
     }
 
     .admin-nav-link.is-active {
+        border-left-color: var(--admin-accent);
         background: var(--admin-green);
         color: #fff;
         box-shadow: 0 3px 8px rgba(18, 63, 53, 0.16);
@@ -159,7 +162,7 @@
         width: min(100%, 360px);
         border: 1px solid #e8ece8;
         border-radius: 8px;
-        background: #f7f9f7;
+        background: #faf9f6;
         padding: 9px 12px;
         color: var(--admin-ink);
         font-size: 11px;
@@ -167,15 +170,15 @@
     }
 
     .admin-search:focus {
-        border-color: #9eb7aa;
-        box-shadow: 0 0 0 3px rgba(18, 63, 53, 0.08);
+        border-color: #c7aa6b;
+        box-shadow: 0 0 0 3px rgba(217, 193, 140, 0.24);
     }
 
     .admin-topbar__right {
         display: flex;
         align-items: center;
         gap: 12px;
-        color: #58665f;
+        color: #5e625f;
         font-size: 10px;
     }
 
@@ -184,9 +187,9 @@
         align-items: center;
         gap: 6px;
         border-radius: 9999px;
-        background: #eef7f0;
+        background: #f4eddd;
         padding: 6px 10px;
-        color: #286344;
+        color: #75613b;
         font-size: 10px;
         font-weight: 600;
     }
@@ -217,7 +220,7 @@
     }
 
     .admin-page-title {
-        color: #173f36;
+        color: var(--admin-green);
         font-size: 24px;
         font-weight: 700;
         letter-spacing: -0.035em;
@@ -267,7 +270,7 @@
     }
 
     .admin-table thead {
-        background: #f5f8f5;
+        background: #f8f7f3;
     }
 
     .admin-table th {
@@ -309,7 +312,7 @@
     }
 
     .admin-table__link {
-        color: #315d4e;
+        color: #8a7957;
         text-decoration: none;
     }
 
@@ -331,8 +334,8 @@
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        background: #e7f0e9;
-        color: #315d4e;
+        background: #f4eddd;
+        color: #75613b;
         font-size: 12px;
         font-weight: 700;
     }
@@ -350,6 +353,11 @@
     .admin-status--success {
         background: #eaf4ed;
         color: #326b47;
+    }
+
+    .admin-status--neutral {
+        background: #f4eddd;
+        color: #75613b;
     }
 
     .admin-status--pending {
@@ -419,7 +427,7 @@
         }
 
         .admin-menu-toggle:focus-visible {
-            outline: 3px solid rgba(18, 63, 53, 0.2);
+            outline: 3px solid rgba(217, 193, 140, 0.55);
             outline-offset: 2px;
         }
 

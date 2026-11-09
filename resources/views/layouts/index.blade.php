@@ -237,8 +237,12 @@
                 </div>
             </div>
 
-            <div class="mt-10 border-t border-[#e7ece8] pt-5 text-xs text-[#7b857f]">
+            <div class="mt-10 flex flex-col gap-3 border-t border-[#e7ece8] pt-5 text-xs text-[#7b857f] sm:flex-row sm:items-center sm:justify-between">
                 © {{ now()->year }} Lhena. Tous droits réservés.
+                <nav aria-label="Informations légales" class="flex flex-wrap gap-x-5 gap-y-2">
+                    <a class="transition hover:text-[#0b3b31]" href="{{ route('legal.cgu') }}">Conditions générales d’utilisation</a>
+                    <a class="transition hover:text-[#0b3b31]" href="{{ route('legal.privacy') }}">Politique de confidentialité</a>
+                </nav>
             </div>
         </div>
     </footer>

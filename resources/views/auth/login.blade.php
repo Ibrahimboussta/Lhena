@@ -1,97 +1,104 @@
 <x-guest-layout>
-    @section('title', 'Lhena.ma - Login')
-    <!-- Session Status -->
+    @section('title', 'Lhena.ma - Se connecter')
+
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}" class="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-2xl space-y-6">
+    <form method="POST" action="{{ route('login') }}" class="space-y-5" x-data="{ showPassword: false }">
         @csrf
 
-        <!-- Title -->
-        <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white">
-            {{ __('Se connecter') }}
-        </h2>
+        <div class="flex items-start justify-between gap-3">
+            <div>
+                <h1 class="text-2xl font-semibold tracking-tight text-[#171b18] sm:text-3xl">
+                    {{ __('Se connecter') }}
+                </h1>
+                <p class="mt-1 text-sm leading-6 text-[#85837f]">
+                    Renseignez vos identifiants pour continuer sur Lhena.ma
+                </p>
+            </div>
+            <span class="mt-1 shrink-0 rounded-full border border-[#f1dfca] bg-[#fbf5ee] px-3 py-1 text-[11px] font-medium text-[#985b25]">
+                Espace Client
+            </span>
+        </div>
 
-        <!-- Email -->
         <div>
-            <x-input-label for="email" :value="__('Email')" class="text-gray-700 dark:text-gray-300 font-semibold" />
-            <x-text-input id="email"
-                class="block mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg
-                   bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white
-                   focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <label for="email" class="block text-[10px] font-semibold uppercase tracking-wide text-[#272a27]">
+                {{ __('Adresse e-mail') }}
+            </label>
+            <div class="relative mt-2">
+                <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#a6a39f]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke-width="1.6" />
+                    <path d="m4.5 7 7.5 6 7.5-6" stroke-width="1.6" />
+                </svg>
+                <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                    placeholder="nom@exemple.ma"
+                    class="block w-full rounded-xl border border-[#e7e5e2] bg-[#faf9f8] py-3 pl-10 pr-4 text-sm text-[#292b29] placeholder:text-[#aaa6a2] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
+            </div>
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
         <div>
-            <x-input-label for="password" :value="__('Mot de passe')" class="text-gray-700 dark:text-gray-300 font-semibold" />
-            <x-text-input id="password"
-                class="block mt-1 w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg
-                   bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white
-                   focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                type="password" name="password" required autocomplete="current-password" />
+            <label for="password" class="block text-[10px] font-semibold uppercase tracking-wide text-[#272a27]">
+                {{ __('Mot de passe') }}
+            </label>
+            <div class="relative mt-2">
+                <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#a6a39f]" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 10V7a5 5 0 0 1 10 0v3h1.25A1.75 1.75 0 0 1 20 11.75v8.5A1.75 1.75 0 0 1 18.25 22h-12A1.75 1.75 0 0 1 4.5 20.25v-8.5A1.75 1.75 0 0 1 6.25 10H7Zm2 0h6V7a3 3 0 0 0-6 0v3Z" transform="translate(0 -1)" />
+                </svg>
+                <input id="password" name="password" required autocomplete="current-password" :type="showPassword ? 'text' : 'password'"
+                    placeholder="••••••••••••"
+                    class="block w-full rounded-xl border border-[#e7e5e2] bg-[#faf9f8] py-3 pl-10 pr-11 text-sm text-[#292b29] placeholder:text-[#aaa6a2] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
+                <button type="button" @click="showPassword = !showPassword" :aria-label="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-[#918d88] transition hover:text-[#373a37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
+                    <svg x-show="!showPassword" aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke-width="1.6" />
+                        <circle cx="12" cy="12" r="2.5" stroke-width="1.6" />
+                    </svg>
+                    <svg x-show="showPassword" aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="m3 3 18 18M10.6 6.2A10.7 10.7 0 0 1 12 6c6.1 0 9.5 6 9.5 6a16 16 0 0 1-3.1 3.6M6.2 6.8C3.8 8.3 2.5 12 2.5 12s3.4 6 9.5 6c1.3 0 2.5-.3 3.5-.8" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me & Forgot Password -->
-        <div class="flex items-center justify-between">
-            <label for="remember_me" class="flex items-center space-x-2">
-                <input id="remember_me" type="checkbox"
-                    class="rounded border-gray-300 dark:border-gray-700 text-green-600 focus:ring-green-500 dark:focus:ring-green-600">
-                <span class="text-sm text-gray-600 dark:text-gray-400">{{ __('Se souvenir de moi') }}</span>
+        <div class="flex items-center justify-between gap-3 text-xs">
+            <label for="remember_me" class="flex cursor-pointer items-center gap-2 text-[#67645f]">
+                <input id="remember_me" name="remember" type="checkbox" value="1"
+                    class="h-4 w-4 rounded border-[#d9d6d2] text-[#9d6b36] focus:ring-[#9d6b36]/30">
+                <span>{{ __('Se souvenir de moi') }}</span>
             </label>
-
             @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}"
-                    class="text-sm font-medium text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">
+                <a href="{{ route('password.request') }}" class="font-medium text-[#8b4d19] transition hover:text-[#62340f]">
                     {{ __('Mot de passe oublié ?') }}
                 </a>
             @endif
         </div>
 
-        <!-- Submit Button -->
-        <div class="flex justify-center">
-            <x-primary-button
-                class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white text-base font-semibold rounded-lg
-                   transition-all duration-300 ease-in-out transform hover:scale-105
-                   focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
-                {{ __('Se connecter') }}
-            </x-primary-button>
+        <button type="submit"
+            class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#a16e37] px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-[0_6px_12px_rgba(114,73,32,0.2)] transition hover:bg-[#8e5e2e] focus:outline-none focus:ring-2 focus:ring-[#a16e37] focus:ring-offset-2">
+            {{ __('Se connecter') }}
+            <span aria-hidden="true">→</span>
+        </button>
+
+        <div class="flex items-center gap-3 text-[10px] uppercase tracking-wide text-[#a29e99]">
+            <span class="h-px flex-1 bg-[#e8e5e2]"></span>
+            <span>Ou continuer avec</span>
+            <span class="h-px flex-1 bg-[#e8e5e2]"></span>
         </div>
 
-        <!-- Divider -->
-        <div class="flex items-center justify-center">
-            <span class="w-1/4 border-t border-gray-300 dark:border-gray-600"></span>
-            <span class="mx-3 text-sm text-gray-500 dark:text-gray-400">ou</span>
-            <span class="w-1/4 border-t border-gray-300 dark:border-gray-600"></span>
-        </div>
+        <a href="{{ route('google.redirect') }}"
+            class="flex w-full items-center justify-center gap-3 rounded-xl border border-[#e7e5e2] bg-white px-4 py-3 text-xs font-medium text-[#333533] transition hover:bg-[#faf9f8] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
+            <img src="https://www.svgrepo.com/show/355037/google.svg" alt="" class="h-4 w-4">
+            <span>Continuer avec Google</span>
+        </a>
 
-        <!-- Google Login -->
-        <div class="flex justify-center">
-            <a href="{{ route('google.redirect') }}"
-                class="p-3 bg-white border border-gray-200 rounded-full
-                  hover:bg-gray-100
-                  transition-all duration-300 ease-in-out transform hover:scale-110
-                  focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2
-                  flex items-center justify-center">
-                <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google Icon" class="w-6 h-6" />
-            </a>
-        </div>
-
-
-        <!-- Register Link -->
-@if (Route::has('register'))
-    <div class="text-center">
-        <p class="text-sm text-gray-600 dark:text-gray-400">
-            Vous n’avez pas de compte ?
-            <a href="{{ route('register') }}"
-               class="font-semibold text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">
-                Créer un compte
-            </a>
-        </p>
-    </div>
-@endif
-
+        @if (Route::has('register'))
+            <p class="pt-1 text-center text-xs text-[#817d78]">
+                Vous n'avez pas de compte ?
+                <a href="{{ route('register') }}" class="ml-1 font-medium text-[#8b4d19] transition hover:text-[#62340f]">
+                    Créer un compte
+                </a>
+            </p>
+        @endif
     </form>
-
 </x-guest-layout>

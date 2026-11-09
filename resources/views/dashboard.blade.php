@@ -10,6 +10,7 @@
             gap: 12px;
             margin-bottom: 20px;
             border: 1px solid #e4e9e5;
+            border-left: 3px solid var(--admin-accent);
             border-radius: 12px;
             background: #fff;
             padding: 12px 14px;
@@ -35,7 +36,7 @@
         .agency-filter {
             min-height: 32px;
             border-radius: 7px;
-            background: #f0f4f0;
+            background: #f4f1e8;
             padding: 7px 10px;
             color: #536159;
             font-size: 10px;
@@ -43,8 +44,8 @@
         }
 
         .agency-filter.is-active {
-            background: #123f35;
-            color: #fff;
+            background: #d9c18c;
+            color: #26332e;
         }
 
         .agency-properties-grid {
@@ -59,15 +60,20 @@
             grid-template-columns: minmax(130px, 0.72fr) minmax(0, 1.28fr);
             overflow: hidden;
             border: 1px solid #e4e9e5;
+            border-top: 3px solid var(--admin-accent);
             border-radius: 12px;
             background: #fff;
             box-shadow: 0 3px 12px rgba(32, 54, 43, 0.04);
         }
 
+        .agency-property-card:nth-child(even) {
+            border-top-color: var(--admin-green);
+        }
+
         .agency-property-card__image {
             position: relative;
             min-height: 220px;
-            background: #edf2ee;
+            background: #f1eee6;
         }
 
         .agency-property-card__image img {
@@ -95,7 +101,7 @@
 
         .agency-property-card__title {
             margin-top: 6px;
-            color: #173f36;
+            color: var(--admin-green);
             font-size: 16px;
             font-weight: 700;
             line-height: 1.35;
@@ -130,7 +136,7 @@
 
         .agency-property-card__detail {
             border-radius: 6px;
-            background: #f1f5f1;
+            background: #eef3ef;
             padding: 5px 7px;
             color: #526057;
             font-size: 9px;
@@ -146,7 +152,7 @@
         }
 
         .agency-property-card__price {
-            color: #173f36;
+            color: var(--admin-green);
             font-size: 15px;
             font-weight: 700;
         }
@@ -218,12 +224,12 @@
 
         <header class="admin-page-header">
             <div>
-                <span class="admin-status admin-status--success">Espace agence partenaire</span>
+                <span class="admin-status admin-status--neutral">Espace agence partenaire</span>
                 <h1 class="admin-page-title mt-3">Mes propriétés listées</h1>
                 <p class="admin-page-subtitle">Gérez vos annonces et suivez leur statut depuis votre espace agence.</p>
             </div>
             <a href="{{ route('publish') }}"
-                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-[#123f35] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#0c3028]">
+                class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-[#d9c18c] px-4 py-2 text-xs font-semibold text-[#26332e] transition hover:bg-[#e6d2a5]">
                 <span aria-hidden="true">＋</span> Ajouter une propriété
             </a>
         </header>
@@ -308,7 +314,7 @@
                     <p class="text-sm font-semibold text-[#26332e]">Aucune propriété pour le moment</p>
                     <p class="mt-2 text-xs text-[#78827d]">Ajoutez votre première annonce pour la voir apparaître ici.</p>
                     <a href="{{ route('publish') }}"
-                        class="mt-5 inline-flex rounded-lg bg-[#123f35] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0c3028]">
+                        class="mt-5 inline-flex rounded-lg bg-[#d9c18c] px-4 py-2 text-xs font-semibold text-[#26332e] hover:bg-[#e6d2a5]">
                         Ajouter une propriété
                     </a>
                 </div>

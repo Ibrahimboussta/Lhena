@@ -1,47 +1,49 @@
 <x-guest-layout>
-@section('title', 'Lhena.ma - Forgot Password')
-    <div class="max-w-md mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 space-y-6">
-        
-        <!-- Title -->
+    @section('title', 'Lhena.ma - Mot de passe oublié')
+
+    <div class="mx-auto w-full max-w-md space-y-6">
+        <x-auth-session-status :status="session('status')" />
+
         <div>
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
+            <h1 class="text-2xl font-semibold tracking-tight text-[#171b18] sm:text-3xl">
                 {{ __('Mot de passe oublié ?') }}
-            </h2>
-            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                {{ __('Pas de problème. Indiquez simplement votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.') }}
+            </h1>
+            <p class="mt-2 text-sm leading-6 text-[#85837f]">
+                {{ __('Pas de problème. Indiquez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.') }}
             </p>
         </div>
 
-        <!-- Statut de la session -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Form -->
-        <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+        <form method="POST" action="{{ route('password.email') }}" class="space-y-5">
             @csrf
 
-            <!-- Adresse e-mail -->
             <div>
-                <x-input-label for="email" :value="__('Adresse e-mail')" class="text-gray-700 dark:text-gray-300 font-semibold" />
-                <x-text-input id="email"
-                    class="block mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 
-                           bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white 
-                           focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    type="email"
-                    name="email"
-                    :value="old('email')"
-                    required autofocus />
+                <label for="email" class="block text-[10px] font-semibold uppercase tracking-wide text-[#272a27]">
+                    {{ __('Adresse e-mail') }}
+                </label>
+                <div class="relative mt-2">
+                    <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#a6a39f]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke-width="1.6" />
+                        <path d="m4.5 7 7.5 6 7.5-6" stroke-width="1.6" />
+                    </svg>
+                    <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus autocomplete="username"
+                        placeholder="nom@exemple.ma"
+                        class="block w-full rounded-xl border border-[#e7e5e2] bg-[#faf9f8] py-3 pl-10 pr-4 text-sm text-[#292b29] placeholder:text-[#aaa6a2] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
+                </div>
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
-            <!-- Submit -->
-            <div class="flex items-center justify-center pt-2">
-                <x-primary-button
-                    class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg 
-                           transition-all duration-300 ease-in-out focus:outline-none 
-                           focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900">
-                    {{ __('Envoyer le lien de réinitialisation') }}
-                </x-primary-button>
-            </div>
+            <button type="submit"
+                class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#a16e37] px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-[0_6px_12px_rgba(114,73,32,0.2)] transition hover:bg-[#8e5e2e] focus:outline-none focus:ring-2 focus:ring-[#a16e37] focus:ring-offset-2">
+                {{ __('Envoyer le lien de réinitialisation') }}
+                <span aria-hidden="true">→</span>
+            </button>
         </form>
+
+        <p class="text-center text-xs text-[#817d78]">
+            {{ __('Vous vous souvenez de votre mot de passe ?') }}
+            <a href="{{ route('login') }}" class="ml-1 font-medium text-[#8b4d19] transition hover:text-[#62340f]">
+                {{ __('Se connecter') }}
+            </a>
+        </p>
     </div>
 </x-guest-layout>
