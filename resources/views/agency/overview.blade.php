@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Lhena.ma - Aperçu agence')
+    @section('title', 'Sorvarent - Aperçu agence')
 
     <style>
         .agency-overview-stats {
@@ -139,30 +139,6 @@
             outline-offset: 3px;
         }
 
-        .agency-overview-home-link {
-            display: inline-flex;
-            min-height: 42px;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-            border: 1px solid #173f36;
-            border-radius: 8px;
-            background: #173f36;
-            padding: 10px 16px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
-            line-height: 1.2;
-            text-decoration: none;
-            transition: background-color 150ms ease, transform 150ms ease;
-        }
-
-        .agency-overview-home-link:hover {
-            background: #0b4b3e;
-            color: #fff;
-            transform: translateY(-1px);
-        }
-
         .agency-overview-header__actions {
             display: flex;
             flex-wrap: wrap;
@@ -275,14 +251,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-7-7h14" />
                     </svg>
                     <span>Ajouter une propriété</span>
-                </a>
-                <a href="{{ url('/') }}" class="agency-overview-home-link">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6" />
-                    </svg>
-                    <span>Page d’accueil</span>
                 </a>
             </div>
         </header>

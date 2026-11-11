@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Lhena.ma - Contact')
+@section('title', 'Sorvarent - Contact')
 @section('content')
 <style>
     .contact-page {

@@ -1,5 +1,4 @@
-<x-app-layout>
-    @section('title', 'Lhena.ma - Documents / vouchers')
+<x-app-layout title="Sorvarent">
 
     <style>
         .voucher-page {
@@ -261,8 +260,8 @@
     <div class="voucher-page">
         <div>
             <p class="voucher-page__eyebrow">Espace administration</p>
-            <h1 class="voucher-page__title">Documents / vouchers</h1>
-            <p class="voucher-page__subtitle">Préparez un voucher et ses conditions d’utilisation.</p>
+            <h1 class="voucher-page__title">Documents / Confirmation de réservation</h1>
+            <p class="voucher-page__subtitle">Préparez une confirmation de réservation et ses conditions d’utilisation.</p>
         </div>
 
         <div class="voucher-layout" x-data="{
@@ -274,7 +273,7 @@
             generated: false,
             downloadError: '',
             generateCode() {
-                this.code = 'LHENA-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+                this.code = 'Sorvarent-' + Math.random().toString(36).slice(2, 8).toUpperCase();
             },
             async downloadVoucher() {
                 try {
@@ -284,20 +283,20 @@
                     const margin = 16;
                     const cardWidth = pageWidth - margin * 2;
                     const cardX = margin;
-                    const logoResponse = await fetch('{{ asset('images/lhena-logo.png') }}');
-                    if (!logoResponse.ok) throw new Error('Logo LHENA introuvable.');
+                    const logoResponse = await fetch('{{ asset('images/pdfLogo.png') }}');
+                    if (!logoResponse.ok) throw new Error('Logo Sorvarent introuvable.');
                     const logoBlob = await logoResponse.blob();
                     const logoData = await new Promise((resolve, reject) => {
                         const reader = new FileReader();
                         reader.onload = () => resolve(reader.result);
-                        reader.onerror = () => reject(new Error('Impossible de lire le logo LHENA.'));
+                        reader.onerror = () => reject(new Error('Impossible de lire le logo Sorvarent.'));
                         reader.readAsDataURL(logoBlob);
                     });
 
                     pdf.setProperties({
-                        title: 'Voucher promotionnel ' + (this.code || 'LHENA'),
-                        subject: 'Voucher promotionnel LHENA',
-                        creator: 'LHENA'
+                        title: 'Confirmation de réservation ' + (this.code || 'Sorvarent'),
+                        subject: 'Confirmation de réservation Sorvarent',
+                        creator: 'Sorvarent'
                     });
                     pdf.setFillColor(247, 248, 246);
                     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
@@ -307,25 +306,23 @@
 
                     const headerY = 14;
                     const headerHeight = 91;
-                    pdf.setFillColor(23, 63, 54);
+                    pdf.setFillColor(10, 42, 37);
                     pdf.roundedRect(cardX, headerY, cardWidth, headerHeight, 5, 5, 'F');
                     pdf.rect(cardX, headerY + headerHeight - 5, cardWidth, 5, 'F');
 
-                    pdf.setFillColor(255, 255, 255);
-                    pdf.circle(cardX + 25, headerY + 27, 15, 'F');
-                    pdf.addImage(logoData, 'PNG', cardX + 14, headerY + 16, 22, 22);
+                    pdf.addImage(logoData, 'PNG', cardX + 12, headerY + 14, 39, 16.5);
 
                     pdf.setTextColor(217, 199, 159);
                     pdf.setFont('helvetica', 'bold');
                     pdf.setFontSize(9);
-                    pdf.text('LHENA  |  SÉJOUR D’EXCEPTION', cardX + 48, headerY + 21);
+                    pdf.text('SORVARENT  |  SÉJOUR D’EXCEPTION', cardX + 61, headerY + 21);
                     pdf.setTextColor(255, 255, 255);
                     pdf.setFontSize(20);
-                    pdf.text('Voucher promotionnel', cardX + 48, headerY + 34);
+                    pdf.text('Confirmation de réservation', cardX + 61, headerY + 34);
                     pdf.setTextColor(223, 233, 227);
                     pdf.setFont('helvetica', 'normal');
                     pdf.setFontSize(9);
-                    pdf.text('Une attention spéciale pour votre prochain séjour', cardX + 48, headerY + 42);
+                    pdf.text('Une attention spéciale pour votre prochain séjour', cardX + 61, headerY + 42);
 
                     const codeBoxX = cardX + 12;
                     const codeBoxY = headerY + 56;
@@ -337,7 +334,7 @@
                     pdf.setLineDash([], 0);
                     pdf.setTextColor(255, 255, 255);
                     pdf.setFont('helvetica', 'bold');
-                    const code = this.code.trim() || 'CODE-VOUCHER';
+                    const code = this.code.trim() || 'CODE-CONFIRMATION';
                     let codeFontSize = 17;
                     while (codeFontSize > 10 && pdf.getTextWidth(code) * (codeFontSize / 17) > codeBoxWidth - 16) {
                         codeFontSize -= 1;
@@ -351,7 +348,7 @@
                     pdf.setTextColor(148, 126, 85);
                     pdf.setFont('helvetica', 'bold');
                     pdf.setFontSize(9);
-                    pdf.text('DÉTAILS DU VOUCHER', left, y);
+                    pdf.text('DÉTAILS DE LA CONFIRMATION DE RÉSERVATION', left, y);
                     y += 11;
 
                     const formatDate = value => {
@@ -392,7 +389,7 @@
                     pdf.setTextColor(23, 63, 54);
                     pdf.setFont('helvetica', 'bold');
                     pdf.setFontSize(10);
-                    pdf.text('Merci de choisir LHENA', pageWidth / 2, footerY + 12, { align: 'center' });
+                    pdf.text('Merci de choisir Sorvarent', pageWidth / 2, footerY + 12, { align: 'center' });
                     pdf.setTextColor(120, 130, 125);
                     pdf.setFont('helvetica', 'normal');
                     pdf.setFontSize(8);
@@ -400,26 +397,26 @@
                     pdf.setTextColor(148, 126, 85);
                     pdf.setFont('helvetica', 'bold');
                     pdf.setFontSize(8);
-                    pdf.text('LHENA.MA', pageWidth / 2, footerY + 27, { align: 'center' });
+                    pdf.text('SORVARENT.MA', pageWidth / 2, footerY + 27, { align: 'center' });
 
-                    pdf.save((this.code.trim() || 'LHENA-VOUCHER') + '.pdf');
+                    pdf.save((this.code.trim() || 'SORVARENT-CONFIRMATION') + '.pdf');
                     this.downloadError = '';
                 } catch (error) {
-                    console.error('Impossible de télécharger le voucher PDF.', error);
-                    this.downloadError = 'Le téléchargement du voucher a échoué. Veuillez réessayer.';
+                    console.error('Impossible de télécharger la confirmation de réservation PDF.', error);
+                    this.downloadError = 'Le téléchargement de la confirmation de réservation a échoué. Veuillez réessayer.';
                 }
             }
         }">
             <section class="voucher-panel">
-                <h2 class="voucher-panel__title">Créer un voucher</h2>
-                <p class="voucher-panel__hint">Renseignez les informations du voucher. Les champs sont présentés à titre d’aperçu.</p>
+                <h2 class="voucher-panel__title">Créer une confirmation de réservation</h2>
+                <p class="voucher-panel__hint">Renseignez les informations de la confirmation de réservation. Les champs sont présentés à titre d’aperçu.</p>
 
                 <form @submit.prevent="generated = true">
                     <div class="voucher-form-grid">
                         <div class="voucher-field voucher-field--full">
-                            <label for="voucher-code">Code du voucher</label>
+                            <label for="voucher-code">Code de confirmation de réservation</label>
                             <div class="voucher-code-row">
-                                <input id="voucher-code" type="text" x-model="code" placeholder="Ex. LHENA-ETE26">
+                                <input id="voucher-code" type="text" x-model="code" placeholder="Ex. Sorvarent-ETE26">
                                 <button class="voucher-code-generate" type="button" @click="generateCode()">Générer un code</button>
                             </div>
                         </div>
@@ -451,7 +448,7 @@
 
                         <div class="voucher-field voucher-field--full">
                             <label for="voucher-terms">Conditions / note interne</label>
-                            <textarea id="voucher-terms" placeholder="Ajoutez les conditions d’utilisation du voucher…"></textarea>
+                            <textarea id="voucher-terms" placeholder="Ajoutez les conditions d’utilisation de la confirmation de réservation…"></textarea>
                         </div>
                     </div>
 
@@ -460,7 +457,7 @@
                     </p>
                     <div class="voucher-actions">
                         <button class="voucher-button voucher-button--secondary" type="reset">Effacer</button>
-                        <button class="voucher-button voucher-button--primary" type="submit">Prévisualiser le voucher</button>
+                        <button class="voucher-button voucher-button--primary" type="submit">Prévisualiser la confirmation de réservation</button>
                     </div>
                     <p x-cloak x-show="generated" class="mt-3 text-right text-xs font-medium text-[#173f36]" role="status">
                         Aperçu mis à jour — aucune donnée n’a été enregistrée.
@@ -468,11 +465,11 @@
                 </form>
             </section>
 
-            <aside class="voucher-preview" aria-label="Aperçu du voucher">
+            <aside class="voucher-preview" aria-label="Aperçu de la confirmation de réservation">
                 <div class="voucher-preview__top">
-                    <p class="voucher-preview__label">Lhena · Séjour d’exception</p>
-                    <p class="voucher-preview__value">Voucher promotionnel</p>
-                    <p class="voucher-preview__code" x-text="code || 'CODE-VOUCHER'"></p>
+                    <p class="voucher-preview__label">Sorvarent · Séjour d’exception</p>
+                    <p class="voucher-preview__value">Confirmation de réservation</p>
+                    <p class="voucher-preview__code" x-text="code || 'CODE-CONFIRMATION'"></p>
                 </div>
                 <div class="voucher-preview__body">
                     <div class="voucher-preview__row">

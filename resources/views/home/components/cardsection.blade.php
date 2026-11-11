@@ -75,7 +75,7 @@
                     $whatsappUrl = 'https://wa.me/212634262436?text=' . urlencode($whatsappMessage);
                 @endphp
                 <article class="group flex h-full flex-col overflow-hidden rounded-[1.4rem] border border-[#e7ece8] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#173c2e]/10">
-                    <div class="relative h-60 overflow-hidden sm:h-64">
+                    <div class="property-image-loader relative h-60 overflow-hidden sm:h-64">
                         <a href="{{ $propertyUrl }}" class="absolute inset-0" aria-label="Voir {{ $property->title }}">
                             <img class="h-full w-full object-cover transition duration-700 group-hover:scale-105" src="{{ $firstPhoto }}" alt="{{ $property->title }}" loading="lazy">
                         </a>

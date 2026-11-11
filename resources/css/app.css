@@ -13,6 +13,51 @@ body {
     background-color: #fff;
 }
 
+.property-image-loader {
+    position: relative;
+    overflow: hidden;
+    background: #e8eee9;
+}
+
+.property-image-loader::before {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(100deg, #e8eee9 25%, #f6f8f6 45%, #e8eee9 65%);
+    background-size: 200% 100%;
+    animation: property-image-shimmer 1.4s ease-in-out infinite;
+    content: "";
+    pointer-events: none;
+    transition: opacity 250ms ease;
+}
+
+.property-image-loader img {
+    opacity: 0;
+    transition: opacity 300ms ease, transform 700ms ease;
+}
+
+.property-image-loader.is-loaded img {
+    opacity: 1;
+}
+
+.property-image-loader.is-loaded::before,
+.property-image-loader.is-failed::before {
+    opacity: 0;
+    animation: none;
+}
+
+@keyframes property-image-shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .property-image-loader::before {
+        animation: none;
+    }
+}
+
 .home-nav {
     border-color: transparent;
     background: transparent;

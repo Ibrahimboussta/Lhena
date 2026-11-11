@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Lhena.ma | ' . $property->title)
+@section('title', 'Sorvarent | ' . $property->title)
 @section('meta')
     @php
         $defaultImage = asset('images/lhena-logo.png');
@@ -355,6 +355,7 @@
 
         .property-gallery__more {
             position: absolute;
+            z-index: 2;
             inset: 0;
             display: grid;
             place-items: center;
@@ -930,7 +931,7 @@
                     <div class="property-gallery__empty">Aucune photo disponible</div>
                 @else
                     <div class="property-gallery__primary">
-                        <button type="button" class="property-gallery__tile"
+                        <button type="button" class="property-gallery__tile property-image-loader"
                             onclick="openFullscreenViewer(0)" aria-label="Ouvrir la photo 1 en plein écran">
                             <img src="{{ asset('storage/' . $photos[0]) }}" alt="Photo principale de {{ $property->title }}"
                                 loading="eager">
@@ -939,20 +940,20 @@
 
                     @if ($photoCount > 1)
                         <div class="property-gallery__side {{ $photoCount === 2 ? 'property-gallery__side--single' : '' }}">
-                            <button type="button" class="property-gallery__tile"
+                            <button type="button" class="property-gallery__tile property-image-loader"
                                 onclick="openFullscreenViewer(1)" aria-label="Ouvrir la photo 2 en plein écran">
                                 <img src="{{ asset('storage/' . $photos[1]) }}" alt="Photo 2 de {{ $property->title }}"
                                     loading="lazy">
                             </button>
                             @if ($photoCount > 2)
                                 <div class="property-gallery__lower {{ $photoCount === 3 ? 'property-gallery__lower--single' : '' }}">
-                                    <button type="button" class="property-gallery__tile"
+                                    <button type="button" class="property-gallery__tile property-image-loader"
                                         onclick="openFullscreenViewer(2)" aria-label="Ouvrir la photo 3 en plein écran">
                                         <img src="{{ asset('storage/' . $photos[2]) }}" alt="Photo 3 de {{ $property->title }}"
                                             loading="lazy">
                                     </button>
                                     @if ($photoCount > 3)
-                                        <button type="button" class="property-gallery__tile"
+                                        <button type="button" class="property-gallery__tile property-image-loader"
                                             onclick="openFullscreenViewer(3)" aria-label="Ouvrir la photo 4 et les autres en plein écran">
                                             <img src="{{ asset('storage/' . $photos[3]) }}" alt="Photo 4 de {{ $property->title }}"
                                                 loading="lazy">
@@ -961,7 +962,7 @@
                                             @endif
                                         </button>
                                     @else
-                                        <button type="button" class="property-gallery__tile"
+                                        <button type="button" class="property-gallery__tile property-image-loader"
                                             onclick="openFullscreenViewer(2)" aria-label="Ouvrir la photo 3 en plein écran">
                                             <img src="{{ asset('storage/' . $photos[2]) }}" alt="Photo 3 de {{ $property->title }}"
                                                 loading="lazy">
@@ -1340,7 +1341,7 @@
 
 
         <h2 class="flex items-center justify-center text-3xl font-bold text-gray-900 mb-8 gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-emerald-600" fill="none" viewBox="0 0 24 24"
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-[#0b3b31]" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10z" />
@@ -1376,7 +1377,7 @@
                             $similarWhatsappUrl = 'https://wa.me/212634262436?text=' . urlencode($similarWhatsappMessage);
                         @endphp
                         <article class="group flex h-full flex-col overflow-hidden rounded-[1.4rem] border border-[#e7ece8] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#173c2e]/10">
-                            <div class="relative h-60 overflow-hidden sm:h-64">
+                            <div class="property-image-loader relative h-60 overflow-hidden sm:h-64">
                                 <a href="{{ $similarUrl }}" class="absolute inset-0" aria-label="Voir {{ $property->title }}">
                                     <img class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                                         src="{{ $similarImage }}" alt="{{ $property->title }}" loading="lazy">

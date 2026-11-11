@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Lhena.ma - Mes propriétés')
+    @section('title', 'Sorvarent - Mes propriétés')
 
     <style>
         .agency-property-toolbar {

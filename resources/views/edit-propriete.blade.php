@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Lhena.ma - Modifier Propriété')
+@section('title', 'Sorvarent - Modifier Propriété')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-20 pb-12">

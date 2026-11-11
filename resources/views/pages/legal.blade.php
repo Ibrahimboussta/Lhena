@@ -1,6 +1,6 @@
 @extends('layouts.index')
 
-@section('title', 'Lhena.ma - ' . $title)
+@section('title', 'Sorvarent - ' . $title)
 
 @section('content')
     <main class="px-5 pb-20 pt-24 sm:px-8 lg:px-10">

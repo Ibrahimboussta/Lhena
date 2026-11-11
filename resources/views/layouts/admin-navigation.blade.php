@@ -40,8 +40,8 @@
     }
 
     .admin-brand img {
-        width: 34px;
-        height: 34px;
+        width: 120px;
+        height: 52px;
         object-fit: contain;
     }
 
@@ -412,6 +412,11 @@
             padding: 0;
         }
 
+        .admin-brand img {
+            width: 108px;
+            height: 46px;
+        }
+
         .admin-menu-toggle {
             display: inline-flex;
             width: 40px;
@@ -500,13 +505,7 @@
 <aside class="admin-sidebar" x-data="{ menuOpen: false }">
     <div class="admin-sidebar__header">
         <a class="admin-brand" href="{{ Auth::user()->role === 'admin' ? route('admin.overview') : route('agency.overview') }}">
-            <img src="{{ asset('images/lhena-logo.png') }}" alt="">
-            <span>
-                <span class="admin-brand__name block">Lhena</span>
-                <span class="admin-brand__caption block">
-                    {{ Auth::user()->role === 'admin' ? 'Gestion privée' : 'Espace agence' }}
-                </span>
-            </span>
+            <img class="h-20 sm:h-20" src="{{ asset('images/newlogo.png') }}" alt="">
         </a>
         <button type="button" class="admin-menu-toggle" @click="menuOpen = !menuOpen"
             :aria-expanded="menuOpen.toString()" aria-controls="admin-mobile-navigation"
@@ -582,6 +581,10 @@
                 <span>Ajouter une propriété</span>
             </a>
         @endif
+        <a href="{{ url('/') }}" @click="menuOpen = false" class="admin-nav-link">
+            <span class="admin-nav-link__icon" aria-hidden="true">⌂</span>
+            <span>Page d’accueil</span>
+        </a>
     </nav>
 
     <div class="admin-account" :class="{ 'is-open': menuOpen }">

@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Lhena.ma - Contacts')
+    @section('title', 'Sorvarent - Contacts')
 
     <div class="admin-page">
         <header class="admin-page-header">

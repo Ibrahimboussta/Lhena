@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Lhena.ma - Propriétés')
+@section('title', 'Sorvarent - Propriétés')
 @section('content')
 <style>
     .properties-page {
@@ -767,7 +767,7 @@
                         $whatsappUrl = 'https://wa.me/212634262436?text=' . urlencode($whatsappMessage);
                     @endphp
                     <article class="properties-card">
-                        <div class="properties-card__image">
+                        <div class="properties-card__image property-image-loader">
                             <a href="{{ $propertyUrl }}" class="properties-card__image-link" aria-label="Voir {{ $property->title }}">
                                 <img src="{{ $firstPhoto }}" alt="{{ $property->title }}" loading="lazy">
                             </a>

@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'Lhena.ma - Votre plateforme immobilière de confiance')</title>
+    <title>@yield('title', 'Sorvarent - Votre plateforme immobilière de confiance')</title>
     @yield('meta')
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
-    <link rel="icon" href="{{ asset('images/lhena-logo.png') }}">
+    <link rel="icon" href="{{ asset('images/iconTab.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -31,11 +31,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="home-nav__brand flex items-center">
-                        <img class="home-nav__logo h-12 w-auto sm:h-14" src="{{ asset('images/lhena-logo.png') }}" alt="Lhena">
-                        <span class="ml-2 hidden leading-tight sm:block">
-                            <span class="home-nav__brand-name block text-base font-semibold tracking-tight text-[#0b3b31]">Lhena</span>
-                            <span class="home-nav__brand-tagline block text-[9px] font-semibold uppercase tracking-[0.12em] text-[#90764b]">Immobilier au Maroc</span>
-                        </span>
+                        <img class="home-nav__logo h-12 w-auto sm:h-14" src="{{ asset('images/newlogo.png') }}" alt="Lhena">
                     </a>
                 </div>
 

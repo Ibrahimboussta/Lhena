@@ -1,5 +1,5 @@
 <x-guest-layout>
-    @section('title', 'Lhena.ma - Se connecter')
+    @section('title', 'Sorvarent - Se connecter')
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
 

@@ -1,5 +1,5 @@
 <x-guest-layout>
-    @section('title', 'Lhena.ma - Mot de passe oublié')
+    @section('title', 'Sorvarent - Mot de passe oublié')
 
     <div class="mx-auto w-full max-w-md space-y-6">
         <x-auth-session-status :status="session('status')" />

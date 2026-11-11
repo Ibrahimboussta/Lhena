@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Lhena.ma - Aperçu global')
+    @section('title', 'Sorvarent - Aperçu global')
 
     <style>
         .overview-stats {
@@ -229,13 +229,12 @@
             </div>
             <div class="overview-header-actions">
                 <span class="admin-count-badge">{{ now()->translatedFormat('l d F Y') }}</span>
-                <a class="overview-home-link" href="{{ url('/') }}">
+                <a class="overview-home-link" href="{{ route('publish') }}">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m3 10 9-7 9 7M5 9v11h14V9M9 20v-6h6v6" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-7-7h14" />
                     </svg>
-                    <span>Page d’accueil</span>
+                    <span>Ajouter une propriété</span>
                 </a>
             </div>
         </header>

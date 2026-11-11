@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Lhena.ma - À propos')
+@section('title', 'Sorvarent - À propos')
 @section('content')
 <style>
     .about-page {

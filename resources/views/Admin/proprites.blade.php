@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Lhena.ma - Propriétés')
+    @section('title', 'Sorvarent - Propriétés')
 
     <style>
         .admin-property-grid {
