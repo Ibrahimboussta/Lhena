@@ -18,6 +18,7 @@ use App\Models\Propritie;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/users/{id}/edit', [\App\Http\Controllers\ProfileController::class, 'editUser'])->name('users.edit');
@@ -25,6 +26,22 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::post('/locale', function (Request $request) {
+    $validated = $request->validate([
+        'locale' => ['required', 'in:fr,ar'],
+        'redirect_to' => ['nullable', 'string', 'max:2048'],
+    ]);
+
+    Session::put('locale', $validated['locale']);
+
+    $redirectTo = $validated['redirect_to'] ?? '/';
+    if (! str_starts_with($redirectTo, '/') || str_starts_with($redirectTo, '//')) {
+        $redirectTo = '/';
+    }
+
+    return redirect()->to($redirectTo)->withCookie(cookie('locale', $validated['locale'], 60 * 24 * 365));
+})->name('locale.switch');
 
 Route::get('/cgu', function () {
     return view('pages.legal', [

@@ -224,26 +224,26 @@
 
         <header class="admin-page-header">
             <div>
-                <span class="admin-status admin-status--neutral">Espace agence partenaire</span>
-                <h1 class="admin-page-title mt-3">Mes propriétés listées</h1>
-                <p class="admin-page-subtitle">Gérez vos annonces et suivez leur statut depuis votre espace agence.</p>
+                <span class="admin-status admin-status--neutral">{{ __('ui.agency_partner_space') }}</span>
+                <h1 class="admin-page-title mt-3">{{ __('ui.my_properties') }}</h1>
+                <p class="admin-page-subtitle">{{ __('ui.manage_properties') }}</p>
             </div>
             <a href="{{ route('publish') }}"
                 class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-[#d9c18c] px-4 py-2 text-xs font-semibold text-[#26332e] transition hover:bg-[#e6d2a5]">
-                <span aria-hidden="true">＋</span> Ajouter une propriété
+                <span aria-hidden="true">＋</span> {{ __('ui.add_property') }}
             </a>
         </header>
 
         <div class="agency-property-toolbar">
             <input class="agency-property-search" type="search" x-model="search"
-                placeholder="Rechercher par nom, ville ou adresse…" aria-label="Rechercher dans mes propriétés">
-            <div class="agency-filter-list" aria-label="Filtrer les propriétés">
+                placeholder="{{ __('ui.search_properties') }}" aria-label="{{ __('ui.search_my_properties') }}">
+            <div class="agency-filter-list" aria-label="{{ __('ui.filter_properties') }}">
                 <button type="button" class="agency-filter" :class="{ 'is-active': filter === 'all' }"
-                    @click="filter = 'all'">Toutes ({{ $stats['all'] }})</button>
+                    @click="filter = 'all'">{{ __('ui.all_statuses') }} ({{ $stats['all'] }})</button>
                 <button type="button" class="agency-filter" :class="{ 'is-active': filter === 'published' }"
-                    @click="filter = 'published'">En ligne ({{ $stats['published'] }})</button>
+                    @click="filter = 'published'">{{ __('ui.online') }} ({{ $stats['published'] }})</button>
                 <button type="button" class="agency-filter" :class="{ 'is-active': filter === 'pending' }"
-                    @click="filter = 'pending'">En attente ({{ $stats['pending'] }})</button>
+                    @click="filter = 'pending'">{{ __('ui.pending') }} ({{ $stats['pending'] }})</button>
             </div>
         </div>
 
@@ -262,18 +262,18 @@
                     <div class="agency-property-card__image">
                         @if ($photos)
                             <button type="button" class="h-full w-full" onclick="openGalleryModal({{ $property->id }})"
-                                aria-label="Voir les photos de {{ $property->title }}">
+                                aria-label="{{ __('ui.view_property_photos', ['property' => $property->title]) }}">
                                 <img src="{{ asset('storage/' . $photos[0]) }}" alt="{{ $property->title }}" loading="lazy">
                             </button>
                         @else
-                            <div class="flex h-full items-center justify-center text-xs text-gray-400">Aucune photo</div>
+                            <div class="flex h-full items-center justify-center text-xs text-gray-400">{{ __('ui.no_photo') }}</div>
                         @endif
                     </div>
 
                     <div class="agency-property-card__body">
                         <div class="flex items-center justify-between gap-2">
                             <span class="admin-status {{ $property->published ? 'admin-status--success' : 'admin-status--pending' }}">
-                                {{ $property->published ? '● En ligne' : '● En attente' }}
+                                {{ $property->published ? __('ui.property_published_status') : __('ui.property_pending_status') }}
                             </span>
                             <span class="agency-property-card__location">{{ $property->city }}</span>
                         </div>
@@ -289,8 +289,8 @@
                             @if ($property->surface)
                                 <span class="agency-property-card__detail">{{ $property->surface }} m²</span>
                             @endif
-                            <span class="agency-property-card__detail">{{ $property->bedrooms }} chambres</span>
-                            <span class="agency-property-card__detail">{{ $property->bathrooms }} salles de bain</span>
+                            <span class="agency-property-card__detail">{{ $property->bedrooms }} {{ __('ui.bedrooms_label') }}</span>
+                            <span class="agency-property-card__detail">{{ $property->bathrooms }} {{ __('ui.bathrooms_label') }}</span>
                         </div>
 
                         <div class="agency-property-card__footer">
@@ -301,21 +301,21 @@
                                 @endif
                             </p>
                             <form action="{{ route('properties.destroy', $property->id) }}" method="POST"
-                                onsubmit="return confirm('Supprimer cette propriété ?')">
+                                onsubmit="return confirm(@js(__('ui.delete_property_confirm')))">
                                 @csrf
                                 @method('DELETE')
-                                <button class="agency-property-card__delete" type="submit">Supprimer</button>
+                                <button class="agency-property-card__delete" type="submit">{{ __('ui.delete') }}</button>
                             </form>
                         </div>
                     </div>
                 </article>
             @empty
                 <div class="agency-property-empty">
-                    <p class="text-sm font-semibold text-[#26332e]">Aucune propriété pour le moment</p>
-                    <p class="mt-2 text-xs text-[#78827d]">Ajoutez votre première annonce pour la voir apparaître ici.</p>
+                    <p class="text-sm font-semibold text-[#26332e]">{{ __('ui.no_properties_yet') }}</p>
+                    <p class="mt-2 text-xs text-[#78827d]">{{ __('ui.add_first_listing') }}</p>
                     <a href="{{ route('publish') }}"
                         class="mt-5 inline-flex rounded-lg bg-[#d9c18c] px-4 py-2 text-xs font-semibold text-[#26332e] hover:bg-[#e6d2a5]">
-                        Ajouter une propriété
+                        {{ __('ui.add_property') }}
                     </a>
                 </div>
             @endforelse

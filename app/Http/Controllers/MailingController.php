@@ -21,12 +21,12 @@ class MailingController extends Controller
         $mailing = Mailing::create([
             'email' => $request->email,
         ]);
-        return redirect()->back()->with('success', 'Email enregistré avec succès');
+        return redirect()->back()->with('success', __('ui.email_subscribed'));
     }
     public function destroy($id)
     {
         $mailing = Mailing::find($id);
         $mailing->delete();
-        return redirect()->back()->with('success', 'Email supprimé avec succès');
+        return redirect()->back()->with('success', __('ui.email_deleted'));
     }
 }

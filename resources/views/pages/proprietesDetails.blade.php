@@ -5,7 +5,7 @@
         $defaultImage = asset('images/lhena-logo.png');
         $photos = json_decode($property->photos, true) ?: [];
         $mainImage = isset($photos[0]) && $photos[0] ? asset('storage/' . $photos[0]) : $defaultImage;
-        $description = $property->description ? Str::limit(strip_tags($property->description), 160, '...') : 'Découvrez cette propriété sur Lhena.ma.';
+        $description = $property->description ? Str::limit(strip_tags($property->description), 160, '...') : __('ui.explore_properties_text');
         $currentUrl = url()->current();
     @endphp
 
@@ -978,17 +978,17 @@
             <div id="fullscreen-viewer" class="fullscreen-viewer">
                 <div class="viewer-header">
                     <div class="viewer-title">Galerie photos</div>
-                    <button class="viewer-close-btn" onclick="closeFullscreenViewer()" aria-label="Fermer la galerie">
+                    <button class="viewer-close-btn" onclick="closeFullscreenViewer()" aria-label="{{ __('ui.close_gallery') }}">
                         &times;
                     </button>
                 </div>
 
                 <div class="main-image-container">
-                    <button class="nav-btn prev-btn" onclick="navigateInViewer(-1)" aria-label="Photo précédente">
+                    <button class="nav-btn prev-btn" onclick="navigateInViewer(-1)" aria-label="{{ __('ui.previous_photo') }}">
                         ❮
                     </button>
                     <img id="fullscreen-image" class="main-image" src="" alt="Photo du bien en plein écran">
-                    <button class="nav-btn next-btn" onclick="navigateInViewer(1)" aria-label="Photo suivante">
+                    <button class="nav-btn next-btn" onclick="navigateInViewer(1)" aria-label="{{ __('ui.next_photo') }}">
                         ❯
                     </button>
                     <div class="image-counter" id="image-counter">1 / {{ $photoCount }}</div>
@@ -1000,7 +1000,7 @@
                             <img src="{{ asset('storage/' . $photo) }}"
                                 class="thumbnail {{ $index === 0 ? 'active' : '' }}"
                                 data-index="{{ $index }}" onclick="goToImage({{ $index }})"
-                                alt="Miniature {{ $index + 1 }}">
+                                alt="{{ __('ui.thumbnail', ['number' => $index + 1]) }}">
                         @endforeach
                     </div>
                 </div>
@@ -1009,12 +1009,12 @@
             <div class="property-detail-grid">
                 <div class="min-w-0">
                     <section class="property-detail-section">
-                        <h2 class="mb-3 text-xl font-semibold text-gray-900">Description</h2>
+                        <h2 class="mb-3 text-xl font-semibold text-gray-900">{{ __('ui.description') }}</h2>
                         <p class="text-base leading-8 text-gray-600">{!! nl2br(e($property->description)) !!}</p>
                     </section>
 
                     <section class="property-detail-section property-detail-section--specifications">
-                        <h2>Spécifications</h2>
+                        <h2>{{ __('ui.specifications') }}</h2>
                         <div class="property-spec-grid">
                             <div class="property-spec">
                                 <img src="{{ asset('images/local.svg') }}" alt="" loading="lazy">
@@ -1026,70 +1026,70 @@
                             </div>
                             <div class="property-spec">
                                 <img src="{{ asset('images/beds.svg') }}" alt="" loading="lazy">
-                                <span class="text-base">{{ $property->bedrooms }} Chambres</span>
+                                <span class="text-base">{{ $property->bedrooms }} {{ __('ui.bedrooms_label') }}</span>
                             </div>
                             <div class="property-spec">
                                 <img src="{{ asset('images/dosh.svg') }}" alt="" loading="lazy">
-                                <span class="text-base">{{ $property->bathrooms }} Salles de bain</span>
+                                <span class="text-base">{{ $property->bathrooms }} {{ __('ui.bathrooms_label') }}</span>
                             </div>
                         </div>
                     </section>
 
                     @if ($property->amenities)
                         <section class="property-detail-section">
-                            <h2>Équipements &amp; Services</h2>
+                            <h2>{{ __('ui.amenities_services') }}</h2>
                             <div class="property-amenities-grid">
                                 @foreach (json_decode($property->amenities) as $amenity)
                                     <div class="property-amenity">
                                         <span class="property-amenity__number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                                         @switch($amenity)
                                             @case('wifi')
-                                                <span >WiFi</span>
+                                                <span>{{ __('ui.amenity_wifi') }}</span>
                                                 @break
                                             @case('parking')
-                                                <span>Parking</span>
+                                                <span>{{ __('ui.amenity_parking') }}</span>
                                                 @break
                                             @case('elevator')
-                                                <span>Ascenseur</span>
+                                                <span>{{ __('ui.amenity_elevator') }}</span>
                                                 @break
                                             @case('security')
-                                                <span>Sécurité 24/7</span>
+                                                <span>{{ __('ui.amenity_security') }}</span>
                                                 @break
                                             @case('ac')
-                                                <span>Climatisation</span>
+                                                <span>{{ __('ui.amenity_air_conditioning') }}</span>
                                                 @break
                                             @case('heating')
-                                                <span>Chauffage</span>
+                                                <span>{{ __('ui.amenity_heating') }}</span>
                                                 @break
                                             @case('furnished')
-                                                <span>Meublé</span>
+                                                <span>{{ __('ui.amenity_furnished') }}</span>
                                                 @break
                                             @case('equipped_kitchen')
-                                                <span>Cuisine équipée</span>
+                                                <span>{{ __('ui.amenity_equipped_kitchen') }}</span>
                                                 @break
                                             @case('balcony')
-                                                <span>Balcon</span>
+                                                <span>{{ __('ui.amenity_balcony') }}</span>
                                                 @break
                                             @case('terrace')
-                                                <span>Terrasse</span>
+                                                <span>{{ __('ui.amenity_terrace') }}</span>
                                                 @break
                                             @case('garden')
-                                                <span>Jardin</span>
+                                                <span>{{ __('ui.amenity_garden') }}</span>
                                                 @break
                                             @case('pool')
-                                                <span>Piscine</span>
+                                                <span>{{ __('ui.amenity_pool') }}</span>
                                                 @break
                                             @case('gym')
-                                                <span>Salle de sport</span>
+                                                <span>{{ __('ui.amenity_gym') }}</span>
                                                 @break
                                             @case('concierge')
-                                                <span>Concierge</span>
+                                                <span>{{ __('ui.amenity_concierge') }}</span>
                                                 @break
                                             @case('storage')
-                                                <span>Cave/Storage</span>
+                                                <span>{{ __('ui.amenity_storage') }}</span>
                                                 @break
                                             @case('panoramic_view')
-                                                <span>Vue panoramique</span>
+                                                <span>{{ __('ui.amenity_panorama') }}</span>
                                                 @break
                                             @default
                                                 <span>{{ ucfirst(str_replace('_', ' ', $amenity)) }}</span>
@@ -1105,63 +1105,71 @@
                     checkIn: @js($property->available_from ? \Carbon\Carbon::parse($property->available_from)->format('Y-m-d') : ''),
                     checkOut: @js($property->available_until ? \Carbon\Carbon::parse($property->available_until)->format('Y-m-d') : ''),
                     travelerCount: @js("Jusqu'à 12 Voyageurs (Privatisation Totale)"),
+                    travelerLabel() {
+                        return {
+                            "Jusqu'à 12 Voyageurs (Privatisation Totale)": @js(__('ui.travelers_up_to_12')),
+                            "2 à 4 Voyageurs": @js(__('ui.travelers_2_to_4')),
+                            "5 à 8 Voyageurs": @js(__('ui.travelers_5_to_8')),
+                            "8 à 12 Voyageurs": @js(__('ui.travelers_8_to_12'))
+                        }[this.travelerCount] || this.travelerCount;
+                    },
                     formatDate(value) {
-                        if (!value) return 'À confirmer';
+                        if (!value) return @js(__('ui.date_to_confirm'));
                         const [year, month, day] = value.split('-');
                         return `${day}/${month}/${year}`;
                     },
                     whatsappUrl() {
-                        const message = 'Bonjour, je souhaite réserver « ' + @js($property->title) +
-                            ' ». Arrivée : ' + this.formatDate(this.checkIn) +
-                            ' ; départ : ' + this.formatDate(this.checkOut) +
-                            ' ; voyageurs : ' + this.travelerCount +
+                        const message = @js(__('ui.whatsapp_booking_prefix')) + @js($property->title) +
+                            @js(__('ui.whatsapp_arrival')) + this.formatDate(this.checkIn) +
+                            @js(__('ui.whatsapp_departure')) + this.formatDate(this.checkOut) +
+                            @js(__('ui.whatsapp_travelers')) + this.travelerLabel() +
                             '. ' + window.location.href;
                         return 'https://wa.me/212634262436?text=' + encodeURIComponent(message);
                     }
                 }">
                     <div class="property-booking-card__intro">
-                        <h2 class="font-semibold uppercase">Réserver / demande de séjour</h2>
+                        <h2 class="font-semibold uppercase">{{ __('ui.booking_request') }}</h2>
                     </div>
 
                     <div class="property-booking-card__dates">
                         <div class="property-booking-card__field">
-                            <span class="property-booking-card__label">Arrivée (check in)</span>
+                            <span class="property-booking-card__label">{{ __('ui.arrival_label') }}</span>
                             <input class="property-booking-card__value" type="date" name="check_in"
-                                aria-label="Date d'arrivée" x-model="checkIn"
+                                aria-label="{{ __('ui.arrival_label') }}" x-model="checkIn"
                                 min="{{ now()->format('Y-m-d') }}"
                                 @change="if (checkOut && checkOut <= checkIn) checkOut = ''">
                         </div>
                         <div class="property-booking-card__field">
-                            <span class="property-booking-card__label">Départ (check out)</span>
+                            <span class="property-booking-card__label">{{ __('ui.departure_label') }}</span>
                             <input class="property-booking-card__value" type="date" name="check_out"
-                                aria-label="Date de départ" x-model="checkOut"
+                                aria-label="{{ __('ui.departure_label') }}" x-model="checkOut"
                                 :min="checkIn || '{{ now()->format('Y-m-d') }}'">
                         </div>
                     </div>
 
                     <div class="property-booking-card__field mb-5">
-                        <span class="property-booking-card__label">Voyageurs</span>
+                        <span class="property-booking-card__label">{{ __('ui.traveler_count') }}</span>
                         <select class="property-booking-card__value property-booking-card__select"
-                            name="traveler_count" aria-label="Nombre de voyageurs" x-model="travelerCount">
-                            <option value="Jusqu'à 12 Voyageurs (Privatisation Totale)">Jusqu'à 12 Voyageurs (Privatisation Totale)</option>
-                            <option value="2 à 4 Voyageurs">2 à 4 Voyageurs</option>
-                            <option value="5 à 8 Voyageurs">5 à 8 Voyageurs</option>
-                            <option value="8 à 12 Voyageurs">8 à 12 Voyageurs</option>
+                            name="traveler_count" aria-label="{{ __('ui.traveler_count') }}" x-model="travelerCount">
+                            <option value="Jusqu'à 12 Voyageurs (Privatisation Totale)">{{ __('ui.travelers_up_to_12') }}</option>
+                            <option value="2 à 4 Voyageurs">{{ __('ui.travelers_2_to_4') }}</option>
+                            <option value="5 à 8 Voyageurs">{{ __('ui.travelers_5_to_8') }}</option>
+                            <option value="8 à 12 Voyageurs">{{ __('ui.travelers_8_to_12') }}</option>
                         </select>
                     </div>
 
                     <div class="property-booking-card__field mb-5">
-                        <span class="property-booking-card__label">Conditions tarifaires</span>
+                        <span class="property-booking-card__label">{{ __('ui.rate_conditions') }}</span>
                         <div class="property-booking-card__availability mt-0">
-                            <span class="property-booking-card__rate-label">Tarif &amp; disponibilité :</span>
-                            <span class="mt-1 block">Sur demande / devis personnalisé</span>
+                            <span class="property-booking-card__rate-label">{{ __('ui.rate_availability') }} :</span>
+                            <span class="mt-1 block">{{ __('ui.custom_quote') }}</span>
                         </div>
                     </div>
 
                     <div class="space-y-2">
                         <a :href="whatsappUrl()"
                             target="_blank" rel="noopener noreferrer" class="property-booking-card__cta">
-                            <span class="text-sm">Réserver / consulter les disponibilités</span>
+                            <span class="text-sm">{{ __('ui.booking_availability') }}</span>
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-6-6 6 6-6 6" />
                             </svg>
@@ -1172,18 +1180,18 @@
                         :class="{ 'hidden': !modalOpen, 'flex': modalOpen }" x-data="{ modalOpen: false }"
                         x-show="modalOpen" x-cloak>
                         <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-                            <h2 class="mb-4 text-lg font-bold">Veuillez vous connecter</h2>
-                            <p class="mb-4 text-sm text-gray-600">Vous devez être connecté pour réserver ce bien.</p>
+                            <h2 class="mb-4 text-lg font-bold">{{ __('ui.login_required') }}</h2>
+                            <p class="mb-4 text-sm text-gray-600">{{ __('ui.login_required_booking') }}</p>
                             <div class="flex justify-end space-x-2">
                                 <a href="{{ route('register') }}"
-                                    class="rounded-lg bg-[#0b3b31] px-4 py-2 text-white transition hover:bg-[#0b4b3e]">Se connecter</a>
+                                    class="rounded-lg bg-[#0b3b31] px-4 py-2 text-white transition hover:bg-[#0b4b3e]">{{ __('ui.login') }}</a>
                                 <button @click="modalOpen = false"
-                                    class="rounded-lg border px-4 py-2 transition hover:bg-gray-100">Annuler</button>
+                                    class="rounded-lg border px-4 py-2 transition hover:bg-gray-100">{{ __('ui.cancel') }}</button>
                             </div>
                         </div>
                     </div>
                     <p class="mt-5 border-t border-[#e9e3d8] pt-4 text-center text-xs leading-6 text-gray-500">
-                        Réponse personnalisée · Disponibilité confirmée par notre équipe
+                        {{ __('ui.booking_response_note') }}
                     </p>
                     <div class="property-booking-card__concierge">
                         <span class="property-booking-card__concierge-mark" aria-hidden="true">
@@ -1193,8 +1201,8 @@
                             </svg>
                         </span>
                         <span>
-                            <strong class="block">Service de conciergerie</strong>
-                            <span class="text-gray-500">Un accompagnement personnalisé pour votre séjour</span>
+                            <strong class="block">{{ __('ui.concierge_service') }}</strong>
+                            <span class="text-gray-500">{{ __('ui.concierge_description') }}</span>
                         </span>
                     </div>
                 </aside>
@@ -1207,7 +1215,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 8h2a2 2 0 012 2v9a2 2 0 01-2 2h-6l-4 4v-4H7a2 2 0 01-2-2v-1" />
                 </svg>
-                Avis et commentaires
+                {{ __('ui.reviews_and_comments') }}
             </h3>
             <div class="property-reviews__grid">
                 {{-- ✅ Review Form (if logged in) --}}
@@ -1219,7 +1227,7 @@
 
                         {{-- Rating --}}
                         <div class="space-y-2" x-data="{ rating: {{ old('rating', 5) }} }">
-                            <label class="block text-sm font-medium text-gray-700">Votre note</label>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('ui.your_rating') }}</label>
                             <div class="flex items-center gap-2">
                                 <template x-for="i in 5" :key="i">
                                     <label class="cursor-pointer">
@@ -1245,8 +1253,8 @@
 
                         {{-- Comment --}}
                         <div class="space-y-2">
-                            <label for="comment" class="block text-sm font-medium text-gray-700">Votre avis</label>
-                            <textarea id="comment" name="comment" placeholder="Partagez votre expérience..."
+                            <label for="comment" class="block text-sm font-medium text-gray-700">{{ __('ui.your_review') }}</label>
+                            <textarea id="comment" name="comment" placeholder="{{ __('ui.review_comment_placeholder') }}"
                                 class="w-full min-h-28 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-gray-400">{{ old('comment') }}</textarea>
                         </div>
 
@@ -1264,7 +1272,7 @@
                                         </path>
                                     </svg>
                                 </template>
-                                <span x-text="loading ? 'Envoi en cours...' : 'Envoyer'"></span>
+                                <span x-text="loading ? @js(__('ui.sending')) : @js(__('ui.submit_review'))"></span>
                             </button>
                         </div>
                     </form>
@@ -1274,16 +1282,16 @@
                 @guest
                     <div class="property-reviews__panel property-reviews__guest">
                         <p>
-                            Connectez-vous ou créez un compte pour laisser un avis.
+                            {{ __('ui.login_to_review') }}
                         </p>
                         <div class="property-reviews__actions">
                             <a href="{{ route('login') }}"
                                 class="property-reviews__button property-reviews__button--login">
-                                Se connecter
+                                {{ __('ui.login') }}
                             </a>
                             <a href="{{ route('register') }}"
                                 class="property-reviews__button property-reviews__button--register">
-                                S’inscrire
+                                {{ __('ui.register') }}
                             </a>
                         </div>
                     </div>
@@ -1294,8 +1302,7 @@
                 {{-- ✅ Comments Section --}}
                 <div class="property-reviews__panel property-reviews__list">
                     @if ($property->reviews->isEmpty())
-                        <p class="property-reviews__empty">Aucun commentaire pour le moment. Soyez le premier à
-                            donner votre avis.</p>
+                        <p class="property-reviews__empty">{{ __('ui.first_review_invitation') }}</p>
                     @else
                         @foreach ($property->reviews as $review)
                             <div class="property-reviews__item">
@@ -1319,7 +1326,7 @@
                                             @if ($review->comment && !empty(trim($review->comment)))
                                                 {{ $review->comment }}
                                             @else
-                                                <span class="text-gray-400 italic">No comment provided</span>
+                                                <span class="text-gray-400 italic">{{ __('ui.no_comment') }}</span>
                                             @endif
                                         </p>
                                     </div>
@@ -1346,7 +1353,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10z" />
             </svg>
-            Des Propriétés Similaires
+            {{ __('ui.similar_properties') }}
         </h2>
 
         <div class="w-full pb-12 px-6 sm:px-16 ">
@@ -1359,7 +1366,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9.75 17L4.5 12.75l5.25-4.25M14.25 7l5.25 4.25-5.25 4.25" />
                         </svg>
-                        <p class="text-gray-600 font-medium">Aucune propriété similaire trouvée</p>
+                        <p class="text-gray-600 font-medium">{{ __('ui.no_similar_properties') }}</p>
                     </div>
                 </div>
             @else
@@ -1373,12 +1380,12 @@
                                 ? asset('storage/' . $similarPhotos[0])
                                 : asset('images/appart1.jpg');
                             $similarUrl = route('proprites.details', $property->slug);
-                            $similarWhatsappMessage = 'Bonjour, je souhaite en savoir plus sur le bien « ' . $property->title . ' ». ' . $similarUrl;
+                            $similarWhatsappMessage = __('ui.whatsapp_message_prefix') . $property->title . ' ». ' . $similarUrl;
                             $similarWhatsappUrl = 'https://wa.me/212634262436?text=' . urlencode($similarWhatsappMessage);
                         @endphp
                         <article class="group flex h-full flex-col overflow-hidden rounded-[1.4rem] border border-[#e7ece8] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#173c2e]/10">
                             <div class="property-image-loader relative h-60 overflow-hidden sm:h-64">
-                                <a href="{{ $similarUrl }}" class="absolute inset-0" aria-label="Voir {{ $property->title }}">
+                                <a href="{{ $similarUrl }}" class="absolute inset-0" aria-label="{{ __('ui.view_details') }} : {{ $property->title }}">
                                     <img class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                                         src="{{ $similarImage }}" alt="{{ $property->title }}" loading="lazy">
                                 </a>
@@ -1387,11 +1394,11 @@
                                     <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                         <path d="m12 2.8 2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.36l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93L12 2.8Z" />
                                     </svg>
-                                    Sélection signature
+                                    {{ __('ui.signature_badge') }}
                                 </span>
                                 <button type="button" x-data="{ favorite: false }" @click="favorite = !favorite"
                                     :aria-pressed="favorite.toString()"
-                                    :aria-label="favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
+                                    :aria-label="favorite ? @js(__('ui.remove_favorite')) : @js(__('ui.add_favorite'))"
                                     class="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-[#29332d] shadow-md transition hover:scale-105 hover:text-[#a34c3f] focus:outline-none focus:ring-2 focus:ring-[#0b3b31] focus:ring-offset-2">
                                     <svg class="h-5 w-5" viewBox="0 0 24 24" :fill="favorite ? 'currentColor' : 'none'"
                                         stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -1400,7 +1407,7 @@
                                     </svg>
                                 </button>
                                 <span class="absolute bottom-4 right-4 rounded-lg bg-[#28332c]/85 px-3 py-1.5 text-xs font-semibold text-white shadow-sm backdrop-blur-sm">
-                                    1 / {{ $similarPhotoCount }} photos
+                                    1 / {{ $similarPhotoCount }} {{ __('ui.photos') }}
                                 </span>
                             </div>
 
@@ -1417,11 +1424,11 @@
                                 <div class="mt-5 flex flex-nowrap gap-1.5 overflow-x-auto">
                                     <span class="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#f1f5f2] px-2 py-2 text-xs whitespace-nowrap text-[#52645a]">
                                         <img class="h-4 w-4 opacity-70" src="{{ asset('images/beds.svg') }}" alt="">
-                                        {{ $property->bedrooms }} chambres
+                                        {{ $property->bedrooms }} {{ __('ui.bedrooms_label') }}
                                     </span>
                                     <span class="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#f1f5f2] px-2 py-2 text-xs whitespace-nowrap text-[#52645a]">
                                         <img class="h-4 w-4 opacity-70" src="{{ asset('images/dosh.svg') }}" alt="">
-                                        {{ $property->bathrooms }} salles de bain
+                                        {{ $property->bathrooms }} {{ __('ui.bathrooms_label') }}
                                     </span>
                                     @if (!is_null($property->surface))
                                         <span class="inline-flex shrink-0 items-center gap-1 rounded-lg bg-[#f1f5f2] px-2 py-2 text-xs whitespace-nowrap text-[#52645a]">
@@ -1439,7 +1446,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z" />
                                         </svg>
-                                        <span>Consulter sur WhatsApp</span>
+                                        <span>{{ __('ui.whatsapp_details') }}</span>
                                     </a>
                                 </div>
                             </div>

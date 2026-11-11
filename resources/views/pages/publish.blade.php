@@ -5,13 +5,13 @@
 
 <section class="publish-page px-3 sm:px-6 pb-24">
     <header class="publish-intro">
-        <p class="publish-eyebrow">Processus guidé en 3 étapes · Accompagnement conciergerie LHENA</p>
+        <p class="publish-eyebrow">{{ __('ui.publish_process') }}</p>
         <div class="publish-intro__row">
             <div>
-                <h1 class="publish-title">Publier une annonce <span lang="ar">(نشر إعلان)</span></h1>
-                <p class="publish-subtitle">Proposez votre bien d’exception aux voyageurs et résidents haut de gamme au Maroc. Remplissez les informations ci-dessous pour débuter.</p>
+                <h1 class="publish-title">{{ __('ui.publish_title') }}</h1>
+                <p class="publish-subtitle">{{ __('ui.publish_subtitle') }}</p>
             </div>
-            <p class="publish-save-status"><span aria-hidden="true"></span>Votre annonce sera envoyée pour validation</p>
+            <p class="publish-save-status"><span aria-hidden="true"></span>{{ __('ui.publish_review_status') }}</p>
         </div>
     </header>
 
@@ -20,7 +20,7 @@
 
             @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-8">
-                <p class="mb-2 font-semibold">Votre annonce n’a pas été publiée. Corrigez les erreurs suivantes :</p>
+                <p class="mb-2 font-semibold">{{ __('ui.publish_error_intro') }}</p>
                 <ul class="list-disc list-inside">
                     @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -32,28 +32,28 @@
             <form id="property-publish-form" action="{{ route('proprites.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
                 @csrf
 
-                <div class="publish-steps" aria-label="Progression du formulaire">
-                    <div class="step active" aria-current="step"><span class="step__number">1</span><span>Informations <small>(معلومات)</small></span></div>
+                <div class="publish-steps" aria-label="{{ __('ui.form_progress') }}">
+                    <div class="step active" aria-current="step"><span class="step__number">1</span><span>{{ __('ui.information') }}</span></div>
                     <span class="publish-steps__connector" aria-hidden="true"></span>
-                    <div class="step"><span class="step__number">2</span><span>Détails <small>(تفاصيل)</small></span></div>
+                    <div class="step"><span class="step__number">2</span><span>{{ __('ui.details') }}</span></div>
                     <span class="publish-steps__connector" aria-hidden="true"></span>
-                    <div class="step"><span class="step__number">3</span><span>Médias <small>(صور)</small></span></div>
+                    <div class="step"><span class="step__number">3</span><span>{{ __('ui.media') }}</span></div>
                 </div>
 
                 <div class="form-section active space-y-6">
 
                     <div class="publish-section">
                         <div class="publish-section__header">
-                            <h3><span>01</span> Location et tarification <small>(الكراء والتسعير)</small></h3>
-                            <span class="publish-required">Requis / ضروري</span>
+                            <h3><span>01</span> {{ __('ui.rental_pricing') }}</h3>
+                            <span class="publish-required">{{ __('ui.required') }}</span>
                         </div>
                         <div class="flex flex-col gap-4 pb-4">
                             <input type="hidden" name="listing_type[]" value="À-louer">
-                            <p class="publish-helper">Toutes les annonces sont proposées exclusivement à la location (جميع الإعلانات مخصصة للكراء).</p>
-                            <p class="publish-field-caption">Fréquence du contrat de location (دورية عقد الكراء)</p>
+                            <p class="publish-helper">{{ __('ui.rental_only') }}</p>
+                            <p class="publish-field-caption">{{ __('ui.rental_frequency') }}</p>
 
                             <div class="publish-price-options">
-                                @foreach (['nuit' => 'Par nuit (ليلة)', 'mois' => 'Par mois (شهر)', 'an' => 'Par an (سنة)'] as $val => $label)
+                                @foreach (['nuit' => __('ui.per_night'), 'mois' => __('ui.per_month'), 'an' => __('ui.per_year')] as $val => $label)
                                 <label class="publish-price-option">
                                     <input type="radio" name="price_type" value="{{ $val }}" {{ old('price_type', '') === $val ? 'checked' : '' }}>
                                     <span>{{ $label }}</span>
@@ -65,22 +65,22 @@
 
                     <div class="publish-section">
                         <div class="publish-section__header">
-                            <h3><span>02</span> Informations principales <small>(المعلومات الأساسية)</small></h3>
+                            <h3><span>02</span> {{ __('ui.main_information') }}</h3>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Titre (العنوان) *</label>
-                                <input type="text" name="title" value="{{ old('title') }}" placeholder="Ex. Riad contemporain avec piscine chauffée – Marrakech" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
-                                <p class="publish-helper">Un titre accrocheur valorisant l’architecture et les atouts.</p>
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.property_title_label') }} *</label>
+                                <input type="text" name="title" value="{{ old('title') }}" placeholder="{{ __('ui.property_title_placeholder') }}" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                                <p class="publish-helper">{{ __('ui.property_title_hint') }}</p>
                             </div>
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Type de propriété (نوع العقار) *</label>
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.property_type_label') }} *</label>
                                 <select name="property_type" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
-                                    <option value="">Sélectionnez un type (اختر نوعاً)</option>
-                                    <option value="appartement" {{ old('property_type') === 'appartement' ? 'selected' : '' }}>Appartement</option>
-                                    <option value="maison" {{ old('property_type') === 'maison' ? 'selected' : '' }}>Maison</option>
-                                    <option value="duplex" {{ old('property_type') === 'duplex' ? 'selected' : '' }}>Duplex</option>
-                                    <option value="studio" {{ old('property_type') === 'studio' ? 'selected' : '' }}>Studio</option>
+                                    <option value="">{{ __('ui.select_type') }}</option>
+                                    <option value="appartement" {{ old('property_type') === 'appartement' ? 'selected' : '' }}>{{ __('ui.apartment') }}</option>
+                                    <option value="maison" {{ old('property_type') === 'maison' ? 'selected' : '' }}>{{ __('ui.house') }}</option>
+                                    <option value="duplex" {{ old('property_type') === 'duplex' ? 'selected' : '' }}>{{ __('ui.duplex') }}</option>
+                                    <option value="studio" {{ old('property_type') === 'studio' ? 'selected' : '' }}>{{ __('ui.studio') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -88,23 +88,23 @@
 
                     <div class="publish-section">
                         <div class="publish-section__header">
-                            <h3><span>03</span> Localisation <small>(الموقع)</small></h3>
+                            <h3><span>03</span> {{ __('ui.location') }}</h3>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Ville (المدينة) *</label>
-                                <input type="text" name="city" value="{{ old('city') }}" placeholder="Ville (المدينة) – ex. Marrakech, Casablanca, Tanger…" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.city_label') }} *</label>
+                                <input type="text" name="city" value="{{ old('city') }}" placeholder="{{ __('ui.search_city_placeholder') }}" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                             </div>
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Quartier (الحي)</label>
-                                <input type="text" name="neighborhood" value="{{ old('neighborhood') }}" placeholder="Quartier (الحي) – ex. Palmeraie, Guéliz…" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.neighborhood_label') }}</label>
+                                <input type="text" name="neighborhood" value="{{ old('neighborhood') }}" placeholder="{{ __('ui.neighborhood_placeholder') }}" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent">
                             </div>
                         </div>
 
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-700">Adresse complète (العنوان الكامل) *</label>
-                            <input type="text" name="address" value="{{ old('address') }}" placeholder="Adresse complète (العنوان الكامل) – Rue, résidence, N° de porte…" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
-                            <p class="publish-helper">L’adresse exacte restera confidentielle et ne sera communiquée qu’aux locataires validés.</p>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('ui.address_label') }} *</label>
+                            <input type="text" name="address" value="{{ old('address') }}" placeholder="{{ __('ui.address_placeholder') }}" class="publish-input border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                            <p class="publish-helper">{{ __('ui.address_privacy') }}</p>
                         </div>
                     </div>
 
@@ -113,73 +113,107 @@
                 <div class="form-section space-y-6">
                     <div class="publish-section">
                         <div class="publish-section__header">
-                            <h3><span>04</span> Détails de la propriété <small>(تفاصيل العقار)</small></h3>
+                            <h3><span>04</span> {{ __('ui.property_details_label') }}</h3>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Superficie (المساحة) (m²)</label>
-                                <input type="number" name="surface" value="{{ old('surface') }}" placeholder="Ex: 120 (مثال: 120)" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.surface_label') }}</label>
+                                <input type="number" name="surface" value="{{ old('surface') }}" placeholder="120" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent">
                             </div>
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Prix (الثمن) (MAD) *</label>
-                                <input type="number" name="price" value="{{ old('price') }}" placeholder="Ex: 2500000 (مثال: 2500000)" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.price_label') }} *</label>
+                                <input type="number" name="price" value="{{ old('price') }}" placeholder="2500000" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Nombre de chambres (عدد الغرف) *</label>
-                                <input type="number" name="bedrooms" value="{{ old('bedrooms') }}" placeholder="Ex: 3 (مثال: 3)" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.bedrooms_count') }} *</label>
+                                <input type="number" name="bedrooms" value="{{ old('bedrooms') }}" placeholder="3" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                             </div>
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Nombre de salles de bain (عدد الحمامات) *</label>
-                                <input type="number" name="bathrooms" value="{{ old('bathrooms') }}" placeholder="Ex: 2 (مثال: 2)" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.bathrooms_count') }} *</label>
+                                <input type="number" name="bathrooms" value="{{ old('bathrooms') }}" placeholder="2" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                             </div>
                         </div>
                     </div>
 
                     <div class="publish-section">
                         <div class="publish-section__header">
-                            <h3><span>05</span> Équipements et services <small>(التجهيزات والخدمات)</small></h3>
+                            <h3><span>05</span> {{ __('ui.amenities_services') }}</h3>
                         </div>
 
                         @php
                         $selectedAmenities = old('amenities', []);
+                        $amenityLabels = [
+                            'Climatisation' => __('ui.amenity_air_conditioning'),
+                            'Chauffage' => __('ui.amenity_heating'),
+                            'Meublé' => __('ui.amenity_furnished'),
+                            'Cuisine équipée' => __('ui.amenity_equipped_kitchen'),
+                            'Cheminée' => __('ui.amenity_fireplace'),
+                            'Double vitrage' => __('ui.amenity_double_glazing'),
+                            'Eau chaude' => __('ui.amenity_hot_water'),
+                            'Balcon' => __('ui.amenity_balcony'),
+                            'Terrasse' => __('ui.amenity_terrace'),
+                            'Jardin' => __('ui.amenity_garden'),
+                            'Piscine' => __('ui.amenity_pool'),
+                            'Vue panoramique' => __('ui.amenity_panorama'),
+                            'Barbecue' => __('ui.amenity_barbecue'),
+                            'Sécurité 24/7' => __('ui.amenity_security'),
+                            'Caméras de surveillance' => __('ui.amenity_security_cameras'),
+                            'Interphone' => __('ui.amenity_intercom'),
+                            'Gardien' => __('ui.amenity_guard'),
+                            'Ascenseur' => __('ui.amenity_elevator'),
+                            'Parking' => __('ui.amenity_parking'),
+                            'Garage' => __('ui.amenity_garage'),
+                            'Cave / Débarras' => __('ui.amenity_storage_room'),
+                            'Accès PMR' => __('ui.amenity_accessible'),
+                            'Concierge' => __('ui.amenity_concierge'),
+                            'WiFi' => __('ui.amenity_wifi'),
+                            'Fibre optique' => __('ui.amenity_fiber'),
+                            'TV' => __('ui.amenity_tv'),
+                            'Satellite' => __('ui.amenity_satellite'),
+                            'Salle de sport' => __('ui.amenity_gym'),
+                            'Aire de jeux' => __('ui.amenity_playground'),
+                            'Spa / Hammam' => __('ui.amenity_spa'),
+                            'Laverie' => __('ui.amenity_laundry'),
+                            'Animaux acceptés' => __('ui.amenity_pets'),
+                        ];
                         @endphp
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-4">
                                 <div class="space-y-2">
-                                    <h4 class="text-sm font-semibold text-gray-700">Confort intérieur (الراحة الداخلية)</h4>
+                                    <h4 class="text-sm font-semibold text-gray-700">{{ __('ui.comfort_interior') }}</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                                         @foreach (['Climatisation', 'Chauffage', 'Meublé', 'Cuisine équipée', 'Cheminée', 'Double vitrage', 'Eau chaude'] as $label)
                                         <label class="flex items-center gap-2 cursor-pointer">
                                             <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
-                                            <span class="text-gray-700">{{ $label }}</span>
+                                            <span class="text-gray-700">{{ $amenityLabels[$label] ?? $label }}</span>
                                         </label>
                                         @endforeach
                                     </div>
                                 </div>
 
                                 <div class="space-y-2">
-                                    <h4 class="text-sm font-semibold text-gray-700">Extérieur (الخارج)</h4>
+                                    <h4 class="text-sm font-semibold text-gray-700">{{ __('ui.outdoors') }}</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                                         @foreach (['Balcon', 'Terrasse', 'Jardin', 'Piscine', 'Vue panoramique', 'Barbecue'] as $label)
                                         <label class="flex items-center gap-2 cursor-pointer">
                                             <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
-                                            <span class="text-gray-700">{{ $label }}</span>
+                                            <span class="text-gray-700">{{ $amenityLabels[$label] ?? $label }}</span>
                                         </label>
                                         @endforeach
                                     </div>
                                 </div>
 
                                 <div class="space-y-2">
-                                    <h4 class="text-sm font-semibold text-gray-700">Sécurité (الأمان)</h4>
+                                    <h4 class="text-sm font-semibold text-gray-700">{{ __('ui.security') }}</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                                         @foreach (['Sécurité 24/7', 'Caméras de surveillance', 'Interphone', 'Gardien'] as $label)
                                         <label class="flex items-center gap-2 cursor-pointer">
                                             <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
-                                            <span class="text-gray-700">{{ $label }}</span>
+                                            <span class="text-gray-700">{{ $amenityLabels[$label] ?? $label }}</span>
                                         </label>
                                         @endforeach
                                     </div>
@@ -188,36 +222,36 @@
 
                             <div class="space-y-4">
                                 <div class="space-y-2">
-                                    <h4 class="text-sm font-semibold text-gray-700">Immeuble (العمارة)</h4>
+                                    <h4 class="text-sm font-semibold text-gray-700">{{ __('ui.building') }}</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                                         @foreach (['Ascenseur', 'Parking', 'Garage', 'Cave / Débarras', 'Accès PMR', 'Concierge'] as $label)
                                         <label class="flex items-center gap-2 cursor-pointer">
                                             <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
-                                            <span class="text-gray-700">{{ $label }}</span>
+                                            <span class="text-gray-700">{{ $amenityLabels[$label] ?? $label }}</span>
                                         </label>
                                         @endforeach
                                     </div>
                                 </div>
 
                                 <div class="space-y-2">
-                                    <h4 class="text-sm font-semibold text-gray-700">Internet & divertissement (الإنترنت والترفيه)</h4>
+                                    <h4 class="text-sm font-semibold text-gray-700">{{ __('ui.internet_entertainment') }}</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                                         @foreach (['WiFi', 'Fibre optique', 'TV', 'Satellite'] as $label)
                                         <label class="flex items-center gap-2 cursor-pointer">
                                             <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
-                                            <span class="text-gray-700">{{ $label }}</span>
+                                            <span class="text-gray-700">{{ $amenityLabels[$label] ?? $label }}</span>
                                         </label>
                                         @endforeach
                                     </div>
                                 </div>
 
                                 <div class="space-y-2">
-                                    <h4 class="text-sm font-semibold text-gray-700">Loisirs & services (الترفيه والخدمات)</h4>
+                                    <h4 class="text-sm font-semibold text-gray-700">{{ __('ui.leisure_services') }}</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                                         @foreach (['Salle de sport', 'Aire de jeux', 'Spa / Hammam', 'Laverie', 'Animaux acceptés'] as $label)
                                         <label class="flex items-center gap-2 cursor-pointer">
                                             <input type="checkbox" name="amenities[]" value="{{ $label }}" class="w-4 h-4" {{ in_array($label, $selectedAmenities) ? 'checked' : '' }}>
-                                            <span class="text-gray-700">{{ $label }}</span>
+                                            <span class="text-gray-700">{{ $amenityLabels[$label] ?? $label }}</span>
                                         </label>
                                         @endforeach
                                     </div>
@@ -228,20 +262,20 @@
 
                     <div class="publish-section">
                         <div class="publish-section__header">
-                            <h3><span>06</span> Contact et disponibilité <small>(التواصل والتوفر)</small></h3>
+                            <h3><span>06</span> {{ __('ui.contact_availability') }}</h3>
                         </div>
                         <div class="space-y-2 mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Téléphone de contact (الهاتف) *</label>
-                            <input type="tel" name="contact_phone" value="{{ old('contact_phone') }}" placeholder="Ex: +212 6XX XXX XXX (مثال: +212 6XX XXX XXX)" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('ui.contact_phone_label') }} *</label>
+                            <input type="tel" name="contact_phone" value="{{ old('contact_phone') }}" placeholder="+212 6XX XXX XXX" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent" required>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Disponible à partir de (متوفر من)</label>
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.available_from_label') }}</label>
                                 <input type="date" name="available_from" value="{{ old('available_from') }}" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent">
                             </div>
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-700">Disponible jusqu'à (متوفر حتى)</label>
+                                <label class="block text-sm font-medium text-gray-700">{{ __('ui.available_until_label') }}</label>
                                 <input type="date" name="available_until" value="{{ old('available_until') }}" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent">
                             </div>
                         </div>
@@ -251,39 +285,39 @@
                 <div class="form-section space-y-6">
                     <div class="publish-section">
                         <div class="publish-section__header">
-                            <h3><span>07</span> Description et médias <small>(الوصف والصور)</small></h3>
+                            <h3><span>07</span> {{ __('ui.description_media') }}</h3>
                         </div>
                         <div class="space-y-2 mb-6">
-                            <label class="block text-sm font-medium text-gray-700">Description détaillée (الوصف التفصيلي) *</label>
-                            <textarea name="description" rows="6" placeholder="Décrivez votre propriété en détail... (صف عقارك بشكل مفصل...)" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent resize-vertical" required>{{ old('description') }}</textarea>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('ui.detailed_description') }} *</label>
+                            <textarea name="description" rows="6" placeholder="{{ __('ui.describe_property') }}" class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent resize-vertical" required>{{ old('description') }}</textarea>
                         </div>
 
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-700">Photos de la propriété (صور العقار) *</label>
+                            <label class="block text-sm font-medium text-gray-700">{{ __('ui.property_photos') }} *</label>
                             <input type="file" name="photos[]" multiple accept="image/*" required class="border border-gray-300 p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
-                            <p class="text-sm text-gray-500 mt-1">Sélectionnez plusieurs photos (اختر عدة صور) - max 10 images (10 صور كحد أقصى), 20MB chacune (20 ميغابايت للصورة)</p>
+                            <p class="text-sm text-gray-500 mt-1">{{ __('ui.select_multiple_photos') }}</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="publish-navigation">
                     <button type="button" class="btn prev hidden publish-button publish-button--back">
-                        ← Précédent
+                        {{ __('ui.previous') }}
                     </button>
                     <button type="button" class="btn next publish-button publish-button--next">
-                        Suivant <span lang="ar">(التالي)</span> →
+                        {{ __('ui.next') }} →
                     </button>
                     <button type="submit" form="property-publish-form" class="btn submit hidden publish-button publish-button--next">
-                        Publier mon annonce →
+                        {{ __('ui.publish_my_listing') }} →
                     </button>
                 </div>
 
             </form>
         </div>
-        <div class="publish-benefits" aria-label="Les avantages de publier avec LHENA">
-            <article><span aria-hidden="true">▣</span><div><strong>Photographie pro</strong><small>Mise en valeur offerte sur demande.</small></div></article>
-            <article><span aria-hidden="true">♙</span><div><strong>Locataires filtrés</strong><small>Vérification de solvabilité rigoureuse.</small></div></article>
-            <article><span aria-hidden="true">↔</span><div><strong>Gestion clé en main</strong><small>Check-in, état des lieux &amp; ménage.</small></div></article>
+        <div class="publish-benefits" aria-label="{{ __('ui.publish_benefits') }}">
+            <article><span aria-hidden="true">▣</span><div><strong>{{ __('ui.professional_photography') }}</strong><small>{{ __('ui.photography_on_request') }}</small></div></article>
+            <article><span aria-hidden="true">♙</span><div><strong>{{ __('ui.screened_tenants') }}</strong><small>{{ __('ui.solvency_check') }}</small></div></article>
+            <article><span aria-hidden="true">↔</span><div><strong>{{ __('ui.turnkey_management') }}</strong><small>{{ __('ui.checkin_inventory_cleaning') }}</small></div></article>
         </div>
     </div>
 </section>

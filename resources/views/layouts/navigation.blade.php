@@ -5,14 +5,14 @@
             <div class="flex">
                 <!-- Logo -->
                 <a href="/" class="flex items-center">
-                    <img class="h-28 w-auto" src="{{ asset('images/lhena-logo.png') }}" alt="Logo">
+                    <img class="h-28 w-auto" src="{{ asset('images/newlogo.png') }}" alt="Logo">
                 </a>
 
                 <!-- Navigation Links -->
                 @if (Auth::user()->role == 'user')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Proprietes') }}
+                            {{ __('ui.properties') }}
                         </x-nav-link>
                     </div>
                 @endif
@@ -21,16 +21,16 @@
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                             <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
-                                {{ __('Users') }}
+                                {{ __('ui.users') }}
                             </x-nav-link>
                             <x-nav-link :href="route('proprites.admin')" :active="request()->routeIs('proprites.admin')">
-                                {{ __('Proprites') }}
+                                {{ __('ui.properties') }}
                             </x-nav-link>
                             <x-nav-link :href="route('contacts.admin')" :active="request()->routeIs('contacts.admin')">
-                                {{ __('Contacts') }}
+                                {{ __('ui.contacts') }}
                             </x-nav-link>
                             <x-nav-link :href="route('mailing')" :active="request()->routeIs('mailing')">
-                                {{ __('Emails') }}
+                                {{ __('ui.emails') }}
                             </x-nav-link>
                         </div>
 
@@ -43,6 +43,8 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                @include('components.language-switcher')
+                <span class="mx-3"></span>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -62,7 +64,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('ui.profile') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -72,7 +74,7 @@
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('ui.logout') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -101,7 +103,7 @@
             <div class="pt-2 pb-3 space-y-1">
 
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Proprietes') }}
+                    {{ __('ui.properties') }}
                 </x-responsive-nav-link>
 
             </div>
@@ -111,20 +113,24 @@
             <div class="pt-2 pb-3 space-y-1">
 
                 <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('users')">
-                    {{ __('Users') }}
+                    {{ __('ui.users') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('proprites.admin')" :active="request()->routeIs('proprites.admin')">
-                    {{ __('Proprietes') }}
+                    {{ __('ui.properties') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('contacts.admin')" :active="request()->routeIs('contacts.admin')">
-                    {{ __('Contacts') }}
+                    {{ __('ui.contacts') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('mailing')" :active="request()->routeIs('mailing')">
-                    {{ __('Emails') }}
+                    {{ __('ui.emails') }}
                 </x-responsive-nav-link>
 
             </div>
         @endif
+
+        <div class="px-4 py-3 sm:hidden">
+            @include('components.language-switcher')
+        </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
@@ -135,7 +141,7 @@
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('ui.profile') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
@@ -145,7 +151,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('ui.logout') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

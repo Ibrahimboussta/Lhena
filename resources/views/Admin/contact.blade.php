@@ -1,25 +1,25 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - Contacts')
+    @section('title', 'Sorvarent - ' . __('ui.contacts'))
 
     <div class="admin-page">
         <header class="admin-page-header">
             <div>
-                <h1 class="admin-page-title">Contacts</h1>
-                <p class="admin-page-subtitle">Messages envoyés depuis le formulaire de contact.</p>
+                <h1 class="admin-page-title">{{ __('ui.contacts') }}</h1>
+                <p class="admin-page-subtitle">{{ __('ui.admin_contacts_subtitle') }}</p>
             </div>
-            <span class="admin-count-badge"><strong>{{ $contacts->total() }}</strong> contacts</span>
+            <span class="admin-count-badge"><strong>{{ $contacts->total() }}</strong> {{ __('ui.admin_contact_count') }}</span>
         </header>
 
-        <section class="admin-panel" aria-label="Liste des demandes de contact">
+        <section class="admin-panel" aria-label="{{ __('ui.contacts') }}">
             <div class="admin-table-wrap">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Nom</th>
-                            <th>Email</th>
-                            <th>Téléphone</th>
-                            <th>Message</th>
-                            <th><span class="sr-only">Action</span></th>
+                            <th>{{ __('ui.admin_name') }}</th>
+                            <th>{{ __('ui.admin_email') }}</th>
+                            <th>{{ __('ui.admin_phone') }}</th>
+                            <th>{{ __('ui.admin_message') }}</th>
+                            <th><span class="sr-only">{{ __('ui.admin_action') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,10 +33,10 @@
                                 </td>
                                 <td>
                                     <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST"
-                                        onsubmit="return confirm('Supprimer ce message de contact ?')">
+                                        onsubmit="return confirm(@js(__('ui.admin_delete_contact_confirm')))">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="admin-icon-button" type="submit" aria-label="Supprimer le contact">
+                                        <button class="admin-icon-button" type="submit" aria-label="{{ __('ui.admin_delete_contact') }}">
                                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                 stroke-width="1.8" aria-hidden="true">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -48,7 +48,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="admin-empty" colspan="5">Aucun message de contact pour le moment.</td>
+                                <td class="admin-empty" colspan="5">{{ __('ui.admin_no_contacts') }}</td>
                             </tr>
                         @endforelse
                     </tbody>

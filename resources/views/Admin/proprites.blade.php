@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - Propriétés')
+    @section('title', 'Sorvarent - ' . __('ui.properties'))
 
     <style>
         .admin-property-grid {
@@ -186,19 +186,26 @@
     <div class="admin-page">
         <header class="admin-page-header">
             <div>
-                <h1 class="admin-page-title">Propriétés</h1>
-                <p class="admin-page-subtitle">Gérez les annonces et les propriétaires qui les ont publiées.</p>
+                <h1 class="admin-page-title">{{ __('ui.properties') }}</h1>
+                <p class="admin-page-subtitle">{{ __('ui.admin_properties_subtitle') }}</p>
             </div>
-            <span class="admin-count-badge"><strong>{{ $properties->total() }}</strong> propriétés</span>
+            <span class="admin-count-badge"><strong>{{ $properties->total() }}</strong> {{ __('ui.admin_property_count') }}</span>
         </header>
 
         @if ($properties->isEmpty())
-            <div class="admin-panel admin-empty">Aucune propriété à afficher.</div>
+            <div class="admin-panel admin-empty">{{ __('ui.admin_no_properties') }}</div>
         @else
             <div class="admin-property-grid">
                 @foreach ($properties as $property)
                     @php
                         $photos = json_decode($property->photos, true) ?: [];
+                        $propertyTypeLabels = [
+                            'appartement' => __('ui.admin_apartment'),
+                            'maison' => __('ui.admin_house'),
+                            'duplex' => __('ui.admin_duplex'),
+                            'studio' => __('ui.admin_studio'),
+                        ];
+                        $propertyType = mb_strtolower($property->property_type);
                     @endphp
                     <article class="admin-property-card" data-property-id="{{ $property->id }}"
                         data-photos="{{ json_encode($photos) }}">
@@ -206,14 +213,14 @@
                             @if (!empty($photos))
                                 <button type="button" class="h-full w-full text-left"
                                     onclick="openGalleryModal({{ $property->id }})"
-                                    aria-label="Voir les photos de {{ $property->title }}">
+                                    aria-label="{{ __('ui.admin_view_photos', ['property' => $property->title]) }}">
                                     <img src="{{ asset('storage/' . $photos[0]) }}" alt="{{ $property->title }}" loading="lazy">
                                 </button>
                             @else
-                                <div class="flex h-full items-center justify-center text-sm text-gray-400">Aucune photo</div>
+                                <div class="flex h-full items-center justify-center text-sm text-gray-400">{{ __('ui.admin_no_photo') }}</div>
                             @endif
                             @if (count($photos) > 1)
-                                <span class="admin-property-card__photo-count">{{ count($photos) }} photos</span>
+                                <span class="admin-property-card__photo-count">{{ __('ui.admin_photo_count', ['count' => count($photos)]) }}</span>
                             @endif
                         </div>
 
@@ -226,7 +233,7 @@
                                     </p>
                                 </div>
                                 <span class="admin-status {{ $property->published ? 'admin-status--success' : 'admin-status--pending' }}">
-                                    {{ $property->published ? 'Publié' : 'En attente' }}
+                                    {{ $property->published ? __('ui.admin_published') : __('ui.admin_pending') }}
                                 </span>
                             </div>
 
@@ -235,18 +242,18 @@
                                     {{ mb_strtoupper(mb_substr($property->user?->name ?? '?', 0, 1)) }}
                                 </span>
                                 <span>
-                                    <span class="admin-property-card__owner-label block">Publié par</span>
-                                    <span class="admin-property-card__owner-name block">{{ $property->user?->name ?? 'Propriétaire indisponible' }}</span>
+                                    <span class="admin-property-card__owner-label block">{{ __('ui.admin_posted_by') }}</span>
+                                    <span class="admin-property-card__owner-name block">{{ $property->user?->name ?? __('ui.admin_owner_unavailable') }}</span>
                                 </span>
                             </div>
 
                             <div class="admin-property-card__details">
-                                <span class="admin-property-card__detail">{{ ucfirst($property->property_type) }}</span>
+                                <span class="admin-property-card__detail">{{ $propertyTypeLabels[$propertyType] ?? ucfirst($property->property_type) }}</span>
                                 @if ($property->surface)
                                     <span class="admin-property-card__detail">{{ $property->surface }} m²</span>
                                 @endif
-                                <span class="admin-property-card__detail">{{ $property->bedrooms }} chambres</span>
-                                <span class="admin-property-card__detail">{{ $property->bathrooms }} salles de bain</span>
+                                <span class="admin-property-card__detail">{{ $property->bedrooms }} {{ __('ui.admin_bedrooms') }}</span>
+                                <span class="admin-property-card__detail">{{ $property->bathrooms }} {{ __('ui.admin_bathrooms') }}</span>
                             </div>
 
                             <div class="admin-property-card__footer">
@@ -261,16 +268,16 @@
                                         @csrf
                                         @method('PATCH')
                                         <button class="admin-property-card__action" type="submit">
-                                            {{ $property->published ? 'Dépublier' : 'Publier' }}
+                                            {{ $property->published ? __('ui.admin_unpublish') : __('ui.admin_publish') }}
                                         </button>
                                     </form>
                                     <form action="{{ route('properties.admin.destroy', $property->id) }}" method="POST"
-                                        onsubmit="return confirm('Supprimer cette propriété ?')">
+                                        onsubmit="return confirm(@js(__('ui.admin_delete_property_confirm')))">
                                         @csrf
                                         @method('DELETE')
                                         <button class="admin-property-card__action admin-property-card__action--delete"
-                                            type="submit" aria-label="Supprimer {{ $property->title }}">
-                                            Supprimer
+                                            type="submit" aria-label="{{ __('ui.admin_delete_property') }} {{ $property->title }}">
+                                            {{ __('ui.admin_delete_property') }}
                                         </button>
                                     </form>
                                 </div>
@@ -289,7 +296,7 @@
     <div id="galleryModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
         <div class="relative w-full max-w-6xl max-h-[90vh] bg-black rounded-lg overflow-hidden">
             <!-- Close Button -->
-            <button onclick="closeGalleryModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 bg-black/50 rounded-full p-2" aria-label="Close gallery">
+            <button onclick="closeGalleryModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 bg-black/50 rounded-full p-2" aria-label="{{ __('ui.admin_close_gallery') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -297,22 +304,22 @@
 
             <!-- Main Image -->
             <div id="mainImageView" class="flex items-center justify-center h-full p-4 hidden">
-                <img id="mainImage" class="max-h-[85vh] max-w-full object-contain" src="" alt="Property image">
+                <img id="mainImage" class="max-h-[85vh] max-w-full object-contain" src="" alt="{{ __('ui.admin_property_image') }}">
             </div>
 
             <!-- Thumbnails Grid -->
             <div id="thumbnailsGrid" class="p-4">
-                <h3 class="text-white text-lg font-semibold mb-4">Gallery</h3>
+                <h3 class="text-white text-lg font-semibold mb-4">{{ __('ui.admin_gallery') }}</h3>
                 <div id="galleryContent" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto max-h-[70vh] custom-scrollbar"></div>
             </div>
 
             <!-- Navigation -->
-            <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden">
+            <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden" aria-label="{{ __('ui.previous_photo') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </button>
-            <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden">
+            <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors hidden" aria-label="{{ __('ui.next_photo') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
@@ -357,6 +364,7 @@
             photos.forEach((photo, index) => {
                 const img = document.createElement('img');
                 img.src = `/storage/${photo}`;
+                img.alt = @js(__('ui.admin_property_image'));
                 img.className = 'w-full h-48 object-cover rounded-lg cursor-pointer';
                 img.onclick = () => showImage(index);
                 content.appendChild(img);

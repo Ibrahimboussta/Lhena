@@ -1,24 +1,24 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - Utilisateurs')
+    @section('title', 'Sorvarent - ' . __('ui.users'))
 
     <div class="admin-page">
         <header class="admin-page-header">
             <div>
-                <h1 class="admin-page-title">Utilisateurs</h1>
-                <p class="admin-page-subtitle">Consultez les comptes inscrits sur la plateforme.</p>
+                <h1 class="admin-page-title">{{ __('ui.users') }}</h1>
+                <p class="admin-page-subtitle">{{ __('ui.admin_users_subtitle') }}</p>
             </div>
-            <span class="admin-count-badge"><strong>{{ $users->total() }}</strong> utilisateurs</span>
+            <span class="admin-count-badge"><strong>{{ $users->total() }}</strong> {{ __('ui.admin_user_count') }}</span>
         </header>
 
-        <section class="admin-panel" aria-label="Liste des utilisateurs">
+        <section class="admin-panel" aria-label="{{ __('ui.users') }}">
             <div class="admin-table-wrap">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Utilisateur</th>
-                            <th>Email</th>
-                            <th>Rôle</th>
-                            <th>Date d’inscription</th>
+                            <th>{{ __('ui.admin_user') }}</th>
+                            <th>{{ __('ui.admin_email') }}</th>
+                            <th>{{ __('ui.admin_role') }}</th>
+                            <th>{{ __('ui.admin_signup_date') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,14 +37,14 @@
                                 </td>
                                 <td>
                                     <span class="admin-status {{ $user->role === 'admin' ? 'admin-status--success' : 'admin-status--pending' }}">
-                                        {{ $user->role === 'admin' ? 'Admin' : 'Utilisateur' }}
+                                        {{ $user->role === 'admin' ? __('ui.admin_admin_role') : __('ui.admin_user_role') }}
                                     </span>
                                 </td>
                                 <td>{{ $user->created_at?->format('d/m/Y') ?? '—' }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td class="admin-empty" colspan="4">Aucun utilisateur à afficher.</td>
+                                <td class="admin-empty" colspan="4">{{ __('ui.admin_no_users') }}</td>
                             </tr>
                         @endforelse
                     </tbody>

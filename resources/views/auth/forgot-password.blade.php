@@ -6,10 +6,10 @@
 
         <div>
             <h1 class="text-2xl font-semibold tracking-tight text-[#171b18] sm:text-3xl">
-                {{ __('Mot de passe oublié ?') }}
+                {{ __('ui.forgot_password') }}
             </h1>
             <p class="mt-2 text-sm leading-6 text-[#85837f]">
-                {{ __('Pas de problème. Indiquez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.') }}
+                {{ __('ui.forgot_password_intro') }}
             </p>
         </div>
 
@@ -18,7 +18,7 @@
 
             <div>
                 <label for="email" class="block text-[10px] font-semibold uppercase tracking-wide text-[#272a27]">
-                    {{ __('Adresse e-mail') }}
+                    {{ __('ui.email') }}
                 </label>
                 <div class="relative mt-2">
                     <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#a6a39f]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -34,15 +34,15 @@
 
             <button type="submit"
                 class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#a16e37] px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-[0_6px_12px_rgba(114,73,32,0.2)] transition hover:bg-[#8e5e2e] focus:outline-none focus:ring-2 focus:ring-[#a16e37] focus:ring-offset-2">
-                {{ __('Envoyer le lien de réinitialisation') }}
+                {{ __('ui.send_reset_link') }}
                 <span aria-hidden="true">→</span>
             </button>
         </form>
 
         <p class="text-center text-xs text-[#817d78]">
-            {{ __('Vous vous souvenez de votre mot de passe ?') }}
+            {{ __('ui.remembered_password') }}
             <a href="{{ route('login') }}" class="ml-1 font-medium text-[#8b4d19] transition hover:text-[#62340f]">
-                {{ __('Se connecter') }}
+                {{ __('ui.login') }}
             </a>
         </p>
     </div>

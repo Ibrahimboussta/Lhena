@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->isLocale('ar') ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
     @vite('resources/js/app.js')
     <link rel="icon" href="{{ asset('images/iconTab.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700|ibm-plex-sans-arabic:400,500,600,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
@@ -31,45 +31,46 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="home-nav__brand flex items-center">
-                        <img class="home-nav__logo h-12 w-auto sm:h-14" src="{{ asset('images/newlogo.png') }}" alt="Lhena">
+                        <img class="home-nav__logo h-12 w-auto " src="{{ asset('images/newlogo.png') }}" alt="Lhena">
                     </a>
                 </div>
 
                 <!-- Navigation principale - Desktop -->
-                <div class="hidden lg:flex lg:items-center lg:space-x-8">
+                <div class="hidden lg:flex lg:items-center lg:gap-8">
                     <a href="/"
                         class="home-nav__link relative text-gray-600 hover:text-black px-1 py-1 text-sm font-medium transition-colors duration-200
                after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-[#0b3b31]
                after:transition-all after:duration-500 hover:after:w-full">
-                        Accueil
+                        {{ __('ui.home') }}
                     </a>
                     <a href="{{ route('proprites') }}"
                         class="home-nav__link relative text-gray-600 hover:text-black px-1 py-1 text-sm font-medium transition-colors duration-200
                after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-[#0b3b31]
                after:transition-all after:duration-500 hover:after:w-full">
-                        Propriétés
+                        {{ __('ui.properties') }}
                     </a>
                     <a href="{{ route('a-propos') }}"
                         class="home-nav__link relative text-gray-600 hover:text-black px-1 py-1 text-sm font-medium transition-colors duration-200
                after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-[#0b3b31]
                after:transition-all after:duration-500 hover:after:w-full">
-                        À propos
+                        {{ __('ui.about') }}
                     </a>
                     <a href="{{ route('contact') }}"
                         class="home-nav__link relative text-gray-600 hover:text-black px-1 py-1 text-sm font-medium transition-colors duration-200
                after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-[#0b3b31]
                after:transition-all after:duration-500 hover:after:w-full">
-                        Contact
+                        {{ __('ui.contact') }}
                     </a>
                 </div>
 
 
                 <!-- Boutons d'action -->
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center gap-3 sm:gap-4">
+                    @include('components.language-switcher')
                     @auth
                         <a href="{{ route('publish') }}"
                             class="home-nav__action hidden lg:flex items-center space-x-2 rounded-full bg-[#0b3b31] px-5 py-2.5 text-sm font-semibold text-white transition duration-200 hover:bg-[#0b4b3e]">
-                            <span>Publier une annonce</span>
+                            <span>{{ __('ui.publish_listing') }}</span>
                         </a>
 
                         <!-- Profile Dropdown -->
@@ -96,13 +97,13 @@
                                 <!-- Dashboard -->
                                 <a href="{{ Auth::user()->role == 'user' ? route('dashboard') : route('users') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    {{ Auth::user()->role == 'user' ? 'Dashboard' : 'Admin Panel' }}
+                                    {{ Auth::user()->role == 'user' ? __('ui.dashboard') : __('ui.admin_panel') }}
                                 </a>
 
                                 <!-- Profile -->
                                 <a href="{{ route('profile.edit') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    Profile
+                                    {{ __('ui.profile') }}
                                 </a>
 
                                 <!-- Logout -->
@@ -110,7 +111,7 @@
                                     @csrf
                                     <button type="submit"
                                         class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        Se déconnecter
+                                        {{ __('ui.logout') }}
                                     </button>
                                 </form>
                             </div>
@@ -119,11 +120,11 @@
                         <div class="flex items-center space-x-2">
                             <a href="{{ route('login') }}"
                                 class="home-nav__action hidden lg:flex items-center rounded-full bg-[#0b3b31] px-5 py-2.5 text-sm font-semibold text-white transition duration-200 hover:bg-[#0b4b3e]">
-                                <span>Se connecter</span>
+                                <span>{{ __('ui.login') }}</span>
                             </a>
                             <a href="{{ route('register') }}"
                                 class="home-nav__register flex items-center rounded-full bg-[#e8d2a7] px-4 py-2.5 text-sm font-semibold text-[#2e392f] transition duration-300 hover:bg-[#f0dfc0]">
-                                <span>S'inscrire</span>
+                                <span>{{ __('ui.register') }}</span>
                             </a>
                         </div>
                     @endauth
@@ -142,22 +143,21 @@
             <div id="mobile-menu" class="home-nav__mobile-menu lg:hidden hidden pb-3">
                 <div class="pt-2 pb-3 space-y-1">
                     <a href="/"
-                        class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">Accueil</a>
+                        class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">{{ __('ui.home') }}</a>
                     <a href="{{ route('proprites') }}"
-                        class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">Propriétés</a>
+                        class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">{{ __('ui.properties') }}</a>
                     <a href="{{ route('a-propos') }}"
-                        class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">À
-                        propos</a>
+                        class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">{{ __('ui.about') }}</a>
                     <a href="{{ route('contact') }}"
-                        class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">Contact</a>
+                        class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">{{ __('ui.contact') }}</a>
                     @auth
                         <a href="{{ route('publish') }}"
-                            class="home-nav__mobile-host block px-3 py-2 text-base font-semibold rounded-md mt-2">Publier une annonce</a>
+                            class="home-nav__mobile-host block px-3 py-2 text-base font-semibold rounded-md mt-2">{{ __('ui.publish_listing') }}</a>
                     @else
                         <a href="{{ route('login') }}"
-                            class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">Se connecter</a>
+                            class="home-nav__mobile-link block px-3 py-2 text-base font-medium text-gray-600 hover:text-black hover:bg-gray-50 rounded-md">{{ __('ui.login') }}</a>
                         <a href="{{ route('register') }}"
-                            class="home-nav__mobile-host block px-3 py-2 text-base font-semibold rounded-md mt-2">S'inscrire</a>
+                            class="home-nav__mobile-host block px-3 py-2 text-base font-semibold rounded-md mt-2">{{ __('ui.register') }}</a>
                     @endauth
                 </div>
             </div>
@@ -189,59 +189,7 @@
     @yield('content')
 
 
-    <footer class="border-t border-[#e7ece8] bg-white">
-        <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
-            <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1.2fr]">
-                <div>
-                    <a href="/" class="inline-flex items-center gap-3">
-                        <img class="h-12 w-auto" src="{{ asset('images/lhena-logo.png') }}" alt="Lhena">
-                        <span>
-                            <span class="block text-lg font-semibold tracking-tight text-[#0b3b31]">Lhena</span>
-                            <span class="block text-[9px] font-semibold uppercase tracking-[0.12em] text-[#90764b]">Immobilier au Maroc</span>
-                        </span>
-                    </a>
-                    <p class="mt-4 max-w-sm text-sm leading-6 text-[#68736d]">
-                        Retrouvez des annonces immobilières au Maroc et avancez dans votre projet avec un accompagnement attentif.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="text-xs font-semibold uppercase tracking-[0.14em] text-[#34443c]">Découvrir</h4>
-                    <ul class="mt-4 space-y-3 text-sm text-[#68736d]">
-                        <li><a class="transition hover:text-[#0b3b31]" href="/">Accueil</a></li>
-                        <li><a class="transition hover:text-[#0b3b31]" href="{{ route('proprites') }}">Toutes les propriétés</a></li>
-                        <li><a class="transition hover:text-[#0b3b31]" href="{{ route('a-propos') }}">À propos</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-xs font-semibold uppercase tracking-[0.14em] text-[#34443c]">Besoin d’aide ?</h4>
-                    <ul class="mt-4 space-y-3 text-sm text-[#68736d]">
-                        <li><a class="transition hover:text-[#0b3b31]" href="{{ route('contact') }}">Nous contacter</a></li>
-                        <li><a class="transition hover:text-[#0b3b31]" href="{{ route('publish') }}">Publier une annonce</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-xs font-semibold uppercase tracking-[0.14em] text-[#34443c]">La lettre Lhena</h4>
-                    <p class="mt-4 text-sm leading-6 text-[#68736d]">Recevez nos actualités immobilières et nos nouveautés.</p>
-                    <form action="{{ route('mailing.store') }}" method="POST" class="mt-4 flex flex-col gap-2 sm:flex-row">
-                        @csrf
-                        <input type="email" name="email" required autocomplete="email" class="min-w-0 flex-1 rounded-full border border-[#dce4df] bg-[#f7f9f7] px-4 py-2.5 text-sm focus:border-[#0b3b31] focus:ring-[#0b3b31]" placeholder="Votre adresse e-mail">
-                        <button type="submit" class="rounded-full bg-[#0b3b31] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0b4b3e]">S’abonner</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="mt-10 flex flex-col gap-3 border-t border-[#e7ece8] pt-5 text-xs text-[#7b857f] sm:flex-row sm:items-center sm:justify-between">
-                © {{ now()->year }} Lhena. Tous droits réservés.
-                <nav aria-label="Informations légales" class="flex flex-wrap gap-x-5 gap-y-2">
-                    <a class="transition hover:text-[#0b3b31]" href="{{ route('legal.cgu') }}">Conditions générales d’utilisation</a>
-                    <a class="transition hover:text-[#0b3b31]" href="{{ route('legal.privacy') }}">Politique de confidentialité</a>
-                </nav>
-            </div>
-        </div>
-    </footer>
+    <x-site-footer />
 
 
 

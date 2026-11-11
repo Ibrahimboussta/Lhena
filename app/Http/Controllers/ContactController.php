@@ -39,7 +39,7 @@ class ContactController extends Controller
             'message' => $request->message,
         ]);
 
-        return back()->with('success', 'Message envoyé avec succès');
+        return back()->with('success', __('ui.contact_sent'));
     }
 
 
@@ -48,6 +48,6 @@ class ContactController extends Controller
         $contact = Contact::findOrFail($id);
         $contact->delete();
 
-        return redirect()->back()->with('success', 'Message supprimé avec succès');
+        return redirect()->back()->with('success', __('ui.contact_deleted'));
     }
 }

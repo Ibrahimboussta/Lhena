@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - Aperçu global')
+    @section('title', 'Sorvarent - ' . __('ui.admin_overview'))
 
     <style>
         .overview-stats {
@@ -224,8 +224,8 @@
     <div class="admin-page">
         <header class="admin-page-header">
             <div>
-                <h1 class="admin-page-title">Aperçu global</h1>
-                <p class="admin-page-subtitle">Vue d’ensemble de l’activité de votre plateforme.</p>
+                <h1 class="admin-page-title">{{ __('ui.admin_overview') }}</h1>
+                <p class="admin-page-subtitle">{{ __('ui.admin_overview_subtitle') }}</p>
             </div>
             <div class="overview-header-actions">
                 <span class="admin-count-badge">{{ now()->translatedFormat('l d F Y') }}</span>
@@ -234,66 +234,66 @@
                         stroke-width="2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-7-7h14" />
                     </svg>
-                    <span>Ajouter une propriété</span>
+                    <span>{{ __('ui.admin_add_property') }}</span>
                 </a>
             </div>
         </header>
 
-        <section class="overview-stats" aria-label="Statistiques globales">
+        <section class="overview-stats" aria-label="{{ __('ui.admin_global_statistics') }}">
             <article class="overview-stat">
-                <p class="overview-stat__label">Utilisateurs</p>
+                <p class="overview-stat__label">{{ __('ui.users') }}</p>
                 <p class="overview-stat__value">{{ number_format($stats['users']) }}</p>
-                <p class="overview-stat__note">Comptes enregistrés</p>
+                <p class="overview-stat__note">{{ __('ui.admin_registered_accounts') }}</p>
             </article>
             <article class="overview-stat">
-                <p class="overview-stat__label">Propriétés</p>
+                <p class="overview-stat__label">{{ __('ui.properties') }}</p>
                 <p class="overview-stat__value">{{ number_format($stats['properties']) }}</p>
-                <p class="overview-stat__note">{{ number_format($stats['publishedProperties']) }} annonces publiées</p>
+                <p class="overview-stat__note">{{ number_format($stats['publishedProperties']) }} {{ __('ui.admin_published_listings') }}</p>
             </article>
             <article class="overview-stat">
-                <p class="overview-stat__label">Contacts</p>
+                <p class="overview-stat__label">{{ __('ui.contacts') }}</p>
                 <p class="overview-stat__value">{{ number_format($stats['contacts']) }}</p>
-                <p class="overview-stat__note">Demandes reçues</p>
+                <p class="overview-stat__note">{{ __('ui.admin_requests_received') }}</p>
             </article>
             <article class="overview-stat">
-                <p class="overview-stat__label">Emails</p>
+                <p class="overview-stat__label">{{ __('ui.emails') }}</p>
                 <p class="overview-stat__value">{{ number_format($stats['emails']) }}</p>
-                <p class="overview-stat__note">Abonnés aux actualités</p>
+                <p class="overview-stat__note">{{ __('ui.admin_newsletter_subscribers') }}</p>
             </article>
         </section>
 
         <div class="overview-lower">
             <section class="overview-panel">
                 <header class="overview-panel__header">
-                    <h2 class="overview-panel__title">Propriétés récemment ajoutées</h2>
-                    <a class="overview-panel__link" href="{{ route('proprites.admin') }}">Voir toutes les propriétés</a>
+                    <h2 class="overview-panel__title">{{ __('ui.admin_recent_properties') }}</h2>
+                    <a class="overview-panel__link" href="{{ route('proprites.admin') }}">{{ __('ui.admin_view_all_properties') }}</a>
                 </header>
                 @forelse ($recentProperties as $property)
                     <div class="overview-recent">
                         <div class="min-w-0">
                             <p class="overview-recent__title">{{ $property->title }}</p>
                             <p class="overview-recent__meta">
-                                {{ $property->city }} · {{ $property->user?->name ?? 'Propriétaire indisponible' }}
+                                {{ $property->city }} · {{ $property->user?->name ?? __('ui.admin_owner_unavailable') }}
                             </p>
                         </div>
                         <span class="admin-status {{ $property->published ? 'admin-status--success' : 'admin-status--pending' }}">
-                            {{ $property->published ? 'Publié' : 'En attente' }}
+                            {{ $property->published ? __('ui.admin_published') : __('ui.admin_pending') }}
                         </span>
                     </div>
                 @empty
-                    <p class="admin-empty">Aucune propriété enregistrée pour le moment.</p>
+                    <p class="admin-empty">{{ __('ui.admin_no_properties_registered') }}</p>
                 @endforelse
             </section>
 
             <section class="overview-panel">
                 <header class="overview-panel__header">
-                    <h2 class="overview-panel__title">Accès rapides</h2>
+                    <h2 class="overview-panel__title">{{ __('ui.admin_quick_access') }}</h2>
                 </header>
-                <nav class="overview-shortcuts" aria-label="Accès rapides à l’administration">
-                    <a class="overview-shortcut" href="{{ route('users') }}"><span>Gérer les utilisateurs</span><span aria-hidden="true">→</span></a>
-                    <a class="overview-shortcut" href="{{ route('proprites.admin') }}"><span>Voir les propriétés</span><span aria-hidden="true">→</span></a>
-                    <a class="overview-shortcut" href="{{ route('contacts.admin') }}"><span>Consulter les contacts</span><span aria-hidden="true">→</span></a>
-                    <a class="overview-shortcut" href="{{ route('mailing') }}"><span>Gérer les emails</span><span aria-hidden="true">→</span></a>
+                <nav class="overview-shortcuts" aria-label="{{ __('ui.admin_quick_access') }}">
+                    <a class="overview-shortcut" href="{{ route('users') }}"><span>{{ __('ui.admin_manage_users') }}</span><span aria-hidden="true">→</span></a>
+                    <a class="overview-shortcut" href="{{ route('proprites.admin') }}"><span>{{ __('ui.admin_view_properties') }}</span><span aria-hidden="true">→</span></a>
+                    <a class="overview-shortcut" href="{{ route('contacts.admin') }}"><span>{{ __('ui.admin_consult_contacts') }}</span><span aria-hidden="true">→</span></a>
+                    <a class="overview-shortcut" href="{{ route('mailing') }}"><span>{{ __('ui.admin_manage_emails') }}</span><span aria-hidden="true">→</span></a>
                 </nav>
             </section>
         </div>

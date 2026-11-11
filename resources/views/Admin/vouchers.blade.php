@@ -259,9 +259,9 @@
 
     <div class="voucher-page">
         <div>
-            <p class="voucher-page__eyebrow">Espace administration</p>
-            <h1 class="voucher-page__title">Documents / Confirmation de réservation</h1>
-            <p class="voucher-page__subtitle">Préparez une confirmation de réservation et ses conditions d’utilisation.</p>
+            <p class="voucher-page__eyebrow">{{ __('ui.admin_documents') }}</p>
+            <h1 class="voucher-page__title">{{ __('ui.admin_reservation_confirmation_title') }}</h1>
+            <p class="voucher-page__subtitle">{{ __('ui.admin_reservation_confirmation_subtitle') }}</p>
         </div>
 
         <div class="voucher-layout" x-data="{
@@ -403,90 +403,90 @@
                     this.downloadError = '';
                 } catch (error) {
                     console.error('Impossible de télécharger la confirmation de réservation PDF.', error);
-                    this.downloadError = 'Le téléchargement de la confirmation de réservation a échoué. Veuillez réessayer.';
+                    this.downloadError = @js(__('ui.admin_pdf_download_failed'));
                 }
             }
         }">
             <section class="voucher-panel">
-                <h2 class="voucher-panel__title">Créer une confirmation de réservation</h2>
-                <p class="voucher-panel__hint">Renseignez les informations de la confirmation de réservation. Les champs sont présentés à titre d’aperçu.</p>
+                <h2 class="voucher-panel__title">{{ __('ui.admin_create_reservation_confirmation') }}</h2>
+                <p class="voucher-panel__hint">{{ __('ui.admin_reservation_confirmation_hint') }}</p>
 
                 <form @submit.prevent="generated = true">
                     <div class="voucher-form-grid">
                         <div class="voucher-field voucher-field--full">
-                            <label for="voucher-code">Code de confirmation de réservation</label>
+                            <label for="voucher-code">{{ __('ui.admin_confirmation_code') }}</label>
                             <div class="voucher-code-row">
-                                <input id="voucher-code" type="text" x-model="code" placeholder="Ex. Sorvarent-ETE26">
-                                <button class="voucher-code-generate" type="button" @click="generateCode()">Générer un code</button>
+                                <input id="voucher-code" type="text" x-model="code" placeholder="{{ __('ui.admin_code_example') }}">
+                                <button class="voucher-code-generate" type="button" @click="generateCode()">{{ __('ui.admin_generate_code') }}</button>
                             </div>
                         </div>
 
                         <div class="voucher-field">
-                            <label for="voucher-start">Valable à partir du</label>
+                            <label for="voucher-start">{{ __('ui.admin_valid_from_date') }}</label>
                             <input id="voucher-start" type="date" x-model="startDate">
                         </div>
                         <div class="voucher-field">
-                            <label for="voucher-end">Valable jusqu’au</label>
+                            <label for="voucher-end">{{ __('ui.admin_valid_until_date') }}</label>
                             <input id="voucher-end" type="date" x-model="endDate">
                         </div>
 
                         <div class="voucher-field">
-                            <label for="voucher-client">Client (facultatif)</label>
-                            <input id="voucher-client" type="text" x-model="client" placeholder="Nom du client">
+                            <label for="voucher-client">{{ __('ui.admin_client_optional') }}</label>
+                            <input id="voucher-client" type="text" x-model="client" placeholder="{{ __('ui.admin_client_name') }}">
                         </div>
                         <div class="voucher-field">
-                            <label for="voucher-uses">Nombre maximum d’utilisations</label>
+                            <label for="voucher-uses">{{ __('ui.admin_max_uses') }}</label>
                             <input id="voucher-uses" type="number" min="1" x-model="maxUses">
                         </div>
                         <div class="voucher-field">
-                            <label for="voucher-status">Statut initial</label>
+                            <label for="voucher-status">{{ __('ui.admin_initial_status') }}</label>
                             <select id="voucher-status">
-                                <option>Actif</option>
-                                <option>Brouillon</option>
+                                <option>{{ __('ui.admin_active') }}</option>
+                                <option>{{ __('ui.admin_draft') }}</option>
                             </select>
                         </div>
 
                         <div class="voucher-field voucher-field--full">
-                            <label for="voucher-terms">Conditions / note interne</label>
-                            <textarea id="voucher-terms" placeholder="Ajoutez les conditions d’utilisation de la confirmation de réservation…"></textarea>
+                            <label for="voucher-terms">{{ __('ui.admin_internal_terms') }}</label>
+                            <textarea id="voucher-terms" placeholder="{{ __('ui.admin_terms_placeholder') }}"></textarea>
                         </div>
                     </div>
 
                     <p class="voucher-notice">
-                        Cette page est une maquette d’interface : aucune information n’est enregistrée et aucun changement n’est effectué en base de données.
+                        {{ __('ui.admin_mock_notice') }}
                     </p>
                     <div class="voucher-actions">
-                        <button class="voucher-button voucher-button--secondary" type="reset">Effacer</button>
-                        <button class="voucher-button voucher-button--primary" type="submit">Prévisualiser la confirmation de réservation</button>
+                        <button class="voucher-button voucher-button--secondary" type="reset">{{ __('ui.admin_clear') }}</button>
+                        <button class="voucher-button voucher-button--primary" type="submit">{{ __('ui.admin_preview_confirmation') }}</button>
                     </div>
                     <p x-cloak x-show="generated" class="mt-3 text-right text-xs font-medium text-[#173f36]" role="status">
-                        Aperçu mis à jour — aucune donnée n’a été enregistrée.
+                        {{ __('ui.admin_preview_updated') }}
                     </p>
                 </form>
             </section>
 
-            <aside class="voucher-preview" aria-label="Aperçu de la confirmation de réservation">
+            <aside class="voucher-preview" aria-label="{{ __('ui.admin_confirmation_preview') }}">
                 <div class="voucher-preview__top">
-                    <p class="voucher-preview__label">Sorvarent · Séjour d’exception</p>
-                    <p class="voucher-preview__value">Confirmation de réservation</p>
+                    <p class="voucher-preview__label">Sorvarent · {{ __('ui.admin_stay_exceptional') }}</p>
+                    <p class="voucher-preview__value">{{ __('ui.admin_reservation_confirmation') }}</p>
                     <p class="voucher-preview__code" x-text="code || 'CODE-CONFIRMATION'"></p>
                 </div>
                 <div class="voucher-preview__body">
                     <div class="voucher-preview__row">
-                        <span>Bénéficiaire</span>
-                        <span x-text="client || 'Non attribué'"></span>
+                        <span>{{ __('ui.admin_beneficiary') }}</span>
+                        <span x-text="client || @js(__('ui.admin_unassigned'))"></span>
                     </div>
                     <div class="voucher-preview__row">
-                        <span>Validité</span>
+                        <span>{{ __('ui.admin_validity') }}</span>
                         <span x-text="(startDate || '—') + ' → ' + (endDate || '—')"></span>
                     </div>
                     <div class="voucher-preview__row">
-                        <span>Utilisations</span>
+                        <span>{{ __('ui.admin_usages') }}</span>
                         <span x-text="maxUses || '—'"></span>
                     </div>
                     <div class="voucher-actions">
                         <button class="voucher-button voucher-button--primary" type="button" @click="downloadVoucher()">
-                            Télécharger en PDF
+                            {{ __('ui.admin_download_pdf') }}
                         </button>
                     </div>
                     <p x-cloak x-show="downloadError" class="mt-3 text-right text-xs text-red-700" role="alert" x-text="downloadError"></p>

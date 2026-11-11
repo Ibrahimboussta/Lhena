@@ -1,58 +1,48 @@
-<section class="bg-white border border-green-200 rounded-xl p-6 shadow-sm dark:bg-gray-800 dark:border-gray-700">
-    <header>
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-            {{ __('Mettre à jour le mot de passe') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-white">
-            {{ __('Assurez-vous d’utiliser un mot de passe long, unique et sécurisé pour protéger votre compte.') }}
-        </p>
-    </header>
-
+<div>
     <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-5">
         @csrf
         @method('put')
 
         <!-- Current Password -->
         <div>
-            <x-input-label for="update_password_current_password" :value="__('Mot de passe actuel')" class="text-gray-700 dark:text-white"/>
+            <x-input-label for="update_password_current_password" :value="__('ui.current_password')" class="profile-label"/>
             <x-text-input
                 id="update_password_current_password"
                 name="current_password"
                 type="password"
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                class="profile-field mt-1 block w-full focus:border-green-700 focus:ring-green-700"
                 autocomplete="current-password" />
             <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
         </div>
 
         <!-- New Password -->
         <div>
-            <x-input-label for="update_password_password" :value="__('Nouveau mot de passe')" class="text-gray-700 dark:text-white"/>
+            <x-input-label for="update_password_password" :value="__('ui.new_password')" class="profile-label"/>
             <x-text-input
                 id="update_password_password"
                 name="password"
                 type="password"
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                class="profile-field mt-1 block w-full focus:border-green-700 focus:ring-green-700"
                 autocomplete="new-password" />
             <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div>
-            <x-input-label for="update_password_password_confirmation" :value="__('Confirmer le mot de passe')" class="text-gray-700 dark:text-white"/>
+            <x-input-label for="update_password_password_confirmation" :value="__('ui.confirm_password')" class="profile-label"/>
             <x-text-input
                 id="update_password_password_confirmation"
                 name="password_confirmation"
                 type="password"
-                class="mt-1 block w-full border-green-300 focus:border-green-500 focus:ring-green-500 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                class="profile-field mt-1 block w-full focus:border-green-700 focus:ring-green-700"
                 autocomplete="new-password" />
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
         </div>
 
         <!-- Actions -->
         <div class="flex items-center gap-4 pt-2">
-            <x-primary-button class="bg-green-600 hover:bg-green-700 focus:ring-green-500">
-                {{ __('Enregistrer') }}
+            <x-primary-button class="profile-primary">
+                {{ __('ui.save') }}
             </x-primary-button>
 
             @if (session('status') === 'password-updated')
@@ -61,11 +51,11 @@
                     x-show="show"
                     x-transition
                     x-init="setTimeout(() => show = false, 2500)"
-                    class="text-sm text-gray-900 font-medium dark:text-white"
+                    class="text-sm font-medium text-[#173f36]"
                 >
-                    {{ __('Mot de passe mis à jour !') }}
+                    {{ __('ui.password_updated') }}
                 </p>
             @endif
         </div>
     </form>
-</section>
+</div>

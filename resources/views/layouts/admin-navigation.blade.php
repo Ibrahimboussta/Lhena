@@ -500,6 +500,39 @@
             display: none;
         }
     }
+
+    html[dir="rtl"] .admin-sidebar {
+        right: 0;
+        left: auto;
+        border-right: 0;
+        border-left: 1px solid var(--admin-line);
+    }
+
+    html[dir="rtl"] .admin-main {
+        margin-right: 0;
+        margin-left: 0;
+        margin-inline-start: 248px;
+    }
+
+    html[dir="rtl"] .admin-nav-link {
+        border-left: 0;
+        border-inline-start: 3px solid transparent;
+    }
+
+    html[dir="rtl"] .admin-nav-link.is-active {
+        border-left-color: transparent;
+        border-inline-start-color: var(--admin-accent);
+    }
+
+    html[dir="rtl"] .admin-table {
+        text-align: start;
+    }
+
+    @media (max-width: 760px) {
+        html[dir="rtl"] .admin-main {
+            margin-inline-start: 0;
+        }
+    }
 </style>
 
 <aside class="admin-sidebar" x-data="{ menuOpen: false }">
@@ -509,7 +542,7 @@
         </a>
         <button type="button" class="admin-menu-toggle" @click="menuOpen = !menuOpen"
             :aria-expanded="menuOpen.toString()" aria-controls="admin-mobile-navigation"
-            :aria-label="menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'">
+            :aria-label="menuOpen ? @js(__('ui.close_menu')) : @js(__('ui.open_menu'))">
             <svg x-show="!menuOpen" width="21" height="21" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -522,78 +555,78 @@
     </div>
 
     <nav id="admin-mobile-navigation" :class="{ 'is-open': menuOpen }"
-        aria-label="{{ Auth::user()->role === 'admin' ? 'Administration' : 'Espace agence' }}">
+        aria-label="{{ Auth::user()->role === 'admin' ? __('ui.admin_panel') : __('ui.agency_space') }}">
         @if (Auth::user()->role === 'admin')
-            <p class="admin-nav-label">Administration</p>
+            <p class="admin-nav-label">{{ __('ui.admin_panel') }}</p>
             <a href="{{ route('admin.overview') }}"
                 @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('admin.overview') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">▤</span>
-                <span>Aperçu global</span>
+                <span>{{ __('ui.global_overview') }}</span>
             </a>
             <a href="{{ route('users') }}"
                 @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('users') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">▦</span>
-                <span>Utilisateurs</span>
+                <span>{{ __('ui.users') }}</span>
             </a>
             <a href="{{ route('proprites.admin') }}"
                 @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('proprites.admin') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">⌂</span>
-                <span>Propriétés</span>
+                <span>{{ __('ui.properties') }}</span>
             </a>
             <a href="{{ route('contacts.admin') }}"
                 @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('contacts.admin') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">♧</span>
-                <span>Contacts</span>
+                <span>{{ __('ui.contacts') }}</span>
             </a>
             <a href="{{ route('mailing') }}"
                 @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('mailing') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">✉</span>
-                <span>Emails</span>
+                <span>{{ __('ui.emails') }}</span>
             </a>
             <a href="{{ route('vouchers.admin') }}"
                 @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('vouchers.admin') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">▤</span>
-                <span>Documents / vouchers</span>
+                <span>{{ __('ui.reservation_documents') }}</span>
             </a>
         @else
-            <p class="admin-nav-label">Supervision</p>
+            <p class="admin-nav-label">{{ __('ui.supervision') }}</p>
             <a href="{{ route('agency.overview') }}"
                 @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('agency.overview') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">▤</span>
-                <span>Aperçu global</span>
+                <span>{{ __('ui.global_overview') }}</span>
             </a>
             <a href="{{ route('dashboard') }}"
                 @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">⌂</span>
-                <span>Mes propriétés</span>
+                <span>{{ __('ui.my_properties') }}</span>
             </a>
             <a href="{{ route('publish') }}" @click="menuOpen = false"
                 class="admin-nav-link {{ request()->routeIs('publish') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">＋</span>
-                <span>Ajouter une propriété</span>
+                <span>{{ __('ui.add_property') }}</span>
             </a>
         @endif
         <a href="{{ url('/') }}" @click="menuOpen = false" class="admin-nav-link">
             <span class="admin-nav-link__icon" aria-hidden="true">⌂</span>
-            <span>Page d’accueil</span>
+            <span>{{ __('ui.home_page') }}</span>
         </a>
     </nav>
 
     <div class="admin-account" :class="{ 'is-open': menuOpen }">
-        <p class="admin-account__label">{{ Auth::user()->role === 'admin' ? 'Console admin' : 'Compte agence' }}</p>
+        <p class="admin-account__label">{{ Auth::user()->role === 'admin' ? __('ui.admin_console') : __('ui.agency_account') }}</p>
         <p class="admin-account__name">{{ Auth::user()->name }}</p>
-        <p class="admin-account__role">{{ Auth::user()->role === 'admin' ? 'Administrateur' : 'Propriétaire agence' }}</p>
+        <p class="admin-account__role">{{ Auth::user()->role === 'admin' ? __('ui.administrator') : __('ui.agency_owner') }}</p>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="admin-logout">Se déconnecter</button>
+            <button type="submit" class="admin-logout">{{ __('ui.logout') }}</button>
         </form>
     </div>
 </aside>

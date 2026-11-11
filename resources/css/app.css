@@ -13,6 +13,64 @@ body {
     background-color: #fff;
 }
 
+html[dir="rtl"] body {
+    font-family: 'IBM Plex Sans Arabic', 'Figtree', sans-serif;
+    text-align: start;
+}
+
+html[dir="rtl"] .text-left {
+    text-align: right;
+}
+
+html[dir="rtl"] .text-right {
+    text-align: left;
+}
+
+html[dir="rtl"] .left-0 {
+    right: 0;
+    left: auto;
+}
+
+html[dir="rtl"] .right-0 {
+    right: auto;
+    left: 0;
+}
+
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] select {
+    text-align: start;
+}
+
+html[dir="rtl"] .contact-field__control svg {
+    right: 0.75rem;
+    left: auto;
+}
+
+html[dir="rtl"] .contact-field__control input {
+    padding-right: 2.2rem;
+    padding-left: 0.8rem;
+}
+
+html[dir="rtl"] .contact-faq__question {
+    text-align: right;
+}
+
+html[dir="rtl"] .publish-button--next {
+    margin-left: 0;
+    margin-inline-start: auto;
+}
+
+html[dir="rtl"] .prev-btn {
+    right: 20px;
+    left: auto;
+}
+
+html[dir="rtl"] .next-btn {
+    right: auto;
+    left: 20px;
+}
+
 .property-image-loader {
     position: relative;
     overflow: hidden;

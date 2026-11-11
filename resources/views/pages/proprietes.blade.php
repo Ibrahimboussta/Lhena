@@ -511,9 +511,9 @@
 <section class="properties-page">
     <div class="properties-page__container">
         <div class="properties-page__heading">
-            <p class="properties-page__eyebrow">Sélection Lhena</p>
-            <h1 class="properties-page__title">Trouvez votre prochain coup de cœur</h1>
-            <p class="properties-page__subtitle">Explorez notre sélection de biens immobiliers et trouvez celui qui vous correspond.</p>
+            <p class="properties-page__eyebrow">{{ __('ui.selection_label') }}</p>
+            <h1 class="properties-page__title">{{ __('ui.properties_title') }}</h1>
+            <p class="properties-page__subtitle">{{ __('ui.properties_subtitle') }}</p>
         </div>
 
             <!-- Search Form -->
@@ -523,16 +523,16 @@
 
                 <!-- Toggle Buttons -->
                 <div class="properties-filter__header">
-                    <span class="properties-filter__eyebrow">Recherche immobilière</span>
+                    <span class="properties-filter__eyebrow">{{ __('ui.property_search') }}</span>
                     <div class="properties-filter__tabs">
                     <button type="button" @click="active = (active === 1 ? null : 1)" :class="{ 'is-active': active === 1 }" class="properties-filter__tab">
-                        Filtres
+                        {{ __('ui.filters') }}
                     </button>
                     <button type="button" @click="active = (active === 2 ? null : 2)" :class="{ 'is-active': active === 2 }" class="properties-filter__tab">
-                        Prix
+                        {{ __('ui.price') }}
                     </button>
                     <button type="button" @click="active = (active === 3 ? null : 3)" :class="{ 'is-active': active === 3 }" class="properties-filter__tab">
-                        Dates
+                        {{ __('ui.dates') }}
                     </button>
                     </div>
                 </div>
@@ -548,23 +548,23 @@
   search: '',
   selected: @js(request('property_type', '')),
   types: [
-    { value: '', label: 'Type' },
-    { value: 'appartement', label: 'Appartement' },
-    { value: 'maison', label: 'Maison' },
-    { value: 'duplex', label: 'Duplex' },
-    { value: 'studio', label: 'Studio' }
+    { value: '', label: @js(__('ui.type')) },
+    { value: 'appartement', label: @js(__('ui.apartment')) },
+    { value: 'maison', label: @js(__('ui.house')) },
+    { value: 'duplex', label: @js(__('ui.duplex')) },
+    { value: 'studio', label: @js(__('ui.studio')) }
   ],
   get filtered() {
     return this.types.filter(o => o.label.toLowerCase().includes(this.search.toLowerCase()));
   }
 }" @click.away="open = false" @keydown.escape.window="open = false" class="relative">
                             <div @click.stop="open = !open" class="flex cursor-pointer items-center justify-between text-sm">
-                                <span x-text="types.find(o => o.value === selected)?.label || 'Type'"></span>
+                                <span x-text="types.find(o => o.value === selected)?.label || @js(__('ui.type'))"></span>
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
                             <div x-show="open" x-cloak class="absolute z-50 w-full bg-white">
-                                <input type="text" x-model="search" placeholder="Rechercher un type..." class="w-full text-sm focus:outline-none">
+                                <input type="text" x-model="search" placeholder="{{ __('ui.search_type_placeholder') }}" class="w-full text-sm focus:outline-none">
                                 <ul class="max-h-48 overflow-y-auto">
                                     <template x-for="option in filtered" :key="option.value">
                                         <li @click="selected = option.value; open = false" :class="{'bg-emerald-100': selected === option.value}" class="px-3 py-2 cursor-pointer hover:bg-emerald-50 text-sm" x-text="option.label"></li>
@@ -579,7 +579,7 @@
   search: '',
   selected: @js(request('ville', '')),
   villes: [
-    { value: '', label: 'Ville' },
+    { value: '', label: @js(__('ui.city')) },
     { value: 'agadir', label: 'Agadir' },
     { value: 'ait melloul', label: 'Ait Melloul' },
     { value: 'asfi', label: 'Asfi' },
@@ -644,12 +644,12 @@
   }
 }" @keydown.escape.window="open = false" class="relative">
                             <div @click.stop="open = !open" class="flex cursor-pointer items-center justify-between text-sm">
-                                <span x-text="villes.find(o => o.value === selected)?.label || 'Ville'"></span>
+                                <span x-text="villes.find(o => o.value === selected)?.label || @js(__('ui.city'))"></span>
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
                             <div x-show="open" x-cloak @click.away="open = false" class="absolute z-50 w-full bg-white">
-                                <input type="text" x-model="search" placeholder="Rechercher une ville..." class="w-full text-sm focus:outline-none">
+                                <input type="text" x-model="search" placeholder="{{ __('ui.search_city_placeholder') }}" class="w-full text-sm focus:outline-none">
                                 <ul class="max-h-48 overflow-y-auto">
                                     <template x-for="option in filtered" :key="option.value">
                                         <li @click="selected = option.value; open = false" :class="{'bg-emerald-100': selected === option.value}" class="px-3 py-2 cursor-pointer hover:bg-emerald-50 text-sm" x-text="option.label"></li>
@@ -664,10 +664,10 @@
   search: '',
   selected: @js(request('quartier', '')),
   quartiers: [
-    { value: '', label: 'Quartier' },
-    { value: 'centre-ville', label: 'Centre-ville' },
-    { value: 'residence', label: 'Résidentiel' },
-    { value: 'bord', label: 'Bord de mer' },
+    { value: '', label: @js(__('ui.neighborhood')) },
+    { value: 'centre-ville', label: @js(__('ui.center_city')) },
+    { value: 'residence', label: @js(__('ui.residential')) },
+    { value: 'bord', label: @js(__('ui.seaside')) },
     { value: 'maarif', label: 'Maârif' },
     { value: 'gueliz', label: 'Guéliz' },
     { value: 'agdal', label: 'Agdal' },
@@ -697,19 +697,19 @@
     { value: 'massira', label: 'Massira' },
     { value: 'sidi youssef ben ali', label: 'Sidi Youssef Ben Ali' },
     { value: 'ain mezouar', label: 'Aïn Mezouar' },
-    { value: 'autres', label: 'Autres...' }
+    { value: 'autres', label: @js(__('ui.other_districts')) }
   ],
   get filtered() {
     return this.quartiers.filter(o => o.label.toLowerCase().includes(this.search.toLowerCase()));
   }
 }" @keydown.escape.window="open = false" class="relative">
                             <div @click.stop="open = !open" class="flex cursor-pointer items-center justify-between text-sm">
-                                <span x-text="quartiers.find(o => o.value === selected)?.label || 'Quartier'"></span>
+                                <span x-text="quartiers.find(o => o.value === selected)?.label || @js(__('ui.neighborhood'))"></span>
                                 <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
                             <div x-show="open" x-cloak @click.away="open = false" class="absolute z-50 w-full bg-white">
-                                <input type="text" x-model="search" placeholder="Rechercher un quartier..." class="w-full text-sm focus:outline-none">
+                                <input type="text" x-model="search" placeholder="{{ __('ui.search_district') }}" class="w-full text-sm focus:outline-none">
                                 <ul class="max-h-48 overflow-y-auto">
                                     <template x-for="option in filtered" :key="option.value">
                                         <li @click="selected = option.value; open = false" :class="{'bg-emerald-100': selected === option.value}" class="px-3 py-2 cursor-pointer hover:bg-emerald-50 text-sm" x-text="option.label"></li>
@@ -722,19 +722,19 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
                             </svg>
-                            Rechercher
+                            {{ __('ui.search') }}
                         </button>
                     </div>
 
                     <!-- Part 2: Price Range -->
                     <div x-show="active === 2" x-transition class="properties-filter__range">
-                        <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="Prix min" min="0" class="properties-filter__control">
-                        <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="Prix max" min="0" class="properties-filter__control">
+                        <input type="number" name="min_price" value="{{ request('min_price') }}" placeholder="{{ __('ui.minimum_price') }}" min="0" class="properties-filter__control">
+                        <input type="number" name="max_price" value="{{ request('max_price') }}" placeholder="{{ __('ui.maximum_price') }}" min="0" class="properties-filter__control">
                         <button type="submit" class="properties-filter__submit">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
                             </svg>
-                            Rechercher
+                            {{ __('ui.search') }}
                         </button>
                     </div>
 
@@ -746,7 +746,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-4 w-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
                             </svg>
-                            Rechercher
+                            {{ __('ui.search') }}
                         </button>
                     </div>
                 </div>
@@ -763,23 +763,23 @@
                             ? asset('storage/' . $photos[0])
                             : asset('images/appart1.jpg');
                         $propertyUrl = route('proprites.details', $property->slug);
-                        $whatsappMessage = 'Bonjour, je souhaite en savoir plus sur le bien « ' . $property->title . ' ». ' . $propertyUrl;
+                        $whatsappMessage = __('ui.whatsapp_message_prefix') . $property->title . ' ». ' . $propertyUrl;
                         $whatsappUrl = 'https://wa.me/212634262436?text=' . urlencode($whatsappMessage);
                     @endphp
                     <article class="properties-card">
                         <div class="properties-card__image property-image-loader">
-                            <a href="{{ $propertyUrl }}" class="properties-card__image-link" aria-label="Voir {{ $property->title }}">
+                            <a href="{{ $propertyUrl }}" class="properties-card__image-link" aria-label="{{ __('ui.view_details') }} : {{ $property->title }}">
                                 <img src="{{ $firstPhoto }}" alt="{{ $property->title }}" loading="lazy">
                             </a>
                             <span class="properties-card__badge">
                                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                     <path d="m12 2.8 2.85 5.78 6.38.93-4.62 4.5 1.09 6.35L12 17.36l-5.7 3 1.09-6.35-4.62-4.5 6.38-.93L12 2.8Z" />
                                 </svg>
-                                Sélection signature
+                                {{ __('ui.signature_badge') }}
                             </span>
                             <button type="button" x-data="{ favorite: false }" @click="favorite = !favorite"
                                 :aria-pressed="favorite.toString()"
-                                :aria-label="favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'"
+                                :aria-label="favorite ? @js(__('ui.remove_favorite')) : @js(__('ui.add_favorite'))"
                                 class="properties-card__favorite">
                                 <svg viewBox="0 0 24 24" :fill="favorite ? 'currentColor' : 'none'"
                                     stroke="currentColor" stroke-width="1.8" aria-hidden="true">
@@ -787,7 +787,7 @@
                                         d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z" />
                                 </svg>
                             </button>
-                            <span class="properties-card__photo-count">1 / {{ $photoCount }} photos</span>
+                            <span class="properties-card__photo-count">1 / {{ $photoCount }} {{ __('ui.photos') }}</span>
                         </div>
 
                         <div class="properties-card__body">
@@ -803,11 +803,11 @@
                             <div class="properties-card__features">
                                 <span class="properties-card__feature">
                                     <img src="{{ asset('images/beds.svg') }}" alt="">
-                                    {{ $property->bedrooms }} chambres
+                                    {{ $property->bedrooms }} {{ __('ui.bedrooms_label') }}
                                 </span>
                                 <span class="properties-card__feature">
                                     <img src="{{ asset('images/dosh.svg') }}" alt="">
-                                    {{ $property->bathrooms }} salles de bain
+                                    {{ $property->bathrooms }} {{ __('ui.bathrooms_label') }}
                                 </span>
                                 @if (!is_null($property->surface))
                                     <span class="properties-card__feature">
@@ -823,7 +823,7 @@
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z" />
                                         </svg>
-                                        <span>Consulter sur WhatsApp</span>
+                                        <span>{{ __('ui.whatsapp_details') }}</span>
                                     </a>
                                 </div>
                             </div>
@@ -833,7 +833,7 @@
 
                     @if ($properties->isEmpty())
                         <div class="properties-empty">
-                            Aucun bien ne correspond à votre recherche. Modifiez vos filtres et réessayez.
+                            {{ __('ui.empty_properties_filters') }}
                         </div>
                     @endif
             </div>

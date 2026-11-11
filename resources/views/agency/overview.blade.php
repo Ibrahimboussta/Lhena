@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - Aperçu agence')
+    @section('title', 'Sorvarent - ' . __('ui.agency_overview_title'))
 
     <style>
         .agency-overview-stats {
@@ -240,9 +240,9 @@
     <div class="admin-page">
         <header class="admin-page-header agency-overview-header">
             <div>
-                <span class="admin-status admin-status--neutral">Espace agence partenaire</span>
-                <h1 class="admin-page-title mt-3">Aperçu global</h1>
-                <p class="admin-page-subtitle">Suivez vos annonces et gérez votre portefeuille immobilier.</p>
+                <span class="admin-status admin-status--neutral">{{ __('ui.agency_partner_space') }}</span>
+                <h1 class="admin-page-title mt-3">{{ __('ui.agency_overview_title') }}</h1>
+                <p class="admin-page-subtitle">{{ __('ui.agency_overview_subtitle') }}</p>
             </div>
             <div class="agency-overview-header__actions">
                 <a href="{{ route('publish') }}" class="agency-overview-cta">
@@ -250,69 +250,69 @@
                         stroke-width="2.2" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-7-7h14" />
                     </svg>
-                    <span>Ajouter une propriété</span>
+                    <span>{{ __('ui.add_property') }}</span>
                 </a>
             </div>
         </header>
 
-        <section class="agency-overview-stats" aria-label="Statistiques de vos propriétés">
+        <section class="agency-overview-stats" aria-label="{{ __('ui.agency_property_statistics') }}">
             <article class="agency-overview-stat">
-                <p class="agency-overview-stat__label">Mes propriétés</p>
+                <p class="agency-overview-stat__label">{{ __('ui.my_properties') }}</p>
                 <p class="agency-overview-stat__value">{{ number_format($stats['properties']) }}</p>
-                <p class="agency-overview-stat__note">Annonces dans votre portefeuille</p>
+                <p class="agency-overview-stat__note">{{ __('ui.agency_portfolio_listings') }}</p>
             </article>
             <article class="agency-overview-stat">
-                <p class="agency-overview-stat__label">En ligne</p>
+                <p class="agency-overview-stat__label">{{ __('ui.online') }}</p>
                 <p class="agency-overview-stat__value">{{ number_format($stats['published']) }}</p>
-                <p class="agency-overview-stat__note">Visibles sur le site</p>
+                <p class="agency-overview-stat__note">{{ __('ui.agency_visible_online') }}</p>
             </article>
             <article class="agency-overview-stat">
-                <p class="agency-overview-stat__label">En attente</p>
+                <p class="agency-overview-stat__label">{{ __('ui.pending') }}</p>
                 <p class="agency-overview-stat__value">{{ number_format($stats['pending']) }}</p>
-                <p class="agency-overview-stat__note">À suivre ou à publier</p>
+                <p class="agency-overview-stat__note">{{ __('ui.agency_to_follow_or_publish') }}</p>
             </article>
         </section>
 
         <div class="agency-overview-lower">
             <section class="agency-overview-panel">
                 <header class="agency-overview-panel__header">
-                    <h2 class="agency-overview-panel__title">Mes dernières propriétés</h2>
-                    <a class="agency-overview-link" href="{{ route('dashboard') }}">Voir toutes</a>
+                    <h2 class="agency-overview-panel__title">{{ __('ui.agency_recent_properties') }}</h2>
+                    <a class="agency-overview-link" href="{{ route('dashboard') }}">{{ __('ui.agency_view_all') }}</a>
                 </header>
                 @forelse ($recentProperties as $property)
                     <div class="agency-overview-recent">
                         <div class="min-w-0">
                             <p class="agency-overview-recent__title">{{ $property->title }}</p>
                             <p class="agency-overview-recent__meta">
-                                {{ $property->city }} · Ajoutée le {{ $property->created_at->format('d/m/Y') }}
+                                {{ $property->city }} · {{ __('ui.agency_added_on', ['date' => $property->created_at->format('d/m/Y')]) }}
                             </p>
                         </div>
                         <span class="admin-status {{ $property->published ? 'admin-status--success' : 'admin-status--pending' }}">
-                            {{ $property->published ? 'En ligne' : 'En attente' }}
+                            {{ $property->published ? __('ui.online') : __('ui.pending') }}
                         </span>
                     </div>
                 @empty
                     <div class="p-8 text-center">
-                        <p class="text-xs text-[#78827d]">Vous n’avez pas encore ajouté de propriété.</p>
+                        <p class="text-xs text-[#78827d]">{{ __('ui.agency_no_properties_yet') }}</p>
                         <a class="agency-overview-cta agency-overview-cta--small"
-                            href="{{ route('publish') }}">Créer ma première annonce</a>
+                            href="{{ route('publish') }}">{{ __('ui.agency_create_first_listing') }}</a>
                     </div>
                 @endforelse
             </section>
 
             <section class="agency-overview-panel">
                 <header class="agency-overview-panel__header">
-                    <h2 class="agency-overview-panel__title">Accès rapides</h2>
+                    <h2 class="agency-overview-panel__title">{{ __('ui.agency_quick_access') }}</h2>
                 </header>
-                <nav class="agency-overview-shortcuts" aria-label="Accès rapides">
+                <nav class="agency-overview-shortcuts" aria-label="{{ __('ui.agency_quick_access') }}">
                     <a class="agency-overview-shortcut" href="{{ route('dashboard') }}">
-                        <span>Gérer mes propriétés</span><span aria-hidden="true">→</span>
+                        <span>{{ __('ui.agency_manage_properties') }}</span><span aria-hidden="true">→</span>
                     </a>
                     <a class="agency-overview-shortcut" href="{{ route('publish') }}">
-                        <span>Ajouter une propriété</span><span aria-hidden="true">→</span>
+                        <span>{{ __('ui.add_property') }}</span><span aria-hidden="true">→</span>
                     </a>
                     <a class="agency-overview-shortcut" href="{{ route('profile.edit') }}">
-                        <span>Paramètres du compte</span><span aria-hidden="true">→</span>
+                        <span>{{ __('ui.agency_account_settings') }}</span><span aria-hidden="true">→</span>
                     </a>
                 </nav>
             </section>

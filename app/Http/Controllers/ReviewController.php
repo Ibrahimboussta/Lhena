@@ -23,6 +23,6 @@ class ReviewController extends Controller
             'comment' => $request->comment,
         ]);
 
-        return back()->with('success', 'Votre avis a été ajouté!');
+        return back()->with('success', __('ui.review_added'));
     }
 }

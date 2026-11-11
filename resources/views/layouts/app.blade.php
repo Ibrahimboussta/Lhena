@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->isLocale('ar') ? 'rtl' : 'ltr' }}">
 
 
 <head>
@@ -13,7 +13,7 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600|ibm-plex-sans-arabic:400,500,600,700&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -45,13 +45,14 @@
             @include('layouts.admin-navigation')
             <div class="admin-main">
                 <header class="admin-topbar">
-                    <input class="admin-search" type="search" placeholder="Rechercher un utilisateur, bien, contact…"
-                        aria-label="Rechercher dans l’administration">
+                    <input class="admin-search" type="search" placeholder="{{ __('ui.admin_search_placeholder') }}"
+                        aria-label="{{ __('ui.admin_search_label') }}">
                     <div class="admin-topbar__right">
+                        @include('components.language-switcher')
                         <span class="admin-live">
-                            {{ Auth::user()->role === 'admin' ? 'Administration' : 'Espace agence' }}
+                            {{ Auth::user()->role === 'admin' ? __('ui.admin_panel') : __('ui.agency_space') }}
                         </span>
-                        <span class="admin-currency">Lhena · Gestion privée</span>
+                        <span class="admin-currency">Lhena · {{ __('ui.admin_management_tagline') }}</span>
                     </div>
                 </header>
                 @isset($header)
@@ -62,6 +63,7 @@
                 <main class="admin-content">
                     {{ $slot }}
                 </main>
+                <x-site-footer />
             </div>
         </div>
     @else
@@ -79,6 +81,7 @@
             <main>
                 {{ $slot }}
             </main>
+            <x-site-footer />
         </div>
     @endif
 

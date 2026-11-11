@@ -8,7 +8,7 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Adresse e-mail')" class="text-gray-700 dark:text-gray-300 font-semibold" />
+            <x-input-label for="email" :value="__('ui.email')" class="text-gray-700 dark:text-gray-300 font-semibold" />
             <x-text-input id="email"
                 class="block mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 
                        bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white 
@@ -22,7 +22,7 @@
 
         <!-- Password -->
         <div>
-            <x-input-label for="password" :value="__('Nouveau mot de passe')" class="text-gray-700 dark:text-gray-300 font-semibold" />
+            <x-input-label for="password" :value="__('ui.new_password')" class="text-gray-700 dark:text-gray-300 font-semibold" />
             <x-text-input id="password"
                 class="block mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 
                        bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white 
@@ -35,7 +35,7 @@
 
         <!-- Confirm Password -->
         <div>
-            <x-input-label for="password_confirmation" :value="__('Confirmer le mot de passe')" class="text-gray-700 dark:text-gray-300 font-semibold" />
+            <x-input-label for="password_confirmation" :value="__('ui.confirm_password')" class="text-gray-700 dark:text-gray-300 font-semibold" />
             <x-text-input id="password_confirmation"
                 class="block mt-1 w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 
                        bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white 
@@ -52,7 +52,7 @@
                 class="px-6 py-2 bg-[#d9c18c] hover:bg-[#e6d2a5] text-[#26332e] font-semibold rounded-lg
                        transition-all duration-300 ease-in-out focus:outline-none 
                        focus:ring-2 focus:ring-[#8a7957] focus:ring-offset-2 dark:focus:ring-offset-gray-900">
-                {{ __('Réinitialiser le mot de passe') }}
+                {{ __('ui.reset_password') }}
             </x-primary-button>
         </div>
     </form>

@@ -1,23 +1,23 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - Emails')
+    @section('title', 'Sorvarent - ' . __('ui.emails'))
 
     <div class="admin-page">
         <header class="admin-page-header">
             <div>
-                <h1 class="admin-page-title">Emails</h1>
-                <p class="admin-page-subtitle">Adresses inscrites aux actualités et communications.</p>
+                <h1 class="admin-page-title">{{ __('ui.emails') }}</h1>
+                <p class="admin-page-subtitle">{{ __('ui.admin_emails_subtitle') }}</p>
             </div>
-            <span class="admin-count-badge"><strong>{{ $emails->total() }}</strong> adresses</span>
+            <span class="admin-count-badge"><strong>{{ $emails->total() }}</strong> {{ __('ui.admin_email_count') }}</span>
         </header>
 
-        <section class="admin-panel" aria-label="Liste des adresses email">
+        <section class="admin-panel" aria-label="{{ __('ui.emails') }}">
             <div class="admin-table-wrap">
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Email</th>
-                            <th>Inscription</th>
-                            <th><span class="sr-only">Action</span></th>
+                            <th>{{ __('ui.admin_email') }}</th>
+                            <th>{{ __('ui.admin_signup') }}</th>
+                            <th><span class="sr-only">{{ __('ui.admin_action') }}</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,10 +32,10 @@
                                     <td>{{ $email->created_at?->format('d/m/Y') ?? '—' }}</td>
                                     <td>
                                         <form action="{{ route('mailing.destroy', $email->id) }}" method="POST"
-                                            onsubmit="return confirm('Supprimer cette adresse email ?')">
+                                            onsubmit="return confirm(@js(__('ui.admin_delete_email_confirm')))">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="admin-icon-button" type="submit" aria-label="Supprimer l’adresse email">
+                                            <button class="admin-icon-button" type="submit" aria-label="{{ __('ui.admin_delete_email') }}">
                                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="1.8" aria-hidden="true">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -48,7 +48,7 @@
                             @endif
                         @empty
                             <tr>
-                                <td class="admin-empty" colspan="3">Aucune adresse email à afficher.</td>
+                                <td class="admin-empty" colspan="3">{{ __('ui.admin_no_emails') }}</td>
                             </tr>
                         @endforelse
                     </tbody>

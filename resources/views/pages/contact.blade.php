@@ -458,17 +458,17 @@
 <main class="contact-page">
     <section class="contact-container contact-main" aria-labelledby="contact-title">
         <div class="contact-heading">
-            <p class="contact-eyebrow">Échangeons sur votre projet</p>
-            <h1 id="contact-title">Contactez-nous</h1>
-            <p>Envoyez-nous un message : notre équipe est à votre écoute pour vous orienter et répondre à vos questions immobilières.</p>
+            <p class="contact-eyebrow">{{ __('ui.contact_intro') }}</p>
+            <h1 id="contact-title">{{ __('ui.contact_title') }}</h1>
+            <p>{{ __('ui.contact_description') }}</p>
         </div>
 
         <div class="contact-layout">
             <div class="contact-card">
                 <div class="contact-form-heading">
-                    <p class="contact-eyebrow">Service client &amp; expertise</p>
-                    <h2>Formulaire de mise en relation</h2>
-                    <p>Complétez les informations ci-dessous et nous reviendrons vers vous.</p>
+                    <p class="contact-eyebrow">{{ __('ui.customer_service') }}</p>
+                    <h2>{{ __('ui.contact_form_title') }}</h2>
+                    <p>{{ __('ui.contact_form_description') }}</p>
                 </div>
 
                 @if (session('success'))
@@ -522,14 +522,14 @@
                     @csrf
 
                     <div class="contact-field">
-                        <label for="contact-name">Nom complet</label>
+                        <label for="contact-name">{{ __('ui.full_name') }}</label>
                         <input id="contact-name" name="name" type="text" value="{{ old('name') }}" autocomplete="name" placeholder="ex. Samira El Amrani" required>
                         <x-input-error :messages="$errors->get('name')" class="mt-1" />
                     </div>
 
                     <div class="contact-fields-row">
                         <div class="contact-field">
-                            <label for="contact-email">Adresse e-mail</label>
+                            <label for="contact-email">{{ __('ui.email') }}</label>
                             <div class="contact-field__control">
                                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke-width="1.6" />
@@ -541,7 +541,7 @@
                         </div>
 
                         <div class="contact-field">
-                            <label for="phone">Numéro de téléphone</label>
+                            <label for="phone">{{ __('ui.phone_number') }}</label>
                             <div class="contact-field__control">
                                 <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5 3.5h3l1.5 4-2 1.5a15 15 0 0 0 7.5 7.5l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 3 5.7 2 2 0 0 1 5 3.5Z" />
@@ -553,24 +553,24 @@
                     </div>
 
                     <div class="contact-field">
-                        <label for="contact-message">Votre message</label>
-                        <textarea id="contact-message" name="message" rows="5" placeholder="Précisez votre demande, vos critères ou les disponibilités qui vous conviennent…" required>{{ old('message') }}</textarea>
+                        <label for="contact-message">{{ __('ui.your_message') }}</label>
+                        <textarea id="contact-message" name="message" rows="5" placeholder="{{ __('ui.message_placeholder') }}" required>{{ old('message') }}</textarea>
                         <x-input-error :messages="$errors->get('message')" class="mt-1" />
                     </div>
 
                     <div class="contact-form-footer">
                         <button type="submit" class="contact-submit" :disabled="loading">
-                            <span x-text="loading ? 'Envoi en cours…' : 'Envoyer la demande'"></span>
+                            <span x-text="loading ? @js(__('ui.sending')) : @js(__('ui.send_request'))"></span>
                             <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
                             </svg>
                         </button>
-                        <p class="contact-consent-note">Vos informations sont utilisées pour répondre à votre demande.</p>
+                        <p class="contact-consent-note">{{ __('ui.privacy_note') }}</p>
                     </div>
                 </form>
             </div>
 
-            <aside class="contact-side" aria-label="Autres moyens de contact">
+            <aside class="contact-side" aria-label="{{ __('ui.contact_methods') }}">
                 <section class="contact-side-card">
                     <div class="contact-side-card__heading">
                         <span class="contact-side-card__icon" aria-hidden="true">
@@ -579,8 +579,8 @@
                             </svg>
                         </span>
                         <div>
-                            <h2>Une question ? Parlons-en.</h2>
-                            <p>Appelez-nous pour échanger sur votre recherche ou votre projet immobilier.</p>
+                            <h2>{{ __('ui.talk_to_us') }}</h2>
+                            <p>{{ __('ui.call_for_help') }}</p>
                             <a class="contact-phone" href="tel:+212634262436">+212 634-262-436</a>
                         </div>
                     </div>
@@ -595,10 +595,10 @@
                             </svg>
                         </span>
                         <div>
-                            <h2>Échangez sur WhatsApp</h2>
-                            <p>Écrivez-nous pour nous parler de votre recherche et obtenir un premier accompagnement.</p>
+                            <h2>{{ __('ui.whatsapp_heading') }}</h2>
+                            <p>{{ __('ui.whatsapp_contact_text') }}</p>
                             <a class="contact-whatsapp__link" href="https://wa.me/212634262436" target="_blank" rel="noopener noreferrer">
-                                Démarrer la conversation
+                                {{ __('ui.start_conversation') }}
                                 <span aria-hidden="true">↗</span>
                             </a>
                         </div>
@@ -610,46 +610,46 @@
 
     <section class="contact-container contact-faq" aria-labelledby="contact-faq-title">
         <div class="contact-faq__heading">
-            <p class="contact-eyebrow">Besoin d’un renseignement ?</p>
-            <h2 id="contact-faq-title">Questions fréquemment posées</h2>
-            <p>Quelques réponses pour vous aider à mieux préparer votre projet immobilier.</p>
+            <p class="contact-eyebrow">{{ __('ui.need_information') }}</p>
+            <h2 id="contact-faq-title">{{ __('ui.faq_title') }}</h2>
+            <p>{{ __('ui.faq_intro') }}</p>
         </div>
 
         <div class="contact-faq__list">
             <article class="contact-faq__item">
                 <button class="contact-faq__question" type="button" aria-expanded="false" onclick="toggleFAQ(this)">
-                    <span>Quels sont les critères pour acheter un bien immobilier ?</span>
+                    <span>{{ __('ui.faq_buy_criteria') }}</span>
                     <span class="contact-faq__plus" aria-hidden="true">+</span>
                 </button>
                 <div class="contact-faq__answer">
-                    <div class="contact-faq__answer-inner">Les critères varient selon le type de bien, la localisation et le budget. Il est essentiel de vérifier la conformité légale du bien, de prendre en compte sa situation géographique et de s’assurer que le financement est en place.</div>
+                    <div class="contact-faq__answer-inner">{{ __('ui.faq_buy_answer') }}</div>
                 </div>
             </article>
 
             <article class="contact-faq__item">
                 <button class="contact-faq__question" type="button" aria-expanded="false" onclick="toggleFAQ(this)">
-                    <span>Comment évaluer la valeur d'un bien immobilier ?</span>
+                    <span>{{ __('ui.faq_property_value') }}</span>
                     <span class="contact-faq__plus" aria-hidden="true">+</span>
                 </button>
                 <div class="contact-faq__answer">
-                    <div class="contact-faq__answer-inner">La valeur d’un bien immobilier dépend de plusieurs facteurs, notamment sa localisation, sa superficie, son état général et les prix du marché local. Une estimation professionnelle est souvent recommandée pour obtenir une évaluation précise.</div>
+                    <div class="contact-faq__answer-inner">{{ __('ui.faq_property_value_answer') }}</div>
                 </div>
             </article>
 
             <article class="contact-faq__item">
                 <button class="contact-faq__question" type="button" aria-expanded="false" onclick="toggleFAQ(this)">
-                    <span>Quel est le processus d'achat d'une maison ?</span>
+                    <span>{{ __('ui.faq_buy_process') }}</span>
                     <span class="contact-faq__plus" aria-hidden="true">+</span>
                 </button>
                 <div class="contact-faq__answer">
-                    <div class="contact-faq__answer-inner">Le processus inclut la recherche du bien, la signature du contrat de vente, la demande de financement si nécessaire, la signature de l'acte notarié et enfin la remise des clés. Il est important de bien comprendre chaque étape et de s'assurer que tous les documents légaux sont en ordre.</div>
+                    <div class="contact-faq__answer-inner">{{ __('ui.faq_buy_process_answer') }}</div>
                 </div>
             </article>
         </div>
 
         <p class="contact-faq__note">
-            <strong>Vous avez une question plus précise ?</strong>
-            Notre équipe est à votre écoute pour vous orienter selon votre projet et vos besoins.
+            <strong>{{ __('ui.specific_question') }}</strong>
+            {{ __('ui.contact_team_guidance') }}
         </p>
     </section>
 </main>

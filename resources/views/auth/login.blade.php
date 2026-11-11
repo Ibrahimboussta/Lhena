@@ -9,20 +9,20 @@
         <div class="flex items-start justify-between gap-3">
             <div>
                 <h1 class="text-2xl font-semibold tracking-tight text-[#171b18] sm:text-3xl">
-                    {{ __('Se connecter') }}
+                    {{ __('ui.login') }}
                 </h1>
                 <p class="mt-1 text-sm leading-6 text-[#85837f]">
-                    Renseignez vos identifiants pour continuer sur Lhena.ma
+                    {{ __('ui.login_intro') }}
                 </p>
             </div>
             <span class="mt-1 shrink-0 rounded-full border border-[#f1dfca] bg-[#fbf5ee] px-3 py-1 text-[11px] font-medium text-[#985b25]">
-                Espace Client
+                {{ __('ui.client_space') }}
             </span>
         </div>
 
         <div>
             <label for="email" class="block text-[10px] font-semibold uppercase tracking-wide text-[#272a27]">
-                {{ __('Adresse e-mail') }}
+                {{ __('ui.email') }}
             </label>
             <div class="relative mt-2">
                 <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#a6a39f]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -38,7 +38,7 @@
 
         <div>
             <label for="password" class="block text-[10px] font-semibold uppercase tracking-wide text-[#272a27]">
-                {{ __('Mot de passe') }}
+                {{ __('ui.password') }}
             </label>
             <div class="relative mt-2">
                 <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#a6a39f]" viewBox="0 0 24 24" fill="currentColor">
@@ -47,7 +47,7 @@
                 <input id="password" name="password" required autocomplete="current-password" :type="showPassword ? 'text' : 'password'"
                     placeholder="••••••••••••"
                     class="block w-full rounded-xl border border-[#e7e5e2] bg-[#faf9f8] py-3 pl-10 pr-11 text-sm text-[#292b29] placeholder:text-[#aaa6a2] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
-                <button type="button" @click="showPassword = !showPassword" :aria-label="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+                <button type="button" @click="showPassword = !showPassword" :aria-label="showPassword ? @js(__('ui.hide_password')) : @js(__('ui.show_password'))"
                     class="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-[#918d88] transition hover:text-[#373a37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
                     <svg x-show="!showPassword" aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke-width="1.6" />
@@ -65,38 +65,38 @@
             <label for="remember_me" class="flex cursor-pointer items-center gap-2 text-[#67645f]">
                 <input id="remember_me" name="remember" type="checkbox" value="1"
                     class="h-4 w-4 rounded border-[#d9d6d2] text-[#9d6b36] focus:ring-[#9d6b36]/30">
-                <span>{{ __('Se souvenir de moi') }}</span>
+                <span>{{ __('ui.remember_me') }}</span>
             </label>
             @if (Route::has('password.request'))
                 <a href="{{ route('password.request') }}" class="font-medium text-[#8b4d19] transition hover:text-[#62340f]">
-                    {{ __('Mot de passe oublié ?') }}
+                    {{ __('ui.forgot_password') }}
                 </a>
             @endif
         </div>
 
         <button type="submit"
             class="flex w-full items-center justify-center gap-2 rounded-xl bg-[#a16e37] px-5 py-3 text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-[0_6px_12px_rgba(114,73,32,0.2)] transition hover:bg-[#8e5e2e] focus:outline-none focus:ring-2 focus:ring-[#a16e37] focus:ring-offset-2">
-            {{ __('Se connecter') }}
+            {{ __('ui.login') }}
             <span aria-hidden="true">→</span>
         </button>
 
         <div class="flex items-center gap-3 text-[10px] uppercase tracking-wide text-[#a29e99]">
             <span class="h-px flex-1 bg-[#e8e5e2]"></span>
-            <span>Ou continuer avec</span>
+            <span>{{ __('ui.continue_with') }}</span>
             <span class="h-px flex-1 bg-[#e8e5e2]"></span>
         </div>
 
         <a href="{{ route('google.redirect') }}"
             class="flex w-full items-center justify-center gap-3 rounded-xl border border-[#e7e5e2] bg-white px-4 py-3 text-xs font-medium text-[#333533] transition hover:bg-[#faf9f8] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
             <img src="https://www.svgrepo.com/show/355037/google.svg" alt="" class="h-4 w-4">
-            <span>Continuer avec Google</span>
+            <span>{{ __('ui.continue_google') }}</span>
         </a>
 
         @if (Route::has('register'))
             <p class="pt-1 text-center text-xs text-[#817d78]">
-                Vous n'avez pas de compte ?
+                {{ __('ui.no_account') }}
                 <a href="{{ route('register') }}" class="ml-1 font-medium text-[#8b4d19] transition hover:text-[#62340f]">
-                    Créer un compte
+                    {{ __('ui.register') }}
                 </a>
             </p>
         @endif

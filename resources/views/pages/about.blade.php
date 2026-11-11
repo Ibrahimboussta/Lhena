@@ -587,7 +587,7 @@
     <section class="about-container about-hero" aria-labelledby="about-title">
         <div class="about-hero__visual">
             <div class="about-hero__image">
-                <img src="{{ asset('images/appart1.jpg') }}" alt="Intérieur lumineux d’un logement proposé par Lhena" fetchpriority="high">
+                <img src="{{ asset('images/appart1.jpg') }}" alt="{{ __('ui.property_interior_alt') }}" fetchpriority="high">
             </div>
             <span class="about-hero__location">CASABLANCA · MARRAKECH · TANGER</span>
             <div class="about-hero__caption">
@@ -597,29 +597,29 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M9 21v-6h6v6" />
                     </svg>
                 </span>
-                <p><small>Maison fondée au Maroc</small>Expertise &amp; sérénité privée</p>
+                <p><small>{{ __('ui.about_foundation') }}</small>{{ __('ui.about_expertise') }}</p>
             </div>
         </div>
 
         <div class="about-hero__copy">
             <span class="about-hero__kicker">
                 <span aria-hidden="true">✦</span>
-                Qui sommes-nous ?
+                {{ __('ui.who_we_are') }}
             </span>
             <h1 id="about-title" class="about-hero__title">
-                À propos de Lhena — <span>l’excellence immobilière au Maroc.</span>
+                {{ __('ui.about_heading') }} <span>{{ __('ui.about_heading_accent') }}</span>
             </h1>
             <p class="about-hero__description">
-                Nous sommes une agence immobilière dédiée à l’accompagnement d’exception dans la recherche, la location et la transaction de biens de grand standing. Des appartements contemporains aux riads historiques et villas de maître, notre équipe passionnée met son savoir-faire au service de vos exigences.
+                {{ __('ui.about_description') }}
             </p>
             <div class="about-hero__actions">
                 <a href="{{ route('proprites') }}" class="about-button">
-                    Découvrir nos biens
+                    {{ __('ui.discover_our_properties') }}
                     <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
                     </svg>
                 </a>
-                <a href="#about-services" class="about-text-link">Nos métiers <span aria-hidden="true">↓</span></a>
+                <a href="#about-services" class="about-text-link">{{ __('ui.our_services') }} <span aria-hidden="true">↓</span></a>
             </div>
         </div>
     </section>
@@ -627,10 +627,10 @@
     <section id="about-services" class="about-services" aria-labelledby="about-services-title">
         <div class="about-container">
             <div class="about-section-heading">
-                <p class="about-eyebrow">Expertise foncière &amp; patrimoine</p>
-                <h2 id="about-services-title" class="about-section-title">Nos domaines d’accompagnement</h2>
+                <p class="about-eyebrow">{{ __('ui.property_expertise') }}</p>
+                <h2 id="about-services-title" class="about-section-title">{{ __('ui.our_support_areas') }}</h2>
                 <p class="about-section-description">
-                    Une approche attentive pour vous accompagner à chaque étape de votre parcours immobilier au Maroc.
+                    {{ __('ui.support_areas_intro') }}
                 </p>
             </div>
 
@@ -643,11 +643,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m11 12 8-8 2 2-2 2 2 2-2 2-2-2-4 4" />
                             </svg>
                         </span>
-                        <span class="about-service-card__tag">Résidences sélectionnées</span>
+                        <span class="about-service-card__tag">{{ __('ui.selected_residences') }}</span>
                     </div>
-                    <h3>Location de logements &amp; séjours</h3>
-                    <p>Trouvez une villa contemporaine, un duplex d’exception ou un appartement meublé qui répond à vos critères d’espace, d’emplacement et d’élégance.</p>
-                    <a href="{{ route('proprites') }}" class="about-service-card__link">Explorer la location <span aria-hidden="true">→</span></a>
+                    <h3>{{ __('ui.rental_stays') }}</h3>
+                    <p>{{ __('ui.rental_stays_text') }}</p>
+                    <a href="{{ route('proprites') }}" class="about-service-card__link">{{ __('ui.explore_rentals') }} <span aria-hidden="true">→</span></a>
                 </article>
 
                 <article class="about-service-card">
@@ -658,11 +658,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 20.5v-6h8v6M7 10.5h.01M17 10.5h.01" />
                             </svg>
                         </span>
-                        <span class="about-service-card__tag">Recherche &amp; sélection</span>
+                        <span class="about-service-card__tag">{{ __('ui.search_selection') }}</span>
                     </div>
-                    <h3>Une sélection adaptée à vos envies</h3>
-                    <p>Explorez des annonces détaillées et échangez avec notre équipe pour trouver un logement correspondant à vos critères.</p>
-                    <a href="{{ route('proprites') }}" class="about-service-card__link">Découvrir les annonces <span aria-hidden="true">→</span></a>
+                    <h3>{{ __('ui.selection_for_you') }}</h3>
+                    <p>{{ __('ui.selection_for_you_text') }}</p>
+                    <a href="{{ route('proprites') }}" class="about-service-card__link">{{ __('ui.discover_listings') }} <span aria-hidden="true">→</span></a>
                 </article>
 
                 <article class="about-service-card">
@@ -672,11 +672,11 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 20h16M6 20V9l6-5 6 5v11M9 12h.01M15 12h.01M9 16h.01M15 16h.01M11 20v-3h2v3" />
                             </svg>
                         </span>
-                        <span class="about-service-card__tag">Accompagnement dédié</span>
+                        <span class="about-service-card__tag">{{ __('ui.dedicated_support') }}</span>
                     </div>
-                    <h3>Votre projet sur mesure</h3>
-                    <p>Notre équipe prend le temps de comprendre votre projet et vous guide vers des options en accord avec vos attentes.</p>
-                    <a href="{{ route('contact') }}" class="about-service-card__link">Rencontrer un conseiller <span aria-hidden="true">→</span></a>
+                    <h3>{{ __('ui.bespoke_project') }}</h3>
+                    <p>{{ __('ui.bespoke_project_text') }}</p>
+                    <a href="{{ route('contact') }}" class="about-service-card__link">{{ __('ui.meet_advisor') }} <span aria-hidden="true">→</span></a>
                 </article>
             </div>
         </div>
@@ -685,11 +685,11 @@
     <section class="about-container about-values" aria-labelledby="about-values-title">
         <div class="about-values__heading">
             <div>
-                <p class="about-eyebrow">Principes &amp; déontologie</p>
-                <h2 id="about-values-title" class="about-values__title">Une éthique de confiance absolue</h2>
+                <p class="about-eyebrow">{{ __('ui.principles_ethics') }}</p>
+                <h2 id="about-values-title" class="about-values__title">{{ __('ui.trust_ethics') }}</h2>
             </div>
             <p class="about-values__intro">
-                Nous privilégions une relation transparente, attentive et respectueuse des besoins de chaque personne que nous accompagnons.
+                {{ __('ui.trust_ethics_text') }}
             </p>
         </div>
 
@@ -701,8 +701,8 @@
                         <path stroke-linecap="round" d="M8 10V7a4 4 0 1 1 8 0v3m-4 4v3" />
                     </svg>
                 </span>
-                <h3>Discrétion &amp; confidentialité</h3>
-                <p>Nous traitons les échanges liés à votre projet avec discrétion et respect.</p>
+                <h3>{{ __('ui.privacy_discretion') }}</h3>
+                <p>{{ __('ui.privacy_discretion_text') }}</p>
             </article>
             <article class="about-value-card">
                 <span class="about-value-card__icon" aria-hidden="true">
@@ -711,8 +711,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8 12 2.5 2.5L16 9" />
                     </svg>
                 </span>
-                <h3>Sélection rigoureuse</h3>
-                <p>Les informations utiles vous aident à examiner les biens et leurs caractéristiques.</p>
+                <h3>{{ __('ui.careful_selection') }}</h3>
+                <p>{{ __('ui.careful_selection_text') }}</p>
             </article>
             <article class="about-value-card">
                 <span class="about-value-card__icon" aria-hidden="true">
@@ -721,8 +721,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4" />
                     </svg>
                 </span>
-                <h3>Accompagnement personnalisé</h3>
-                <p>Un interlocuteur à l’écoute vous accompagne selon les spécificités de votre projet.</p>
+                <h3>{{ __('ui.personal_support') }}</h3>
+                <p>{{ __('ui.personal_support_text') }}</p>
             </article>
             <article class="about-value-card">
                 <span class="about-value-card__icon" aria-hidden="true">
@@ -732,8 +732,8 @@
                         <path stroke-linecap="round" d="M3.5 20v-1.5A5.5 5.5 0 0 1 9 13h.5a5.5 5.5 0 0 1 5.5 5.5V20m.2-6.7a4.5 4.5 0 0 1 5.3 4.5V20" />
                     </svg>
                 </span>
-                <h3>Connaissance du marché local</h3>
-                <p>Nous vous aidons à explorer les quartiers et les biens disponibles au Maroc.</p>
+                <h3>{{ __('ui.local_market') }}</h3>
+                <p>{{ __('ui.local_market_text') }}</p>
             </article>
         </div>
     </section>
@@ -745,22 +745,20 @@
                     <svg aria-hidden="true" class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h8m-8 4h5m-8 5-2-4a9 9 0 1 1 4 3l-4 1Z" />
                     </svg>
-                    Un accueil privilégié
+                    {{ __('ui.privileged_welcome') }}
                 </span>
-                <h2 id="about-contact-title" class="about-contact__title">Un projet immobilier au Maroc ? Parlons-en.</h2>
-                <p class="about-contact__description">
-                    Notre équipe est à votre écoute pour échanger sur vos envies et vous accompagner dans vos prochaines étapes.
-                </p>
+                <h2 id="about-contact-title" class="about-contact__title">{{ __('ui.about_contact_title') }}</h2>
+                <p class="about-contact__description">{{ __('ui.about_contact_text') }}</p>
             </div>
             <div class="about-contact__actions">
                 <a href="{{ route('contact') }}" class="about-button">
-                    Prendre contact avec un expert
+                    {{ __('ui.contact_expert') }}
                     <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <rect x="3" y="5" width="18" height="16" rx="2" />
                         <path stroke-linecap="round" d="M16 3v4M8 3v4M3 10h18" />
                     </svg>
                 </a>
-                <a href="{{ route('proprites') }}" class="about-contact__secondary">Voir les propriétés</a>
+                <a href="{{ route('proprites') }}" class="about-contact__secondary">{{ __('ui.view_properties') }}</a>
             </div>
         </div>
     </section>

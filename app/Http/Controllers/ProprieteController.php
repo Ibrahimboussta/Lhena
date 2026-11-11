@@ -160,7 +160,7 @@ class ProprieteController extends Controller
         $finalSlug = \Illuminate\Support\Str::slug($request->city . '-' . $request->title) . '-' . $property->hashed_id;
         $property->update(['slug' => $finalSlug]);
 
-        return redirect()->route('dashboard')->with('success', 'Property added successfully!');
+        return redirect()->route('dashboard')->with('success', __('ui.property_added'));
 
         // Create a new property entry and associate it with the authenticated user
     }
@@ -178,7 +178,7 @@ class ProprieteController extends Controller
             // Only delete the property that matches the ID
             $propritie->delete();
 
-            return redirect()->route('dashboard')->with('success', 'Property deleted successfully!');
+            return redirect()->route('dashboard')->with('success', __('ui.property_deleted'));
         }
 
         // Unauthorized action if not the owner or admin
@@ -262,6 +262,6 @@ class ProprieteController extends Controller
         $property->published = !$property->published;
         $property->save();
 
-        return redirect()->back()->with('success', 'Statut mis à jour !');
+        return redirect()->back()->with('success', __('ui.property_status_updated'));
     }
 }

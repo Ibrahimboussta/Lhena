@@ -57,6 +57,6 @@ class HomeController extends Controller
         $property = Propritie::findOrFail($id);
         $property->delete();
 
-        return redirect()->back()->with('success', 'Property supprimé avec succès');
+        return redirect()->back()->with('success', __('ui.property_deleted'));
     }
 }

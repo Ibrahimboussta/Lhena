@@ -7,14 +7,14 @@
         <div class="mb-5 flex items-start justify-between gap-3">
             <div>
                 <h1 class="text-2xl font-semibold tracking-tight text-[#171b18]">
-                    {{ __('Créer un compte') }}
+                    {{ __('ui.register') }}
                 </h1>
                 <p class="mt-1 text-xs leading-5 text-[#85837f]">
-                    Renseignez vos coordonnées pour rejoindre Lhena.ma
+                    {{ __('ui.create_account_intro') }}
                 </p>
             </div>
             <a href="{{ route('login') }}" class="mt-1 shrink-0 text-right text-[10px] font-medium uppercase tracking-wide text-[#686660] transition hover:text-[#8b4d19]">
-                <span aria-hidden="true">‹</span> Nouveau<br>membre
+                <span aria-hidden="true">‹</span> {{ __('ui.new_member') }}
             </a>
         </div>
 
@@ -23,7 +23,7 @@
 
             <div>
                 <label for="name" class="block text-[10px] font-medium text-[#686660]">
-                    {{ __('Nom complet') }}
+                    {{ __('ui.full_name') }}
                 </label>
                 <div class="relative mt-1">
                     <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#777d85]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -39,7 +39,7 @@
 
             <div>
                 <label for="email" class="block text-[10px] font-medium text-[#686660]">
-                    {{ __('Adresse e-mail') }}
+                    {{ __('ui.email') }}
                 </label>
                 <div class="relative mt-1">
                     <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#777d85]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -56,7 +56,7 @@
             <div class="grid gap-3 sm:grid-cols-2">
                 <div>
                     <label for="password" class="block text-[10px] font-medium text-[#686660]">
-                        {{ __('Mot de passe') }}
+                        {{ __('ui.password') }}
                     </label>
                     <div class="relative mt-1">
                         <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#777d85]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -66,7 +66,7 @@
                         <input id="password" name="password" :type="showPassword ? 'text' : 'password'" required autocomplete="new-password"
                             placeholder="••••••••"
                             class="block w-full rounded-lg border border-[#d6d7da] bg-white py-2.5 pl-10 pr-10 text-xs text-[#292b29] placeholder:text-[#858b94] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
-                        <button type="button" @click="showPassword = !showPassword" :aria-label="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'"
+                        <button type="button" @click="showPassword = !showPassword" :aria-label="showPassword ? @js(__('ui.hide_password')) : @js(__('ui.show_password'))"
                             class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#777d85] hover:text-[#333] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
                             <svg aria-hidden="true" x-show="!showPassword" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke-width="1.6" />
@@ -82,7 +82,7 @@
 
                 <div>
                     <label for="password_confirmation" class="block text-[10px] font-medium text-[#686660]">
-                        {{ __('Confirmer') }}
+                        {{ __('ui.confirm_password') }}
                     </label>
                     <div class="relative mt-1">
                         <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#777d85]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -92,7 +92,7 @@
                         <input id="password_confirmation" name="password_confirmation" :type="showConfirmation ? 'text' : 'password'" required autocomplete="new-password"
                             placeholder="••••••••"
                             class="block w-full rounded-lg border border-[#d6d7da] bg-white py-2.5 pl-10 pr-10 text-xs text-[#292b29] placeholder:text-[#858b94] focus:border-[#a16e37] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/20">
-                        <button type="button" @click="showConfirmation = !showConfirmation" :aria-label="showConfirmation ? 'Masquer la confirmation' : 'Afficher la confirmation'"
+                        <button type="button" @click="showConfirmation = !showConfirmation" :aria-label="showConfirmation ? @js(__('ui.hide_password')) : @js(__('ui.show_password'))"
                             class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#777d85] hover:text-[#333] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
                             <svg aria-hidden="true" x-show="!showConfirmation" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke-width="1.6" />
@@ -126,26 +126,26 @@
 
             <button type="submit"
                 class="flex w-full items-center justify-center gap-2 rounded-lg bg-[#a16e37] px-5 py-3 text-xs font-semibold uppercase tracking-wide text-white shadow-[0_6px_12px_rgba(114,73,32,0.2)] transition hover:bg-[#8e5e2e] focus:outline-none focus:ring-2 focus:ring-[#a16e37] focus:ring-offset-2">
-                {{ __('S’inscrire') }}
+                {{ __('ui.register') }}
                 <span aria-hidden="true">→</span>
             </button>
 
             <div class="flex items-center gap-3 text-[10px] uppercase tracking-wide text-[#a29e99]">
                 <span class="h-px flex-1 bg-[#e8e5e2]"></span>
-                <span>Ou continuer avec</span>
+                <span>{{ __('ui.continue_with') }}</span>
                 <span class="h-px flex-1 bg-[#e8e5e2]"></span>
             </div>
 
             <a href="{{ route('google.redirect') }}"
                 class="flex w-full items-center justify-center gap-2 rounded-lg border border-[#e7e5e2] bg-white px-4 py-2.5 text-xs font-medium text-[#333533] transition hover:bg-[#faf9f8] focus:outline-none focus:ring-2 focus:ring-[#a16e37]/30">
                 <img src="https://www.svgrepo.com/show/355037/google.svg" alt="" class="h-4 w-4">
-                <span>Continuer avec Google</span>
+                <span>{{ __('ui.continue_google') }}</span>
             </a>
 
             <p class="pt-1 text-center text-xs text-[#817d78]">
-                {{ __('Déjà un compte ?') }}
+                {{ __('ui.already_account') }}
                 <a href="{{ route('login') }}" class="ml-1 font-medium text-[#8b4d19] transition hover:text-[#62340f]">
-                    {{ __('Se connecter') }}
+                    {{ __('ui.login') }}
                 </a>
             </p>
         </form>

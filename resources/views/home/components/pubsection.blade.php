@@ -1,16 +1,16 @@
 <section class="bg-white px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
     <div class="mx-auto max-w-7xl">
         <div class="mx-auto max-w-2xl text-center">
-            <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#90764b]">Un parcours simple</p>
-            <h2 class="mt-3 text-3xl font-semibold tracking-tight text-[#242923] sm:text-4xl">Du premier regard à votre nouveau chez-vous</h2>
-            <p class="mt-4 text-sm leading-6 text-[#68736d] sm:text-base">Nous vous accompagnons à chaque étape de votre projet immobilier.</p>
+            <p class="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#90764b]">{{ __('ui.simple_journey') }}</p>
+            <h2 class="mt-3 text-3xl font-semibold tracking-tight text-[#242923] sm:text-4xl">{{ __('ui.from_first_look') }}</h2>
+            <p class="mt-4 text-sm leading-6 text-[#68736d] sm:text-base">{{ __('ui.journey_support') }}</p>
         </div>
 
         <div class="mt-10 grid gap-5 md:grid-cols-3">
             @foreach ([
-                ['number' => '01', 'title' => 'Explorez', 'text' => 'Parcourez les biens et utilisez les filtres pour préciser votre recherche.', 'icon' => 'M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 6.05 6.05a7.5 7.5 0 0 0 10.6 10.6Z'],
-                ['number' => '02', 'title' => 'Échangez', 'text' => 'Contactez-nous pour obtenir des informations et organiser la suite.', 'icon' => 'M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z'],
-                ['number' => '03', 'title' => 'Concrétisez', 'text' => 'Avancez à votre rythme vers le bien qui correspond à vos envies.', 'icon' => 'M9 12l2 2 4-4m5 2a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z'],
+                ['number' => '01', 'title' => __('ui.step_explore'), 'text' => __('ui.step_explore_text'), 'icon' => 'M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 6.05 6.05a7.5 7.5 0 0 0 10.6 10.6Z'],
+                ['number' => '02', 'title' => __('ui.step_connect'), 'text' => __('ui.step_connect_text'), 'icon' => 'M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z'],
+                ['number' => '03', 'title' => __('ui.step_complete'), 'text' => __('ui.step_complete_text'), 'icon' => 'M9 12l2 2 4-4m5 2a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z'],
             ] as $step)
                 <div class="rounded-[1.5rem] border border-[#e7ece8] bg-[#f7f9f7] p-6 sm:p-7">
                     <div class="flex items-center justify-between">
