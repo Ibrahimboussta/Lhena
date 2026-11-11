@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - ' . __('ui.agency_overview_title'))
+    @section('title', 'SorvaRent - ' . __('ui.agency_overview_title'))
 
     <style>
         .agency-overview-stats {

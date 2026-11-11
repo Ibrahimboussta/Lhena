@@ -39,7 +39,7 @@
         </div>
 
         <div class="mt-10 flex flex-col gap-3 border-t border-[#e7ece8] pt-5 text-xs text-[#7b857f] sm:flex-row sm:items-center sm:justify-between">
-            © {{ now()->year }} Sorvarent. {{ __('ui.all_rights_reserved') }}
+            © {{ now()->year }} SorvaRent. {{ __('ui.all_rights_reserved') }}
             <nav aria-label="{{ __('ui.legal_information') }}" class="flex flex-wrap gap-x-5 gap-y-2">
                 <a class="transition hover:text-[#0b3b31]" href="{{ route('legal.cgu') }}">{{ __('ui.terms') }}</a>
                 <a class="transition hover:text-[#0b3b31]" href="{{ route('legal.privacy') }}">{{ __('ui.privacy') }}</a>

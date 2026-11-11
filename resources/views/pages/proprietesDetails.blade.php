@@ -1,8 +1,8 @@
 @extends('layouts.index')
-@section('title', 'Sorvarent | ' . $property->title)
+@section('title', 'SorvaRent | ' . $property->title)
 @section('meta')
     @php
-        $defaultImage = asset('images/lhena-logo.png');
+        $defaultImage = asset('images/newlogo.png');
         $photos = json_decode($property->photos, true) ?: [];
         $mainImage = isset($photos[0]) && $photos[0] ? asset('storage/' . $photos[0]) : $defaultImage;
         $description = $property->description ? Str::limit(strip_tags($property->description), 160, '...') : __('ui.explore_properties_text');

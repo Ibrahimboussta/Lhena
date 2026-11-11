@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Sorvarent - Blog')
+@section('title', 'SorvaRent - Blog')
 @section('content')
 
 

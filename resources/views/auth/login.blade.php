@@ -1,5 +1,5 @@
 <x-guest-layout>
-    @section('title', 'Sorvarent - Se connecter')
+    @section('title', 'SorvaRent - Se connecter')
 
     <x-auth-session-status class="mb-4" :status="session('status')" />
 

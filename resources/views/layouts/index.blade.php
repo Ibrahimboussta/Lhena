@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'Sorvarent - Votre plateforme immobilière de confiance')</title>
+    <title>@yield('title', 'SorvaRent - Votre plateforme immobilière de confiance')</title>
     @yield('meta')
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -31,7 +31,7 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="/" class="home-nav__brand flex items-center">
-                        <img class="home-nav__logo h-12 w-auto " src="{{ asset('images/newlogo.png') }}" alt="Lhena">
+                        <img class="home-nav__logo h-12 w-auto " src="{{ asset('images/newlogo.png') }}" alt="SorvaRent">
                     </a>
                 </div>
 
@@ -66,7 +66,7 @@
 
                 <!-- Boutons d'action -->
                 <div class="flex items-center gap-3 sm:gap-4">
-                    @include('components.language-switcher')
+                    @include('components.language-switcher', ['wrapperClass' => 'home-nav__language'])
                     @auth
                         <a href="{{ route('publish') }}"
                             class="home-nav__action hidden lg:flex items-center space-x-2 rounded-full bg-[#0b3b31] px-5 py-2.5 text-sm font-semibold text-white transition duration-200 hover:bg-[#0b4b3e]">

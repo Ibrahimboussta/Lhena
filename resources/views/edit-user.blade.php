@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Sorvarent - Modifier Utilisateur')
+@section('title', 'SorvaRent - Modifier Utilisateur')
 
 @section('content')
 <div class="max-w-xl mx-auto py-10">

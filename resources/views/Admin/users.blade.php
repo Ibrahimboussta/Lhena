@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - ' . __('ui.users'))
+    @section('title', 'SorvaRent - ' . __('ui.users'))
 
     <div class="admin-page">
         <header class="admin-page-header">

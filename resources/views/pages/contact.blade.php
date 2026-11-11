@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Sorvarent - Contact')
+@section('title', 'SorvaRent - Contact')
 @section('content')
 <style>
     .contact-page {

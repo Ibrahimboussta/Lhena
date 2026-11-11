@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Sorvarent - Publier une annonce')
+@section('title', 'SorvaRent - Publier une annonce')
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 

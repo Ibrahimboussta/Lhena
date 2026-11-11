@@ -1,4 +1,4 @@
-<x-app-layout title="Sorvarent">
+<x-app-layout title="SorvaRent">
 
     <style>
         .voucher-page {
@@ -273,7 +273,7 @@
             generated: false,
             downloadError: '',
             generateCode() {
-                this.code = 'Sorvarent-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+                this.code = 'SorvaRent-' + Math.random().toString(36).slice(2, 8).toUpperCase();
             },
             async downloadVoucher() {
                 try {
@@ -284,19 +284,19 @@
                     const cardWidth = pageWidth - margin * 2;
                     const cardX = margin;
                     const logoResponse = await fetch('{{ asset('images/pdfLogo.png') }}');
-                    if (!logoResponse.ok) throw new Error('Logo Sorvarent introuvable.');
+                    if (!logoResponse.ok) throw new Error('Logo SorvaRent introuvable.');
                     const logoBlob = await logoResponse.blob();
                     const logoData = await new Promise((resolve, reject) => {
                         const reader = new FileReader();
                         reader.onload = () => resolve(reader.result);
-                        reader.onerror = () => reject(new Error('Impossible de lire le logo Sorvarent.'));
+                        reader.onerror = () => reject(new Error('Impossible de lire le logo SorvaRent.'));
                         reader.readAsDataURL(logoBlob);
                     });
 
                     pdf.setProperties({
-                        title: 'Confirmation de réservation ' + (this.code || 'Sorvarent'),
-                        subject: 'Confirmation de réservation Sorvarent',
-                        creator: 'Sorvarent'
+                        title: 'Confirmation de réservation ' + (this.code || 'SorvaRent'),
+                        subject: 'Confirmation de réservation SorvaRent',
+                        creator: 'SorvaRent'
                     });
                     pdf.setFillColor(247, 248, 246);
                     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
@@ -389,7 +389,7 @@
                     pdf.setTextColor(23, 63, 54);
                     pdf.setFont('helvetica', 'bold');
                     pdf.setFontSize(10);
-                    pdf.text('Merci de choisir Sorvarent', pageWidth / 2, footerY + 12, { align: 'center' });
+                    pdf.text('Merci de choisir SorvaRent', pageWidth / 2, footerY + 12, { align: 'center' });
                     pdf.setTextColor(120, 130, 125);
                     pdf.setFont('helvetica', 'normal');
                     pdf.setFontSize(8);
@@ -467,7 +467,7 @@
 
             <aside class="voucher-preview" aria-label="{{ __('ui.admin_confirmation_preview') }}">
                 <div class="voucher-preview__top">
-                    <p class="voucher-preview__label">Sorvarent · {{ __('ui.admin_stay_exceptional') }}</p>
+                    <p class="voucher-preview__label">SorvaRent · {{ __('ui.admin_stay_exceptional') }}</p>
                     <p class="voucher-preview__value">{{ __('ui.admin_reservation_confirmation') }}</p>
                     <p class="voucher-preview__code" x-text="code || 'CODE-CONFIRMATION'"></p>
                 </div>

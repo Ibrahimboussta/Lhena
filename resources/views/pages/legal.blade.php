@@ -1,12 +1,12 @@
 @extends('layouts.index')
 
-@section('title', 'Sorvarent - ' . $title)
+@section('title', 'SorvaRent - ' . $title)
 
 @section('content')
     <main class="px-5 pb-20 pt-24 sm:px-8 lg:px-10">
         <div class="mx-auto max-w-4xl">
             <div class="mb-6 rounded-xl border border-[#e8dcc3] bg-[#faf6ed] px-5 py-4 text-sm leading-6 text-[#716142]">
-                Document de travail : les informations entre crochets restent à compléter. Le contenu et les pratiques décrites doivent être vérifiés par LHENA avant publication définitive.
+                Document de travail : les informations entre crochets restent à compléter. Le contenu et les pratiques décrites doivent être vérifiés par SorvaRent avant publication définitive.
             </div>
 
             <article class="legal-document rounded-2xl border border-[#e7ece8] bg-white px-6 py-8 shadow-sm sm:px-10 sm:py-10">

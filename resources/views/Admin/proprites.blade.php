@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - ' . __('ui.properties'))
+    @section('title', 'SorvaRent - ' . __('ui.properties'))
 
     <style>
         .admin-property-grid {

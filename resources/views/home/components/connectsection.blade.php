@@ -24,7 +24,7 @@
             <img src="{{ asset('images/appart1.jpg') }}" alt="Intérieur lumineux d’un appartement" class="absolute inset-0 h-full w-full object-cover opacity-80" loading="lazy">
             <div class="absolute inset-0 bg-gradient-to-r from-[#073a30] via-[#073a30]/30 to-transparent"></div>
             <div class="absolute bottom-8 right-8 rounded-2xl border border-white/20 bg-[#073a30]/70 px-5 py-4 text-white backdrop-blur">
-                <p class="text-xs uppercase tracking-wide text-[#e2c48f]">Lhena</p>
+                <p class="text-xs uppercase tracking-wide text-[#e2c48f]">SorvaRent</p>
                 <p class="mt-1 text-sm font-medium">{{ __('ui.new_view_real_estate') }}</p>
             </div>
         </div>

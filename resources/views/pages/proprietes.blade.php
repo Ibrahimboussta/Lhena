@@ -1,5 +1,5 @@
 @extends('layouts.index')
-@section('title', 'Sorvarent - Propriétés')
+@section('title', 'SorvaRent - Propriétés')
 @section('content')
 <style>
     .properties-page {

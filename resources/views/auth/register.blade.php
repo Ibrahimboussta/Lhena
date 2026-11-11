@@ -1,5 +1,5 @@
 <x-guest-layout>
-    @section('title', 'Sorvarent - Créer un compte')
+    @section('title', 'SorvaRent - Créer un compte')
 
     <div class="mx-auto w-full max-w-lg">
         <x-auth-session-status class="mb-4" :status="session('status')" />

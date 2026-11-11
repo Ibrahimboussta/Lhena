@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>@yield('title', 'Sorvarent')</title>
+        <title>@yield('title', 'SorvaRent')</title>
         <link rel="icon" href="{{ asset('images/iconTab.png') }}">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700|ibm-plex-sans-arabic:400,500,600,700&display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
                                         <circle cx="24" cy="21" r="2" fill="currentColor" stroke="none" />
                                     </svg>
                                 </span>
-                                <span class="-mt-2 inline-flex rounded-b-md bg-[#a16e37] px-2 py-1 text-[8px] font-semibold tracking-wide text-white">LHENA</span>
+                                <span class="-mt-2 inline-flex rounded-b-md bg-[#a16e37] px-2 py-1 text-[8px] font-semibold tracking-wide text-white">SORVARENT</span>
                                 <h2 class="mt-4 font-serif text-3xl font-semibold text-white">
                                     {{ request()->routeIs('register') ? __('ui.join_site_title') : __('ui.welcome') }}
                                 </h2>
@@ -65,7 +65,7 @@
                 </main>
 
                 <footer class="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 pb-4 text-[10px] text-[#8b8984] sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:pb-5">
-                    <p class="text-sm">© {{ now()->year }} <span class="font-medium text-[#4c4d49] text-sm">Lhena Inc.</span> {{ __('ui.all_rights_reserved') }}</p>
+                    <p class="text-sm">© {{ now()->year }} <span class="font-medium text-[#4c4d49] text-sm">SorvaRent</span> {{ __('ui.all_rights_reserved') }}</p>
                     <nav aria-label="{{ __('ui.legal_information') }}" class="flex flex-wrap items-center gap-x-3 gap-y-1">
                         <a href="{{ route('legal.cgu') }}" class="transition hover:text-[#123d33]">{{ __('ui.terms') }}</a>
                         <span aria-hidden="true">•</span>
@@ -79,7 +79,7 @@
                     <div class="hidden items-center justify-center bg-cover bg-center p-8 md:flex md:w-1/2"
                         style="background-image: url('{{ asset('images/Mr-bck.jpg') }}');">
                         <div class="rounded-lg p-6 text-center">
-                            <img class="mx-auto h-60 w-auto pt-8" src="{{ asset('images/newlogo.png') }}" alt="Lhena Logo">
+                            <img class="mx-auto h-60 w-auto pt-8" src="{{ asset('images/newlogo.png') }}" alt="SorvaRent Logo">
                             <h2 class="mt-2 text-4xl font-bold text-black">Bienvenue</h2>
                             <p class="mt-1 text-2xl text-gray-400">Connectez-vous pour accéder à votre compte</p>
                         </div>

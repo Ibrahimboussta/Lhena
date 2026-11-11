@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $pageTitle ?? $__env->yieldContent('title', config('app.name', 'Sorvarent.ma')) }}</title>
+    <title>{{ $pageTitle ?? $__env->yieldContent('title', config('app.name', 'SorvaRent.ma')) }}</title>
     <link rel="icon" href="{{ asset('images/iconTab.png') }}">
 
 
@@ -52,7 +52,7 @@
                         <span class="admin-live">
                             {{ Auth::user()->role === 'admin' ? __('ui.admin_panel') : __('ui.agency_space') }}
                         </span>
-                        <span class="admin-currency">Lhena · {{ __('ui.admin_management_tagline') }}</span>
+                        <span class="admin-currency">SorvaRent · {{ __('ui.admin_management_tagline') }}</span>
                     </div>
                 </header>
                 @isset($header)

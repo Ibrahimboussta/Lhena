@@ -1,5 +1,5 @@
 <x-guest-layout>
-@section('title', 'Sorvarent - Verify Email')
+@section('title', 'SorvaRent - Verify Email')
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
         {{ __('ui.verification_email_instructions') }}
     </div>

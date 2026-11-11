@@ -1,4 +1,4 @@
-<div class="relative" x-data="{ open: false }" @keydown.escape.window="open = false">
+<div class="relative {{ $wrapperClass ?? '' }}" x-data="{ open: false }" @keydown.escape.window="open = false">
     <button
         type="button"
         @click="open = !open"

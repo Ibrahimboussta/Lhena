@@ -1,5 +1,5 @@
 <x-app-layout>
-    @section('title', 'Sorvarent - Mes propriétés')
+    @section('title', 'SorvaRent - Mes propriétés')
 
     <style>
         .agency-property-toolbar {

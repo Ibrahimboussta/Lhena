@@ -241,6 +241,16 @@ html[dir="rtl"] .next-btn {
     border-color: rgba(255, 255, 255, 0.62);
 }
 
+.home-nav:not(.home-nav--scrolled) .home-nav__language > button {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.62);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.38);
+}
+
+.home-nav:not(.home-nav--scrolled) .home-nav__language > button:hover {
+    background-color: rgba(255, 255, 255, 0.14);
+}
+
 .home-nav:not(.home-nav--scrolled) .home-nav__profile:hover,
 .home-nav:not(.home-nav--scrolled) .home-nav__toggle:hover,
 .home-nav:not(.home-nav--scrolled) .home-nav__mobile-link:hover {
