@@ -112,7 +112,7 @@ return [
     'specifications' => 'المواصفات',
     'amenities_services' => 'التجهيزات والخدمات',
     'private_request' => 'حسب الطلب الخاص',
-    'booking_request' => 'الحجز / طلب الإقامة',
+    'booking_request' => 'طلب حجز الإقامة',
     'arrival' => 'تاريخ الوصول',
     'departure' => 'تاريخ المغادرة',
     'guests' => 'الضيوف',

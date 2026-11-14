@@ -449,35 +449,48 @@
             position: sticky;
             top: 88px;
             border: 1px solid #e9e3d8;
-            border-radius: 22px;
-            background: #fff;
-            padding: 28px;
-            box-shadow: 0 14px 40px rgba(39, 49, 42, 0.06);
+            border-radius: 18px;
+            background: #fffefa;
+            padding: 26px;
+            box-shadow: 0 16px 42px rgba(39, 49, 42, 0.09);
         }
 
         .property-booking-card__intro {
+            display: flex;
+            align-items: center;
+            gap: 14px;
             margin-bottom: 22px;
-            text-align: center;
+            border-bottom: 1px solid #eee9df;
+            padding-bottom: 18px;
         }
 
         .property-booking-card__intro h2 {
             color: #173f36;
-            font-size: clamp(1rem, 1.2vw, 1.2rem);
+            font-size: clamp(1.05rem, 1.25vw, 1.25rem);
             font-weight: 700;
-            letter-spacing: 0.025em;
             line-height: 1.3;
+        }
+
+        .property-booking-card__icon {
+            display: grid;
+            width: 44px;
+            height: 44px;
+            flex: 0 0 auto;
+            place-items: center;
+            border-radius: 12px;
+            background: #edf2ed;
+            color: #173f36;
         }
 
         .property-booking-card__availability {
             display: flex;
-            min-height: 60px;
             flex-direction: column;
-            justify-content: center;
+            gap: 4px;
             margin-top: 0;
             border: 1px solid #e9e3d8;
-            border-radius: 12px;
-            background: #f8f6f0;
-            padding: 10px 12px;
+            border-radius: 10px;
+            background: #f7f5ef;
+            padding: 13px 14px;
             color: #173f36;
             font-weight: 600;
         }
@@ -511,10 +524,17 @@
             gap: 8px;
             border: 1px solid #e9e3d8;
             border-radius: 10px;
-            background: #f8f6f0;
+            background: #fff;
             padding: 10px 12px;
             color: #34413b;
             font-size: 0.88rem;
+            transition: border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        .property-booking-card__value:focus {
+            border-color: #8ba99a;
+            box-shadow: 0 0 0 3px rgba(23, 63, 54, 0.1);
+            outline: none;
         }
 
         input.property-booking-card__value {
@@ -576,9 +596,9 @@
             align-items: center;
             gap: 10px;
             margin-top: 16px;
-            border: 1px solid #e9e3d8;
+            border: 1px solid #e6e9e2;
             border-radius: 11px;
-            background: #f8f6f0;
+            background: #f3f6f1;
             padding: 12px 14px;
             color: #173f36;
             font-size: 0.82rem;
@@ -1107,10 +1127,10 @@
                     travelerCount: @js("Jusqu'à 12 Voyageurs (Privatisation Totale)"),
                     travelerLabel() {
                         return {
-                            "Jusqu'à 12 Voyageurs (Privatisation Totale)": @js(__('ui.travelers_up_to_12')),
-                            "2 à 4 Voyageurs": @js(__('ui.travelers_2_to_4')),
-                            "5 à 8 Voyageurs": @js(__('ui.travelers_5_to_8')),
-                            "8 à 12 Voyageurs": @js(__('ui.travelers_8_to_12'))
+                            [@js("Jusqu'à 12 Voyageurs (Privatisation Totale)")]: @js(__('ui.travelers_up_to_12')),
+                            [@js('2 à 4 Voyageurs')]: @js(__('ui.travelers_2_to_4')),
+                            [@js('5 à 8 Voyageurs')]: @js(__('ui.travelers_5_to_8')),
+                            [@js('8 à 12 Voyageurs')]: @js(__('ui.travelers_8_to_12'))
                         }[this.travelerCount] || this.travelerCount;
                     },
                     formatDate(value) {
@@ -1128,7 +1148,13 @@
                     }
                 }">
                     <div class="property-booking-card__intro">
-                        <h2 class="font-semibold uppercase">{{ __('ui.booking_request') }}</h2>
+                        <span class="property-booking-card__icon" aria-hidden="true">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                    d="M8 3v3m8-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" />
+                            </svg>
+                        </span>
+                        <h2>{{ __('ui.booking_request') }}</h2>
                     </div>
 
                     <div class="property-booking-card__dates">

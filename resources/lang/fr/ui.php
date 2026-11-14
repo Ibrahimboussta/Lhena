@@ -112,7 +112,7 @@ return [
     'specifications' => 'Spécifications',
     'amenities_services' => 'Équipements & services',
     'private_request' => 'Sur demande privée',
-    'booking_request' => 'Réserver / demande de séjour',
+    'booking_request' => 'Demande de réservation',
     'arrival' => 'Arrivée',
     'departure' => 'Départ',
     'guests' => 'Voyageurs',

@@ -594,6 +594,12 @@
                 <span class="admin-nav-link__icon" aria-hidden="true">▤</span>
                 <span>{{ __('ui.reservation_documents') }}</span>
             </a>
+            <a href="{{ route('profile.edit') }}"
+                @click="menuOpen = false"
+                class="admin-nav-link {{ request()->routeIs('profile.*') ? 'is-active' : '' }}">
+                <span class="admin-nav-link__icon" aria-hidden="true">⚙</span>
+                <span>{{ __('ui.agency_account_settings') }}</span>
+            </a>
         @else
             <p class="admin-nav-label">{{ __('ui.supervision') }}</p>
             <a href="{{ route('agency.overview') }}"
@@ -612,6 +618,12 @@
                 class="admin-nav-link {{ request()->routeIs('publish') ? 'is-active' : '' }}">
                 <span class="admin-nav-link__icon" aria-hidden="true">＋</span>
                 <span>{{ __('ui.add_property') }}</span>
+            </a>
+            <a href="{{ route('profile.edit') }}"
+                @click="menuOpen = false"
+                class="admin-nav-link {{ request()->routeIs('profile.*') ? 'is-active' : '' }}">
+                <span class="admin-nav-link__icon" aria-hidden="true">⚙</span>
+                <span>{{ __('ui.agency_account_settings') }}</span>
             </a>
         @endif
         <a href="{{ url('/') }}" @click="menuOpen = false" class="admin-nav-link">
